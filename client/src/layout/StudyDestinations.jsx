@@ -51,7 +51,7 @@ export default function StudyDestinations() {
       {/* Plane */}
    
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-7xl" data-aos="fade-up">
         {/* Heading */}
         <div className="text-center">
            <h1 className="font-ubuntu font-bold text-3xl sm:text-4xl lg:text-5xl text-secondary">

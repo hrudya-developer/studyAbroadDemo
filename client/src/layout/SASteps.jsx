@@ -53,11 +53,11 @@ const steps = [
 
 export default function SASteps() {
   return (
-    <section className="w-full h-auto">
+    <section className="w-full h-auto mb-20">
       <div className="relative max-w-7xl px-4 sm:px-5 md:px-8 flex justify-center mx-auto mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-[48%_52%] gap-8 p-6 sm:p-8 lg:p-12 xl:p-14">
           {/* Left Section */}
-          <div className="relative flex min-h-[760px] flex-col">
+          <div className="relative flex min-h-[760px] flex-col" data-aos="fade-right">
             <div className="relative z-20 max-w-xl">
               <p className="text-sm font-extrabold uppercase tracking-wide text-red-600">
                 Study Abroad
@@ -115,7 +115,7 @@ export default function SASteps() {
           </div>
 
           {/* Right Section */}
-          <div className="relative flex items-center">
+          <div className="relative flex items-center" data-aos="fade-left">
             <div className="absolute left-3 top-8 bottom-8 hidden w-px bg-[#001b66]/20 lg:block" />
 
             <div className="w-full space-y-5 lg:pl-8">

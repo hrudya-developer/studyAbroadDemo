@@ -30,7 +30,7 @@ const Counselling = () => {
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-  }}
+  }} data-aos="fade-right"
 >
   {/* Optional dark overlay */}
   <div className="absolute inset-0 bg-secondary/80"></div>
@@ -62,7 +62,7 @@ const Counselling = () => {
 </div>
 
           {/* Right Side Form */}
-          <div className="bg-white rounded-[30px] shadow-xl p-6 sm:p-8 lg:p-10">
+          <div className="bg-white rounded-[30px] shadow-xl p-6 sm:p-8 lg:p-10" data-aos="fade-left">
             
         
 

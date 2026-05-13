@@ -52,7 +52,7 @@ const EssentialService = () => {
 
   return (
     <section
-      className="relative py-16 md:py-20 overflow-hidden bg-cover bg-center bg-no-repeat max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      className="relative py-16 md:py-20 overflow-hidden bg-cover bg-center bg-no-repeat max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-fixed" data-aos="fade-up"
       style={{
         backgroundImage: `url(${bgOverlay})`,
       }}
@@ -75,7 +75,7 @@ const EssentialService = () => {
             <span className="w-10 h-[2px] bg-primary"></span>
           </div>
 
-          <h1 className="text-white font-bold leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl max-w-5xl mx-auto">
+         <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 text-white">
             Everything You Need,{" "}
             <span className="text-primary">
               We’ve Got You Covered
@@ -104,17 +104,17 @@ const EssentialService = () => {
                 <div className="relative z-10 flex items-start gap-4 mb-6">
                   
                   {/* Icon */}
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-primary flex items-center justify-center text-white shrink-0">
+                  <div className="w-12 h-12 sm:w-10 sm:h-10 rounded-full border-2 p-1 border-primary flex items-center justify-center text-white shrink-0">
                     {service.icon}
                   </div>
 
                   {/* Title */}
                   <div>
-                    <h3 className="text-primary text-3xl sm:text-4xl font-bold mb-1">
+                    <h3 className="text-primary text-lg sm:text-lg font-bold mb-1">
                       {service.id}
                     </h3>
 
-                    <h2 className="text-white text-xl sm:text-2xl font-semibold">
+                    <h2 className="text-white text-lg sm:text-lg font-semibold">
                       {service.title}
                     </h2>
 

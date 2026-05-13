@@ -8,7 +8,7 @@ const Navbar = () => {
       data-theme="mytheme"
       className="bg-secondary lg:bg-transparent"
     >
-      <div className="navbar max-w-7xl mx-auto px-3 sm:px-5 md:px-8 font-nunito">
+      <div className="navbar max-w-7xl mx-auto px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn">
 
         {/* LEFT - LOGO */}
 <div className="navbar-start">

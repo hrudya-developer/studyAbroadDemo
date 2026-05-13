@@ -4,7 +4,7 @@ import { FileUser, GraduationCap, Plane, Search } from "lucide-react"
 const MainSectionOne = () => {
   return (
     <>
-    <section id="_mainSectionOne" className="max-w-7xl mx-auto bg-white px-3 sm:px-5 md:px-8 py-18">
+    <section id="_mainSectionOne" className="max-w-7xl mx-auto bg-white px-3 sm:px-5 md:px-8 py-18" data-aos="fade-up">
         <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 text-center text-secondary">Everything You Need, All in <span className="text-primary">One</span> Place</h1>
         <p className="py-2 text-md sm:text-md md:text-lg lg:text-xl xl:text-xl text-center textColor">From shortlisting to visa guidance - we're with you at every step.</p>
 <div className="w-12.5 h-1.5 bg-primary my-3 mx-auto"></div>

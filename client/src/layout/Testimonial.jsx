@@ -57,7 +57,7 @@ function RingPattern({ className = "" }) {
 }
 export default function Testimonial() {
   return (
-    <section className="relative isolate bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative isolate bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
       
       {/* Background decorations */}
       <DotPattern className="absolute left-8 top-10 hidden sm:grid" />

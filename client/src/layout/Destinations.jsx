@@ -56,7 +56,7 @@ const Destinations = () => {
 
   return (
     <section id="_destinationWrapper" className="py-20  overflow-hidden">
-      <div className="max-w-7xl mx-auto px-5">
+      <div className="max-w-7xl mx-auto px-5" data-aos="fade-left">
 
         {/* Header */}
         <div className="text-center mb-12 flex justify-center flex-col">

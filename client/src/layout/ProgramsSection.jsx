@@ -5,7 +5,7 @@ import Tabs from "./Tabs";
 const ProgramsSection = () => {
   return (
     <>
-<div className="max-w-7xl mx-auto">
+<div className="max-w-7xl mx-auto" data-aos="fade-right">
     <div style={{backgroundImage:`url(${mapBg})`}} className="h-auto mb-14 bg-no-repeat bg-cover bg-center">
         <p className="text-primary font-bold text-center flex gap-3 justify-center mb-4"><span><Send className="text-primary"/></span>EXPLORE OUR PROGRAMS</p>
   <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 text-center text-secondary">Unlock Global <span className="text-primary">Opportunities</span></h1>

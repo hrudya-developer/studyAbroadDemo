@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "animate.css": "^4.1.1",
+    "aos": "^2.3.4",
     "daisyui": "^5.5.19",
     "lucide-react": "^1.14.0",
     "preline": "^4.2.0",

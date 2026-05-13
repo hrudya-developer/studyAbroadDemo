@@ -18,7 +18,7 @@ import logo from "../assets/logo.png";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#070707] text-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="relative overflow-hidden bg-[#070707] text-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
   
   {/* Main Background Gradient */}
   <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(220,0,0,0.45),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(220,0,0,0.4),transparent_30%),linear-gradient(135deg,rgba(255,0,0,0.08),transparent_40%)]" />

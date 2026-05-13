@@ -76,7 +76,7 @@ const Carousel = () => {
                 <div className="flex flex-col justify-center h-full pb-40 pt-24 md:pt-0">
                   
                   <h1
-                    className={`text-5xl md:text-6xl font-extrabold leading-tight text-center md:text-left font-ubuntu ${slide.textColor}`}
+                    className={`text-5xl md:text-6xl animate__animated animate__bounceInLeft font-extrabold leading-tight text-center md:text-left font-ubuntu ${slide.textColor}`}
                   >
                     Your{" "}
                     <span className="text-primary">
@@ -91,13 +91,13 @@ const Carousel = () => {
                   </h1>
 
                   <p
-                    className={`mt-8 font-bold font-nunito text-center md:text-left text-lg md:text-xl ${slide.descColor}`}
+                    className={`mt-8 font-bold animate__animated animate__bounceInLeft font-nunito text-center md:text-left text-lg md:text-xl ${slide.descColor}`}
                   >
                     Explore top universities, scholarships,
                     and study options across the world.
                   </p>
 
-                  <div className="flex flex-col sm:flex-row gap-4 mt-10 justify-center md:justify-start">
+                  <div className="flex flex-col sm:flex-row gap-4 mt-10 justify-center md:justify-start animate__animated animate__bounceInLeft">
                     <ButtonPrimary>
                       Get Free Counselling
                     </ButtonPrimary>
@@ -122,7 +122,7 @@ const Carousel = () => {
           
           <div
             className="
-              bg-white rounded-2xl shadow-xl
+              bg-white rounded-2xl shadow-xl animate__animated animate__zoomInLeft
               grid grid-cols-4
               overflow-hidden
             "
