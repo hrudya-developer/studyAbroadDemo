@@ -1,0 +1,33 @@
+const ButtonSecondary = ({ children, className = "" }) => {
+  return (
+    <button
+      type="button"
+      className={`
+        relative overflow-hidden
+        p-2.5 rounded-xl
+        text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
+        text-white bg-secondary
+        group hover:cursor-pointer
+        ${className}
+      `}
+    >
+      {/* Sliding Background */}
+      <span
+        className="
+          absolute inset-0
+          bg-primary
+          -translate-x-full
+          group-hover:translate-x-0
+          transition-transform duration-500 ease-in-out
+        "
+      ></span>
+
+      {/* Button Content */}
+      <span className="relative z-10 flex items-center gap-2">
+        {children}
+      </span>
+    </button>
+  );
+};
+
+export default ButtonSecondary;
