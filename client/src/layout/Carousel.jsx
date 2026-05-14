@@ -100,7 +100,7 @@ const Carousel = () => {
         modules={[Autoplay]}
         autoplay={{ delay: 3000 }}
         loop={true}
-        className="w-full h-[calc(100vh-90px)] md:h-[calc(100vh-134px)]"
+        className="w-full h-[calc(100vh-90px)] md:h-[calc(100vh-134px)] z-0"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>

@@ -4,6 +4,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import FollowCursor from "./layout/FollowCursor";
+// import WhatsAppButton from "./layout/WhatsAppButton";
+
 
 
 
@@ -18,6 +20,7 @@ const App = () => {
   return (
     <>
     <FollowCursor />
+    {/* <WhatsAppButton /> */}
     <Home />
     </>
   )

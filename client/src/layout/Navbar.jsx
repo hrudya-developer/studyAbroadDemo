@@ -66,7 +66,7 @@ const Navbar = () => {
           </div>
 
           {/* MOBILE MENU */}
-          <div className="dropdown lg:hidden">
+          <div className="dropdown lg:hidden z-50">
             <div
               tabIndex={0}
               role="button"
@@ -90,7 +90,7 @@ const Navbar = () => {
 
             <ul
               tabIndex={0}
-              className="menu dropdown-content text-[16px] right-0 bg-base-100 rounded-box z-10 mt-3 w-64 p-4 shadow gap-2"
+              className="menu dropdown-content text-[16px] right-0 bg-base-100 rounded-box z-50 mt-3 w-64 p-4 shadow gap-2"
             >
               <li><a>Destinations</a></li>
               <li><a>Universities</a></li>
