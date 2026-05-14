@@ -111,7 +111,7 @@ const Carousel = () => {
               {/* Content Container */}
 
               <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-                <div className="flex flex-col justify-center h-full pb-28 md:pb-40 pt-24 md:pt-0">
+                <div className="flex flex-col pt-0 justify-center h-full pb-28 md:pb-40 md:pt-10">
 
                   <h1
                     className={`text-4xl sm:text-5xl md:text-6xl animate__animated animate__bounceInLeft font-extrabold leading-tight text-center md:text-left font-ubuntu ${slide.textColor}`}
@@ -134,7 +134,7 @@ const Carousel = () => {
                     Explore top universities and global scholarships.
                   </p>
 
-                  <div className="flex flex-col sm:flex-row gap-4 mt-8 md:mt-10 justify-center md:justify-start animate__animated animate__bounceInLeft">
+                  <div className="flex flex-col w-full items-center sm:flex-row gap-4 mt-8 md:mt-10 justify-center md:justify-start animate__animated animate__bounceInLeft">
                     <ButtonPrimary>
                       Get Free Counselling
                     </ButtonPrimary>
@@ -160,7 +160,7 @@ const Carousel = () => {
           <div
             className="
               bg-white rounded-2xl shadow-xl animate__animated animate__zoomInLeft
-              grid grid-cols-2 md:grid-cols-4
+              grid grid-cols-4 md:grid-cols-4
               overflow-hidden
               w-full md:w-auto
               max-w-2xl md:max-w-none
@@ -187,7 +187,7 @@ const Carousel = () => {
   {item.suffix}
 </h3>
 
-                <p className="text-xs sm:text-sm md:text-sm font-semibold text-black mt-2">
+                <p className="text-xs sm:text-sm md:text-sm font-semibold text-black mt-2 hidden sm:block">
                   {item.desc}
                 </p>
               </div>

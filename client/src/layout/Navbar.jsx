@@ -6,43 +6,39 @@ const Navbar = () => {
   return (
     <header
       data-theme="mytheme"
-      className="bg-secondary lg:bg-transparent"
+      className="relative z-[999] bg-secondary lg:bg-transparent"
     >
-      <div className="navbar max-w-7xl mx-auto px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn">
+      <div className="navbar mx-auto max-w-7xl px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn">
 
         {/* LEFT - LOGO */}
-<div className="navbar-start">
-
-  <div
-    className="
-      bg-secondary
-      w-[275px]
-      sm:w-[200px]
-      md:w-[220px]
-      lg:w-[240px]
-      xl:w-[260px] rounded-md
-      rounded-tr-[80px]
-      md:rounded-tr-[100px]
-      shrink-0 p-0 md:p-5
-    "
-  >
-    <img
-      src={logo}
-      alt="logo"
-      className="
-        w-full
-        h-auto
-        object-contain
-        block
-      "
-    />
-  </div>
-
-</div>
+        <div className="navbar-start">
+          <div
+            className="
+              bg-secondary
+              w-[230px]
+              sm:w-[200px]
+              md:w-[320px]
+              lg:w-[240px]
+              xl:w-[260px]
+              rounded-md
+              rounded-tr-[80px]
+              md:rounded-tr-[100px]
+              shrink-0
+              p-2
+              md:p-5
+            "
+          >
+            <img
+              src={logo}
+              alt="logo"
+              className="block h-auto w-full object-contain"
+            />
+          </div>
+        </div>
 
         {/* CENTER - DESKTOP MENU */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-black text-[14px] md:[14px] lg:text-[16px] font-medium">
+          <ul className="menu menu-horizontal px-1 text-[16px] font-medium text-black">
             <li><a>Destinations</a></li>
             <li><a>Universities</a></li>
             <li><a>Courses</a></li>
@@ -66,10 +62,10 @@ const Navbar = () => {
           </div>
 
           {/* MOBILE MENU */}
-          <div className="dropdown lg:hidden z-50">
-            <div
+          <div className="dropdown dropdown-end lg:hidden relative">
+            <button
               tabIndex={0}
-              role="button"
+              type="button"
               className="btn btn-ghost text-white hover:bg-transparent"
             >
               <svg
@@ -86,11 +82,25 @@ const Navbar = () => {
                   d="M4 6h16M4 12h8m-8 6h16"
                 />
               </svg>
-            </div>
+            </button>
 
             <ul
               tabIndex={0}
-              className="menu dropdown-content text-[16px] right-0 bg-base-100 rounded-box z-50 mt-3 w-64 p-4 shadow gap-2"
+              className="
+                dropdown-content
+                menu
+                absolute
+                right-0
+                top-full
+                mt-3
+                w-64
+                rounded-box
+                bg-base-100
+                p-4
+                shadow-xl
+                gap-2
+                z-[999]
+              "
             >
               <li><a>Destinations</a></li>
               <li><a>Universities</a></li>
@@ -99,12 +109,12 @@ const Navbar = () => {
               <li><a>Visa Process</a></li>
 
               {/* MOBILE BUTTONS */}
-              <div className="flex flex-col gap-3 mt-4">
-                <ButtonPrimary>
+              <div className="mt-4 flex flex-col gap-3">
+                <ButtonPrimary className="w-full">
                   Book Free Counselling
                 </ButtonPrimary>
 
-                <ButtonSecondary>
+                <ButtonSecondary className="w-full">
                   Sign In
                 </ButtonSecondary>
               </div>
@@ -112,7 +122,6 @@ const Navbar = () => {
           </div>
 
         </div>
-
       </div>
     </header>
   );

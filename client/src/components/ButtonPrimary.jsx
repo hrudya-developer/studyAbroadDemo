@@ -8,6 +8,9 @@ const ButtonPrimary = ({ children, className = "" }) => {
         bg-primary text-white
         group
         hover:cursor-pointer
+
+        flex items-center justify-center
+
         ${className}
       `}
     >
@@ -23,7 +26,7 @@ const ButtonPrimary = ({ children, className = "" }) => {
       ></span>
 
       {/* Button Content */}
-      <span className="relative z-10 flex items-center gap-2">
+      <span className="relative z-10 flex items-center justify-center gap-2 w-full text-center">
         {children}
       </span>
     </button>
