@@ -131,8 +131,7 @@ const Carousel = () => {
                   <p
                     className={`mt-6 md:mt-8 font-bold animate__animated animate__bounceInLeft font-nunito text-center md:text-left text-base sm:text-lg md:text-xl ${slide.descColor}`}
                   >
-                    Explore top universities, scholarships,
-                    and study options across the world.
+                    Explore top universities and global scholarships.
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 mt-8 md:mt-10 justify-center md:justify-start animate__animated animate__bounceInLeft">
