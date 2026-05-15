@@ -1,13 +1,19 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
-// import CountUp from "react-countup";
-
 import "swiper/css";
 
 import sliderImg_1 from "../assets/sliderImg_1.png";
 import sliderImg_2 from "../assets/sliderImg_2.png";
 import sliderImg_3 from "../assets/sliderImg_3.png";
+import sliderImg2 from "../assets/sliderImg2.png";
+import sliderImg3 from "../assets/sliderImg3.png";
+
+import mobSlider1 from "../assets/mobSlider1.png";
+import mobSlider2 from "../assets/mobSlider2.png";
+import mobSlider3 from "../assets/mobSlider3.png";
+import sliderImg1 from "../assets/sliderImg1.png";
+import sliderImg4 from "../assets/sliderImg4.png"
 
 import ButtonPrimary from "../components/ButtonPrimary";
 import ButtonSecondary from "../components/ButtonSecondary";
@@ -47,23 +53,122 @@ const Counter = ({ end, duration = 2000 }) => {
 };
 
 const Carousel = () => {
-  const slides = [
+ const slides = [
+
+  {
+    image: sliderImg_1,
+    mobileImage: mobSlider1,
+    textColor: "text-black",
+    descColor: "text-black",
+    mobileDescColor: "text-white",
+    heading: (
+      <>
+        Your <span className="text-primary">International</span>
+        <br />
+        Journey
+        <br />
+        <span className="text-primary">Begins</span> Here
+      </>
+    ),
+    description: (<><span className="text-white md:text-black">Explore top universities and global scholarships.</span></>),
+  },
+  {
+    image: sliderImg1,
+    mobileImage: mobSlider1,
+    textColor: "text-black",
+    descColor: "text-black",
+    mobileDescColor: "text-white",
+    heading: (
+      <>
+        Study <span className="text-primary">Abroad</span>
+        <br />
+        With Expert
+        <br />
+        <span className="text-primary">Guidance</span>
+      </>
+    ),
+    description: (<><span className="text-black">Get personalized counselling for your dream destination.</span></>),
+  },
     {
-      image: sliderImg_1,
-      textColor: "text-black",
-      descColor: "text-black",
-    },
-    {
-      image: sliderImg_2,
-      textColor: "text-white",
-      descColor: "text-white",
-    },
-    {
-      image: sliderImg_3,
-      textColor: "text-white",
-      descColor: "text-white",
-    },
-  ];
+    image: sliderImg3,
+    mobileImage: mobSlider1,
+    textColor: "text-black",
+    descColor: "text-black",
+    mobileDescColor: "text-white",
+    heading: (
+      <>
+        Study <span className="text-primary">Abroad</span>
+        <br />
+        With Expert
+        <br />
+        <span className="text-primary">Guidance</span>
+      </>
+    ),
+    description: (<><span className="text-black">Get personalized counselling for your dream destination.</span></>),
+  },
+  {
+    image: sliderImg4,
+    mobileImage: mobSlider1,
+    textColor: "text-black",
+    descColor: "text-black",
+    mobileDescColor: "text-white",
+    heading: (
+      <>
+        Study <span className="text-primary">Abroad</span>
+        <br />
+        With Expert
+        <br />
+        <span className="text-primary">Guidance</span>
+      </>
+    ),
+    description: (<><span className="text-black">Get personalized counselling for your dream destination.</span></>),
+  },
+  {
+    image: sliderImg2,
+    mobileImage: mobSlider1,
+    textColor: "text-black",
+    descColor: "text-black",
+    mobileDescColor: "text-white",
+    heading: (
+      <>
+        Your <span className="text-primary">International</span>
+        <br />
+        Journey
+        <br />
+        <span className="text-primary">Begins</span> Here
+      </>
+    ),
+    description: (<><span className="text-white md:text-black">Explore top universities and global scholarships.</span></>),
+  },
+  {
+    image: sliderImg_2,
+    mobileImage: mobSlider2,
+    textColor: "text-white",
+    descColor: "text-white",
+    heading: (
+      <>
+        <span className="text-white">Find Your</span>
+        <br />
+        <span className="text-primary">Perfect University</span>
+      </>
+    ),
+    description: (<><span className="text-white">Choose from top-ranked universities across the world.</span></>),
+  },
+  {
+    image: sliderImg_3,
+    mobileImage: mobSlider3,
+    textColor: "text-white",
+    descColor: "text-white",
+    heading: (
+      <>
+        <span className="text-white">Scholarships
+        <br />
+        Made</span> <span className="text-primary">Easy</span>
+      </>
+    ),
+    description: (<><span className="text-white">Discover funding options that match your profile.</span></>),
+  },
+];
 
   const stats = [
     {
@@ -76,7 +181,7 @@ const Carousel = () => {
       icon: <Globe size={22} />,
       count: 30,
       suffix: "K+",
-      desc: "Student went Abroad",
+      desc: "Students Abroad",
     },
     {
       icon: <School size={22} />,
@@ -93,101 +198,139 @@ const Carousel = () => {
   ];
 
   return (
-    <div className="relative max-w-7xl mx-auto">
-      {/* Swiper */}
+    <div className="relative mx-auto max-w-7xl overflow-hidden">
 
+      {/* SWIPER */}
       <Swiper
         modules={[Autoplay]}
         autoplay={{ delay: 3000 }}
         loop={true}
-        className="w-full h-[calc(100vh-90px)] md:h-[calc(100vh-134px)] z-0"
+        className="h-[calc(100vh-90px)] w-full md:h-[calc(100vh-134px)]"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div
-              className="h-full bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${slide.image})` }}
-            >
-              {/* Content Container */}
 
-              <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-                <div className="flex flex-col pt-0 justify-center h-full pb-28 md:pb-40 md:pt-10">
+            <div className="relative h-full">
 
-                  <h1
-                    className={`text-4xl sm:text-5xl md:text-6xl animate__animated animate__bounceInLeft font-extrabold leading-tight text-center md:text-left font-ubuntu ${slide.textColor}`}
-                  >
-                    Your{" "}
-                    <span className="text-primary">
-                      International
-                    </span>
-                    <br />
-                    Journey <br />
-                    <span className="text-primary">
-                      Begins
-                    </span>{" "}
-                    Here
-                  </h1>
+              {/* Desktop Background */}
+              <div
+                className="hidden md:block h-full bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${slide.image})`,
+                }}
+              />
 
-                  <p
-                    className={`mt-6 md:mt-8 font-bold animate__animated animate__bounceInLeft font-nunito text-center md:text-left text-base sm:text-lg md:text-xl ${slide.descColor}`}
-                  >
-                    Explore top universities and global scholarships.
-                  </p>
+              {/* Mobile Background */}
+              <div
+                className="block md:hidden h-full bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${slide.mobileImage})`,
+                }}
+              />
 
-                  <div className="flex flex-col w-full items-center sm:flex-row gap-4 mt-8 md:mt-10 justify-center md:justify-start animate__animated animate__bounceInLeft">
-                    <ButtonPrimary>
-                      Get Free Counselling
-                    </ButtonPrimary>
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/10"></div>
 
-                    <ButtonSecondary>
-                      Get Started
-                    </ButtonSecondary>
+              {/* Content */}
+              <div className="absolute inset-0">
+
+          <div className="mx-auto flex h-full w-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+  <div className="flex w-full flex-col items-center text-center md:items-start lg:items-start xl:items-start md:text-left">
+
+<h1
+  className={`
+    font-ubuntu text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight
+    animate__animated animate__bounceInLeft
+    text-white md:text-black
+  `}
+>
+  {slide.heading}
+</h1>
+
+<p
+  className={`
+    mt-5 text-base sm:text-lg md:text-xl font-bold font-nunito
+    animate__animated animate__bounceInLeft
+    ${slide.mobileDescColor || slide.descColor}
+   text-white md:text-black
+  `}
+>
+  {slide.description}
+</p>
+
+                    {/* BUTTONS */}
+                    <div className="mt-8 flex w-full flex-col items-center gap-4 sm:flex-row md:justify-start animate__animated animate__bounceInLeft">
+
+                      <ButtonPrimary>
+                        Get Free Counselling
+                      </ButtonPrimary>
+
+                      <ButtonSecondary>
+                        Get Started
+                      </ButtonSecondary>
+
+                    </div>
+
                   </div>
 
                 </div>
+
               </div>
+
             </div>
+
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Stats Box */}
-
+      {/* STATS BOX */}
       <div className="absolute inset-x-0 bottom-3 z-20 flex justify-center px-4">
 
-        <div className="w-full max-w-7xl flex justify-center md:justify-end">
+        <div className="flex w-full max-w-7xl justify-center md:justify-end">
 
-          <div
-            className="
-              bg-white rounded-2xl shadow-xl animate__animated animate__zoomInLeft
-              grid grid-cols-4 md:grid-cols-4
-              overflow-hidden
-              w-full md:w-auto
-              max-w-2xl md:max-w-none
-            "
-          >
+      <div
+  className="
+    grid
+    w-full
+    max-w-2xl
+    grid-cols-4
+    overflow-hidden
+    rounded-2xl
+    md:bg-white
+    md:shadow-xl
+    animate__animated
+    animate__zoomInLeft
+    md:w-auto
+    md:max-w-none
+  "
+>
             {stats.map((item, index) => (
               <div
                 key={index}
                 className="
-                  py-4 px-4 md:px-5
-                  border-b md:border-b-0
-                  border-r border-gray-200
-                  even:border-r-0
-                  md:even:border-r
-                  md:last:border-r-0
-                  flex flex-col items-center text-center font-nunito
+                  flex
+                  flex-col
+                  items-center
+                  md:border-r
+                  md:border-gray-200
+                  px-2
+                  py-4
+                  text-center
+                  font-nunito
+                  last:border-r-0
+                  md:px-5
                 "
               >
-                <div className="bg-secondary text-white size-12 rounded-full grid place-content-center">
+                <div className="grid size-16 place-content-center rounded-full bg-black shadow-md md:bg-secondary md:shadow-sm text-white">
                   {item.icon}
                 </div>
-<h3 className="text-primary font-bold text-lg md:text-xl mt-4">
-  <Counter end={item.count} />
-  {item.suffix}
-</h3>
 
-                <p className="text-xs sm:text-sm md:text-sm font-semibold text-black mt-2 hidden sm:block">
+                <h3 className="mt-4 text-lg font-bold text-white md:text-primary md:text-xl">
+                  <Counter end={item.count} />
+                  {item.suffix}
+                </h3>
+
+                <p className="mt-2 hidden text-xs font-semibold text-black sm:block md:text-sm">
                   {item.desc}
                 </p>
               </div>
@@ -195,6 +338,7 @@ const Carousel = () => {
           </div>
 
         </div>
+
       </div>
     </div>
   );
