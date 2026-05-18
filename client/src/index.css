@@ -30,3 +30,8 @@ body{
 .destinationSwiper .swiper-wrapper {
   transition-timing-function: linear !important;
 }
+
+.talk-btn:hover {
+  animation: swing;
+  animation-duration: 1s;
+}

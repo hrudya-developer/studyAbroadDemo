@@ -22,6 +22,7 @@ import {
   Globe,
   GraduationCap,
   Headset,
+  HeadsetIcon,
   School,
 } from "lucide-react";
 
@@ -199,6 +200,12 @@ const Carousel = () => {
 
   return (
     <div className="relative mx-auto max-w-7xl overflow-hidden">
+   <div className="top-3 right-3 absolute z-50 animate__animated animate__pulse">
+  <button className="talk-btn bg-black p-6 text-yellow-300 flex gap-3 text-lg font-bold rounded-3xl items-center">
+  <span className="grid place-items-center p-1 rounded-lg shadow-[0_0_10px_rgba(255,215,0,0.8)]"><HeadsetIcon className="text-yellow-300"/></span>
+  Talk to Mia
+</button>
+</div>
 
       {/* SWIPER */}
       <Swiper
@@ -285,6 +292,7 @@ const Carousel = () => {
 
       {/* STATS BOX */}
       <div className="absolute inset-x-0 bottom-3 z-20 flex justify-center px-4">
+       
 
         <div className="flex w-full max-w-7xl justify-center md:justify-end">
 
