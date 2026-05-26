@@ -1,13 +1,82 @@
-import Home from "./pages/Home"
-import 'animate.css';
+import Home from "./pages/Home";
+import "animate.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import FollowCursor from "./layout/FollowCursor";
-// import WhatsAppButton from "./layout/WhatsAppButton";
 
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 
+import DestinationList from "./pages/DestinationList";
+import Navbar from "./components/Navbar";
+import Topbar from "./components/Topbar";
+import Footer from "./components/Footer";
+import BottomBar from "./components/BottomBar";
 
+import MaltaDestination from "./layout/MaltaDestination";
+import AlbaniaDestination from "./layout/AlbaniaDestination";
+import OtpVerification from "./pages/OtpVerification";
+import CreateAccount from "./pages/createAccount";
+import LoginPage from "./pages/LoginPage";
+import StudentDashboard from "./pages/StudentDashboard";
+
+function Layout() {
+  const location = useLocation();
+
+  // pages without header/footer
+  const noLayoutRoutes = ["/studentDashboard"];
+
+  const hideLayout = noLayoutRoutes.includes(location.pathname);
+
+  return (
+    <>
+      {!hideLayout && <Topbar />}
+      {!hideLayout && <Navbar />}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route
+          path="/destinationList"
+          element={<DestinationList />}
+        />
+
+        <Route
+          path="/albaniaDestination"
+          element={<AlbaniaDestination />}
+        />
+
+        <Route
+          path="/loginViaOtp"
+          element={<LoginPage />}
+        />
+
+        <Route
+          path="/verify-otp"
+          element={<OtpVerification />}
+        />
+
+        <Route
+          path="/createAccount"
+          element={<CreateAccount />}
+        />
+
+        <Route
+          path="/studentDashboard"
+          element={<StudentDashboard />}
+        />
+      </Routes>
+
+      {!hideLayout && <Footer />}
+      {!hideLayout && <BottomBar />}
+    </>
+  );
+}
 
 const App = () => {
   useEffect(() => {
@@ -17,13 +86,16 @@ const App = () => {
       once: true,
     });
   }, []);
+
   return (
     <>
-    <FollowCursor />
-    {/* <WhatsAppButton /> */}
-    <Home />
-    </>
-  )
-}
+      <FollowCursor />
 
-export default App
+      <BrowserRouter>
+        <Layout />
+      </BrowserRouter>
+    </>
+  );
+};
+
+export default App;

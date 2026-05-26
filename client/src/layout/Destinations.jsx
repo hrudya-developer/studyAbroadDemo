@@ -109,7 +109,7 @@ const Destinations = () => {
         >
           {destinationInfo.map((destination) => (
             <SwiperSlide key={destination.number}>
-              <div className="rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+              <div className="rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer my-2">
 
                 {/* Image */}
                 <div className="relative overflow-hidden">

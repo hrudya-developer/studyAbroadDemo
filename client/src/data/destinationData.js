@@ -1,0 +1,18 @@
+export const destinations = [
+  { name: "Albania",img: "https://plus.unsplash.com/premium_photo-1697729804280-da16ccd4bd3b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0", path:"/albaniaDestination" },
+  { name: "Australia", img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80" },
+  { name: "Canada",img: "https://images.unsplash.com/photo-1517935706615-2717063c2225?auto=format&fit=crop&w=600&q=80" },
+  { name: "Dubai",img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80" },
+  { name: "Georgia",img: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=600&q=80" },
+  { name: "Germany",img: "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=600&q=80" },
+  { name: "Ireland", img: "https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?auto=format&fit=crop&w=600&q=80" },
+  { name: "Italy",img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=600&q=80" },
+  {name: "Japan", img:"https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0"},
+  {name:"Lithuania", img:"https://i.falstaff.com/storage/2026/04/AdobeStock_278264192.jpeg?aspect_ratio=4:3&crop_gravity=north&width=800"},
+  {name:"Malaysia", img:"https://images.unsplash.com/photo-1596422846543-75c6fc197f07"},
+  {name:"Malta", img:"https://images.unsplash.com/photo-1587974928552-4f4aac51b45d"},
+  {name:"Newzeland", img:"https://images.unsplash.com/photo-1542120094-e18f55a5f0f0"},
+  {name:"Singapore", img:"https://plus.unsplash.com/premium_photo-1697730373939-3ebcaa9d295e"},
+  {name:"UK", img:"https://images.unsplash.com/photo-1543832923-44667a44c804"},
+  {name:"USA", img:"https://images.unsplash.com/photo-1422464804701-7d8356b3a42f"},
+];

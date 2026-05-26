@@ -4,7 +4,8 @@
 
 
 @theme {
-  --color-primary: #cb0e10;
+  /* --color-primary: #cb0e10; old red*/
+  --color-primary:#cb0e10;
   --color-secondary: #081c47;
   --font-ubuntu: "Ubuntu", sans-serif;
     --font-nunito: "Nunito", sans-serif;

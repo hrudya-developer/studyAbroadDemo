@@ -1,18 +1,23 @@
 import logo from "../assets/logo.png";
-import ButtonPrimary from "../components/ButtonPrimary";
-import ButtonSecondary from "../components/ButtonSecondary";
+import ButtonPrimary from "./ButtonPrimary";
+import ButtonSecondary from "./ButtonSecondary";
+import { Link } from "react-router-dom";
+
+import { useState } from "react";
 
 const Navbar = () => {
+ 
+
   return (
     <header
       data-theme="mytheme"
       className="relative z-[999] bg-secondary lg:bg-transparent"
     >
-      <div className="navbar mx-auto max-w-7xl px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn">
+      <div className="navbar mx-auto max-w-7xl px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn shadow-xs">
 
         {/* LEFT - LOGO */}
         <div className="navbar-start">
-          <div
+          <Link to = "/"><div
             className="
               bg-secondary
               w-[230px]
@@ -33,13 +38,13 @@ const Navbar = () => {
               alt="logo"
               className="block h-auto w-full object-contain"
             />
-          </div>
+          </div></Link>
         </div>
 
         {/* CENTER - DESKTOP MENU */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-[16px] font-medium text-black">
-            <li><a>Destinations</a></li>
+            <li><Link to="/destinationList">Destinations</Link></li>
             <li><a>Universities</a></li>
             <li><a>Courses</a></li>
             <li><a>Scholarships</a></li>
@@ -56,9 +61,7 @@ const Navbar = () => {
               Get Free Counselling
             </ButtonPrimary>
 
-            <ButtonSecondary>
-              Login
-            </ButtonSecondary>
+           <Link to="/loginViaOtp"><ButtonSecondary>Login</ButtonSecondary></Link>
           </div>
 
           {/* MOBILE MENU */}
@@ -123,7 +126,9 @@ const Navbar = () => {
 
         </div>
       </div>
+       
     </header>
+  
   );
 };
 

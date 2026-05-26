@@ -72,7 +72,7 @@ const FollowCursor = ({ color = '#c50920', zIndex }) => {
       canvas.style.pointerEvents = 'none';
       canvas.width = width;
       canvas.height = height;
-      canvas.style.zIndex = zIndex ? zIndex.toString() : '';
+     canvas.style.zIndex = zIndex ? zIndex.toString() : '999999';
       document.body.appendChild(canvas);
       window.addEventListener('mousemove', onMouseMove);
       window.addEventListener('resize', onWindowResize);

@@ -1,6 +1,6 @@
-const ButtonPrimary = ({ children, className = "" }) => {
+const ButtonPrimary = ({ children,onClick,className = "",}) => {
   return (
-    <button
+    <button onClick={onClick}
       className={`
         relative overflow-hidden
         p-2.5 rounded-xl

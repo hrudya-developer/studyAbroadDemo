@@ -1,6 +1,6 @@
-const ButtonSecondary = ({ children, className = "" }) => {
+const ButtonSecondary = ({ children,onClick,className = "" }) => {
   return (
-    <button
+    <button onClick={onClick}
       type="button"
       className={`
         relative overflow-hidden
