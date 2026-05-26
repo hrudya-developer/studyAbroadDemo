@@ -140,25 +140,34 @@ export default function CreateAccount() {
             <label className="text-sm font-semibold">Date of Birth</label>
             <div className="flex items-center border rounded-xl p-3 mt-1">
               <CalendarDays size={18} />
-              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
+              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="ps-3 w-full"/>
             </div>
           </div>
 
           {/* PHONE */}
-          <div>
-            <label className="text-sm font-semibold">Contact Number</label>
-            <div className="border rounded-xl p-2 mt-1">
-              <PhoneInput
-                defaultCountry="in"
-                value={phone}
-                onChange={(value, meta) => {
-                  setPhone(value);
-                  setCountryCode(meta?.country?.iso2 || "in");
-                  setDialCode(meta?.country?.dialCode || "91");
-                }}
-              />
-            </div>
-          </div>
+        <div>
+  <label className="text-sm font-semibold">
+    Contact Number
+  </label>
+
+  <div className="mt-1 w-full rounded-xl bg-white border px-3 py-2">
+    <PhoneInput
+      defaultCountry="in"
+      value={phone}
+      onChange={(value, meta) => {
+        setPhone(value);
+        setCountryCode(meta?.country?.iso2 || "in");
+        setDialCode(meta?.country?.dialCode || "91");
+      }}
+      className="w-full border-0"
+      inputClassName="!w-full !border-0 !bg-transparent !shadow-none !outline-none"
+      countrySelectorStyleProps={{
+        buttonClassName:
+          "!border-0 !bg-transparent",
+      }}
+    />
+  </div>
+</div>
 
           {/* GENDER */}
           <div className="md:col-span-2 flex gap-3">
@@ -184,7 +193,7 @@ export default function CreateAccount() {
               <textarea
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                rows={3}
+                rows={3} className="w-full outline-none border-0 ps-3"
               />
             </div>
           </div>
