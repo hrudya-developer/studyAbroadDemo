@@ -13,6 +13,7 @@ export default function CreateAccount() {
   const navigate = useNavigate();
 
   const uid = useSelector((state) => state.auth.uid);
+  const email = useSelector((state) => state.auth.email);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -33,7 +34,7 @@ export default function CreateAccount() {
       return Swal.fire("Invalid Name", "Enter valid full name", "warning");
     }
 
-    if (!phone || phone.replace(/\D/g, "").length < 8) {
+    if (!phone || phone.replace(/\D/g, "").length < 4) {
       return Swal.fire("Invalid Phone", "Enter valid phone number", "warning");
     }
 
@@ -84,24 +85,35 @@ export default function CreateAccount() {
         formData
       );
 
+      console.log({
+  uid,
+  name,
+  mobile: phone,
+  country: countryCode,
+  code: dialCode,
+  address,
+  gender,
+  dob,
+});
+
       if (res.data.status) {
-        dispatch(
-          userRegister({
-            uid,
-            name: name.trim(),
-            mobile: phone, // ✅ FIXED
-            country: countryCode,
-            code: dialCode,
-            address: address.trim(),
-            gender,
-            dob,
-            email: null,
-            token: null,
-          })
-        );
+    dispatch(
+   userRegister({
+    uid,
+    name: name.trim(),
+    mobile: phone,
+    country: countryCode,
+    code: dialCode,
+    address: address.trim(),
+    gender,
+    dob,
+    email, // ✅ keep existing email
+    token: null,
+  })
+);
 
         Swal.fire("Success", "Account Created", "success");
-        navigate("/studentDashboard");
+        navigate("/student");
       } else {
         Swal.fire("Failed", res.data.msg || "Error", "error");
       }
@@ -157,7 +169,8 @@ export default function CreateAccount() {
       onChange={(value, meta) => {
         setPhone(value);
         setCountryCode(meta?.country?.iso2 || "in");
-        setDialCode(meta?.country?.dialCode || "91");
+        // setDialCode(meta?.country?.dialCode || "91");
+        setDialCode(meta?.country?.dialCode);
       }}
       className="w-full border-0"
       inputClassName="!w-full !border-0 !bg-transparent !shadow-none !outline-none"

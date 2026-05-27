@@ -103,31 +103,42 @@ export default function VerifyOtpPage() {
         }
       );
 
-      if (res.data.status === true) {
-        dispatch(
-          login({
-            user: {
-              uid,
-              email,
-            },
-            token: res.data.token || null,
-          })
-        );
+    if (res.data.status === true) {
 
-        localStorage.setItem("newUser", "true");
+  dispatch(
+    login({
+      user: {
+        uid: res.data.uid,
+        email,
+      },
+      token: res.data.token || null,
+    })
+  );
 
-        await Swal.fire({
-          icon: "success",
-          title: "OTP Verified",
-          text: "Redirecting...",
-          timer: 1000,
-          showConfirmButton: false,
-        });
+  await Swal.fire({
+    icon: "success",
+    title: "OTP Verified",
+    text: "Redirecting...",
+    timer: 1000,
+    showConfirmButton: false,
+  });
 
-        navigate("/createAccount", {
-          replace: true,
-        });
-      } else {
+  // EXISTING USER
+  if (res.data.stage === "completed") {
+
+    navigate("/student", {
+      replace: true,
+    });
+
+  } else {
+
+    // NEW USER
+    navigate("/createAccount", {
+      replace: true,
+    });
+
+  }
+}else {
         Swal.fire(
           "Error",
           res.data.msg || "Invalid OTP",

@@ -4,12 +4,16 @@ import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUserOtp } from "../redux/slices/authSlice";
+import login_bg from "../assets/login_bg.png";
+import { FaUser, FaEnvelope } from "react-icons/fa";
+import { Globe, LockKeyhole, ShieldCheck } from "lucide-react";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+ 
   const [loading, setLoading] = useState(false);
 
   const sendOtp = async (e) => {
@@ -47,6 +51,7 @@ const LoginPage = () => {
         dispatch(
           setUserOtp({
             uid: res.data.uid,
+            name,
             email,
           })
         );
@@ -82,29 +87,46 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen grid place-content-center bg-secondary max-w-7xl mx-auto">
-      <div className="w-[600px] bg-white p-8 rounded-2xl">
-        <h2 className="text-2xl font-bold text-center">
-          Login
+    <div className="h-[calc(100vh-132px)] grid place-content-center max-w-7xl mx-auto" style={{backgroundImage:`url(${login_bg})`}}>
+      <div className="w-[600px] bg-white p-8 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.5)] py-10">
+        <div className="flex justify-center items-center mb-8"><span className="bg-gray-100 text-primary p-5 rounded-full shadow-sm"><Globe size={28}/></span></div>
+        <h2 className="text-3xl font-extrabold text-center text-primary my-5">
+         <span className="text-secondary">Welcome</span> Back !
         </h2>
+        <p className="text-center text-gray-500 text-lg">Sign in to continue to your account.</p>
 
-        <form onSubmit={sendOtp} className="mt-6 space-y-4">
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            placeholder="Enter email"
-            className="w-full h-12 border px-4 rounded-lg"
-          />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full h-12 bg-red-600 text-white rounded-lg disabled:opacity-60"
-          >
-            {loading ? "Sending..." : "Get OTP"}
-          </button>
-        </form>
+
+<form onSubmit={sendOtp} className="mt-6 space-y-6">
+
+
+
+
+  {/* Email Input */}
+  <div className="relative">
+    <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+
+    <input
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      type="email"
+      placeholder="Enter email"
+      className="w-full h-12 border border-gray-200 pl-10 pr-4 rounded-lg"
+    />
+  </div>
+
+  {/* Button */}
+  <button
+    type="submit"
+    disabled={loading}
+    className="w-full h-12 bg-red-600 text-white rounded-lg disabled:opacity-60 flex gap-4 justify-center items-center shadow-sm"
+  >
+   <span><LockKeyhole size={17}/></span> {loading ? "Sending..." : "Get OTP"}
+  </button>
+
+  <p className="text-gray-400 text-center flex gap-3 justify-center items-center"><span><ShieldCheck /></span>Secure Login. Your data is protected.</p>
+
+</form>
       </div>
     </div>
   );

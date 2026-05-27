@@ -23,15 +23,15 @@ import AlbaniaDestination from "./layout/AlbaniaDestination";
 import OtpVerification from "./pages/OtpVerification";
 import CreateAccount from "./pages/createAccount";
 import LoginPage from "./pages/LoginPage";
+
 import StudentDashboard from "./pages/StudentDashboard";
+import StudentLayout from "./pages/StudentLayout";
+import StudentProfile from "./pages/studentProfile";
 
 function Layout() {
   const location = useLocation();
 
-  // pages without header/footer
-  const noLayoutRoutes = ["/studentDashboard"];
-
-  const hideLayout = noLayoutRoutes.includes(location.pathname);
+  const hideLayout = location.pathname.startsWith("/student");
 
   return (
     <>
@@ -40,36 +40,17 @@ function Layout() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/destinationList" element={<DestinationList />} />
+        <Route path="/maltaDestination" element={<MaltaDestination />} />
+        <Route path="/albaniaDestination" element={<AlbaniaDestination />} />
+        <Route path="/loginViaOtp" element={<LoginPage />} />
+        <Route path="/verify-otp" element={<OtpVerification />} />
+        <Route path="/createAccount" element={<CreateAccount />} />
 
-        <Route
-          path="/destinationList"
-          element={<DestinationList />}
-        />
-
-        <Route
-          path="/albaniaDestination"
-          element={<AlbaniaDestination />}
-        />
-
-        <Route
-          path="/loginViaOtp"
-          element={<LoginPage />}
-        />
-
-        <Route
-          path="/verify-otp"
-          element={<OtpVerification />}
-        />
-
-        <Route
-          path="/createAccount"
-          element={<CreateAccount />}
-        />
-
-        <Route
-          path="/studentDashboard"
-          element={<StudentDashboard />}
-        />
+        <Route path="/student" element={<StudentLayout />}>
+          <Route index element={<StudentDashboard />} />
+          <Route path="/student/profile" element={<StudentProfile />} />
+        </Route>
       </Routes>
 
       {!hideLayout && <Footer />}
@@ -88,13 +69,10 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <BrowserRouter>
       <FollowCursor />
-
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
-    </>
+      <Layout />
+    </BrowserRouter>
   );
 };
 
