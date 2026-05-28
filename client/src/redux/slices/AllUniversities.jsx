@@ -101,7 +101,7 @@ const AllUniversities = () => {
                     </span>
                   </div>
 
-                  <span
+                  {/* <span
                     className={`text-xs px-2 py-1 rounded-full ${
                       isActive
                         ? "bg-white text-[#d70707]"
@@ -109,7 +109,7 @@ const AllUniversities = () => {
                     }`}
                   >
                     {country.university_count || country.count || "0"}
-                  </span>
+                  </span> */}
                 </button>
               );
             })}
