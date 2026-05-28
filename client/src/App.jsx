@@ -18,8 +18,6 @@ import Topbar from "./components/Topbar";
 import Footer from "./components/Footer";
 import BottomBar from "./components/BottomBar";
 
-import MaltaDestination from "./layout/MaltaDestination";
-import AlbaniaDestination from "./layout/AlbaniaDestination";
 import OtpVerification from "./pages/OtpVerification";
 import CreateAccount from "./pages/createAccount";
 import LoginPage from "./pages/LoginPage";
@@ -27,6 +25,9 @@ import LoginPage from "./pages/LoginPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import StudentLayout from "./pages/StudentLayout";
 import StudentProfile from "./pages/studentProfile";
+
+import CountryDetails from "./pages/CountryDetails";
+import AllUniversities from "./redux/slices/AllUniversities";
 
 function Layout() {
   const location = useLocation();
@@ -41,15 +42,18 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/destinationList" element={<DestinationList />} />
-        <Route path="/maltaDestination" element={<MaltaDestination />} />
-        <Route path="/albaniaDestination" element={<AlbaniaDestination />} />
+
         <Route path="/loginViaOtp" element={<LoginPage />} />
         <Route path="/verify-otp" element={<OtpVerification />} />
         <Route path="/createAccount" element={<CreateAccount />} />
 
+        {/* ✅ FIXED: OUTSIDE student */}
+        <Route path="/destination/:id" element={<CountryDetails />} />
+        <Route path="/allUniversities" element={<AllUniversities />} />
+
         <Route path="/student" element={<StudentLayout />}>
           <Route index element={<StudentDashboard />} />
-          <Route path="/student/profile" element={<StudentProfile />} />
+          <Route path="profile" element={<StudentProfile />} />
         </Route>
       </Routes>
 
@@ -59,7 +63,7 @@ function Layout() {
   );
 }
 
-const App = () => {
+export default function App() {
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -74,6 +78,4 @@ const App = () => {
       <Layout />
     </BrowserRouter>
   );
-};
-
-export default App;
+}

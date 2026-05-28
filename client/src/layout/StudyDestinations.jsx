@@ -7,17 +7,10 @@ import {
   Globe2,
   Plane,
 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCountries } from "../redux/slices/countrySlice";
+import { useEffect } from "react";
 
-const destinations = [
-  "UK",
-  "USA",
-  "Germany",
-  "Australia",
-  "Ireland",
-  "New Zealand",
-  "UK",
-  "USA",
-];
 
 const features = [
   {
@@ -43,6 +36,39 @@ const features = [
 ];
 
 export default function StudyDestinations() {
+
+  const dispatch = useDispatch();
+
+const { countries, imagePath, loading } = useSelector(
+  (state) => state.countryData
+);
+
+console.log(countries);
+const { uid } = useSelector((state) => state.auth);
+console.log(uid);
+
+useEffect(() => {
+  console.log("UID:", uid);
+
+  if (countries.length === 0) {
+    dispatch(fetchCountries(uid || 0));
+  }
+}, [uid, dispatch, countries.length]);
+
+if (loading) {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <p className="text-lg font-bold text-slate-700">
+        Loading destinations...
+      </p>
+    </div>
+  );
+}
+
+
+
+
+
   return (
     <section className="relative overflow-hidden bg-white px-4 py-16 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     
@@ -68,7 +94,7 @@ export default function StudyDestinations() {
 
         {/* Destination Cards */}
         <div className="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {destinations.map((item, index) => (
+          {countries.slice(0,12).map((item, index) => (
             <button
               key={index}
               className="group flex items-center justify-between rounded-2xl border border-red-100 bg-white px-5 py-4 shadow-[0_8px_25px_rgba(220,0,0,0.08)] transition hover:-translate-y-1 hover:border-red-300 hover:shadow-[0_12px_30px_rgba(220,0,0,0.16)]"
@@ -78,7 +104,7 @@ export default function StudyDestinations() {
                   <MapPin className="h-6 w-6 fill-red-600 text-white" />
                 </span>
 
-                <span className="font-semibold text-secondary">{item}</span>
+                <span className="font-semibold text-secondary">{item.country}</span>
               </div>
 
               <div className="h-8 w-px bg-red-100" />

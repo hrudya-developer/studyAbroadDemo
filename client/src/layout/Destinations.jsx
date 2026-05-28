@@ -7,75 +7,58 @@ import { Autoplay, FreeMode } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-import uk_img from "../assets/uk_img.png";
-import germany_img from "../assets/germany_img.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import { fetchCountries } from "../redux/slices/countrySlice";
 
 const Destinations = () => {
-  const destinationInfo = [
-    {
-      number: "01",
-      image: uk_img,
-      place: "UK",
-      icon: <GiChurch />,
-      desc1: "World-class education",
-      desc2: "Rich cultural heritage",
-    },
-    {
-      number: "02",
-      image: germany_img,
-      place: "Germany",
-      icon: <GiChurch />,
-      desc1: "Affordable education",
-      desc2: "Top engineering universities",
-    },
-    {
-      number: "03",
-      image: uk_img,
-      place: "Australia",
-      icon: <GiChurch />,
-      desc1: "Student-friendly cities",
-      desc2: "Excellent lifestyle",
-    },
-    {
-      number: "04",
-      image: uk_img,
-      place: "USA",
-      icon: <GiChurch />,
-      desc1: "Global career opportunities",
-      desc2: "Best research universities",
-    },
-    {
-      number: "05",
-      image: germany_img,
-      place: "Canada",
-      icon: <GiChurch />,
-      desc1: "High quality education",
-      desc2: "Safe and welcoming",
-    },
-  ];
+  const dispatch = useDispatch();
+
+  const { countries, imagePath, loading } = useSelector(
+    (state) => state.countryData
+  );
+
+  const { uid } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (countries.length === 0) {
+      dispatch(fetchCountries(uid || 0));
+    }
+  }, [uid, dispatch, countries.length]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg font-bold text-slate-700">
+          Loading destinations...
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <section id="_destinationWrapper" className="py-20  overflow-hidden">
-      <div className="max-w-7xl mx-auto px-5" data-aos="fade-left">
-
+    <section id="_destinationWrapper" className="overflow-hidden py-20">
+      <div className="mx-auto max-w-7xl px-5" data-aos="fade-left">
         {/* Header */}
-        <div className="text-center mb-12 flex justify-center flex-col">
-          <p className="text-primary mb-4 flex justify-center gap-3 items-center text-md font-bold">
+        <div className="mb-12 flex flex-col justify-center text-center">
+          <p className="mb-4 flex items-center justify-center gap-3 text-md font-bold text-primary">
             <span>
               <MdFlight className="text-primary" />
             </span>
             EXPLORE. LEARN. GROW
           </p>
 
-          <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 text-secondary">
+          <h1 className="mb-3 font-ubuntu text-3xl font-bold text-secondary sm:text-3xl md:text-4xl lg:text-5xl">
             Dream <span className="text-primary">Destinations</span>
           </h1>
 
-          <p className="textColor w-[90%] sm:w-[90%] md:w-[65%] lg:w-[60%] mx-auto pt-3 text-md">
-            Choose your perfect study abroad destination and unlock a world of opportunities.
+          <p className="textColor mx-auto w-[90%] pt-3 text-md sm:w-[90%] md:w-[65%] lg:w-[60%]">
+            Choose your perfect study abroad destination and unlock a world of
+            opportunities.
           </p>
 
-          <p className="w-[65px] h-[3px] bg-[#008297] mx-auto mt-3"></p>
+          <p className="mx-auto mt-3 h-[3px] w-[65px] bg-[#008297]"></p>
         </div>
 
         {/* Carousel */}
@@ -107,59 +90,81 @@ const Destinations = () => {
           }}
           className="destinationSwiper"
         >
-          {destinationInfo.map((destination) => (
-            <SwiperSlide key={destination.number}>
-              <div className="rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer my-2">
+          {countries?.map((item, index) => {
+            const countryImage = item.image
+              ? `${imagePath}/${item.image}`
+              : "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop";
 
-                {/* Image */}
-                <div className="relative overflow-hidden">
-                  <img
-                    src={destination.image}
-                    alt={destination.place}
-                    className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
+            const flagImage = item.flag
+              ? `${imagePath}/${item.flag}`
+              : null;
 
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all duration-500"></div>
+            return (
+              <SwiperSlide key={item.id || index}>
+                <div className="group my-2 cursor-pointer overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-500 hover:shadow-2xl">
+                  {/* Image */}
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={countryImage}
+                      alt={item.country}
+                      className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
 
-                  {/* Number Badge */}
-                  <span className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
-                    {destination.number}
-                  </span>
-                </div>
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/20 transition-all duration-500 group-hover:bg-black/40"></div>
 
-                {/* Content */}
-                <div className="p-5">
+                    {/* Flag */}
+                    <div className="absolute left-4 top-4 rounded-full bg-white p-1 shadow-md">
+                      {flagImage ? (
+                        <img
+                          src={flagImage}
+                          alt={item.country}
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-xl">
+                          🌍
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Title */}
-                  <div className="flex items-center justify-between mb-3">
-                    <h2 className="text-xl font-bold text-secondary">
-                      {destination.place}
-                    </h2>
-
-                    <span className="text-primary text-3xl">
-                      {destination.icon}
+                    {/* Number Badge */}
+                    <span className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-bold text-white">
+                      {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
 
-                  {/* Divider */}
-                  <div className="w-12 h-[3px] bg-primary mb-4 rounded-full"></div>
+                  {/* Content */}
+                  <div className="p-5">
+                    {/* Title */}
+                    <div className="mb-3 flex items-center justify-between">
+                      <h2 className="text-xl font-bold text-secondary">
+                        {item.country}
+                      </h2>
 
-                  {/* Description */}
-                  <ul className="space-y-2">
-                    <li className="text-gray-700 text-sm">
-                      • {destination.desc1}
-                    </li>
+                      <span className="text-3xl text-primary">
+                        <GiChurch />
+                      </span>
+                    </div>
 
-                    <li className="text-gray-700 text-sm">
-                      • {destination.desc2}
-                    </li>
-                  </ul>
+                    {/* Divider */}
+                    <div className="mb-4 h-[3px] w-12 rounded-full bg-primary"></div>
+
+                    {/* Description */}
+                    {/* <ul className="space-y-2">
+                      <li className="text-sm text-gray-700">
+                        • World-class education opportunities
+                      </li>
+
+                      <li className="text-sm text-gray-700">
+                        • Popular destination for international students
+                      </li>
+                    </ul> */}
+                  </div>
                 </div>
-
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
     </section>

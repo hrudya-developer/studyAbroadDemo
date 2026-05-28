@@ -23,7 +23,8 @@ import "swiper/css/pagination";
 
 import avatarFemale from "../assets/avatar1.png";
 import avatarMale from "../assets/avatar2.png";
-import { countryInfo } from "../redux/slices/countrySlice";
+
+import { fetchCountries } from "../redux/slices/countrySlice";
 
 function ProfileRow({ icon: Icon, label, value, color }) {
   return (
@@ -106,39 +107,11 @@ export default function StudentProfile() {
     }
   }, [uid]);
 
-  useEffect(() => {
-    const getDestinations = async () => {
-      try {
-        const response = await fetch(
-          "https://overseas.technocitysolutions.com/public/api/getDestinations",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ api: API_KEY, uid }),
-          }
-        );
-
-        const result = await response.json();
-
-        const countryData = Array.isArray(result?.destinations)
-          ? result.destinations
-          : Array.isArray(result?.data)
-          ? result.data
-          : [];
-
-        dispatch(
-          countryInfo({
-            countries: countryData,
-            imagePath: result?.destinations_image_path || "",
-          })
-        );
-      } catch (err) {
-        console.error("Destinations fetch error:", err);
-      }
-    };
-
-    if (uid) getDestinations();
-  }, [uid, dispatch]);
+useEffect(() => {
+  if (uid && countries.length === 0) {
+    dispatch(fetchCountries(uid));
+  }
+}, [uid, dispatch, countries.length]);
 
   const studentName =
     profile?.name ||
@@ -273,45 +246,47 @@ export default function StudentProfile() {
               }}
               className="destination-swiper"
             >
-              {countries.map((item) => {
-                const countryImage = item.image
-                  ? `${imagePath}${item.image}`
-                  : "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop";
+             {countries.map((item) => {
+  const countryImage = item.image
+    ? `${imagePath}/${item.image}`
+    : "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop";
 
-                const flagImage = item.flag ? `${imagePath}${item.flag}` : null;
+  const flagImage = item.flag
+    ? `${imagePath}/${item.flag}`
+    : null;
 
-                return (
-                  <SwiperSlide key={item.id || item.country}>
-                    <div className="relative overflow-hidden rounded-3xl">
-                      <img
-                        src={countryImage}
-                        alt={item.country || "Destination"}
-                        className="h-56 w-full object-cover transition duration-500 hover:scale-110"
-                      />
+  return (
+    <SwiperSlide key={item.id || item.country}>
+      <div className="relative overflow-hidden rounded-3xl">
+        <img
+          src={countryImage}
+          alt={item.country || "Destination"}
+          className="h-56 w-full object-cover transition duration-500 hover:scale-110"
+        />
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                      <div className="absolute left-4 top-4 rounded-full bg-white/90 p-2 text-sm font-black text-slate-900 backdrop-blur">
-                        {flagImage ? (
-                          <img
-                            src={flagImage}
-                            alt={item.country || "flag"}
-                            className="h-10 w-10 rounded-full object-cover shadow-sm"
-                          />
-                        ) : (
-                          "🌍"
-                        )}
-                      </div>
+        <div className="absolute left-4 top-4 rounded-full bg-white/90 p-2 text-sm font-black text-slate-900 backdrop-blur">
+          {flagImage ? (
+            <img
+              src={flagImage}
+              alt={item.country || "flag"}
+              className="h-10 w-10 rounded-full object-cover shadow-sm"
+            />
+          ) : (
+            "🌍"
+          )}
+        </div>
 
-                      <div className="absolute bottom-5 left-5">
-                        <h3 className="text-2xl font-black text-white">
-                          {item.country || "Destination"}
-                        </h3>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
+        <div className="absolute bottom-5 left-5">
+          <h3 className="text-2xl font-black text-white">
+            {item.country || "Destination"}
+          </h3>
+        </div>
+      </div>
+    </SwiperSlide>
+  );
+})}
             </Swiper>
           ) : (
             <p className="text-sm font-semibold text-slate-500">
