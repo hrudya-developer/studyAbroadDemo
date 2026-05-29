@@ -43,12 +43,12 @@ const { countries, imagePath, loading } = useSelector(
   (state) => state.countryData
 );
 
-console.log(countries);
+
 const { uid } = useSelector((state) => state.auth);
-console.log(uid);
+
 
 useEffect(() => {
-  console.log("UID:", uid);
+  
 
   if (countries.length === 0) {
     dispatch(fetchCountries(uid || 0));

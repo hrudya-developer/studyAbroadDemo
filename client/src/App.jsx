@@ -25,9 +25,11 @@ import LoginPage from "./pages/LoginPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import StudentLayout from "./pages/StudentLayout";
 import StudentProfile from "./pages/studentProfile";
-
+import AllUniversities from "./pages/AllUniversities";
 import CountryDetails from "./pages/CountryDetails";
-import AllUniversities from "./redux/slices/AllUniversities";
+import UniversityDetails from "./pages/UniversityDetails";
+import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
+
 
 function Layout() {
   const location = useLocation();
@@ -50,6 +52,9 @@ function Layout() {
         {/* ✅ FIXED: OUTSIDE student */}
         <Route path="/destination/:id" element={<CountryDetails />} />
         <Route path="/allUniversities" element={<AllUniversities />} />
+        <Route path="/universityDetails/:id" element={<UniversityDetails />} /> 
+      
+        <Route path="/courseDetailsOfUniv/:id" element={<CourseDetailsOfUniv />} />
 
         <Route path="/student" element={<StudentLayout />}>
           <Route index element={<StudentDashboard />} />

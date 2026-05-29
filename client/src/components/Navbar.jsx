@@ -43,9 +43,9 @@ const Navbar = () => {
 
         {/* CENTER - DESKTOP MENU */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-[16px] font-medium text-black">
+          <ul className="menu menu-horizontal px-1 text-[17px] font-semibold font-nunito text-black">
             <li><Link to="/destinationList">Destinations</Link></li>
-            <li><Link to="/allUniversities"><a>Universities</a></Link></li>
+            <li><Link to="/allUniversities">Universities</Link></li>
             <li><a>Courses</a></li>
             <li><a>Scholarships</a></li>
             <li><a>Visa Process</a></li>
