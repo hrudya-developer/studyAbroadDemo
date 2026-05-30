@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { login } from "../redux/slices/authSlice";
+import login_bg from "../assets/login_bg.png";
 
 export default function VerifyOtpPage() {
   const dispatch = useDispatch();
@@ -159,7 +160,7 @@ export default function VerifyOtpPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#081c47] p-4">
+    <div className="h-[calc(100vh-132px)] flex items-center justify-center p-4" style={{backgroundImage:`url(${login_bg})`}}>
       <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl">
         <div className="relative overflow-hidden bg-[#081c47] px-8 py-10 text-center text-white">
           <div className="absolute -left-12 -bottom-12 h-36 w-36 rounded-full bg-[#cb0e10]/50" />
