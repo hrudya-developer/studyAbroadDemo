@@ -14,15 +14,17 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
 import "swiper/css";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import { fetchUniversityDetails } from "../redux/slices/universitySlice";
 import CoursesOfUniv from "../pages/CoursesOfUniv";
+
 
 export default function UniversityDetails() {
   const navigate = useNavigate();
@@ -30,7 +32,13 @@ export default function UniversityDetails() {
   const { id } = useParams();
   const routeLocation = useLocation();
 
-  const [activeTab, setActiveTab] = useState("about");
+ const [searchParams, setSearchParams] = useSearchParams();
+
+const activeTab = searchParams.get("tab") || "about";
+
+const handleTabChange = (tab) => {
+  setSearchParams({ tab });
+};
 
   const stateUniversity = routeLocation.state?.university;
   const stateCountry = routeLocation.state?.country;
@@ -109,10 +117,10 @@ export default function UniversityDetails() {
 
   const universityName = university?.name || "University";
 
-  const logo =
-    university?.logo && cleanImagePath
-      ? `${cleanImagePath}/${university.logo}`
-      : null;
+ const logo =
+  university?.logo && cleanImagePath
+    ? `${cleanImagePath}/${university.logo}`
+    : null;
 
   const countryName =
     university?.country || stateCountry?.country || "Country not available";
@@ -214,16 +222,28 @@ export default function UniversityDetails() {
 
           <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/55 to-transparent" />
 
-          <div className="absolute inset-0 z-20 flex items-center px-4 pt-1 sm:px-8 lg:px-14">
+          <div className="absolute inset-0 z-20 flex items-center px-4 pt-1 sm:px-8 lg:px-14 justify-between">
             <div className="max-w-3xl">
-              <p className="mb-4 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/20 backdrop-blur-md">
+              
+              <p className="mb-10 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/20 backdrop-blur-md">
                 University Profile
               </p>
+                      <div className="flex gap-5 items-center my-5">
+                        <div className="h-22 w-22 bg-white rounded-full shadow-lg p-2 relative grid place-content-center">
+  {logo && (
+    <img
+      src={logo}
+      alt={universityName}
+      className="h-22 w-22 object-contain rounded-full"
+    />
+  )}
+  {/* <div className="bg-primary text-white font-extrabold grid place-content-center size-10 rounded-full text-4xl">{ranking}</div> */}
+</div>
 
               <h1 className="text-4xl font-black leading-tight tracking-[-0.04em] text-white sm:text-5xl lg:text-4xl">
                 {universityName}
                 <CheckCircle className="ml-3 inline h-8 w-8 fill-[#cb0e10] text-white" />
-              </h1>
+              </h1></div> 
 
               <p className="mt-5 flex items-center gap-2 text-lg font-bold text-[#f0ea2c]">
                 <MapPin className="h-6 w-6 text-[#f0ea2c]" />
@@ -247,35 +267,36 @@ export default function UniversityDetails() {
                 </span>
               </div>
             </div>
+   
           </div>
         </div>
       </section>
 
-      <nav className="flex overflow-x-auto border-b border-[#e6eaf2] bg-white px-4 sm:px-8 lg:px-14">
-        <button
-          onClick={() => setActiveTab("about")}
-          className={`flex min-w-fit items-center gap-3 px-6 py-5 font-extrabold uppercase ${
-            activeTab === "about"
-              ? "border-b-4 border-[#cb0e10] text-[#cb0e10]"
-              : "text-[#51607d]"
-          }`}
-        >
-          <Landmark className="h-6 w-6" />
-          About
-        </button>
+     <nav className="flex overflow-x-auto border-b border-[#e6eaf2] bg-white px-4 sm:px-8 lg:px-14">
+  <button
+    onClick={() => handleTabChange("about")}
+    className={`flex min-w-fit items-center gap-3 px-6 py-5 font-extrabold uppercase ${
+      activeTab === "about"
+        ? "border-b-4 border-[#cb0e10] text-[#cb0e10]"
+        : "text-[#51607d]"
+    }`}
+  >
+    <Landmark className="h-6 w-6" />
+    About
+  </button>
 
-        <button
-          onClick={() => setActiveTab("courses")}
-          className={`flex min-w-fit items-center gap-3 px-6 py-5 hover:cursor-pointer font-extrabold uppercase ${
-            activeTab === "courses"
-              ? "border-b-4 border-[#cb0e10] text-[#cb0e10]"
-              : "text-[#51607d]"
-          }`}
-        >
-          <BookOpen className="h-6 w-6" />
-          Courses
-        </button>
-      </nav>
+  <button
+    onClick={() => handleTabChange("courses")}
+    className={`flex min-w-fit items-center gap-3 px-6 py-5 font-extrabold uppercase ${
+      activeTab === "courses"
+        ? "border-b-4 border-[#cb0e10] text-[#cb0e10]"
+        : "text-[#51607d]"
+    }`}
+  >
+    <BookOpen className="h-6 w-6" />
+    Courses
+  </button>
+</nav>
 
       {activeTab === "about" && (
         <>
@@ -303,10 +324,10 @@ export default function UniversityDetails() {
                 <InfoBadge label="GMAT" value={withoutGmat} />
               </div>
 
-              <button
-                onClick={() => setActiveTab("courses")}
-                className="mt-7 flex items-center gap-3 rounded-xl bg-[#cb0e10] px-6 py-4 font-extrabold text-white shadow-lg shadow-red-900/20"
-              >
+          <button
+  onClick={() => handleTabChange("courses")}
+  className="mt-7 flex items-center gap-3 rounded-xl bg-[#cb0e10] px-6 py-4 font-extrabold text-white shadow-lg shadow-red-900/20"
+>
                 Explore Courses
                 <ArrowRight className="h-5 w-5" />
               </button>

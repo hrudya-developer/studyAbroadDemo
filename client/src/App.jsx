@@ -24,11 +24,12 @@ import LoginPage from "./pages/LoginPage";
 
 import StudentDashboard from "./pages/StudentDashboard";
 import StudentLayout from "./pages/StudentLayout";
-import StudentProfile from "./pages/studentProfile";
+import StudentProfile from "./pages/StudentProfile";
 import AllUniversities from "./pages/AllUniversities";
 import CountryDetails from "./pages/CountryDetails";
 import UniversityDetails from "./pages/UniversityDetails";
 import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
+
 
 
 function Layout() {
@@ -51,7 +52,10 @@ function Layout() {
 
         {/* ✅ FIXED: OUTSIDE student */}
         <Route path="/destination/:id" element={<CountryDetails />} />
-        <Route path="/allUniversities" element={<AllUniversities />} />
+      <Route
+  path="/allUniversities/:countryId?"
+  element={<AllUniversities />}
+/>
         <Route path="/universityDetails/:id" element={<UniversityDetails />} /> 
       
         <Route path="/courseDetailsOfUniv/:id" element={<CourseDetailsOfUniv />} />

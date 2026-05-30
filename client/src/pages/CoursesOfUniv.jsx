@@ -144,10 +144,43 @@ const CoursesOfUniv = () => {
                 <InfoLine icon={ClipboardCheck} label="Deadline" value={course?.deadline || "N/A"} />
               </div>
 
-              <Link to={`/courseDetailsOfUniv/${course.id}`}><button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-5 py-3 font-extrabold text-[#cb0e10] transition hover:bg-[#cb0e10] hover:text-white">
-                View Course
-                <ArrowRight className="h-5 w-5" />
-              </button></Link>
+<Link
+  to={`/courseDetailsOfUniv/${course.id}`}
+  state={{
+    course,
+    universityId: selectedUniversity?.id,
+    countryId: selectedUniversity?.d_id,
+  }}
+  onClick={() => {
+    sessionStorage.setItem(
+      "selectedCourse",
+      JSON.stringify(course)
+    );
+
+ if (selectedUniversity) {
+  sessionStorage.setItem(
+    "selectedUniversity",
+    JSON.stringify(selectedUniversity)
+  );
+}
+
+    sessionStorage.setItem(
+      "universityId",
+      selectedUniversity?.id
+    );
+
+    sessionStorage.setItem(
+      "countryId",
+      selectedUniversity?.d_id
+    );
+  }}
+>
+  <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-5 py-3 font-extrabold text-[#cb0e10] transition hover:bg-[#cb0e10] hover:text-white">
+    View Course
+    <ArrowRight className="h-5 w-5" />
+  </button>
+</Link>
+
             </article>
           ))}
         </div>

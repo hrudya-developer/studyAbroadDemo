@@ -9,8 +9,12 @@ import {
 import { fetchCountries } from "../redux/slices/countrySlice";
 
 import { Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const AllUniversities = () => {
+
+  const { countryId } = useParams();
+const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { uid } = useSelector((state) => state.auth);
@@ -25,45 +29,35 @@ const AllUniversities = () => {
   loading,
   error,
 } = useSelector((state) => state.universityData);
-  const [activeCountry, setActiveCountry] = useState(null);
+ 
+const activeCountry =
+  countries?.find((c) => String(c.id) === String(countryId)) || countries?.[0];
 
   useEffect(() => {
     dispatch(fetchCountries(safeUid));
   }, [dispatch, safeUid]);
 
-  useEffect(() => {
-    if (countries?.length > 0 && !activeCountry) {
-      setActiveCountry(countries[0]);
+useEffect(() => {
+  if (!activeCountry) return;
 
-      dispatch(
-        fetchUniversitiesByCountry({
-          uid: safeUid,
-          id: countries[0].id,
-          offset: 0,
-          keyword: "alluniversities",
-        })
-      );
-    }
-  }, [countries, activeCountry, dispatch, safeUid]);
-
-const handleCountryClick = (country) => {
-  if (loading) return;
-
-  setActiveCountry(country);
-
-  if (universitiesByCountry?.[country.id]) {
-    dispatch(setUniversitiesFromCache(country.id));
+  if (!countryId) {
+    navigate(`/allUniversities/${activeCountry.id}`, { replace: true });
     return;
   }
 
   dispatch(
     fetchUniversitiesByCountry({
       uid: safeUid,
-      id: country.id,
+      id: activeCountry.id,
       offset: 0,
       keyword: "alluniversities",
     })
   );
+}, [activeCountry, countryId, dispatch, safeUid, navigate]);
+
+const handleCountryClick = (country) => {
+  if (loading) return;
+  navigate(`/allUniversities/${country.id}`);
 };
 
   const cleanCountryImagePath = imagePath?.replace(/\/$/, "");

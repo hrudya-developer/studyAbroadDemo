@@ -2,6 +2,8 @@ import React, { useEffect, useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUniversityCourses } from "../redux/slices/courseSlice";
+import { fetchUniversityDetails } from "../redux/slices/universitySlice";
+import bg_coursesDetails from "../assets/bg_coursesDetails.png"
 import {
   GraduationCap,
   Clock,
@@ -17,7 +19,20 @@ import {
   RotateCcw,
 } from "lucide-react";
 
+
+
 export default function CourseDetailsOfUniv() {
+
+const { selectedUniversity, universityImagePath } = useSelector(
+  (state) => state.universityData
+);
+
+const storedUniversity = sessionStorage.getItem("selectedUniversity")
+  ? JSON.parse(sessionStorage.getItem("selectedUniversity"))
+  : null;
+
+const university = selectedUniversity || storedUniversity;
+
   const { id } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -54,22 +69,31 @@ export default function CourseDetailsOfUniv() {
     }
   }, [dispatch, uid, universityId, countryId]);
 
-  const allCourses = useMemo(() => {
-    if (universityCourses?.length > 0) return universityCourses;
+  useEffect(() => {
+  if (universityId) {
+    dispatch(
+      fetchUniversityDetails({
+        uid: uid || 0,
+        id: universityId,
+      })
+    );
+  }
+}, [dispatch, uid, universityId]);
 
-    if (universityId && universityCoursesById?.[universityId]) {
-      return universityCoursesById[universityId];
-    }
+const allCourses = useMemo(() => {
+  return universityCoursesById?.[universityId] || universityCourses || [];
+}, [universityCourses, universityCoursesById, universityId]);
 
-    return [];
-  }, [universityCourses, universityCoursesById, universityId]);
+const selectedCourse = useMemo(() => {
+  if (!allCourses?.length) return null;
 
-  const selectedCourse = allCourses.find(
+  return allCourses.find(
     (course) =>
       String(course.id) === String(id) ||
       String(course.course_id) === String(id) ||
       String(course.c_id) === String(id)
   );
+}, [allCourses, id]);
 
   if (universityCoursesLoading) {
     return (
@@ -83,7 +107,7 @@ export default function CourseDetailsOfUniv() {
     return (
       <div className="flex min-h-screen items-center justify-center p-10 text-center">
         <div>
-          <h2 className="text-2xl font-bold text-red-600">Course not found</h2>
+          <h2 className="text-2xl font-bold text-primary">Course not found</h2>
           <p className="mt-3 text-slate-600">
             Please open this course again from the university course list.
           </p>
@@ -129,6 +153,13 @@ export default function CourseDetailsOfUniv() {
     "University"
   );
 
+const universityLogoUrl =
+  university?.logo && universityImagePath
+    ? `${universityImagePath.replace(/\/$/, "")}/${university.logo}`
+    : selectedCourse?.logo && universityImagePath
+    ? `${universityImagePath.replace(/\/$/, "")}/${selectedCourse.logo}`
+    : "";
+
   const country = getValue(selectedCourse.country, selectedCourse.country_name, "N/A");
 
   const locationName = getValue(
@@ -173,60 +204,65 @@ export default function CourseDetailsOfUniv() {
     "N/A"
   );
 
+  if (!allCourses?.length && !universityCoursesLoading) {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <p className="text-lg font-bold text-slate-700">
+        Loading course data...
+      </p>
+    </div>
+  );
+}
+
   return (
     <main className="mx-auto min-h-screen max-w-7xl bg-white text-slate-900">
       <section
-        className="relative min-h-[430px] overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.82) 35%, rgba(255,255,255,.20) 70%), url('/campus.jpg')",
-        }}
-      >
+        className="relative min-h-[430px] overflow-hidden bg-cover bg-center" style={{backgroundImage:`url(${bg_coursesDetails})`}}
+             >
         <div className="p-8 lg:p-12">
-          <div className="inline-flex items-center gap-3 rounded-full bg-red-600 px-6 py-3 font-semibold text-white shadow">
+          <div className="inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-white shadow">
             <GraduationCap size={24} />
             {level}
           </div>
 
           <div className="mt-8 max-w-3xl">
-            <h1 className="text-4xl font-extrabold leading-tight text-[#071b45] sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-extrabold leading-tight text-secondary sm:text-5xl lg:text-5xl">
               {courseTitle}
             </h1>
 
-            <p className="mt-4 text-2xl font-bold text-red-600">{level}</p>
+            <p className="mt-4 text-2xl font-bold text-primary">{level}</p>
 
-            <div className="mt-4 h-1 w-16 rounded bg-red-600" />
+            <div className="mt-4 h-1 w-16 rounded bg-primary" />
 
-            <p className="mt-5 text-lg leading-8 text-slate-700">{remarks}</p>
+            <p className="mt-5 text-md leading-8 text-black">{remarks}</p>
           </div>
 
-          <div className="mt-8 w-fit rounded-2xl bg-white px-8 py-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
-            {courseIconUrl ? (
-              <img
-                src={courseIconUrl}
-                alt={courseTitle}
-                className="mx-auto h-20 w-20 object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  const fallback = e.currentTarget.parentElement.querySelector(
-                    ".image-fallback"
-                  );
-                  if (fallback) fallback.style.display = "block";
-                }}
-              />
-            ) : null}
+          <div className="mt-8 w-fit min-w-[220px] rounded-2xl bg-white px-8 py-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
+  {universityLogoUrl ? (
+    <img
+      src={universityLogoUrl}
+      alt={universityName}
+      className="mx-auto h-24 w-24 object-contain"
+      onError={(e) => {
+        e.currentTarget.style.display = "none";
+        const fallback =
+          e.currentTarget.parentElement.querySelector(".image-fallback");
+        if (fallback) fallback.style.display = "flex";
+      }}
+    />
+  ) : null}
 
-            <div
-              className="image-fallback text-center text-5xl font-bold text-red-600"
-              style={{ display: courseIconUrl ? "none" : "block" }}
-            >
-              {universityName.slice(0, 3).toUpperCase()}
-            </div>
+  <div
+    className="image-fallback mx-auto h-24 w-24 items-center justify-center rounded-full bg-red-50 text-primary"
+    style={{ display: universityLogoUrl ? "none" : "flex" }}
+  >
+    <GraduationCap size={40} />
+  </div>
 
-            <p className="mt-3 text-center text-sm font-semibold text-slate-800">
-              {universityName}
-            </p>
-          </div>
+  <p className="mt-4 text-center text-md text-secondary font-extrabold">
+    {universityName}
+  </p>
+</div>
 
           <div className="mt-8 flex w-fit items-center gap-3 rounded-xl bg-[#071b45] px-7 py-4 text-white shadow-lg lg:absolute lg:bottom-6 lg:right-10 lg:mt-0">
             <MapPin className="text-red-500" />
@@ -235,7 +271,7 @@ export default function CourseDetailsOfUniv() {
         </div>
       </section>
 
-      <section className="relative z-10 -mt-8 mx-6 rounded-2xl border border-slate-100 bg-white shadow-lg lg:mx-12">
+      <section className="relative z-10 mt-8 mx-6 rounded-2xl border border-slate-100 bg-white shadow-lg lg:mx-12">
         <div className="grid grid-cols-1 divide-y divide-slate-200 md:grid-cols-3 md:divide-x md:divide-y-0">
           <InfoCard icon={<Clock />} title="Duration" value={duration} />
           <InfoCard icon={<BarChart3 />} title="Level" value={level} />
@@ -248,73 +284,81 @@ export default function CourseDetailsOfUniv() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-12 lg:p-12">
-        <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-3">
-          <SmallBlock
-            icon={<GraduationCap />}
-            title="Entry Requirement"
-            text={getValue(
-              selectedCourse.entryrequirement,
-              selectedCourse.entry_requirement,
-              "Not available"
-            )}
-          />
+    <section className="space-y-6 px-4 py-6 lg:p-12">
+  {/* Top Info Blocks */}
+  <div className="">
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <SmallBlock
+        icon={<GraduationCap />}
+        title="Entry Requirement"
+        text={getValue(
+          selectedCourse.entryrequirement,
+          selectedCourse.entry_requirement,
+          "Not available"
+        )}
+      />
 
-          <SmallBlock
-            icon={<MessageCircle />}
-            title="Remarks"
-            text={remarks}
-          />
+      <SmallBlock
+        icon={<MessageCircle />}
+        title="Remarks"
+        text={remarks}
+      />
 
-          <SmallBlock
-            icon={<CalendarDays />}
-            title="Deadline"
-            text={getValue(selectedCourse.deadline, "N/A")}
-            highlight
-          />
-        </div>
+      <SmallBlock
+        icon={<CalendarDays />}
+        title="Deadline"
+        text={getValue(selectedCourse.deadline, "N/A")}
+        highlight
+      />
+    </div>
+  </div>
 
-        <div className="space-y-6 lg:col-span-4">
-          <div className="rounded-2xl border border-red-100 bg-red-50 p-8 shadow-sm">
-            <div className="flex items-center gap-4">
-              <IconBubble>
-                <Wallet />
-              </IconBubble>
-              <p className="text-sm font-bold uppercase text-[#071b45]">
-                Fees
-              </p>
-            </div>
+  {/* Fees Card */}
+  <div className="rounded-2xl bg-red-50 p-8 shadow-sm">
+    <div className="flex items-center gap-4">
+      <IconBubble>
+        <Wallet />
+      </IconBubble>
 
-            <h2 className="mt-6 text-4xl font-extrabold text-red-600 lg:text-5xl">
-              {fees}
-            </h2>
+      <p className="text-sm font-bold uppercase text-[#071b45]">
+        Fees
+      </p>
+    </div>
 
-            <p className="mt-4 text-sm font-semibold text-slate-700">
-              APPLICATION FEE:{" "}
-              <span className="font-bold text-red-600">{applicationFee}</span>
-            </p>
-          </div>
+    <h2 className="mt-6 text-4xl font-extrabold text-secondary lg:text-5xl">
+      {fees}
+    </h2>
 
-          <div className="grid grid-cols-1 gap-4 rounded-2xl border border-slate-200 p-5 shadow-sm sm:grid-cols-2">
-            <MiniInfo
-              icon={<Briefcase />}
-              title="Field of Study"
-              text={getValue(selectedCourse.name, selectedCourse.field, courseTitle)}
-            />
-            <MiniInfo icon={<Globe />} title="Country" text={country} />
-            <MiniInfo icon={<Award />} title="University" text={universityName} />
-            <MiniInfo icon={<MapPin />} title="Location" text={locationName} />
-          </div>
-        </div>
+    <p className="mt-4 text-sm font-semibold text-black">
+      APPLICATION FEE:{" "}
+      <span className="font-extrabold text-primary text-2xl ms-2">{applicationFee}</span>
+    </p>
+  </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-5">
-          <h3 className="border-l-4 border-red-600 pl-3 font-bold uppercase text-[#071b45]">
+  {/* Mini Info Grid */}
+  <div className="grid grid-cols-1 gap-4 rounded-2xl  bg-gray-50 p-5 shadow-sm sm:grid-cols-2 md:grid-cols-4">
+    <MiniInfo
+      icon={<Briefcase />}
+      title="Field of Study"
+      text={getValue(selectedCourse.name, selectedCourse.field, courseTitle)}
+    />
+
+    <MiniInfo icon={<Globe />} title="Country" text={country} />
+
+    <MiniInfo icon={<Award />} title="University" text={universityName} />
+
+    <MiniInfo icon={<MapPin />} title="Location" text={locationName} />
+  </div>
+</section>
+      <section className="px-12 py-5">
+        <div className="shadow-sm lg:col-span-5">
+          <h3 className="font-extrabold uppercase text-primary text-center">
             English Language Requirements
           </h3>
 
-          <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200">
+          <div className="mt-6 overflow-x-auto rounded-xl bg-blue-50">
             <table className="w-full min-w-[650px] text-center text-sm">
-              <thead className="bg-slate-50 text-[#071b45]">
+              <thead className="bg-secondary text-white">
                 <tr>
                   <th className="p-4"></th>
                   <th>IELTS</th>
@@ -384,7 +428,7 @@ export default function CourseDetailsOfUniv() {
 
 function IconBubble({ children }) {
   return (
-    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-600 text-white">
+    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white">
       {children}
     </div>
   );
@@ -407,16 +451,16 @@ function InfoCard({ icon, title, value, sub }) {
 
 function SmallBlock({ icon, title, text, highlight }) {
   return (
-    <div className="border-b border-slate-200 pb-5 last:border-b-0">
-      <div className="flex gap-4">
-        <IconBubble>{icon}</IconBubble>
+    <div className=" bg-secondary text-white p-5 rounded-2xl">
+      <div className="flex flex-col gap-4 justify-center text-center">
+        <span className="mx-auto text-white"><IconBubble>{icon}</IconBubble></span>
         <div>
-          <h4 className="font-bold uppercase text-[#071b45]">{title}</h4>
+          <h4 className="font-extrabold uppercase text-white my-5">{title}</h4>
           <p
             className={`mt-2 leading-relaxed ${
               highlight
-                ? "text-lg font-bold text-red-600"
-                : "text-sm text-slate-700"
+                ? "text-lg font-bold text-primary"
+                : "text-sm text-white"
             }`}
           >
             {text}
@@ -430,7 +474,7 @@ function SmallBlock({ icon, title, text, highlight }) {
 function MiniInfo({ icon, title, text }) {
   return (
     <div className="flex gap-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-50 text-red-600">
+      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-50 text-primary">
         {icon}
       </div>
       <div>
