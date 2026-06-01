@@ -46,7 +46,7 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 text-[17px] font-semibold font-nunito text-black">
             <li><Link to="/destinationList">Destinations</Link></li>
             <li><Link to="/allUniversities">Universities</Link></li>
-            <li><a>Courses</a></li>
+            <li><Link to="/courseListing">Courses</Link></li>
             <li><a>Scholarships</a></li>
             <li><a>Visa Process</a></li>
           </ul>

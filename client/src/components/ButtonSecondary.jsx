@@ -4,7 +4,7 @@ const ButtonSecondary = ({ children,onClick,className = "" }) => {
       type="button"
       className={`
         relative overflow-hidden
-        p-2.5 rounded-xl
+        p-3 px-5 rounded-xl
         text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
         text-white bg-secondary
         group hover:cursor-pointer

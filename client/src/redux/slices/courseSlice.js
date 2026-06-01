@@ -10,13 +10,8 @@ export const fetchPopularCourses = createAsyncThunk(
         "https://overseas.technocitysolutions.com/public/api/getMainCourses",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            api: API_KEY,
-            uid,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ api: API_KEY, uid }),
         }
       );
 
@@ -37,10 +32,7 @@ export const fetchPopularCourses = createAsyncThunk(
         ? result.data
         : [];
 
-      return {
-        popularCourses,
-        courseImagePath,
-      };
+      return { popularCourses, courseImagePath };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -49,15 +41,15 @@ export const fetchPopularCourses = createAsyncThunk(
 
 export const fetchUniversityCourses = createAsyncThunk(
   "courseData/fetchUniversityCourses",
-  async ({ uid, universityId, countryId, offset = 0 }, { rejectWithValue }) => {
+  async ({ uid = 0, universityId, countryId, offset = 0 }, { rejectWithValue }) => {
     try {
       const formData = new FormData();
 
       formData.append("api", API_KEY);
+      formData.append("uid", uid);
       formData.append("u_id", universityId);
       formData.append("c_id", countryId);
       formData.append("offset", offset);
-      formData.append("uid", uid);
 
       const response = await fetch(
         "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
@@ -68,8 +60,6 @@ export const fetchUniversityCourses = createAsyncThunk(
       );
 
       const result = await response.json();
-  
-      
 
       return {
         universityId,
@@ -83,6 +73,44 @@ export const fetchUniversityCourses = createAsyncThunk(
     }
   }
 );
+
+export const fetchAllUniversityCoursesLatest = createAsyncThunk(
+  "courseData/fetchAllUniversityCoursesLatest",
+  async (
+    { uid = 0, courseId = "", universityId = "", offset = 0 },
+    { rejectWithValue }
+  ) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("api", API_KEY);
+      formData.append("uid", uid);
+      formData.append("c_id", courseId);
+      formData.append("u_id", universityId);
+      formData.append("offset", offset);
+
+      const response = await fetch(
+        "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+
+      return {
+        courses: Array.isArray(result?.course) ? result.course : [],
+        nextOffset: result?.nextoffset ?? null,
+        courseImagePath: result?.maincourse_image_path || "",
+        raw: result,
+      };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = {
   popularCourses: [],
   courseImagePath: "",
@@ -91,11 +119,17 @@ const initialState = {
   universityCoursesById: {},
   universityCoursesRawData: null,
 
+  allUniversityCourses: [],
+  allUniversityCoursesRawData: null,
+  allUniversityCoursesNextOffset: null,
+
   loading: false,
   universityCoursesLoading: false,
+  allUniversityCoursesLoading: false,
 
   error: null,
   universityCoursesError: null,
+  allUniversityCoursesError: null,
 };
 
 const courseSlice = createSlice({
@@ -107,6 +141,14 @@ const courseSlice = createSlice({
       state.universityCourses = [];
       state.universityCoursesRawData = null;
       state.universityCoursesError = null;
+    },
+
+    clearAllUniversityCourses: (state) => {
+      state.allUniversityCourses = [];
+      state.allUniversityCoursesRawData = null;
+      state.allUniversityCoursesNextOffset = null;
+      state.allUniversityCoursesError = null;
+      state.allUniversityCoursesLoading = false;
     },
   },
 
@@ -133,26 +175,53 @@ const courseSlice = createSlice({
         state.universityCoursesError = null;
       })
 
-.addCase(fetchUniversityCourses.fulfilled, (state, action) => {
-  state.universityCoursesLoading = false;
+      .addCase(fetchUniversityCourses.fulfilled, (state, action) => {
+        state.universityCoursesLoading = false;
 
-  const { universityId, universityCourses, courseImagePath, raw } =
-    action.payload;
+        const { universityId, universityCourses, courseImagePath, raw } =
+          action.payload;
 
-  state.universityCourses = universityCourses;
-  state.universityCoursesById[universityId] = universityCourses;
-  state.courseImagePath = courseImagePath;
-  state.universityCoursesRawData = raw;
-})
+        state.universityCourses = universityCourses;
+        state.universityCoursesById[universityId || "all"] = universityCourses;
+        state.courseImagePath = courseImagePath;
+        state.universityCoursesRawData = raw;
+      })
 
       .addCase(fetchUniversityCourses.rejected, (state, action) => {
         state.universityCoursesLoading = false;
         state.universityCoursesError =
           action.payload || "Failed to fetch university courses";
+      })
+
+      .addCase(fetchAllUniversityCoursesLatest.pending, (state) => {
+        state.allUniversityCoursesLoading = true;
+        state.allUniversityCoursesError = null;
+      })
+
+      .addCase(fetchAllUniversityCoursesLatest.fulfilled, (state, action) => {
+        state.allUniversityCoursesLoading = false;
+
+        const oldCourses = state.allUniversityCourses || [];
+        const newCourses = action.payload.courses || [];
+        const offset = Number(action.meta.arg.offset || 0);
+
+        state.allUniversityCourses =
+          offset === 0 ? newCourses : [...oldCourses, ...newCourses];
+
+        state.allUniversityCoursesNextOffset = action.payload.nextOffset;
+        state.courseImagePath = action.payload.courseImagePath;
+        state.allUniversityCoursesRawData = action.payload.raw;
+      })
+
+      .addCase(fetchAllUniversityCoursesLatest.rejected, (state, action) => {
+        state.allUniversityCoursesLoading = false;
+        state.allUniversityCoursesError =
+          action.payload || "Failed to fetch all university courses";
       });
   },
 });
 
-export const { clearUniversityCourses } = courseSlice.actions;
+export const { clearUniversityCourses, clearAllUniversityCourses } =
+  courseSlice.actions;
 
 export default courseSlice.reducer;

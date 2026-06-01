@@ -5,58 +5,51 @@ import {
   Palette,
   ShoppingCart,
   BriefcaseBusiness,
+  Check,
+  CheckCheck,
 } from "lucide-react";
 
-import art_img from "../assets/art_img.png";
-import engg_img from "../assets/engg_img.png";
-import mba_img from "../assets/mba_img.png";
-import cse_img from "../assets/cse_img.png";
-import health_img from "../assets/health_img.png";
-import commerce_img from "../assets/commerce_img.png";
+import ButtonPrimary from "../components/ButtonPrimary";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPopularCourses } from "../redux/slices/courseSlice";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 
 const StudyTabContent = () => {
-  const studyData = [
-    {
-      image: art_img,
-      title: "Arts",
-      icon: <Palette size={20} />,
-    },
-    {
-      image: engg_img,
-      title: "Engineering",
-      icon: <Cog size={20} />,
-    },
-    {
-      image: mba_img,
-      title: "Business Administration",
-      icon: <BriefcaseBusiness size={20} />,
-    },
-    {
-      image: cse_img,
-      title: "Computer Science & Information Technology",
-      icon: <Computer size={20} />,
-    },
-    {
-      image: health_img,
-      title: "Health",
-      icon: <HeartPlus size={20} />,
-    },
-    {
-      image: commerce_img,
-      title: "Commerce",
-      icon: <ShoppingCart size={20} />,
-    },
-  ];
+
+  const dispatch = useDispatch();
+
+  const { popularCourses, loading, courseImagePath } = useSelector(
+  (state) => state.courseData
+);
+
+
+
+useEffect(() => {
+  if (!popularCourses?.length && !loading) {
+    dispatch(fetchPopularCourses(0));
+  }
+}, [dispatch, popularCourses.length, loading]);
+
+if (loading) {
+  return (
+    <div className="text-center py-10">
+      Loading courses...
+    </div>
+  );
+}
+
 
   return (
-    <section className="py-4">
+    <section className="">
 
-  {/* reduced overall width */}
+
   <div className="max-w-6xl mx-auto">
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      {studyData.map((item, index) => (
+      {popularCourses.slice(6, 12).map((item, index) => (
 
         <div
           key={index}
@@ -66,11 +59,11 @@ const StudyTabContent = () => {
           {/* image */}
           <div className="relative overflow-visible rounded-t-[22px]">
 
-            <img
-              src={item.image}
-              alt={item.title}
-              className="w-full h-[210px] object-cover rounded-t-[22px] group-hover:scale-105 transition duration-500"
-            />
+          <img
+  src={`${courseImagePath}/${item.icon}`}
+  alt={item.name}
+  className="w-full h-[210px] object-cover rounded-t-[22px]"
+/>
 
             {/* floating icon */}
             <div className="absolute bottom-[-28px] left-1/2 -translate-x-1/2 z-50">
@@ -78,7 +71,7 @@ const StudyTabContent = () => {
               <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center border-[4px] border-white">
 
                 <div className="w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center">
-                  {item.icon}
+                  <CheckCheck size={20} />
                 </div>
 
               </div>
@@ -91,7 +84,7 @@ const StudyTabContent = () => {
           <div className="pt-11 pb-6 px-5 text-center relative z-10">
 
             <h1 className="font-bold text-base text-secondary leading-snug min-h-[55px] flex items-center justify-center">
-              {item.title}
+              {item.name}
             </h1>
 
             {/* divider */}
@@ -119,7 +112,11 @@ const StudyTabContent = () => {
       ))}
 
     </div>
-
+    <Link to="/courseListing">
+      <ButtonPrimary className="my-10 mx-auto">
+        View All Courses
+      </ButtonPrimary>
+    </Link>
   </div>
 
 </section>

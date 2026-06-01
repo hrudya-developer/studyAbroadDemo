@@ -7,6 +7,7 @@
   /* --color-primary: #cb0e10; old red*/
   --color-primary:#cb0e10;
   --color-secondary: #081c47;
+    --color-logoYellow:#f0ea2c;
   --font-ubuntu: "Ubuntu", sans-serif;
     --font-nunito: "Nunito", sans-serif;
 
@@ -19,6 +20,7 @@
 
   --color-primary: #cb0e10;
   --color-secondary: #081c47;
+  --color-logoYellow:#f0ea2c;
  
 }
 body{

@@ -29,6 +29,7 @@ import AllUniversities from "./pages/AllUniversities";
 import CountryDetails from "./pages/CountryDetails";
 import UniversityDetails from "./pages/UniversityDetails";
 import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
+import CourseListing from "./pages/CourseListing";
 
 
 
@@ -59,6 +60,12 @@ function Layout() {
         <Route path="/universityDetails/:id" element={<UniversityDetails />} /> 
       
         <Route path="/courseDetailsOfUniv/:id" element={<CourseDetailsOfUniv />} />
+
+        <Route path="/courseListing" element={<CourseListing />} />
+
+
+
+
 
         <Route path="/student" element={<StudentLayout />}>
           <Route index element={<StudentDashboard />} />
