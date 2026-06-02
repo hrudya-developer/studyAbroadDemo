@@ -2,6 +2,20 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const API_KEY = "overseas@Miak2023";
 
+const parseApiResponse = async (response) => {
+  const text = await response.text();
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(
+      response.status === 429
+        ? "Too many requests. Please wait and try again."
+        : `API error: ${response.status}`
+    );
+  }
+};
+
 export const fetchPopularCourses = createAsyncThunk(
   "courseData/fetchPopularCourses",
   async (uid, { rejectWithValue }) => {
@@ -11,18 +25,11 @@ export const fetchPopularCourses = createAsyncThunk(
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ api: API_KEY, uid }),
+          body: JSON.stringify({ api: API_KEY, uid: uid ?? 0 }),
         }
       );
 
-      const result = await response.json();
-
-      const courseImagePath =
-        result?.maincourse_image_path ||
-        result?.course_image_path ||
-        result?.courses_image_path ||
-        result?.image_path ||
-        "";
+      const result = await parseApiResponse(response);
 
       const popularCourses = Array.isArray(result?.maincourse)
         ? result.maincourse
@@ -32,7 +39,48 @@ export const fetchPopularCourses = createAsyncThunk(
         ? result.data
         : [];
 
-      return { popularCourses, courseImagePath };
+      return {
+        popularCourses,
+        courseImagePath:
+          result?.maincourse_image_path ||
+          result?.course_image_path ||
+          result?.courses_image_path ||
+          result?.image_path ||
+          "",
+        raw: result,
+      };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const fetchUniversityMainCourses = createAsyncThunk(
+  "courseData/fetchUniversityMainCourses",
+  async (universityId, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("api", API_KEY);
+      formData.append("u_id", String(universityId));
+      formData.append("uid", "0");
+
+      const response = await fetch(
+        "https://overseas.technocitysolutions.com/public/api/getCoursebyMainUniversity",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const result = await parseApiResponse(response);
+
+      return {
+        universityMainCourses: Array.isArray(result?.main_courses)
+          ? result.main_courses
+          : [],
+        courseImagePath: result?.maincourse_image_path || "",
+        raw: result,
+      };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -41,32 +89,60 @@ export const fetchPopularCourses = createAsyncThunk(
 
 export const fetchUniversityCourses = createAsyncThunk(
   "courseData/fetchUniversityCourses",
-  async ({ uid = 0, universityId, countryId, offset = 0 }, { rejectWithValue }) => {
+  async (
+    { uid, universityId, courseIds = [], courseId, offset = 0 },
+    { rejectWithValue }
+  ) => {
     try {
-      const formData = new FormData();
+      const ids = courseIds.length ? courseIds : courseId ? [courseId] : [];
 
-      formData.append("api", API_KEY);
-      formData.append("uid", uid);
-      formData.append("u_id", universityId);
-      formData.append("c_id", countryId);
-      formData.append("offset", offset);
+      let allCourses = [];
+      let raw = null;
+      let courseImagePath = "";
 
-      const response = await fetch(
-        "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      for (const id of ids) {
+        const formData = new FormData();
 
-      const result = await response.json();
+        formData.append("api", API_KEY);
+        formData.append("uid", String(uid ?? 0));
+        formData.append("c_id", String(id));
+        formData.append("u_id", String(universityId));
+        formData.append("offset", String(offset));
+
+        const response = await fetch(
+          "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const result = await parseApiResponse(response);
+        raw = result;
+
+        const courses = Array.isArray(result?.course) ? result.course : [];
+
+        const existingIds = new Set(allCourses.map((item) => String(item.id)));
+        const newCourses = courses.filter(
+          (item) => !existingIds.has(String(item.id))
+        );
+
+        allCourses = [...allCourses, ...newCourses];
+
+        courseImagePath =
+          result?.maincourse_image_path ||
+          result?.course_image_path ||
+          result?.courses_image_path ||
+          result?.image_path ||
+          "";
+      }
 
       return {
         universityId,
-        universityCourses: Array.isArray(result?.course) ? result.course : [],
-        nextOffset: result?.nextoffset ?? null,
-        courseImagePath: result?.maincourse_image_path || "",
-        raw: result,
+        universityCourses: allCourses,
+        nextOffset: null,
+        courseImagePath,
+        raw,
       };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -77,17 +153,17 @@ export const fetchUniversityCourses = createAsyncThunk(
 export const fetchAllUniversityCoursesLatest = createAsyncThunk(
   "courseData/fetchAllUniversityCoursesLatest",
   async (
-    { uid = 0, courseId = "", universityId = "", offset = 0 },
+    { uid, courseId = "", universityId = "", offset = 0 },
     { rejectWithValue }
   ) => {
     try {
       const formData = new FormData();
 
       formData.append("api", API_KEY);
-      formData.append("uid", uid);
-      formData.append("c_id", courseId);
-      formData.append("u_id", universityId);
-      formData.append("offset", offset);
+      formData.append("uid", String(uid ?? 0));
+      formData.append("c_id", String(courseId));
+      formData.append("u_id", String(universityId));
+      formData.append("offset", String(offset));
 
       const response = await fetch(
         "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
@@ -97,11 +173,11 @@ export const fetchAllUniversityCoursesLatest = createAsyncThunk(
         }
       );
 
-      const result = await response.json();
+      const result = await parseApiResponse(response);
 
       return {
         courses: Array.isArray(result?.course) ? result.course : [],
-        nextOffset: result?.nextoffset ?? null,
+        nextOffset: result?.nextoffset || null,
         courseImagePath: result?.maincourse_image_path || "",
         raw: result,
       };
@@ -113,21 +189,25 @@ export const fetchAllUniversityCoursesLatest = createAsyncThunk(
 
 const initialState = {
   popularCourses: [],
+  universityMainCourses: [],
   courseImagePath: "",
 
   universityCourses: [],
   universityCoursesById: {},
   universityCoursesRawData: null,
+  universityCoursesNextOffset: null,
 
   allUniversityCourses: [],
   allUniversityCoursesRawData: null,
   allUniversityCoursesNextOffset: null,
 
   loading: false,
+  universityMainCoursesLoading: false,
   universityCoursesLoading: false,
   allUniversityCoursesLoading: false,
 
   error: null,
+  universityMainCoursesError: null,
   universityCoursesError: null,
   allUniversityCoursesError: null,
 };
@@ -139,8 +219,11 @@ const courseSlice = createSlice({
   reducers: {
     clearUniversityCourses: (state) => {
       state.universityCourses = [];
+      state.universityCoursesById = {};
       state.universityCoursesRawData = null;
+      state.universityCoursesNextOffset = null;
       state.universityCoursesError = null;
+      state.universityCoursesLoading = false;
     },
 
     clearAllUniversityCourses: (state) => {
@@ -158,23 +241,35 @@ const courseSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-
       .addCase(fetchPopularCourses.fulfilled, (state, action) => {
         state.loading = false;
         state.popularCourses = action.payload.popularCourses;
         state.courseImagePath = action.payload.courseImagePath;
       })
-
       .addCase(fetchPopularCourses.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to fetch courses";
+      })
+
+      .addCase(fetchUniversityMainCourses.pending, (state) => {
+        state.universityMainCoursesLoading = true;
+        state.universityMainCoursesError = null;
+      })
+      .addCase(fetchUniversityMainCourses.fulfilled, (state, action) => {
+        state.universityMainCoursesLoading = false;
+        state.universityMainCourses = action.payload.universityMainCourses;
+        state.courseImagePath = action.payload.courseImagePath;
+      })
+      .addCase(fetchUniversityMainCourses.rejected, (state, action) => {
+        state.universityMainCoursesLoading = false;
+        state.universityMainCoursesError =
+          action.payload || "Failed to fetch university main courses";
       })
 
       .addCase(fetchUniversityCourses.pending, (state) => {
         state.universityCoursesLoading = true;
         state.universityCoursesError = null;
       })
-
       .addCase(fetchUniversityCourses.fulfilled, (state, action) => {
         state.universityCoursesLoading = false;
 
@@ -183,10 +278,10 @@ const courseSlice = createSlice({
 
         state.universityCourses = universityCourses;
         state.universityCoursesById[universityId || "all"] = universityCourses;
+        state.universityCoursesNextOffset = null;
         state.courseImagePath = courseImagePath;
         state.universityCoursesRawData = raw;
       })
-
       .addCase(fetchUniversityCourses.rejected, (state, action) => {
         state.universityCoursesLoading = false;
         state.universityCoursesError =
@@ -197,7 +292,6 @@ const courseSlice = createSlice({
         state.allUniversityCoursesLoading = true;
         state.allUniversityCoursesError = null;
       })
-
       .addCase(fetchAllUniversityCoursesLatest.fulfilled, (state, action) => {
         state.allUniversityCoursesLoading = false;
 
@@ -212,7 +306,6 @@ const courseSlice = createSlice({
         state.courseImagePath = action.payload.courseImagePath;
         state.allUniversityCoursesRawData = action.payload.raw;
       })
-
       .addCase(fetchAllUniversityCoursesLatest.rejected, (state, action) => {
         state.allUniversityCoursesLoading = false;
         state.allUniversityCoursesError =

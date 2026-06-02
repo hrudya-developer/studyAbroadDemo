@@ -432,7 +432,7 @@ const handleTabChange = (tab) => {
 
 {activeTab === "courses" && (
   <section className="px-4 py-6 sm:px-8 lg:px-14">
-    <CoursesOfUniv />
+    <CoursesOfUniv courseCategoryId={selectedCourses?.[0]?.c_id} />
   </section>
 )}
     </main>

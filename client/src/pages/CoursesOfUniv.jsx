@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BookOpen,
@@ -7,76 +7,95 @@ import {
   Clock,
   Wallet,
   Globe,
-  CalendarDays,
-  FileText,
-  ClipboardCheck,
-  Languages,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-import { fetchUniversityCourses } from "../redux/slices/courseSlice";
 import { Link } from "react-router-dom";
+import {
+  fetchUniversityCourses,
+  fetchUniversityMainCourses,
+  clearUniversityCourses,
+} from "../redux/slices/courseSlice";
+import UniversityMainCourses from "./universityMainCourses";
 
-const CoursesOfUniv = () => {
+const CARDS_PER_PAGE = 10;
+
+const CoursesOfUniv = ({ courseCategoryId }) => {
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMainCourseId, setSelectedMainCourseId] = useState(
+    courseCategoryId || ""
+  );
+
   const { uid } = useSelector((state) => state.auth);
-  const safeUid = uid ?? 0;
+  const safeUid = uid || 0;
 
   const { selectedUniversity } = useSelector((state) => state.universityData);
 
   const {
-    universityCourses,
+    universityCourses = [],
     universityCoursesLoading,
     universityCoursesError,
   } = useSelector((state) => state.courseData);
 
   useEffect(() => {
-    if (selectedUniversity?.id && selectedUniversity?.d_id) {
-      dispatch(
-        fetchUniversityCourses({
-          uid: safeUid,
-          universityId: selectedUniversity.id,
-          countryId: selectedUniversity.d_id,
-          offset: 0,
-        })
-      );
+    if (!selectedUniversity?.id) return;
+
+    dispatch(fetchUniversityMainCourses(selectedUniversity.id));
+  }, [dispatch, selectedUniversity?.id]);
+
+  useEffect(() => {
+    if (courseCategoryId) {
+      setSelectedMainCourseId(courseCategoryId);
     }
-  }, [dispatch, safeUid, selectedUniversity?.id, selectedUniversity?.d_id]);
+  }, [courseCategoryId]);
+
+  useEffect(() => {
+    if (!selectedUniversity?.id || !selectedMainCourseId) return;
+
+    setCurrentPage(1);
+    dispatch(clearUniversityCourses());
+
+    dispatch(
+      fetchUniversityCourses({
+        uid: safeUid,
+        universityId: selectedUniversity.id,
+        courseId: selectedMainCourseId,
+        offset: 0,
+      })
+    );
+  }, [dispatch, safeUid, selectedUniversity?.id, selectedMainCourseId]);
+
+  const totalPages = Math.ceil(universityCourses.length / CARDS_PER_PAGE);
+
+  const currentCourses = useMemo(() => {
+    const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
+    return universityCourses.slice(startIndex, startIndex + CARDS_PER_PAGE);
+  }, [universityCourses, currentPage]);
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
 
   const getCourseName = (course) => {
     if (course?.course && course.course.toLowerCase() !== "course") {
       return course.course;
     }
 
-    return (
-      course?.name ||
-      course?.course_name ||
-      course?.title ||
-      course?.level ||
-      course?.university ||
-      "Course"
-    );
+    return course?.name || course?.course_name || course?.title || "Course";
   };
-
-  const getUniversityName = (course) =>
-    course?.university || selectedUniversity?.name || "University";
-
-  const getLevel = (course) => course?.level || "Level not available";
-
-  const getDuration = (course) => course?.duration || "Duration not available";
 
   const getFees = (course) => {
-    if (course?.fees && course?.currency) return `${course.currency} ${course.fees}`;
+    if (course?.fees && course?.currency) {
+      return `${course.currency} ${course.fees}`;
+    }
+
     if (course?.fees) return course.fees;
+
     return "Fees not available";
   };
-
-  const getIntakes = (course) => course?.intakes || "Intakes not available";
-
-  const getEntryRequirement = (course) =>
-    course?.entryrequirement || "Entry requirement not available";
-
-  const getApplicationFee = (course) =>
-    course?.applicationfee || "Application fee not available";
 
   if (!selectedUniversity?.id) {
     return (
@@ -86,30 +105,14 @@ const CoursesOfUniv = () => {
     );
   }
 
-  if (universityCoursesLoading) {
-    return (
-      <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
-        <p className="font-bold text-[#081c47]">Loading courses...</p>
-      </div>
-    );
-  }
-
-  if (universityCoursesError) {
-    return (
-      <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
-        <p className="font-bold text-[#cb0e10]">{universityCoursesError}</p>
-      </div>
-    );
-  }
-
   return (
     <section>
       <div className="mb-6">
-        <p className="mb-2 text-sm font-black uppercase text-[#cb0e10]">
+        <p className="my-5 mt-10 text-sm font-black uppercase text-primary">
           Available Courses
         </p>
 
-        <h2 className="text-3xl font-black text-[#081c47] sm:text-4xl">
+        <h2 className="mb-10 text-3xl font-black text-[#081c47] sm:text-4xl">
           Courses at{" "}
           <span className="text-[#cb0e10]">
             {selectedUniversity?.name || "University"}
@@ -117,84 +120,150 @@ const CoursesOfUniv = () => {
         </h2>
       </div>
 
-      {universityCourses?.length > 0 ? (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {universityCourses.map((course, index) => (
-            <article
-              key={`${course?.id || "course"}-${index}`}
-              className="group rounded-3xl border border-[#e6eaf2] bg-white p-6 shadow-xl shadow-slate-900/5 transition hover:-translate-y-1 hover:shadow-2xl"
-            >
-              <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#081c47] text-white ring-4 ring-[#cb0e10]/10">
-                <BookOpen className="h-8 w-8" />
-              </div>
+      <div className="mx-auto my-3 max-w-7xl">
+        <UniversityMainCourses
+          selectedMainCourseId={selectedMainCourseId}
+          onSelectMainCourse={setSelectedMainCourseId}
+        />
+      </div>
 
-              <h3 className="mb-4 text-xl font-black leading-snug text-[#081c47]">
-                {getCourseName(course)}
-              </h3>
-
-              <div className="space-y-3">
-                <InfoLine icon={Globe} label="University" value={getUniversityName(course)} />
-                <InfoLine icon={GraduationCap} label="Level" value={getLevel(course)} />
-                <InfoLine icon={Clock} label="Duration" value={getDuration(course)} />
-                <InfoLine icon={Wallet} label="Fees" value={getFees(course)} />
-                <InfoLine icon={CalendarDays} label="Intakes" value={getIntakes(course)} />
-                <InfoLine icon={FileText} label="Entry Requirement" value={getEntryRequirement(course)} />
-                <InfoLine icon={Wallet} label="Application Fee" value={getApplicationFee(course)} />
-                <InfoLine icon={Languages} label="IELTS" value={course?.ielts || "N/A"} />
-                <InfoLine icon={ClipboardCheck} label="Deadline" value={course?.deadline || "N/A"} />
-              </div>
-
-<Link
-  to={`/courseDetailsOfUniv/${course.id}`}
-  state={{
-    course,
-    universityId: selectedUniversity?.id,
-    countryId: selectedUniversity?.d_id,
-  }}
-  onClick={() => {
-    sessionStorage.setItem(
-      "selectedCourse",
-      JSON.stringify(course)
-    );
-
- if (selectedUniversity) {
-  sessionStorage.setItem(
-    "selectedUniversity",
-    JSON.stringify(selectedUniversity)
-  );
-}
-
-    sessionStorage.setItem(
-      "universityId",
-      selectedUniversity?.id
-    );
-
-    sessionStorage.setItem(
-      "countryId",
-      selectedUniversity?.d_id
-    );
-  }}
->
-  <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-5 py-3 font-extrabold text-[#cb0e10] transition hover:bg-[#cb0e10] hover:text-white">
-    View Course
-    <ArrowRight className="h-5 w-5" />
-  </button>
-</Link>
-
-            </article>
-          ))}
+      {universityCoursesLoading && universityCourses.length === 0 ? (
+        <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
+          <p className="font-bold text-[#081c47]">Loading courses...</p>
         </div>
+      ) : universityCoursesError ? (
+        <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
+          <p className="font-bold text-[#cb0e10]">{universityCoursesError}</p>
+        </div>
+      ) : currentCourses.length > 0 ? (
+        <>
+          <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+            {currentCourses.map((course, index) => (
+              <article
+                key={`${course?.id || "course"}-${index}`}
+                className="group rounded-3xl border border-[#e6eaf2] bg-white p-6 shadow-xl shadow-slate-900/5 transition hover:-translate-y-1 hover:shadow-2xl"
+              >
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white ring-4 ring-[#cb0e10]/10">
+                  <BookOpen className="h-6 w-6" />
+                </div>
+
+                <h3 className="mb-4 text-md font-black leading-snug text-[#081c47]">
+                  {getCourseName(course)}
+                </h3>
+
+                <div className="space-y-1">
+                  <InfoLine
+                    icon={Globe}
+                    label="University"
+                    value={
+                      course?.university ||
+                      selectedUniversity?.name ||
+                      "University"
+                    }
+                  />
+
+                  <InfoLine
+                    icon={GraduationCap}
+                    label="Level"
+                    value={course?.level || "Level not available"}
+                  />
+
+                  <InfoLine
+                    icon={Clock}
+                    label="Duration"
+                    value={course?.duration || "Duration not available"}
+                  />
+
+                  <InfoLine icon={Wallet} label="Fees" value={getFees(course)} />
+                </div>
+
+                <Link
+                  to={`/courseDetailsOfUniv/${course.id}`}
+                  state={{
+                    course,
+                    universityId: selectedUniversity?.id,
+                    countryId: selectedUniversity?.d_id,
+                  }}
+                  onClick={() => {
+                    sessionStorage.setItem(
+                      "selectedCourse",
+                      JSON.stringify(course)
+                    );
+                    sessionStorage.setItem(
+                      "selectedUniversity",
+                      JSON.stringify(selectedUniversity)
+                    );
+                    sessionStorage.setItem(
+                      "universityId",
+                      selectedUniversity?.id
+                    );
+                    sessionStorage.setItem(
+                      "countryId",
+                      selectedUniversity?.d_id || ""
+                    );
+                  }}
+                >
+                  <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-5 py-3 font-extrabold text-[#cb0e10] transition hover:bg-[#cb0e10] hover:text-white">
+                    View Course
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
+              </article>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1 || universityCoursesLoading}
+                className="flex items-center gap-1 rounded-xl border border-[#e6eaf2] bg-white px-4 py-2 font-extrabold text-[#081c47] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Prev
+              </button>
+
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => handlePageChange(page)}
+                    disabled={universityCoursesLoading}
+                    className={`h-10 w-10 rounded-xl font-extrabold transition ${
+                      currentPage === page
+                        ? "bg-[#cb0e10] text-white"
+                        : "border border-[#e6eaf2] bg-white text-[#081c47] hover:bg-[#f7f9fd]"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={
+                  currentPage === totalPages || universityCoursesLoading
+                }
+                className="flex items-center gap-1 rounded-xl border border-[#e6eaf2] bg-white px-4 py-2 font-extrabold text-[#081c47] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Next
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
           <BookOpen className="mx-auto mb-4 h-14 w-14 text-[#cb0e10]" />
-
           <h3 className="mb-2 text-2xl font-black text-[#081c47]">
-            No courses found
+            {selectedMainCourseId
+              ? "No courses found"
+              : "Please select a main course"}
           </h3>
-
-          <p className="text-sm font-medium text-slate-500">
-            Courses are not available for this university right now.
-          </p>
         </div>
       )}
     </section>

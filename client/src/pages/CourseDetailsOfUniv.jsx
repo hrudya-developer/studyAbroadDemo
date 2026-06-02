@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUniversityCourses } from "../redux/slices/courseSlice";
 import { fetchUniversityDetails } from "../redux/slices/universitySlice";
-import bg_coursesDetails from "../assets/bg_coursesDetails.png"
+import bg_coursesDetails from "../assets/bg_coursesDetails.png";
 import {
   GraduationCap,
   Clock,
@@ -19,23 +19,16 @@ import {
   RotateCcw,
 } from "lucide-react";
 
-
-
 export default function CourseDetailsOfUniv() {
-
-const { selectedUniversity, universityImagePath } = useSelector(
-  (state) => state.universityData
-);
-
-const storedUniversity = sessionStorage.getItem("selectedUniversity")
-  ? JSON.parse(sessionStorage.getItem("selectedUniversity"))
-  : null;
-
-const university = selectedUniversity || storedUniversity;
-
   const { id } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
+
+  const { uid } = useSelector((state) => state.auth);
+
+  const { selectedUniversity, universityImagePath } = useSelector(
+    (state) => state.universityData
+  );
 
   const {
     universityCourses = [],
@@ -44,58 +37,77 @@ const university = selectedUniversity || storedUniversity;
     universityCoursesLoading,
   } = useSelector((state) => state.courseData);
 
-  const { uid } = useSelector((state) => state.auth);
+  const storedCourse = useMemo(() => {
+    try {
+      const data = sessionStorage.getItem("selectedCourse");
+      return data ? JSON.parse(data) : null;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const storedUniversity = useMemo(() => {
+    try {
+      const data = sessionStorage.getItem("selectedUniversity");
+      return data ? JSON.parse(data) : null;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const university = selectedUniversity || storedUniversity;
+  const stateCourse = location.state?.course || null;
 
   const universityId =
     location.state?.universityId ||
-    location.state?.u_id ||
-    localStorage.getItem("universityId");
+    stateCourse?.u_id ||
+    storedCourse?.u_id ||
+    sessionStorage.getItem("universityId");
 
-  const countryId =
-    location.state?.countryId ||
-    location.state?.c_id ||
-    localStorage.getItem("countryId");
+  const courseCategoryId = stateCourse?.c_id || storedCourse?.c_id || "";
 
   useEffect(() => {
-    if (universityId && countryId) {
-      dispatch(
-        fetchUniversityCourses({
-          uid: uid || 0,
-          universityId,
-          countryId,
-          offset: 0,
-        })
-      );
-    }
-  }, [dispatch, uid, universityId, countryId]);
+    if (!universityId || !courseCategoryId) return;
+
+    dispatch(
+      fetchUniversityCourses({
+        uid: uid ?? 0,
+        universityId,
+        courseId: courseCategoryId,
+        offset: 0,
+      })
+    );
+  }, [dispatch, uid, universityId, courseCategoryId]);
 
   useEffect(() => {
-  if (universityId) {
+    if (!universityId) return;
+
     dispatch(
       fetchUniversityDetails({
-        uid: uid || 0,
+        uid: uid ?? 0,
         id: universityId,
       })
     );
-  }
-}, [dispatch, uid, universityId]);
+  }, [dispatch, uid, universityId]);
 
-const allCourses = useMemo(() => {
-  return universityCoursesById?.[universityId] || universityCourses || [];
-}, [universityCourses, universityCoursesById, universityId]);
+  const allCourses = useMemo(() => {
+    return universityCoursesById?.[universityId] || universityCourses || [];
+  }, [universityCourses, universityCoursesById, universityId]);
 
-const selectedCourse = useMemo(() => {
-  if (!allCourses?.length) return null;
+  const selectedCourse = useMemo(() => {
+    if (stateCourse && String(stateCourse.id) === String(id)) return stateCourse;
+    if (storedCourse && String(storedCourse.id) === String(id)) return storedCourse;
 
-  return allCourses.find(
-    (course) =>
-      String(course.id) === String(id) ||
-      String(course.course_id) === String(id) ||
-      String(course.c_id) === String(id)
-  );
-}, [allCourses, id]);
+    return allCourses.find((course) => String(course.id) === String(id)) || null;
+  }, [allCourses, id, stateCourse, storedCourse]);
 
-  if (universityCoursesLoading) {
+  const getValue = (...values) =>
+    values.find(
+      (value) =>
+        value !== undefined && value !== null && String(value).trim() !== ""
+    ) || "";
+
+  if (universityCoursesLoading && !selectedCourse) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <p className="text-lg font-bold text-slate-700">Loading course...</p>
@@ -116,28 +128,6 @@ const selectedCourse = useMemo(() => {
     );
   }
 
-  const getValue = (...values) =>
-    values.find(
-      (value) => value !== undefined && value !== null && String(value).trim() !== ""
-    ) || "";
-
-  const cleanPath = courseImagePath ? courseImagePath.replace(/\/$/, "") : "";
-
-  const imageName = getValue(
-    selectedCourse.icon,
-    selectedCourse.image,
-    selectedCourse.course_image,
-    selectedCourse.maincourse_image,
-    selectedCourse.logo
-  );
-
-  const courseIconUrl =
-    imageName && cleanPath
-      ? imageName.startsWith("http")
-        ? imageName
-        : `${cleanPath}/${imageName}`
-      : "";
-
   const courseTitle = getValue(
     selectedCourse.course,
     selectedCourse.name,
@@ -150,15 +140,16 @@ const selectedCourse = useMemo(() => {
     selectedCourse.university,
     selectedCourse.university_name,
     selectedCourse.u_name,
+    university?.name,
     "University"
   );
 
-const universityLogoUrl =
-  university?.logo && universityImagePath
-    ? `${universityImagePath.replace(/\/$/, "")}/${university.logo}`
-    : selectedCourse?.logo && universityImagePath
-    ? `${universityImagePath.replace(/\/$/, "")}/${selectedCourse.logo}`
-    : "";
+  const universityLogoUrl =
+    university?.logo && universityImagePath
+      ? `${universityImagePath.replace(/\/$/, "")}/${university.logo}`
+      : selectedCourse?.logo && universityImagePath
+      ? `${universityImagePath.replace(/\/$/, "")}/${selectedCourse.logo}`
+      : "";
 
   const country = getValue(selectedCourse.country, selectedCourse.country_name, "N/A");
 
@@ -171,12 +162,7 @@ const universityLogoUrl =
   );
 
   const level = getValue(selectedCourse.level, selectedCourse.course_level, "N/A");
-
-  const duration = getValue(
-    selectedCourse.duration,
-    selectedCourse.course_duration,
-    "N/A"
-  );
+  const duration = getValue(selectedCourse.duration, selectedCourse.course_duration, "N/A");
 
   const remarks = getValue(
     selectedCourse.remarks,
@@ -195,7 +181,6 @@ const universityLogoUrl =
 
   const feesValue = getValue(selectedCourse.fees, selectedCourse.tuition_fee);
   const currency = getValue(selectedCourse.currency, selectedCourse.currency_symbol);
-
   const fees = feesValue ? `${currency}${feesValue}` : "Not available";
 
   const applicationFee = getValue(
@@ -204,21 +189,12 @@ const universityLogoUrl =
     "N/A"
   );
 
-  if (!allCourses?.length && !universityCoursesLoading) {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <p className="text-lg font-bold text-slate-700">
-        Loading course data...
-      </p>
-    </div>
-  );
-}
-
   return (
     <main className="mx-auto min-h-screen max-w-7xl bg-white text-slate-900">
       <section
-        className="relative min-h-[430px] overflow-hidden bg-cover bg-center" style={{backgroundImage:`url(${bg_coursesDetails})`}}
-             >
+        className="relative min-h-[430px] overflow-hidden bg-cover bg-center"
+        style={{ backgroundImage: `url(${bg_coursesDetails})` }}
+      >
         <div className="p-8 lg:p-12">
           <div className="inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-white shadow">
             <GraduationCap size={24} />
@@ -231,38 +207,36 @@ const universityLogoUrl =
             </h1>
 
             <p className="mt-4 text-2xl font-bold text-primary">{level}</p>
-
             <div className="mt-4 h-1 w-16 rounded bg-primary" />
-
             <p className="mt-5 text-md leading-8 text-black">{remarks}</p>
           </div>
 
           <div className="mt-8 w-fit min-w-[220px] rounded-2xl bg-white px-8 py-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
-  {universityLogoUrl ? (
-    <img
-      src={universityLogoUrl}
-      alt={universityName}
-      className="mx-auto h-24 w-24 object-contain"
-      onError={(e) => {
-        e.currentTarget.style.display = "none";
-        const fallback =
-          e.currentTarget.parentElement.querySelector(".image-fallback");
-        if (fallback) fallback.style.display = "flex";
-      }}
-    />
-  ) : null}
+            {universityLogoUrl ? (
+              <img
+                src={universityLogoUrl}
+                alt={universityName}
+                className="mx-auto h-24 w-24 object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  const fallback =
+                    e.currentTarget.parentElement.querySelector(".image-fallback");
+                  if (fallback) fallback.style.display = "flex";
+                }}
+              />
+            ) : null}
 
-  <div
-    className="image-fallback mx-auto h-24 w-24 items-center justify-center rounded-full bg-red-50 text-primary"
-    style={{ display: universityLogoUrl ? "none" : "flex" }}
-  >
-    <GraduationCap size={40} />
-  </div>
+            <div
+              className="image-fallback mx-auto h-24 w-24 items-center justify-center rounded-full bg-red-50 text-primary"
+              style={{ display: universityLogoUrl ? "none" : "flex" }}
+            >
+              <GraduationCap size={40} />
+            </div>
 
-  <p className="mt-4 text-center text-md text-secondary font-extrabold">
-    {universityName}
-  </p>
-</div>
+            <p className="mt-4 text-center text-md text-secondary font-extrabold">
+              {universityName}
+            </p>
+          </div>
 
           <div className="mt-8 flex w-fit items-center gap-3 rounded-xl bg-[#071b45] px-7 py-4 text-white shadow-lg lg:absolute lg:bottom-6 lg:right-10 lg:mt-0">
             <MapPin className="text-red-500" />
@@ -275,81 +249,65 @@ const universityLogoUrl =
         <div className="grid grid-cols-1 divide-y divide-slate-200 md:grid-cols-3 md:divide-x md:divide-y-0">
           <InfoCard icon={<Clock />} title="Duration" value={duration} />
           <InfoCard icon={<BarChart3 />} title="Level" value={level} />
-          <InfoCard
-            icon={<CalendarDays />}
-            title="Intakes"
-            value={intakes}
-            sub={intakesRaw}
-          />
+          <InfoCard icon={<CalendarDays />} title="Intakes" value={intakes} sub={intakesRaw} />
         </div>
       </section>
 
-    <section className="space-y-6 px-4 py-6 lg:p-12">
-  {/* Top Info Blocks */}
-  <div className="">
-    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <SmallBlock
-        icon={<GraduationCap />}
-        title="Entry Requirement"
-        text={getValue(
-          selectedCourse.entryrequirement,
-          selectedCourse.entry_requirement,
-          "Not available"
-        )}
-      />
+      <section className="space-y-6 px-4 py-6 lg:p-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <SmallBlock
+            icon={<GraduationCap />}
+            title="Entry Requirement"
+            text={getValue(
+              selectedCourse.entryrequirement,
+              selectedCourse.entry_requirement,
+              "Not available"
+            )}
+          />
 
-      <SmallBlock
-        icon={<MessageCircle />}
-        title="Remarks"
-        text={remarks}
-      />
+          <SmallBlock icon={<MessageCircle />} title="Remarks" text={remarks} />
 
-      <SmallBlock
-        icon={<CalendarDays />}
-        title="Deadline"
-        text={getValue(selectedCourse.deadline, "N/A")}
-        highlight
-      />
-    </div>
-  </div>
+          <SmallBlock
+            icon={<CalendarDays />}
+            title="Deadline"
+            text={getValue(selectedCourse.deadline, "N/A")}
+            highlight
+          />
+        </div>
 
-  {/* Fees Card */}
-  <div className="rounded-2xl bg-red-50 p-8 shadow-sm">
-    <div className="flex items-center gap-4">
-      <IconBubble>
-        <Wallet />
-      </IconBubble>
+        <div className="rounded-2xl bg-red-50 p-8 shadow-sm">
+          <div className="flex items-center gap-4">
+            <IconBubble>
+              <Wallet />
+            </IconBubble>
+            <p className="text-sm font-bold uppercase text-[#071b45]">Fees</p>
+          </div>
 
-      <p className="text-sm font-bold uppercase text-[#071b45]">
-        Fees
-      </p>
-    </div>
+          <h2 className="mt-6 text-4xl font-extrabold text-secondary lg:text-5xl">
+            {fees}
+          </h2>
 
-    <h2 className="mt-6 text-4xl font-extrabold text-secondary lg:text-5xl">
-      {fees}
-    </h2>
+          <p className="mt-4 text-sm font-semibold text-black">
+            APPLICATION FEE:{" "}
+            <span className="font-extrabold text-primary text-2xl ms-2">
+              {applicationFee}
+            </span>
+          </p>
+        </div>
 
-    <p className="mt-4 text-sm font-semibold text-black">
-      APPLICATION FEE:{" "}
-      <span className="font-extrabold text-primary text-2xl ms-2">{applicationFee}</span>
-    </p>
-  </div>
+        <div className="grid grid-cols-1 gap-4 rounded-2xl bg-gray-50 p-5 shadow-sm sm:grid-cols-2 md:grid-cols-4">
+          <MiniInfo
+            icon={<Briefcase />}
+            title="Field of Study"
+            text={getValue(selectedCourse.name, selectedCourse.field, courseTitle)}
+          />
 
-  {/* Mini Info Grid */}
-  <div className="grid grid-cols-1 gap-4 rounded-2xl  bg-gray-50 p-5 shadow-sm sm:grid-cols-2 md:grid-cols-4">
-    <MiniInfo
-      icon={<Briefcase />}
-      title="Field of Study"
-      text={getValue(selectedCourse.name, selectedCourse.field, courseTitle)}
-    />
+          <MiniInfo icon={<Globe />} title="Country" text={country} />
+          <MiniInfo icon={<Award />} title="University" text={universityName} />
+          <MiniInfo icon={<MapPin />} title="Location" text={locationName} />
+        </div>
+      </section>
 
-    <MiniInfo icon={<Globe />} title="Country" text={country} />
-
-    <MiniInfo icon={<Award />} title="University" text={universityName} />
-
-    <MiniInfo icon={<MapPin />} title="Location" text={locationName} />
-  </div>
-</section>
       <section className="px-12 py-5">
         <div className="shadow-sm lg:col-span-5">
           <h3 className="font-extrabold uppercase text-primary text-center">
@@ -383,9 +341,7 @@ const universityLogoUrl =
 
                 <tr className="border-t">
                   <td className="p-4 text-left">Less than Minimum</td>
-                  <td className="font-bold">
-                    {getValue(selectedCourse.ieltsless, "-")}
-                  </td>
+                  <td className="font-bold">{getValue(selectedCourse.ieltsless, "-")}</td>
                   <td>{getValue(selectedCourse.toeflless, "-")}</td>
                   <td>{getValue(selectedCourse.pteless, "-")}</td>
                   <td>-</td>
@@ -405,21 +361,9 @@ const universityLogoUrl =
             title="Global Learning"
             text={country !== "N/A" ? `Study in ${country}` : "Study globally"}
           />
-          <Benefit
-            icon={<RotateCcw />}
-            title="Flexible Intake"
-            text={intakes}
-          />
-          <Benefit
-            icon={<Award />}
-            title="Recognized University"
-            text={universityName}
-          />
-          <Benefit
-            icon={<Headphones />}
-            title="Student Support"
-            text="Guidance at every step"
-          />
+          <Benefit icon={<RotateCcw />} title="Flexible Intake" text={intakes} />
+          <Benefit icon={<Award />} title="Recognized University" text={universityName} />
+          <Benefit icon={<Headphones />} title="Student Support" text="Guidance at every step" />
         </div>
       </section>
     </main>
@@ -439,9 +383,7 @@ function InfoCard({ icon, title, value, sub }) {
     <div className="flex items-center gap-5 p-7">
       <IconBubble>{icon}</IconBubble>
       <div>
-        <p className="text-sm font-semibold uppercase text-slate-500">
-          {title}
-        </p>
+        <p className="text-sm font-semibold uppercase text-slate-500">{title}</p>
         <p className="mt-1 text-lg font-bold text-[#071b45]">{value}</p>
         {sub && <p className="text-sm text-slate-500">{sub}</p>}
       </div>
@@ -451,16 +393,16 @@ function InfoCard({ icon, title, value, sub }) {
 
 function SmallBlock({ icon, title, text, highlight }) {
   return (
-    <div className=" bg-secondary text-white p-5 rounded-2xl">
+    <div className="bg-secondary text-white p-5 rounded-2xl">
       <div className="flex flex-col gap-4 justify-center text-center">
-        <span className="mx-auto text-white"><IconBubble>{icon}</IconBubble></span>
+        <span className="mx-auto text-white">
+          <IconBubble>{icon}</IconBubble>
+        </span>
         <div>
           <h4 className="font-extrabold uppercase text-white my-5">{title}</h4>
           <p
             className={`mt-2 leading-relaxed ${
-              highlight
-                ? "text-lg font-bold text-primary"
-                : "text-sm text-white"
+              highlight ? "text-lg font-bold text-primary" : "text-sm text-white"
             }`}
           >
             {text}
