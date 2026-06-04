@@ -10,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCountries } from "../redux/slices/countrySlice";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 
 const features = [
@@ -94,24 +95,28 @@ if (loading) {
 
         {/* Destination Cards */}
         <div className="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {countries.slice(0,12).map((item, index) => (
-            <button
-              key={index}
-              className="group flex items-center justify-between rounded-2xl border border-red-100 bg-white px-5 py-4 shadow-[0_8px_25px_rgba(220,0,0,0.08)] transition hover:-translate-y-1 hover:border-red-300 hover:shadow-[0_12px_30px_rgba(220,0,0,0.16)]"
-            >
-              <div className="flex items-center gap-4">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
-                  <MapPin className="h-6 w-6 fill-red-600 text-white" />
-                </span>
+      {countries.slice(0, 12).map((item) => (
+  <Link
+    key={item.id}
+    to={`/destination/${item.id}`}
+    state={{ country: item }}
+    className="group flex items-center justify-between rounded-2xl border border-red-100 bg-white px-5 py-4 shadow-[0_8px_25px_rgba(220,0,0,0.08)] transition hover:-translate-y-1 hover:border-red-300 hover:shadow-[0_12px_30px_rgba(220,0,0,0.16)]"
+  >
+    <div className="flex items-center gap-4">
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+        <MapPin className="h-6 w-6 fill-red-600 text-white" />
+      </span>
 
-                <span className="font-semibold text-secondary">{item.country}</span>
-              </div>
+      <span className="font-semibold text-secondary">
+        {item.country}
+      </span>
+    </div>
 
-              <div className="h-8 w-px bg-red-100" />
+    <div className="h-8 w-px bg-red-100" />
 
-              <ChevronRight className="h-6 w-6 text-red-600 transition group-hover:translate-x-1" />
-            </button>
-          ))}
+    <ChevronRight className="h-6 w-6 text-red-600 transition group-hover:translate-x-1" />
+  </Link>
+))}
         </div>
 
         {/* Feature Box */}

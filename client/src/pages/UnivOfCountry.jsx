@@ -60,7 +60,7 @@ const UnivOfCountry = () => {
                 )}
 
                 <div className="p-5">
-                  <h3 className="font-bold text-lg text-secondary">
+                  <h3 className="font-bold text-md text-secondary">
                     {item?.university || item?.name}
                   </h3>
 

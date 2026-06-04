@@ -251,7 +251,7 @@ const CountryDetails = () => {
       </section>
 
       <section className="max-w-7xl mx-auto px-6 py-10">
-        <h1 className="text-4xl font-extrabold px-6 pb-4">Universities of <span className="text-primary">{country?.country}</span></h1>
+        <h1 className="text-4xl font-extrabold px-6 pb-6">Universities of <span className="text-primary">{country?.country}</span></h1>
         <div className="max-h-150 overflow-y-scroll"><UnivOfCountry />
         </div>
       </section>

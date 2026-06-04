@@ -34,6 +34,7 @@ import AllTestimonials from "./layout/AllTestimonials";
 
 
 
+
 function Layout() {
   const location = useLocation();
 
@@ -54,6 +55,13 @@ function Layout() {
 
         {/* ✅ FIXED: OUTSIDE student */}
         <Route path="/destination/:id" element={<CountryDetails />} />
+
+      
+
+      
+
+
+
       <Route
   path="/allUniversities/:countryId?"
   element={<AllUniversities />}

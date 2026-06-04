@@ -174,7 +174,7 @@ const imageBaseUrl =
           </div>
         )}
 
-        <div className="mt-12 flex justify-center">
+        
        <div className="mt-12 flex justify-center">
   <Link to="/testimonials">
     <ButtonPrimary className="w-auto px-6">
@@ -183,7 +183,7 @@ const imageBaseUrl =
     </ButtonPrimary>
   </Link>
 </div>
-        </div>
+        
       </div>
     </section>
   );
