@@ -274,7 +274,7 @@ const Carousel = () => {
                       </ButtonPrimary>
 
                       <ButtonSecondary className="hover:-translate-y-1 cursor-pointer transition ease-in-out">
-                        Get Started
+                        <a href="#ep_section" className="w-full h-full">Get Started</a>
                       </ButtonSecondary>
 
                     </div>

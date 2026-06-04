@@ -26,11 +26,7 @@ import {
 const API_KEY = "overseas@Miak2023";
 const uid = 0;
 const ITEMS_PER_PAGE = 5;
-const DEFAULT_COUNTRY_NAME = "Germany";
-const DEFAULT_UNIVERSITY_INDEX = 0;
-
-const normalize = (value) => String(value ?? "").trim().toLowerCase();
-const sameText = (a, b) => normalize(a) === normalize(b);
+const MAX_AUTO_FETCH_PAGES = 50;
 
 const getValue = (item, keys) => {
   if (!item) return "";
@@ -80,6 +76,9 @@ const getCourseCountry = (course) => getValue(course, ["country", "country_name"
 
 const getCourseUniversity = (course) =>
   getValue(course, ["university", "university_name", "college", "university_title"]);
+
+const getCourseUniversityId = (course) =>
+  getValue(course, ["university_id", "u_id", "uid", "college_id"]);
 
 const getCourseStudyArea = (course) =>
   getValue(course, ["main_course", "study_area", "category", "main_course_name"]);
@@ -422,24 +421,9 @@ export default function CourseListing() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!countries.length || selectedCountryId) return;
-
-    const defaultCountry = countries.find((country) =>
-      sameText(getCountryLabel(country), DEFAULT_COUNTRY_NAME)
-    );
-
-    const firstCountryId = getCountryId(defaultCountry || countries[0]);
-    if (firstCountryId) setSelectedCountryId(String(firstCountryId));
-  }, [countries, selectedCountryId]);
-
-  useEffect(() => {
     if (!selectedCountryId) {
       dispatch(clearUniversities());
       setSelectedUniversityId("");
-      setCourses([]);
-      setNextOffset(null);
-      setImageBasePath("");
-      setCoursesError("");
       setCurrentPage(1);
       return;
     }
@@ -461,37 +445,41 @@ export default function CourseListing() {
     );
   }, [dispatch, selectedCountryId]);
 
-  useEffect(() => {
-    if (!selectedCountryId || selectedUniversityId || universitiesLoading) return;
-    if (!universities.length) return;
-
-    const firstUniversity = universities[DEFAULT_UNIVERSITY_INDEX];
-    const firstUniversityId = getUniversityId(firstUniversity);
-
-    if (firstUniversityId) {
-      setSelectedUniversityId(String(firstUniversityId));
-    }
-  }, [selectedCountryId, selectedUniversityId, universitiesLoading, universities]);
-
   const loadCourses = useCallback(
     async ({ append = false, offset = 0 } = {}) => {
-      if (!selectedCountryId) return;
-
       try {
         setCoursesLoading(true);
         setCoursesError("");
 
-        const result = await fetchCoursesFromApi({
+        let result = await fetchCoursesFromApi({
           countryId: selectedCountryId,
           universityId: selectedUniversityId,
           offset,
         });
 
+        const allFetchedCourses = [...result.courses];
+        let lastImageBasePath = result.imageBasePath || "";
+        let offsetToFetch = result.nextOffset;
+        let pageCount = 1;
+
+        while (getHasMoreOffset(offsetToFetch) && pageCount < MAX_AUTO_FETCH_PAGES) {
+          result = await fetchCoursesFromApi({
+            countryId: selectedCountryId,
+            universityId: selectedUniversityId,
+            offset: offsetToFetch,
+          });
+
+          allFetchedCourses.push(...result.courses);
+          lastImageBasePath = result.imageBasePath || lastImageBasePath;
+          offsetToFetch = result.nextOffset;
+          pageCount += 1;
+        }
+
         setCourses((previousCourses) =>
-          append ? [...previousCourses, ...result.courses] : result.courses
+          append ? [...previousCourses, ...allFetchedCourses] : allFetchedCourses
         );
-        setNextOffset(result.nextOffset);
-        setImageBasePath(result.imageBasePath || "");
+        setNextOffset(getHasMoreOffset(offsetToFetch) ? offsetToFetch : null);
+        setImageBasePath(lastImageBasePath);
       } catch (error) {
         console.error("Course fetch error:", error);
         setCoursesError(error?.message || "Failed to fetch courses");
@@ -506,7 +494,6 @@ export default function CourseListing() {
   );
 
   useEffect(() => {
-    if (!selectedCountryId) return;
     loadCourses({ append: false, offset: 0 });
   }, [selectedCountryId, selectedUniversityId, loadCourses]);
 
@@ -517,6 +504,21 @@ export default function CourseListing() {
     return getCountryLabel(found);
   }, [countries, selectedCountryId]);
 
+  const derivedUniversitiesFromCourses = useMemo(() => {
+    const map = new Map();
+
+    courses.forEach((course) => {
+      const id = getCourseUniversityId(course);
+      const label = getCourseUniversity(course);
+
+      if (id && label && !map.has(String(id))) {
+        map.set(String(id), { value: String(id), label });
+      }
+    });
+
+    return Array.from(map.values()).sort((a, b) => a.label.localeCompare(b.label));
+  }, [courses]);
+
   const selectedUniversity = useMemo(() => {
     return universities.find(
       (university) => String(getUniversityId(university)) === String(selectedUniversityId)
@@ -524,8 +526,13 @@ export default function CourseListing() {
   }, [universities, selectedUniversityId]);
 
   const selectedUniversityName = useMemo(() => {
-    return getUniversityLabel(selectedUniversity);
-  }, [selectedUniversity]);
+    return (
+      getUniversityLabel(selectedUniversity) ||
+      derivedUniversitiesFromCourses.find((university) => university.value === String(selectedUniversityId))
+        ?.label ||
+      ""
+    );
+  }, [derivedUniversitiesFromCourses, selectedUniversity, selectedUniversityId]);
 
   const selectedUniversityLogoUrl = useMemo(() => {
     return buildImageUrl(universityImagePath, getUniversityLogo(selectedUniversity));
@@ -569,6 +576,7 @@ export default function CourseListing() {
   );
 
   const clearFilters = () => {
+    setSelectedCountryId("");
     setSelectedUniversityId("");
     setCurrentPage(1);
   };
@@ -578,7 +586,7 @@ export default function CourseListing() {
     loadCourses({ append: true, offset: nextOffset });
   };
 
-  const hasActiveFilters = Boolean(selectedUniversityId);
+  const hasActiveFilters = Boolean(selectedCountryId || selectedUniversityId);
 
   const countryOptions = countries
     .map((country) => ({
@@ -587,12 +595,14 @@ export default function CourseListing() {
     }))
     .filter((option) => option.value && option.label);
 
-  const universityOptions = universities
-    .map((university) => ({
-      value: String(getUniversityId(university)),
-      label: getUniversityLabel(university),
-    }))
-    .filter((option) => option.value && option.label);
+  const universityOptions = selectedCountryId
+    ? universities
+        .map((university) => ({
+          value: String(getUniversityId(university)),
+          label: getUniversityLabel(university),
+        }))
+        .filter((option) => option.value && option.label)
+    : derivedUniversitiesFromCourses;
 
   const filtersPanel = (
     <>
@@ -627,7 +637,7 @@ export default function CourseListing() {
         onChange={handleUniversityChange}
         options={universityOptions}
         loading={universitiesLoading}
-        disabled={!selectedCountryId}
+        disabled={false}
       />
     </>
   );
@@ -648,6 +658,22 @@ export default function CourseListing() {
           <p className="text-gray-700 text-base lg:text-lg">
             Browse courses by country and university
           </p>
+          <div className="grid md:grid-cols-3 gap-4 mt-8">
+  <div className="bg-white rounded-2xl p-6 shadow-sm">
+    <p className="text-gray-500">Countries</p>
+    <h3 className="text-3xl font-bold">{countries.length}</h3>
+  </div>
+
+  <div className="bg-white rounded-2xl p-6 shadow-sm">
+    <p className="text-gray-500">Universities</p>
+    <h3 className="text-3xl font-bold">{universityOptions.length}</h3>
+  </div>
+
+  <div className="bg-white rounded-2xl p-6 shadow-sm">
+    <p className="text-gray-500">Courses</p>
+    <h3 className="text-3xl font-bold">{courses.length}</h3>
+  </div>
+</div>
         </div>
       </section>
 
@@ -690,23 +716,25 @@ export default function CourseListing() {
                       {Math.min(currentPage * ITEMS_PER_PAGE, filteredCourses.length)}
                     </span>{" "}
                     of <span className="font-semibold text-gray-900">{filteredCourses.length}</span>{" "}
-                    courses{selectedCountryName ? ` in ${selectedCountryName}` : ""}
-                    {selectedUniversityName ? `, ${selectedUniversityName}` : ""}
+                    courses{selectedCountryName ? ` in ${selectedCountryName}` : " in All Countries"}
+                  {selectedUniversityName
+  ? `, ${selectedUniversityName}`
+  : ", All Universities"}
                   </>
                 ) : (
-                  <>Showing 0 courses{selectedCountryName ? ` in ${selectedCountryName}` : ""}</>
+                  <>Showing 0 courses{selectedCountryName ? ` in ${selectedCountryName}` : " in All Countries"}</>
                 )}
               </p>
 
-              {/* {getHasMoreOffset(nextOffset) && !coursesLoading && (
+              {getHasMoreOffset(nextOffset) && !coursesLoading && (
                 <button
                   type="button"
                   onClick={loadMore}
                   className="text-sm text-primary font-semibold hover:underline w-fit"
                 >
-                  Load more courses
+                  Load remaining courses
                 </button>
-              )} */}
+              )}
             </div>
 
             {coursesError && (
@@ -729,7 +757,7 @@ export default function CourseListing() {
                 <GraduationCap size={48} className="text-gray-200" />
                 <p className="text-gray-500 font-medium">No courses found.</p>
                 <p className="text-sm text-gray-400 max-w-md">
-                  Try selecting another country or choose All University.
+Try another country/university filter, or clear filters to show all countries, universities, and courses.
                 </p>
                 {hasActiveFilters && (
                   <button type="button" onClick={clearFilters} className="text-primary text-sm underline">

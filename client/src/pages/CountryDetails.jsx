@@ -14,7 +14,8 @@ import {
   FaArrowRight,
   FaCheck,
 } from "react-icons/fa";
-import UnivOfCountry from "./univOfCountry";
+
+import UnivOfCountry from "../pages/UnivOfCountry"
 
 const InfoCard = ({ icon, label, value }) => (
   <div className="flex flex-col justify-center text-center items-center gap-4 px-3 py-5 border border-gray-50 bg-[#f1f1f1] shadow-md rounded-xl">
