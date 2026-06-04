@@ -206,12 +206,12 @@ export default function CourseDetailsOfUniv() {
               {courseTitle}
             </h1>
 
-            <p className="mt-4 text-2xl font-bold text-primary">{level}</p>
+            {/* <p className="mt-4 text-2xl font-bold text-primary">{level}</p> */}
             <div className="mt-4 h-1 w-16 rounded bg-primary" />
-            <p className="mt-5 text-md leading-8 text-black">{remarks}</p>
+            <p className="mt-5 text-md leading-8 text-black h-auto w-full md:w-[60%]">{ selectedCourse.entryrequirement}</p>
           </div>
 
-          <div className="mt-8 w-fit min-w-[220px] rounded-2xl bg-white px-8 py-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
+          <div className="mt-8 h-auto max-w-[200px] rounded-2xl bg-white px-8 py-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
             {universityLogoUrl ? (
               <img
                 src={universityLogoUrl}
@@ -233,14 +233,14 @@ export default function CourseDetailsOfUniv() {
               <GraduationCap size={40} />
             </div>
 
-            <p className="mt-4 text-center text-md text-secondary font-extrabold">
+            <p className="mt-4 text-center text-sm text-secondary font-extrabold">
               {universityName}
             </p>
           </div>
 
           <div className="mt-8 flex w-fit items-center gap-3 rounded-xl bg-[#071b45] px-7 py-4 text-white shadow-lg lg:absolute lg:bottom-6 lg:right-10 lg:mt-0">
-            <MapPin className="text-red-500" />
-            <span className="font-semibold">{locationName}</span>
+            <MapPin className="text-logoYellow" />
+            <span className="font-semibold text-logoYellow">{locationName}</span>
           </div>
         </div>
       </section>

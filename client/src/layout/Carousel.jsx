@@ -269,11 +269,11 @@ const Carousel = () => {
                     {/* BUTTONS */}
                     <div className="mt-8 flex w-full flex-col items-center gap-4 sm:flex-row md:justify-start animate__animated animate__bounceInLeft">
 
-                      <ButtonPrimary>
-                        Get Free Counselling
+                      <ButtonPrimary className="hover:-translate-y-1 transition ease-in-out">
+                       <a href="#gfc_wrapper" className="w-full h-full hover:cursor-pointer">Get Free Counselling</a> 
                       </ButtonPrimary>
 
-                      <ButtonSecondary>
+                      <ButtonSecondary className="hover:-translate-y-1 cursor-pointer transition ease-in-out">
                         Get Started
                       </ButtonSecondary>
 
@@ -334,7 +334,7 @@ const Carousel = () => {
                   {item.icon}
                 </div>
 
-                <h3 className="mt-4 text-lg font-bold text-white md:text-primary md:text-xl">
+                <h3 className="mt-4 text-xl text-white md:text-primary md:text-2xl font-extrabold">
                   <Counter end={item.count} />
                   {item.suffix}
                 </h3>

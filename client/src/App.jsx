@@ -30,6 +30,7 @@ import CountryDetails from "./pages/CountryDetails";
 import UniversityDetails from "./pages/UniversityDetails";
 import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
 import CourseListing from "./pages/CourseListing";
+import AllTestimonials from "./layout/AllTestimonials";
 
 
 
@@ -62,6 +63,8 @@ function Layout() {
         <Route path="/courseDetailsOfUniv/:id" element={<CourseDetailsOfUniv />} />
 
         <Route path="/courseListing" element={<CourseListing />} />
+
+         <Route path="/testimonials" element={<AllTestimonials />} />
 
 
 

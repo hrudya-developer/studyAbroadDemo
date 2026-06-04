@@ -58,7 +58,7 @@ const Navbar = () => {
           {/* DESKTOP BUTTONS */}
           <div className="hidden lg:flex gap-3">
             <ButtonPrimary>
-              Get Free Counselling
+              <a href="#gfc_wrapper" className="w-full h-full">Get Free Counselling</a>
             </ButtonPrimary>
 
            <Link to="/loginViaOtp"><ButtonSecondary>Login</ButtonSecondary></Link>

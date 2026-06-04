@@ -16,7 +16,7 @@ import {
   fetchUniversityMainCourses,
   clearUniversityCourses,
 } from "../redux/slices/courseSlice";
-import UniversityMainCourses from "./universityMainCourses";
+import UniversityMainCourses from "../pages/UniversityMainCourses";
 
 const CARDS_PER_PAGE = 10;
 
