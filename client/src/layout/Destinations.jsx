@@ -153,19 +153,18 @@ const Destinations = () => {
                     <div className="mb-4 h-[3px] w-12 rounded-full bg-primary"></div>
 
                 <div className="flex justify-between">
-  <Link
-    to={`/destination/${item.id}`}
+  <button
     className="p-1 px-3 text-sm rounded-2xl text-secondary bg-gray-100 hover:bg-primary hover:text-white transition"
   >
     View
-  </Link>
+  </button>
 
-  <Link
+  <button
     to={`/destination/${item.id}`}
     className="bg-gray-100 text-secondary grid place-content-center p-2 rounded-full hover:bg-primary hover:text-white transition"
   >
     <MoveRight size={20} />
-  </Link>
+  </button>
 </div>
                   </div>
                 </div>
