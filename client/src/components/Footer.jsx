@@ -5,6 +5,7 @@ import {
   MapPin,
   Mail,
   ArrowRight,
+  Phone,
 } from "lucide-react";
 
 import {
@@ -142,6 +143,8 @@ export default function Footer() {
           Medcity International Overseas Corporation, Chettipeedika,
           Kannur - 4, Kerala, India.
         </ContactItem>
+
+          <ContactItem icon={<Phone />}>+918943280333 <br /> +919645020503</ContactItem>
 
         <ContactItem icon={<Mail />}>info@mioc.in</ContactItem>
       </div>

@@ -29,8 +29,9 @@ import AllUniversities from "./pages/AllUniversities";
 import CountryDetails from "./pages/CountryDetails";
 import UniversityDetails from "./pages/UniversityDetails";
 import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
-import CourseListing from "./pages/CourseListing";
+import CourseListing from "./pages/CourseSearch";
 import AllTestimonials from "./layout/AllTestimonials";
+import CourseSearch from "./pages/CourseSearch";
 
 
 
@@ -70,7 +71,7 @@ function Layout() {
       
         <Route path="/courseDetailsOfUniv/:id" element={<CourseDetailsOfUniv />} />
 
-        <Route path="/courseListing" element={<CourseListing />} />
+        <Route path="/courseSearch" element={<CourseSearch />} />
 
          <Route path="/testimonials" element={<AllTestimonials />} />
 

@@ -3,6 +3,7 @@ import authReducer from "./slices/authSlice";
 import countryReducer from "./slices/countrySlice";
 import courseReducer from "./slices/courseSlice";
 import universityReducer from "./slices/universitySlice";
+import courseSearchReducer from "./slices/courseSearchSlice";
 
 
 
@@ -11,6 +12,7 @@ export const store = configureStore({
         auth:authReducer,
         countryData:countryReducer,
          courseData: courseReducer,
-         universityData: universityReducer
+         universityData: universityReducer,
+         courseSearch: courseSearchReducer
     },
 })

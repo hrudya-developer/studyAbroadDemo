@@ -4,6 +4,7 @@ import ButtonSecondary from "./ButtonSecondary";
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
+import ExploreMenu from "./ExploreMenu";
 
 const Navbar = () => {
  
@@ -46,9 +47,10 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 text-[17px] font-semibold font-nunito text-black">
             <li><Link to="/destinationList">Destinations</Link></li>
             <li><Link to="/allUniversities">Universities</Link></li>
-            <li><Link to="/courseListing">Courses</Link></li>
-            <li><a>Scholarships</a></li>
-            <li><a>Visa Process</a></li>
+            <li><Link to="/courseSearch">Courses</Link></li>
+        <ExploreMenu />
+           <li><Link to="/blog">Blogs</Link></li>
+          
           </ul>
         </div>
 

@@ -202,21 +202,21 @@ export default function CourseDetailsOfUniv() {
           </div>
 
           <div className="mt-8 max-w-3xl">
-            <h1 className="text-4xl font-extrabold leading-tight text-secondary sm:text-5xl lg:text-5xl">
+            <h1 className="text-2xl font-extrabold leading-tight text-secondary sm:text-3xl lg:text-3xl">
               {courseTitle}
             </h1>
 
             {/* <p className="mt-4 text-2xl font-bold text-primary">{level}</p> */}
             <div className="mt-4 h-1 w-16 rounded bg-primary" />
-            <p className="mt-5 text-md leading-8 text-black h-auto w-full md:w-[60%]">{ selectedCourse.entryrequirement}</p>
+            <p className="mt-5 text-sm leading-8 text-black h-auto w-full md:w-[60%]">{ selectedCourse.entryrequirement}</p>
           </div>
 
-          <div className="mt-8 h-auto max-w-[200px] rounded-2xl bg-white px-8 py-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
-            {universityLogoUrl ? (
+          <div className="mt-8 h-auto max-w-[200px] rounded-2xl bg-white p-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
+           <div className="w-24 h-24 mx-auto rounded-lg grid place-content-center"> {universityLogoUrl ? (
               <img
                 src={universityLogoUrl}
                 alt={universityName}
-                className="mx-auto h-24 w-24 object-contain"
+                className="size-16 object-contain object-center rounded-xl shadow-lg"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   const fallback =
@@ -225,7 +225,7 @@ export default function CourseDetailsOfUniv() {
                 }}
               />
             ) : null}
-
+</div>
             <div
               className="image-fallback mx-auto h-24 w-24 items-center justify-center rounded-full bg-red-50 text-primary"
               style={{ display: universityLogoUrl ? "none" : "flex" }}
@@ -233,7 +233,7 @@ export default function CourseDetailsOfUniv() {
               <GraduationCap size={40} />
             </div>
 
-            <p className="mt-4 text-center text-sm text-secondary font-extrabold">
+            <p className="mt-4 text-center text-sm text-secondary font-semibold">
               {universityName}
             </p>
           </div>

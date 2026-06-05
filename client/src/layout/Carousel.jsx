@@ -186,7 +186,7 @@ const Carousel = () => {
     },
     {
       icon: <School size={22} />,
-      count: 50,
+      count: 5,
       suffix: "K+",
       desc: "Top Universities",
     },

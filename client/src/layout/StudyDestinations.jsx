@@ -71,7 +71,7 @@ if (loading) {
 
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 py-16 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section className="relative overflow-hidden bg-white px-4 py-10 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     
 
 

@@ -5,14 +5,18 @@ const API_KEY = "overseas@Miak2023";
 const parseApiResponse = async (response) => {
   const text = await response.text();
 
+  if (!response.ok) {
+    if (response.status === 429) {
+      throw new Error("Too many requests. Please wait and try again.");
+    }
+
+    throw new Error(`API error: ${response.status}`);
+  }
+
   try {
     return JSON.parse(text);
   } catch {
-    throw new Error(
-      response.status === 429
-        ? "Too many requests. Please wait and try again."
-        : `API error: ${response.status}`
-    );
+    throw new Error("Invalid API response.");
   }
 };
 
@@ -89,12 +93,17 @@ export const fetchUniversityMainCourses = createAsyncThunk(
 
 export const fetchUniversityCourses = createAsyncThunk(
   "courseData/fetchUniversityCourses",
+
   async (
-    { uid, universityId, courseIds = [], courseId, offset = 0 },
-    { rejectWithValue }
+     
+     { uid, courseIds = [], courseId = "", universityId = "", offset = 0 },
+
+
+
+  { rejectWithValue }
   ) => {
     try {
-      const ids = courseIds.length ? courseIds : courseId ? [courseId] : [];
+     const ids = courseIds.length ? courseIds : courseId ? [courseId] : [""];
 
       let allCourses = [];
       let raw = null;
@@ -150,42 +159,113 @@ export const fetchUniversityCourses = createAsyncThunk(
   }
 );
 
+
+//old - it was working 
+
+// export const fetchAllUniversityCoursesLatest = createAsyncThunk(
+//   "courseData/fetchAllUniversityCoursesLatest",
+//   async (
+//     { uid, courseId = "", universityId = "", offset = 0 },
+//     { rejectWithValue }
+//   ) => {
+//     try {
+//       const formData = new FormData();
+
+//       formData.append("api", API_KEY);
+//       formData.append("uid", String(uid ?? 0));
+//       formData.append("c_id", String(courseId));
+//       formData.append("u_id", String(universityId));
+//       formData.append("offset", String(offset));
+
+//       const response = await fetch(
+//         "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
+//         {
+//           method: "POST",
+//           body: formData,
+//         }
+//       );
+
+//       const result = await parseApiResponse(response);
+
+//       return {
+//         courses: Array.isArray(result?.course) ? result.course : [],
+//         nextOffset: result?.nextoffset || null,
+//         courseImagePath: result?.maincourse_image_path || "",
+//         raw: result,
+//       };
+//     } catch (error) {
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
 export const fetchAllUniversityCoursesLatest = createAsyncThunk(
   "courseData/fetchAllUniversityCoursesLatest",
   async (
-    { uid, courseId = "", universityId = "", offset = 0 },
+    { uid, courseIds = [], courseId = "", universityId = "", offset = 0 },
     { rejectWithValue }
   ) => {
     try {
-      const formData = new FormData();
+      let allCourses = [];
+      let raw = null;
+      let courseImagePath = "";
 
-      formData.append("api", API_KEY);
-      formData.append("uid", String(uid ?? 0));
-      formData.append("c_id", String(courseId));
-      formData.append("u_id", String(universityId));
-      formData.append("offset", String(offset));
+      const ids = courseIds.length ? courseIds : courseId ? [courseId] : [""];
 
-      const response = await fetch(
-        "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
-        {
-          method: "POST",
-          body: formData,
+      for (const id of ids) {
+        let nextOffset = offset;
+
+        while (nextOffset !== null && nextOffset !== "") {
+          const formData = new FormData();
+
+          formData.append("api", API_KEY);
+          formData.append("uid", String(uid ?? 0));
+          formData.append("c_id", String(id));
+          formData.append("u_id", String(universityId));
+          formData.append("offset", String(nextOffset));
+
+          const response = await fetch(
+            "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          const result = await parseApiResponse(response);
+          raw = result;
+
+          const courses = Array.isArray(result?.course) ? result.course : [];
+          allCourses = [...allCourses, ...courses];
+
+          courseImagePath =
+            result?.maincourse_image_path ||
+            result?.course_image_path ||
+            result?.courses_image_path ||
+            result?.image_path ||
+            "";
+
+          const apiNextOffset = result?.nextoffset;
+
+          nextOffset =
+            apiNextOffset && String(apiNextOffset) !== "0"
+              ? apiNextOffset
+              : null;
         }
-      );
-
-      const result = await parseApiResponse(response);
+      }
 
       return {
-        courses: Array.isArray(result?.course) ? result.course : [],
-        nextOffset: result?.nextoffset || null,
-        courseImagePath: result?.maincourse_image_path || "",
-        raw: result,
+        courses: allCourses,
+        nextOffset: null,
+        courseImagePath,
+        raw,
       };
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
 
 const initialState = {
   popularCourses: [],
