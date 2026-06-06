@@ -25,6 +25,7 @@
     "react-international-phone": "^4.8.0",
     "react-redux": "^9.3.0",
     "react-router-dom": "^7.15.1",
+    "react-select": "^5.10.2",
     "sweetalert2": "^11.26.25",
     "swiper": "^12.1.4",
     "tailwindcss": "^4.3.0"

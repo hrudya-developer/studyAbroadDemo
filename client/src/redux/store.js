@@ -4,6 +4,7 @@ import countryReducer from "./slices/countrySlice";
 import courseReducer from "./slices/courseSlice";
 import universityReducer from "./slices/universitySlice";
 import courseSearchReducer from "./slices/courseSearchSlice";
+import germanProgramReducer from "./slices/germanProgramSlice";
 
 
 
@@ -13,6 +14,7 @@ export const store = configureStore({
         countryData:countryReducer,
          courseData: courseReducer,
          universityData: universityReducer,
-         courseSearch: courseSearchReducer
+         courseSearch: courseSearchReducer,
+          germanProgramData: germanProgramReducer,
     },
 })

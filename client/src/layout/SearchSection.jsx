@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 import {
   MapPin,
   GraduationCap,
@@ -11,34 +12,91 @@ import {
 
 import { fetchCountries } from "../redux/slices/countrySlice";
 import { fetchUniversitiesByCountry } from "../redux/slices/universitySlice";
+import { fetchPopularCourses } from "../redux/slices/courseSlice";
 import {
-  fetchPopularCourses,
-  fetchUniversityCourses,
-  clearUniversityCourses,
-} from "../redux/slices/courseSlice";
+  fetchCourseSearchResults,
+  clearCourseSearchResults,
+} from "../redux/slices/courseSearchSlice";
+
+const selectStyles = {
+  control: (base, state) => ({
+    ...base,
+    backgroundColor: "transparent",
+    borderColor: "#ffffff",
+    minHeight: "48px",
+    boxShadow: state.isFocused ? "0 0 0 1px #ffffff" : "none",
+    "&:hover": {
+      borderColor: "#ffffff",
+    },
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: "#ffffff",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "#ffffff",
+  }),
+  input: (base) => ({
+    ...base,
+    color: "#ffffff",
+  }),
+  menu: (base) => ({
+    ...base,
+    zIndex: 9999,
+  }),
+  menuList: (base) => ({
+    ...base,
+    maxHeight: 200,
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isFocused ? "#f3f4f6" : "#ffffff",
+    color: "#111827",
+    cursor: "pointer",
+  }),
+};
+
+const getMappedMainCourseId = (courseName) => {
+  const name = String(courseName || "").toLowerCase();
+
+  if (
+    name.includes("mbbs") ||
+    name.includes("medicine") ||
+    name.includes("medical") ||
+    name.includes("nursing") ||
+    name.includes("health")
+  ) {
+    return "9";
+  }
+
+  return "";
+};
+
 
 const SearchSection = () => {
+  const [showPopup, setShowPopup] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { uid } = useSelector((state) => state.auth || {});
   const safeUid = uid ?? 0;
 
-  const { countries = [], loading: countriesLoading } = useSelector(
-    (state) => state.countryData || {}
-  );
+  const { countries = [] } = useSelector((state) => state.countryData || {});
 
   const { universities = [], loading: universitiesLoading } = useSelector(
     (state) => state.universityData || {}
   );
 
+  const { popularCourses = [], loading: coursesLoading } = useSelector(
+    (state) => state.courseData || {}
+  );
+
   const {
-    popularCourses = [],
-    universityCourses = [],
-    loading: coursesLoading,
-    universityCoursesLoading,
-    universityCoursesError,
-  } = useSelector((state) => state.courseData || {});
+    results: universityCourses = [],
+    loading: universityCoursesLoading,
+    error: universityCoursesError,
+  } = useSelector((state) => state.courseSearch || {});
 
   const [selectedCountryId, setSelectedCountryId] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState("");
@@ -77,8 +135,6 @@ const SearchSection = () => {
   const getUniversityName = (item) =>
     item?.name || item?.university || item?.university_name || "University";
 
-  const getCourseId = (item) => item?.c_id || item?.id || item?.course_id || "";
-
   const getCourseName = (item) =>
     item?.course ||
     item?.course_name ||
@@ -87,22 +143,61 @@ const SearchSection = () => {
     item?.title ||
     "Course";
 
-  const handleSearch = () => {
-    setSearched(true);
-    dispatch(clearUniversityCourses());
+  const countryOptions = countries.map((item) => ({
+    value: getCountryId(item),
+    label: getCountryName(item),
+  }));
 
-    dispatch(
-      fetchUniversityCourses({
-        uid: safeUid,
-        universityId: selectedUniversityId || "",
-        courseId: selectedCourseId || "",
-        offset: 0,
-      })
-    );
+  const courseOptions = popularCourses.map((item) => ({
+    value: String(
+      item?.id || item?.course_id || item?.main_course_id || item?.c_id || ""
+    ),
+    apiCourseId: String(
+      item?.c_id || item?.main_course_id || item?.course_id || item?.id || ""
+    ),
+    label: getCourseName(item),
+    raw: item,
+  }));
+
+  const universityOptions = universities.map((item) => ({
+    value: getUniversityId(item),
+    label: getUniversityName(item),
+  }));
+
+  const resetSearchResults = () => {
+    setSearched(false);
+    dispatch(clearCourseSearchResults());
   };
 
+ const handleSearch = () => {
+  setSearched(true);
+  setShowPopup(true);
+  dispatch(clearCourseSearchResults());
+
+  const selectedCourse = courseOptions.find(
+    (option) => option.value === selectedCourseId
+  );
+
+  const mappedCourseId = getMappedMainCourseId(selectedCourse?.label);
+
+  const finalCourseId =
+    mappedCourseId || selectedCourse?.apiCourseId || selectedCourseId || "";
+
+  dispatch(
+    fetchCourseSearchResults({
+      uid: safeUid,
+      countryId: selectedCountryId || "",
+      universityId: selectedUniversityId || "",
+      courseId: finalCourseId,
+      keyword: selectedCourse?.label || "",
+      keytype: "course",
+      offset: 0,
+    })
+  );
+};
+
   const handleViewCourse = (course) => {
-    const courseId = course?.id || course?.course_id;
+    const courseId = course?.id || course?.course_id || course?.c_id;
 
     if (!courseId) return;
 
@@ -119,7 +214,20 @@ const SearchSection = () => {
     });
   };
 
-  const hasSelection = selectedCountryId || selectedCourseId || selectedUniversityId;
+  const hasSelection =
+    selectedCountryId || selectedCourseId || selectedUniversityId;
+
+    useEffect(() => {
+  if (showPopup) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [showPopup]);
 
   return (
     <section className="py-0">
@@ -127,87 +235,68 @@ const SearchSection = () => {
         <div className="py-10">
           <div className="grid grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <SelectField icon={MapPin}>
-              <select
-                value={selectedCountryId}
-                onChange={(event) => {
-                  setSelectedCountryId(event.target.value);
+              <Select
+                value={
+                  countryOptions.find(
+                    (option) => option.value === selectedCountryId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedCountryId(option?.value || "");
                   setSelectedUniversityId("");
-                  setSearched(false);
-                  dispatch(clearUniversityCourses());
+                  resetSearchResults();
                 }}
-                className="w-full cursor-pointer rounded-lg border border-white bg-secondary p-3 text-sm font-semibold text-white outline-none" style={{textOverflow:"ellipsis"}}
-              >
-                <option value="" className="text-white">
-                  {countriesLoading ? "Loading..." : "Select Destination"}
-                </option>
-
-                {countries.map((item) => (
-                  <option
-                    key={getCountryId(item)}
-                    value={getCountryId(item)}
-                    className="text-white"
-                  >
-                    {getCountryName(item)}
-                  </option>
-                ))}
-              </select>
+                options={countryOptions}
+                placeholder="Select Destination"
+                maxMenuHeight={200}
+                styles={selectStyles}
+              />
             </SelectField>
 
             <SelectField icon={GraduationCap}>
-              <select
-                value={selectedCourseId}
-                onChange={(event) => {
-                  setSelectedCourseId(event.target.value);
-                  setSearched(false);
-                  dispatch(clearUniversityCourses());
+              <Select
+                value={
+                  courseOptions.find(
+                    (option) => option.value === selectedCourseId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedCourseId(option?.value || "");
+                  resetSearchResults();
                 }}
-                className="w-full cursor-pointer rounded-lg border border-white bg-secondary p-3 text-sm font-semibold text-white outline-none" style={{textOverflow:"ellipsis"}}
-              >
-                <option value="" className="text-white">
-                  {coursesLoading ? "Loading..." : "Select Course"}
-                </option>
-
-                {popularCourses.map((item) => (
-                  <option
-                    key={getCourseId(item)}
-                    value={getCourseId(item)}
-                    className="text-white"
-                  >
-                    {getCourseName(item)}
-                  </option>
-                ))}
-              </select>
+                options={courseOptions}
+                placeholder={coursesLoading ? "Loading..." : "Select Course"}
+                isLoading={coursesLoading}
+                maxMenuHeight={200}
+                styles={selectStyles}
+              />
             </SelectField>
 
             <SelectField icon={School}>
-              <select
-                value={selectedUniversityId}
-                onChange={(event) => {
-                  setSelectedUniversityId(event.target.value);
-                  setSearched(false);
-                  dispatch(clearUniversityCourses());
+              <Select
+                value={
+                  universityOptions.find(
+                    (option) => option.value === selectedUniversityId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedUniversityId(option?.value || "");
+                  resetSearchResults();
                 }}
-                disabled={!selectedCountryId}
-                className="w-full cursor-pointer rounded-lg border border-white bg-secondary p-3 text-sm font-semibold text-white outline-none disabled:cursor-not-allowed disabled:opacity-60" style={{textOverflow:"ellipsis"}}
-              >
-                <option value="" className="text-white">
-                  {!selectedCountryId
-                    ? "Select destination first"
+                options={universityOptions}
+                placeholder={
+                  !selectedCountryId
+                    ? "Select University"
                     : universitiesLoading
                     ? "Loading..."
-                    : "Select University"}
-                </option>
-
-                {universities.map((item) => (
-                  <option
-                    key={getUniversityId(item)}
-                    value={getUniversityId(item)}
-                    className="text-white"
-                  >
-                    {getUniversityName(item)}
-                  </option>
-                ))}
-              </select>
+                    : "Select University"
+                }
+                isDisabled={!selectedCountryId}
+                isLoading={universitiesLoading}
+                isSearchable
+                maxMenuHeight={200}
+                styles={selectStyles}
+              />
             </SelectField>
 
             <div className="w-full">
@@ -225,18 +314,20 @@ const SearchSection = () => {
         </div>
       </div>
 
-      <div className="mx-auto mt-8 max-w-7xl px-3 sm:px-5 md:px-8">
+      {/* <div className="mx-auto mt-8 max-w-7xl px-3 sm:px-5 md:px-8">
         {universityCoursesError && (
           <p className="text-center text-sm font-semibold text-red-600">
             {universityCoursesError}
           </p>
         )}
 
-        {searched && !universityCoursesLoading && universityCourses.length === 0 && (
-          <p className="text-center text-sm font-semibold text-gray-500">
-            No courses found.
-          </p>
-        )}
+        {searched &&
+          !universityCoursesLoading &&
+          universityCourses.length === 0 && (
+            <p className="text-center text-sm font-semibold text-gray-500">
+              No courses found.
+            </p>
+          )}
 
         {universityCourses.length > 0 && (
           <>
@@ -247,7 +338,7 @@ const SearchSection = () => {
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {universityCourses.map((course, index) => (
                 <div
-                  key={course?.id || course?.course_id || index}
+                  key={course?.id || course?.course_id || course?.c_id || index}
                   className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-xl"
                 >
                   <h3 className="text-lg font-bold text-[#071d3a]">
@@ -261,7 +352,9 @@ const SearchSection = () => {
                   </p>
 
                   <p className="mt-1 text-sm text-gray-500">
-                    {course?.country || course?.country_name || "Country not available"}
+                    {course?.country ||
+                      course?.country_name ||
+                      "Country not available"}
                   </p>
 
                   <button
@@ -277,7 +370,88 @@ const SearchSection = () => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
+
+
+      {showPopup && (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4">
+    <div className="relative max-h-[85vh] w-full max-w-5xl overflow-y-auto rounded-2xl bg-white p-10 shadow-2xl">
+      <button
+        type="button"
+        onClick={() => setShowPopup(false)}
+        className="absolute right-4 top-4 rounded-full bg-secondary px-3 py-1 text-lg font-bold hover:bg-primary text-white"
+      >
+        ×
+      </button>
+
+      <h2 className="mb-5 pr-10 text-xl font-bold text-secondary">
+        Search Results
+      </h2>
+
+      {universityCoursesLoading && (
+        <p className="text-center text-sm font-semibold text-black">
+          Searching courses...
+        </p>
+      )}
+
+      {universityCoursesError && (
+        <p className="text-center text-sm font-semibold text-red-600">
+          {universityCoursesError}
+        </p>
+      )}
+
+      {searched &&
+        !universityCoursesLoading &&
+        universityCourses.length === 0 && (
+          <p className="text-center text-sm font-semibold text-gray-500">
+            No courses found.
+          </p>
+        )}
+
+      {universityCourses.length > 0 && (
+        <>
+          <p className="mb-4 text-md font-semibold text-black">
+            Showing {universityCourses.length} courses
+          </p>
+
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {universityCourses.map((course, index) => (
+              <div
+                key={course?.id || course?.course_id || course?.c_id || index}
+                className="rounded-2xl bg-white p-5 shadow-md ring-1 ring-gray-100"
+              >
+                <h3 className="text-lg font-bold text-[#071d3a]">
+                  {getCourseName(course)}
+                </h3>
+
+                <p className="mt-2 text-sm text-gray-500">
+                  {course?.university ||
+                    course?.university_name ||
+                    "University not available"}
+                </p>
+
+                <p className="mt-1 text-sm text-gray-500">
+                  {course?.country ||
+                    course?.country_name ||
+                    "Country not available"}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => handleViewCourse(course)}
+                  className="mt-5 flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
+                >
+                  View Details
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+)}
     </section>
   );
 };
@@ -295,3 +469,4 @@ function SelectField({ icon: Icon, children }) {
 }
 
 export default SearchSection;
+

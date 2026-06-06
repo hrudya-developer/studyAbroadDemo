@@ -1,17 +1,61 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Globe2, GraduationCap, Landmark, ArrowRight, Search } from "lucide-react";
+import Select from "react-select";
+import {
+  Globe2,
+  GraduationCap,
+  Landmark,
+  ArrowRight,
+  Search,
+} from "lucide-react";
 
 import { fetchCountries } from "../redux/slices/countrySlice";
 import { fetchUniversitiesByCountry } from "../redux/slices/universitySlice";
+import { fetchPopularCourses } from "../redux/slices/courseSlice";
 import {
-  fetchPopularCourses,
-  fetchUniversityCourses,
-  clearUniversityCourses,
-} from "../redux/slices/courseSlice";
+  fetchCourseSearchResults,
+  clearCourseSearchResults,
+} from "../redux/slices/courseSearchSlice";
 
 import mapBg from "../assets/mapBg.png";
+
+const selectStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "48px",
+    borderRadius: "12px",
+    borderColor: state.isFocused ? "#dc2626" : "#e5e7eb",
+    boxShadow: state.isFocused ? "0 0 0 1px #dc2626" : "none",
+    "&:hover": {
+      borderColor: "#dc2626",
+    },
+  }),
+  menu: (base) => ({
+    ...base,
+    zIndex: 9999,
+  }),
+  menuList: (base) => ({
+    ...base,
+    maxHeight: 200,
+  }),
+};
+
+const getMappedMainCourseId = (courseName) => {
+  const name = String(courseName || "").toLowerCase();
+
+  if (
+    name.includes("mbbs") ||
+    name.includes("medicine") ||
+    name.includes("medical") ||
+    name.includes("nursing") ||
+    name.includes("health")
+  ) {
+    return "9";
+  }
+
+  return "";
+};
 
 export default function CourseSearch() {
   const dispatch = useDispatch();
@@ -28,13 +72,15 @@ export default function CourseSearch() {
     (state) => state.universityData || {}
   );
 
+  const { popularCourses = [], loading: coursesLoading } = useSelector(
+    (state) => state.courseData || {}
+  );
+
   const {
-    popularCourses = [],
-    universityCourses = [],
-    loading: coursesLoading,
-    universityCoursesLoading,
-    universityCoursesError,
-  } = useSelector((state) => state.courseData || {});
+    results: universityCourses = [],
+    loading: universityCoursesLoading,
+    error: universityCoursesError,
+  } = useSelector((state) => state.courseSearch || {});
 
   const [selectedCountryId, setSelectedCountryId] = useState("");
   const [selectedUniversityId, setSelectedUniversityId] = useState("");
@@ -73,39 +119,68 @@ export default function CourseSearch() {
   const getUniversityName = (item) =>
     item?.name || item?.university || item?.university_name || "University";
 
-  const getCourseCategoryId = (item) =>
-    item?.c_id || item?.id || item?.course_id || "";
-
-  const getCourseCategoryName = (item) =>
-    item?.name ||
+  const getCourseName = (item) =>
     item?.course ||
     item?.course_name ||
     item?.main_course ||
+    item?.name ||
+    item?.title ||
     "Course";
 
-  const getCourseName = (course) =>
-    course?.course ||
-    course?.course_name ||
-    course?.name ||
-    course?.title ||
-    "Course";
+  const countryOptions = countries.map((item) => ({
+    value: String(getCountryId(item)),
+    label: getCountryName(item),
+  }));
+
+  const courseOptions = popularCourses.map((item) => ({
+    value: String(
+      item?.id || item?.course_id || item?.main_course_id || item?.c_id || ""
+    ),
+    apiCourseId: String(
+      item?.c_id || item?.main_course_id || item?.course_id || item?.id || ""
+    ),
+    label: getCourseName(item),
+    raw: item,
+  }));
+
+  const universityOptions = universities.map((item) => ({
+    value: String(getUniversityId(item)),
+    label: getUniversityName(item),
+  }));
+
+  const resetSearchResults = () => {
+    setSearched(false);
+    dispatch(clearCourseSearchResults());
+  };
 
   const handleSearch = () => {
     setSearched(true);
-    dispatch(clearUniversityCourses());
+    dispatch(clearCourseSearchResults());
+
+    const selectedCourse = courseOptions.find(
+      (option) => option.value === selectedCourseId
+    );
+
+    const mappedCourseId = getMappedMainCourseId(selectedCourse?.label);
+
+    const finalCourseId =
+      mappedCourseId || selectedCourse?.apiCourseId || selectedCourseId || "";
 
     dispatch(
-      fetchUniversityCourses({
+      fetchCourseSearchResults({
         uid: safeUid,
+        countryId: selectedCountryId || "",
         universityId: selectedUniversityId || "",
-        courseId: selectedCourseId || "",
+        courseId: finalCourseId,
+        keyword: selectedCourse?.label || "",
+        keytype: "course",
         offset: 0,
       })
     );
   };
 
   const handleViewCourse = (course) => {
-    const courseId = course?.id || course?.course_id;
+    const courseId = course?.id || course?.course_id || course?.c_id;
 
     if (!courseId) return;
 
@@ -122,13 +197,15 @@ export default function CourseSearch() {
     });
   };
 
-  const hasSelection = selectedCountryId || selectedUniversityId || selectedCourseId;
+  const hasSelection =
+    selectedCountryId || selectedUniversityId || selectedCourseId;
 
   return (
-    <section
-      className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8"
-    >
-      <div className="relative z-10 mx-auto max-w-7xl bg-no-repeat" style={{ backgroundImage: `url(${mapBg})` }}>
+    <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div
+        className="relative z-10 mx-auto max-w-7xl bg-no-repeat"
+        style={{ backgroundImage: `url(${mapBg})` }}
+      >
         <div className="text-center">
           <div className="mb-6 grid place-content-center">
             <span className="rounded-full bg-blue-50 p-5 shadow-md">
@@ -148,78 +225,71 @@ export default function CourseSearch() {
         <div className="rounded-3xl bg-white px-5 py-8 shadow-[0_15px_45px_rgba(0,0,0,0.08)] ring-1 ring-gray-100 sm:px-8 lg:px-12">
           <div className="grid gap-5 md:grid-cols-3">
             <DropdownBox icon={Globe2} label="Country">
-              <select
-                value={selectedCountryId}
-                onChange={(event) => {
-                  setSelectedCountryId(event.target.value);
+              <Select
+                value={
+                  countryOptions.find(
+                    (option) => option.value === selectedCountryId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedCountryId(option?.value || "");
                   setSelectedUniversityId("");
-                  setSearched(false);
-                  dispatch(clearUniversityCourses());
+                  resetSearchResults();
                 }}
-                className="h-12 w-full rounded-xl border px-4 outline-none"
-              >
-                <option value="">
-                  {countriesLoading ? "Loading..." : "Select Country"}
-                </option>
-
-                {countries.map((item) => (
-                  <option key={getCountryId(item)} value={getCountryId(item)}>
-                    {getCountryName(item)}
-                  </option>
-                ))}
-              </select>
+                options={countryOptions}
+                placeholder={countriesLoading ? "Loading..." : "Select Country"}
+                isLoading={countriesLoading}
+                isSearchable
+                maxMenuHeight={200}
+                styles={selectStyles}
+              />
             </DropdownBox>
 
             <DropdownBox icon={Landmark} label="University">
-              <select
-                value={selectedUniversityId}
-                onChange={(event) => {
-                  setSelectedUniversityId(event.target.value);
-                  setSearched(false);
-                  dispatch(clearUniversityCourses());
+              <Select
+                value={
+                  universityOptions.find(
+                    (option) => option.value === selectedUniversityId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedUniversityId(option?.value || "");
+                  resetSearchResults();
                 }}
-                disabled={!selectedCountryId}
-                className="h-12 w-full rounded-xl border px-4 outline-none disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value="">
-                  {!selectedCountryId
+                options={universityOptions}
+                placeholder={
+                  !selectedCountryId
                     ? "Select country first"
                     : universitiesLoading
                     ? "Loading..."
-                    : "Select University"}
-                </option>
-
-                {universities.map((item) => (
-                  <option key={getUniversityId(item)} value={getUniversityId(item)}>
-                    {getUniversityName(item)}
-                  </option>
-                ))}
-              </select>
+                    : "Select University"
+                }
+                isDisabled={!selectedCountryId}
+                isLoading={universitiesLoading}
+                isSearchable
+                maxMenuHeight={200}
+                styles={selectStyles}
+              />
             </DropdownBox>
 
             <DropdownBox icon={GraduationCap} label="Course">
-              <select
-                value={selectedCourseId}
-                onChange={(event) => {
-                  setSelectedCourseId(event.target.value);
-                  setSearched(false);
-                  dispatch(clearUniversityCourses());
+              <Select
+                value={
+                  courseOptions.find(
+                    (option) => option.value === selectedCourseId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedCourseId(option?.value || "");
+                  resetSearchResults();
                 }}
-                className="h-12 w-full rounded-xl border px-4 outline-none"
-              >
-                <option value="">
-                  {coursesLoading ? "Loading..." : "Select Course"}
-                </option>
-
-                {popularCourses.map((item) => (
-                  <option
-                    key={getCourseCategoryId(item)}
-                    value={getCourseCategoryId(item)}
-                  >
-                    {getCourseCategoryName(item)}
-                  </option>
-                ))}
-              </select>
+                options={courseOptions}
+                placeholder={coursesLoading ? "Loading..." : "Select Course"}
+                isLoading={coursesLoading}
+                isSearchable
+                maxMenuHeight={200}
+                styles={selectStyles}
+              />
             </DropdownBox>
           </div>
 
@@ -237,17 +307,25 @@ export default function CourseSearch() {
         </div>
 
         <div className="mt-10">
+          {universityCoursesLoading && (
+            <p className="text-center text-sm font-semibold text-gray-600">
+              Searching courses...
+            </p>
+          )}
+
           {universityCoursesError && (
             <p className="text-center text-sm font-semibold text-red-600">
               {universityCoursesError}
             </p>
           )}
 
-          {searched && !universityCoursesLoading && universityCourses.length === 0 && (
-            <p className="text-center text-sm font-semibold text-gray-500">
-              No courses found.
-            </p>
-          )}
+          {searched &&
+            !universityCoursesLoading &&
+            universityCourses.length === 0 && (
+              <p className="text-center text-sm font-semibold text-gray-500">
+                No courses found.
+              </p>
+            )}
 
           {universityCourses.length > 0 && (
             <>
@@ -258,7 +336,7 @@ export default function CourseSearch() {
               <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                 {universityCourses.map((course, index) => (
                   <div
-                    key={course?.id || course?.course_id || index}
+                    key={course?.id || course?.course_id || course?.c_id || index}
                     className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-xl"
                   >
                     <h3 className="text-lg font-bold text-[#071d3a]">

@@ -32,6 +32,8 @@ import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
 import CourseListing from "./pages/CourseSearch";
 import AllTestimonials from "./layout/AllTestimonials";
 import CourseSearch from "./pages/CourseSearch";
+import StudyAbroadBlog from "./pages/StudyAbroadBlog";
+import GermanPrograms from "./pages/GermanPrograms";
 
 
 
@@ -56,8 +58,9 @@ function Layout() {
 
         {/* ✅ FIXED: OUTSIDE student */}
         <Route path="/destination/:id" element={<CountryDetails />} />
+        <Route path="/studyAbroadBlog" element={<StudyAbroadBlog />} />
 
-      
+     <Route path="/germanPrograms/:id" element={<GermanPrograms />} />
 
       
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUniversityCourses } from "../redux/slices/courseSlice";
@@ -19,7 +19,9 @@ import {
   RotateCcw,
 } from "lucide-react";
 
+
 export default function CourseDetailsOfUniv() {
+  const [logoError, setLogoError] = useState(false);
   const { id } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -211,32 +213,9 @@ export default function CourseDetailsOfUniv() {
             <p className="mt-5 text-sm leading-8 text-black h-auto w-full md:w-[60%]">{ selectedCourse.entryrequirement}</p>
           </div>
 
-          <div className="mt-8 h-auto max-w-[200px] rounded-2xl bg-white p-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0">
-           <div className="w-24 h-24 mx-auto rounded-lg grid place-content-center"> {universityLogoUrl ? (
-              <img
-                src={universityLogoUrl}
-                alt={universityName}
-                className="size-16 object-contain object-center rounded-xl shadow-lg"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  const fallback =
-                    e.currentTarget.parentElement.querySelector(".image-fallback");
-                  if (fallback) fallback.style.display = "flex";
-                }}
-              />
-            ) : null}
-</div>
-            <div
-              className="image-fallback mx-auto h-24 w-24 items-center justify-center rounded-full bg-red-50 text-primary"
-              style={{ display: universityLogoUrl ? "none" : "flex" }}
-            >
-              <GraduationCap size={40} />
-            </div>
-
-            <p className="mt-4 text-center text-sm text-secondary font-semibold">
-              {universityName}
-            </p>
-          </div>
+<div className="mt-8 h-auto max-w-[200px] rounded-2xl bg-white p-5 shadow-lg lg:absolute lg:right-8 lg:top-8 lg:mt-0"> 
+  <div className="mx-auto rounded-lg grid place-content-center"> 
+    {universityLogoUrl ? ( <img src={universityLogoUrl} alt={universityName} className="size-16 object-contain object-center rounded-xl shadow-lg" onError={(e) => { e.currentTarget.style.display = "none"; const fallback = e.currentTarget.parentElement.querySelector(".image-fallback"); if (fallback) fallback.style.display = "flex"; }} /> ) : null} </div> <div className="image-fallback mx-auto h-24 w-24 items-center justify-center rounded-full bg-red-50 text-primary" style={{ display: universityLogoUrl ? "none" : "flex" }} > <GraduationCap size={40} /> </div> <p className="mt-4 text-center text-sm text-secondary font-semibold"> {universityName} </p> </div>
 
           <div className="mt-8 flex w-fit items-center gap-3 rounded-xl bg-[#071b45] px-7 py-4 text-white shadow-lg lg:absolute lg:bottom-6 lg:right-10 lg:mt-0">
             <MapPin className="text-logoYellow" />

@@ -49,7 +49,7 @@ const Navbar = () => {
             <li><Link to="/allUniversities">Universities</Link></li>
             <li><Link to="/courseSearch">Courses</Link></li>
         <ExploreMenu />
-           <li><Link to="/blog">Blogs</Link></li>
+           <li><Link to="/studyAbroadBlog">Blogs</Link></li>
           
           </ul>
         </div>
