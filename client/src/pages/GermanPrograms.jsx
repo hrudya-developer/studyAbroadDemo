@@ -10,10 +10,15 @@ import {
   Wallet,
   Route,
   PlayCircle,
+  Play,
+  GraduationCapIcon,
+  HandFist,
 } from "lucide-react";
 
 import heroGermany from "../assets/heroGermany.png";
 import { fetchGermanPrograms } from "../redux/slices/germanProgramSlice";
+// import aeroPlanePath from "../assets/aeroPlanePath.png";
+import mapBackground from "../assets/mapBg.png";
 
 const GermanPrograms = () => {
   const dispatch = useDispatch();
@@ -32,6 +37,7 @@ const GermanPrograms = () => {
     loading = false,
     error = null,
   } = useSelector((state) => state.germanProgramData || {});
+  
 
   useEffect(() => {
     dispatch(fetchGermanPrograms({ uid: 0, id: programId }));
@@ -41,12 +47,12 @@ const GermanPrograms = () => {
     <section className="bg-white px-4 py-10">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[28px]">
         <div className="grid items-center lg:grid-cols-2">
-          <div className="relative z-10 p-8 md:p-14">
+          <div className="relative z-10 p-8 md:p-14 bg-no-repeat bg-right" style={{backgroundImage:`url(${mapBackground})`}}>
             <p className="mb-4 text-sm font-extrabold uppercase tracking-wider text-secondary">
               Build Your Future
             </p>
 
-            <h1 className="text-5xl font-black leading-tight text-secondary md:text-7xl">
+            <h1 className="text-3xl font-black leading-tight text-secondary md:text-5xl">
               {mainData?.name || "German Program"}
               <br />
               <span className="text-primary">Germany</span>
@@ -56,15 +62,26 @@ const GermanPrograms = () => {
               {mainData?.titleWhy || "Learn. Grow. Succeed in Germany."}
             </p>
 
-            <div className="mt-10 h-24 rounded-b-[50%] bg-gradient-to-r from-black via-primary to-yellow-400" />
+            <button className="mt-10 bg-primary hover:bg-secondary text-white p-2 px-4 rounded-lg hover:cursor-pointer mr-4 mb-4">Read More</button>
+             <button className="mt-10 bg-secondary hover:bg-primary text-white p-2 px-4 rounded-lg hover:cursor-pointer">Find a Course</button>
           </div>
 
-          <div className="relative min-h-[420px] overflow-hidden rounded-bl-[80px]">
-            <img
-              src={mainData?.imageUrl || heroGermany}
-              alt={mainData?.name || "Germany Program"}
-              className="h-full min-h-[420px] w-full object-cover"
-            />
+          <div className="relative min-h-[420px] overflow-hidden rounded-[50px]" style={{backgroundImage:`url(${heroGermany})`}}>
+            <div className="flex">
+              <div className="bg-white/100 text-black grid place-content-center rounded-br-4xl rounded-tl-4xl font-bold text-md p-8 shadow-lg">
+<span className="">
+  <span className="bg-primary w-16 h-16 rounded-full shadow-lg grid place-content-center text-white my-3 mx-auto"><GraduationCapIcon /></span>10 K + Students</span> <span className="text-primary">World wide</span> 
+              </div>
+
+            </div>
+            <div className="flex absolute right-0 bottom-0">
+              <div className="bg-white/100 text-black grid place-content-center rounded-tl-4xl rounded-tr-none font-bold text-md p-8 shadow-lg">
+<span className="">
+  <span className="bg-secondary w-16 h-16 rounded-full shadow-lg grid place-content-center text-white my-3 mx-auto"><HandFist /></span>Opportunities</span> <span className="text-primary">Beyond Borders</span> 
+              </div>
+
+            </div>
+          
           </div>
         </div>
 
@@ -86,11 +103,16 @@ const GermanPrograms = () => {
               <div className="mb-10 flex flex-col gap-5 rounded-3xl bg-white p-6 shadow-lg ring-1 ring-blue-100 md:flex-row md:items-start">
                 <div className="grid h-16 w-16 shrink-0 place-content-center rounded-2xl bg-blue-50 text-secondary">
                   {mainData?.iconUrl ? (
-                    <img
-                      src={mainData.iconUrl}
-                      alt={mainData?.name || "Program icon"}
-                      className="h-9 w-9 object-contain"
-                    />
+                    // <img
+                    //   src={mainData.iconUrl}
+                    //   alt={mainData?.name || "Program icon"}
+                    //   className="h-9 w-9 object-contain"
+                    // />
+                      <img
+              src={mainData?.imageUrl || heroGermany}
+              alt={mainData?.name || "Germany Program"}
+              className="object-cover"
+            />
                   ) : (
                     <BookOpen size={34} />
                   )}
@@ -177,14 +199,16 @@ const GermanPrograms = () => {
                   </div>
 
                   <div className="grid gap-6 md:grid-cols-2">
+                   
                     {youtube.map((item, index) => (
                       <a
                         key={item?.id || index}
                         href={item?.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                        className="overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg relative"
                       >
+                         <div className="w-14 h-14 grid place-content-center bg-primary text-white mx-auto items-center rounded-full shadow-lg absolute z-10 top-1/2 -translate-y-1/2 left-1/2 -translate-1/2 hover:cursor-pointer hover:bg-black"><Play /></div>
                         {item?.thumbnailUrl && (
                           <img
                             src={item.thumbnailUrl}
@@ -247,7 +271,7 @@ function SectionBlock({ title, icon: Icon, items = [] }) {
                 className="mx-auto mb-3 h-10 w-10 object-contain"
               />
             ) : (
-              <div className="mx-auto mb-3 grid h-10 w-10 place-content-center rounded-full bg-blue-50 text-sm font-bold text-secondary">
+              <div className="mx-auto mb-3 grid place-content-center text-sm font-extrabold text-primary">
                 {item?.icon || "✓"}
               </div>
             )}

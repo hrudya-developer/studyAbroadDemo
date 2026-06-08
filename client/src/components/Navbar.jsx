@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <header
       data-theme="mytheme"
-      className="relative z-[999] bg-secondary lg:bg-transparent"
+      className="relative z-[999] bg-secondary lg:bg-[#fafdff]"
     >
       <div className="navbar mx-auto max-w-7xl px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn shadow-xs">
 

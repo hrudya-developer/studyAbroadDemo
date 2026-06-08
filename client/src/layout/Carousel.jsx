@@ -267,7 +267,7 @@ const Carousel = () => {
 </p>
 
                     {/* BUTTONS */}
-                    <div className="mt-8 flex w-full flex-col items-center gap-4 sm:flex-row md:justify-start animate__animated animate__bounceInLeft">
+                    <div className="mt-8 mb-10 flex w-full flex-col items-center gap-4 sm:flex-row md:justify-start animate__animated animate__bounceInLeft">
 
                       <ButtonPrimary className="hover:-translate-y-1 transition ease-in-out">
                        <a href="#gfc_wrapper" className="w-full h-full hover:cursor-pointer">Get Free Counselling</a> 

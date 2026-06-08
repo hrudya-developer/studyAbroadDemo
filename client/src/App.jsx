@@ -34,6 +34,8 @@ import AllTestimonials from "./layout/AllTestimonials";
 import CourseSearch from "./pages/CourseSearch";
 import StudyAbroadBlog from "./pages/StudyAbroadBlog";
 import GermanPrograms from "./pages/GermanPrograms";
+import PopularCoursesPublic from "./pages/PopularCoursesPublic";
+import AddOnServices from "./layout/AddOnServices";
 
 
 
@@ -77,6 +79,8 @@ function Layout() {
         <Route path="/courseSearch" element={<CourseSearch />} />
 
          <Route path="/testimonials" element={<AllTestimonials />} />
+         <Route path ="/popularCoursePublic" element = {<PopularCoursesPublic/>} />
+         <Route path="/addOnServices" element = {<AddOnServices />} />
 
 
 

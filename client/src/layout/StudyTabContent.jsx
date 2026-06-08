@@ -112,7 +112,7 @@ if (loading) {
       ))}
 
     </div>
-    <Link to="/courseListing">
+    <Link to="/courseSearch">
       <ButtonPrimary className="my-10 mx-auto">
         View All Courses
       </ButtonPrimary>

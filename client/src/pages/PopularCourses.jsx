@@ -57,10 +57,7 @@ const PopularCourses = () => {
         >
           {popularCourses.map((course) => {
             const imageName =
-              course.image ||
-              course.course_image ||
-              course.thumbnail ||
-              course.icon;
+             course.icon
 
             const courseImage = imageName
               ? `${courseImagePath}${imageName}`
@@ -81,7 +78,7 @@ const PopularCourses = () => {
                     )}
                   </div>
 
-                  <h3 className="text-xl font-black text-slate-950">
+                  <h3 className="text-md font-bold text-slate-950">
                     {course.name ||
                       course.course_name ||
                       course.title ||

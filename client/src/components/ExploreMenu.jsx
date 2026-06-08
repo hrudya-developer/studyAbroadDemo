@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, GraduationCap } from "lucide-react";
+import { BookOpenText, ChevronDown, GraduationCap, HandHelping } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGermanPrograms } from "../redux/slices/germanProgramSlice";
@@ -67,52 +67,80 @@ function ExploreMenu() {
       </button>
 
       {openExplore && (
-        <ul className="absolute left-0 top-full z-50 mt-4 w-[310px] overflow-auto rounded-3xl border border-gray-100 bg-white p-3 shadow-2xl ring-1 ring-black/5">
-         
-         
-         
-          <li>
-            <button
-              type="button"
-              onClick={() => setOpenGerman((prev) => !prev)}
-              className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left transition hover:bg-primary/10"
-            >
-              <span className="flex items-center gap-3">
-                <span className="grid h-10 w-10 place-content-center rounded-xl bg-primary/10 text-primary">
-                  <GraduationCap size={20} />
-                </span>
+        <ul className="absolute left-0 top-full z-50 mt-4 w-[310px] rounded-3xl border border-gray-100 bg-white p-3 shadow-2xl ring-1 ring-black/5 max-h-64 overflow-y-auto">
 
-                <span>
-                  <span className="block text-sm font-bold text-gray-800">
-                    German Programs
-                  </span>
-                  <span className="block text-xs text-gray-500">
-                    Ausbildung, FSJ, Studienkollegs & more
-                  </span>
-                </span>
-              </span>
+  <li>
+ <Link
+  to="/popularCoursePublic"
+  onClick={closeMenus}
+  className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-primary/10"
+>
+  <span className="text-primary">
+    <BookOpenText size={20} />
+  </span>
+  <span className="text-sm font-bold text-gray-800">
+    Popular Courses
+  </span>
+</Link>
+  </li>
 
-              <ChevronDown
-                size={16}
-                className={`shrink-0 text-gray-500 transition-transform duration-300 ${
-                  openGerman ? "rotate-180" : ""
-                }`}
-              />
-            </button>
+  <li>
+    <Link
+      to="/addOnServices" onClick={closeMenus}
+      className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-primary/10"
+    >
+      <span className="text-primary">
+        <HandHelping size={20} />
+      </span>
+      <span className="text-sm font-bold text-gray-800">
+        Add On Services
+      </span>
+    </Link>
+  </li>
 
-            {openGerman && (
-              <ul className="mt-2 flex max-h-[220px] flex-col gap-1 overflow-y-auto overflow-x-hidden rounded-2xl bg-gray-50 p-2">
-                {germanPrograms.map((item) => (
-                  <li key={item.to} className="w-full">
-                    <SubMenuLink to={item.to} onClick={closeMenus}>
-                      {item.label}
-                    </SubMenuLink>
-                  </li>
-                ))}
-              </ul>
-            )}
+  <li>
+    <button
+      type="button"
+      onClick={() => setOpenGerman((prev) => !prev)}
+      className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left hover:bg-primary/10"
+    >
+      <div className="flex items-center gap-3">
+        <span className="text-primary">
+          <GraduationCap size={20} />
+        </span>
+
+        <div>
+          <div className="text-sm font-bold text-gray-800">
+            German Programs
+          </div>
+          <div className="text-xs text-gray-500">
+            Ausbildung, FSJ, Studienkollegs & more
+          </div>
+        </div>
+      </div>
+
+      <ChevronDown
+        size={16}
+        className={`transition-transform ${
+          openGerman ? "rotate-180" : ""
+        }`}
+      />
+    </button>
+
+    {openGerman && (
+      <ul className="mt-2 max-h-[220px] overflow-y-auto rounded-2xl bg-gray-50 p-2">
+        {germanPrograms.map((item) => (
+          <li key={item.to}>
+            <SubMenuLink to={item.to} onClick={closeMenus}>
+              {item.label}
+            </SubMenuLink>
           </li>
-        </ul>
+        ))}
+      </ul>
+    )}
+  </li>
+
+</ul>
       )}
     </li>
   );

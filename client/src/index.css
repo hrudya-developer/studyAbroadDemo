@@ -23,9 +23,33 @@
   --color-logoYellow:#f0ea2c;
  
 }
+html {
+  color-scheme: light;
+}
+
+
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+:root {
+  color-scheme: light;
+}
+
+
+}
 body{
   font-family: var(--font-nunito);
+    background: white;
+  color: #111827;
    
+}
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
 }
 .textColor{
   color:#000;

@@ -43,12 +43,20 @@ function StudyAbroadBlog() {
     backgroundImage: `url(${mapBg})`,
   }}
 >
-  <div className="flex justify-center mb-5"><GrBlog className="text-primary size-8"/></div>
-      <h2 className="mb-8 text-3xl font-bold text-secondary text-center">Latest Blogs</h2>
-        <div className="w-[65px] h-[5px] bg-secondary mx-auto">
+  <div className="flex justify-center mb-5"><span className="size-16 bg-red-50 grid place-content-center rounded-full shadow-2xl"><GrBlog className="text-primary size-8"/></span></div>
+     
+     <h5 className="text-primary text-center font-extrabold my-2 text-lg mb-5">Stay Updated</h5>
+     
+      <h2 className="mb-8 text-5xl font-bold text-secondary text-center">Latest Blogs</h2>
 
-        </div>
-      <p className="text-gray-800 py-10 px-10">Stay informed with our Study Abroad Blog, featuring expert advice, visa guidance, scholarship updates, student experiences, and destination-specific insights to help you navigate your international education journey with confidence.</p>
+
+      <div className="flex gap-2 justify-center">
+        <div className="w-[55px] h-[5px] bg-primary">
+
+        </div> <div className="w-[55px] h-[5px] bg-secondary">
+
+        </div></div>
+      <p className="text-gray-800 py-10 px-10 text-lg">Stay informed with our Study Abroad Blog, featuring expert advice, visa guidance, scholarship updates, student experiences, and destination-specific insights to help you navigate your international education journey with confidence.</p>
      
       
       

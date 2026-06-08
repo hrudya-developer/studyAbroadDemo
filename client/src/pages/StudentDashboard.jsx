@@ -102,7 +102,7 @@ function SectionTitle({ title }) {
   return (
     <div className="mb-4 flex items-center justify-between">
       <h2 className="text-xl font-black text-slate-950">{title}</h2>
-      <button className="font-semibold text-[#c9154f]">View all</button>
+      {/* <button className="font-semibold text-[#c9154f]">View all</button> */}
     </div>
   );
 }
