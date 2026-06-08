@@ -62,7 +62,7 @@ export default function AddOnServices() {
       {/* FEATURED */}
       {featuredServices.length > 0 && (
         <section
-          className="container mx-auto px-4 py-16 lg:px-8 bg-no-repeat"
+          className="container mx-auto max-w-7xl px-4 py-16 lg:px-8 bg-no-repeat"
           style={{ backgroundImage: `url(${mapBg})` }}
         >
           <div className="text-center mb-10">
@@ -75,7 +75,7 @@ export default function AddOnServices() {
             </h2>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 place-content-center">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 place-content-center">
             {featuredServices.map((service) => (
               <div
                 key={service.id}
