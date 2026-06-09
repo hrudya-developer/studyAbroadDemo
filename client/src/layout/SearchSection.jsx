@@ -231,7 +231,7 @@ const SearchSection = () => {
 
   return (
     <section className="py-0">
-      <div className="mx-auto max-w-7xl bg-secondary px-3 sm:px-5 md:px-8">
+      <div className="mx-auto max-w-7xl bg-secondary px-3 sm:px-5 md:px-8" data-aos="fade-up">
         <div className="py-10">
           <div className="grid grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <SelectField icon={MapPin}>
@@ -374,8 +374,8 @@ const SearchSection = () => {
 
 
       {showPopup && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4">
-    <div className="relative max-h-[85vh] w-full max-w-5xl overflow-y-auto rounded-2xl bg-white p-10 shadow-2xl">
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 px-4">
+    <div className="relative max-h-[85vh] w-auto overflow-y-auto rounded-2xl bg-white p-10 shadow-2xl">
       <button
         type="button"
         onClick={() => setShowPopup(false)}
@@ -410,7 +410,7 @@ const SearchSection = () => {
 
       {universityCourses.length > 0 && (
         <>
-          <p className="mb-4 text-md font-semibold text-black">
+          <p className="mb-4 text-md font-semibold text-gray-600">
             Showing {universityCourses.length} courses
           </p>
 
@@ -420,7 +420,7 @@ const SearchSection = () => {
                 key={course?.id || course?.course_id || course?.c_id || index}
                 className="rounded-2xl bg-white p-5 shadow-md ring-1 ring-gray-100"
               >
-                <h3 className="text-lg font-bold text-[#071d3a]">
+                <h3 className="text-md font-bold text-secondary">
                   {getCourseName(course)}
                 </h3>
 

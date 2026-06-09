@@ -25,6 +25,7 @@ import avatarFemale from "../assets/avatar1.png";
 import avatarMale from "../assets/avatar2.png";
 
 import { fetchCountries } from "../redux/slices/countrySlice";
+import SDBLanguagePrograms from "./SDBLanguagePrograms";
 
 function ProfileRow({ icon: Icon, label, value, color }) {
   return (
@@ -296,44 +297,10 @@ useEffect(() => {
         </div>
 
         <div className="rounded-[32px] bg-white p-6 shadow-sm">
-          <SectionTitle title="Quick Links" />
+          
 
-          <div className="space-y-1">
-            {[
-              { icon: User, label: "Book a Free Counseling", color: "#22c55e" },
-              { icon: Headphones, label: "IELTS Preparation", color: "#ec4899" },
-              { icon: FileText, label: "Visa Guide", color: "#3b82f6" },
-              { icon: Landmark, label: "Education Loan", color: "#f97316" },
-              { icon: Plane, label: "Pre Departure Guide", color: "#8b5cf6" },
-            ].map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <button
-                  key={item.label}
-                  className="flex w-full items-center justify-between rounded-2xl px-2 py-4 transition hover:bg-slate-50"
-                >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className="grid h-11 w-11 place-items-center rounded-xl"
-                      style={{
-                        background: `${item.color}20`,
-                        color: item.color,
-                      }}
-                    >
-                      <Icon size={20} />
-                    </div>
-
-                    <span className="font-semibold text-slate-800">
-                      {item.label}
-                    </span>
-                  </div>
-
-                  <ChevronRight size={20} />
-                </button>
-              );
-            })}
-          </div>
+<SDBLanguagePrograms />
+         
         </div>
       </aside>
     </div>

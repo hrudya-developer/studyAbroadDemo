@@ -33,7 +33,7 @@ const PopularCourses = () => {
   }
 
   return (
-    <div className="rounded-[32px] bg-white p-6 shadow-sm">
+    <div className="rounded-[32px] bg-white">
       <h2 className="mb-5 text-3xl font-black text-slate-950">
         Popular Courses
       </h2>
@@ -65,7 +65,7 @@ const PopularCourses = () => {
 
             return (
               <SwiperSlide key={course.id || course.course_id}>
-                <div className="h-full rounded-3xl border border-slate-100 bg-white p-4 shadow-sm transition hover:shadow-md">
+                <div className="h-full rounded-3xl bg-white p-4 shadow-sm transition hover:shadow-md">
                   <div className="mb-4 grid h-40 place-items-center overflow-hidden rounded-2xl bg-slate-50">
                     {courseImage ? (
                       <img

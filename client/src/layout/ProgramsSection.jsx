@@ -5,8 +5,8 @@ import Tabs from "./Tabs";
 const ProgramsSection = () => {
   return (
     <>
-<div className="max-w-7xl mx-auto" data-aos="fade-right" id="ep_section">
-    <div style={{backgroundImage:`url(${mapBg})`}} className="h-auto mb-14 bg-no-repeat bg-cover bg-center">
+<div className="max-w-7xl mx-auto px-4" data-aos="fade-right" id="ep_section">
+    <div style={{backgroundImage:`url(${mapBg})`}} className="h-auto mb-14 bg-no-repeat bg-contain bg-top w-full">
         <p className="text-primary font-bold text-center flex gap-3 justify-center mb-4"><span><Send className="text-primary"/></span>EXPLORE OUR PROGRAMS</p>
   <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 text-center text-secondary">Unlock Global <span className="text-primary">Opportunities</span></h1>
    <h5 className="font-bold text-secondary text-lg text-center my-2 px-5 md:px-3">Your Gateway to International Education and Immigration Success.</h5>

@@ -8,6 +8,7 @@ import germanProgramReducer from "./slices/germanProgramSlice";
 
 
 
+
 export const store = configureStore({
     reducer:{
         auth:authReducer,
@@ -16,5 +17,6 @@ export const store = configureStore({
          universityData: universityReducer,
          courseSearch: courseSearchReducer,
           germanProgramData: germanProgramReducer,
+        
     },
 })

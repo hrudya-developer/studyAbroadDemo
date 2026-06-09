@@ -1,322 +1,184 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import {
-  BookOpen,
-  CalendarDays,
-  ChevronRight,
-  GraduationCap,
-  ShieldCheck,
-} from "lucide-react";
+import { fetchCountries } from "../redux/slices/countrySlice";
+import { fetchUniversitiesByCountry } from "../redux/slices/universitySlice";
+
 import PopularCourses from "./PopularCourses";
+import SDBDestinations from "./SDBDestinations";
 
-
-
-const destinations = [
-  [
-    "Germany",
-    "100+ Properties",
-    "🇩🇪",
-    "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=600&q=80",
-  ],
-  [
-    "Austria",
-    "100+ Properties",
-    "🇦🇹",
-    "https://images.unsplash.com/photo-1508189860359-777d945909ef?auto=format&fit=crop&w=600&q=80",
-  ],
-  [
-    "USA",
-    "100+ Properties",
-    "🇺🇸",
-    "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=600&q=80",
-  ],
-  [
-    "UK",
-    "100+ Properties",
-    "🇬🇧",
-    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80",
-  ],
-];
-
-const universities = {
-  UK: [
-    "University of Oxford",
-    "University of Cambridge",
-    "Imperial College London",
-    "UCL",
-    "The University of Edinburgh",
-  ],
-  Australia: [
-    "The University of Queensland",
-    "The University of Adelaide",
-    "University of Melbourne",
-    "Monash University",
-    "University of Sydney",
-  ],
-  Canada: [
-    "University of Toronto",
-    "McGill University",
-    "University of British Columbia",
-    "University of Alberta",
-    "University of Waterloo",
-  ],
-  Germany: [
-    "Technical University of Munich",
-    "EU Business School",
-    "Lancaster University",
-    "Arden University",
-    "Heidelberg University",
-  ],
-  USA: ["Harvard University", "Stanford University", "MIT", "Columbia University", "Yale University"],
-  Ireland: [
-    "SETU Carlow",
-    "National College of Ireland",
-    "Trinity College Dublin",
-    "University College Dublin",
-    "Dublin City University",
-  ],
-};
-
-function StatCard({ icon: Icon, value, label, status, color }) {
-  return (
-    <div className="flex items-center gap-5 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-      <div
-        className="grid h-16 w-16 place-items-center rounded-full"
-        style={{ background: `${color}20`, color }}
-      >
-        <Icon size={30} />
-      </div>
-
-      <div>
-        <p className="text-2xl font-black text-slate-900">{value}</p>
-        <p className="text-sm">{label}</p>
-        <p className="text-sm font-bold" style={{ color }}>
-          {status}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function SectionTitle({ title }) {
-  return (
-    <div className="mb-4 flex items-center justify-between">
-      <h2 className="text-xl font-black text-slate-950">{title}</h2>
-      {/* <button className="font-semibold text-[#c9154f]">View all</button> */}
-    </div>
-  );
-}
+import { FaUniversity, FaMapMarkerAlt } from "react-icons/fa";
+import SDBLanguagePrograms from "./SDBLanguagePrograms";
 
 export default function StudentDashboard() {
-  const countries = Object.keys(universities);
-  const [activeCountry, setActiveCountry] = useState("UK");
+  const dispatch = useDispatch();
+
+  const [selectedCountryId, setSelectedCountryId] = useState(null);
+
+  const { uid } = useSelector((state) => state.auth);
+  const safeUid = uid ?? 0;
+
+  const { countries } = useSelector((state) => state.countryData);
+
+  const { universities, universityImagePath, loading } = useSelector(
+    (state) => state.universityData
+  );
+
+  const { email } = useSelector((state) => state.auth);
+
+  // Load countries
+  useEffect(() => {
+    dispatch(fetchCountries(safeUid));
+  }, [dispatch, safeUid]);
+
+  // Default country
+  useEffect(() => {
+    if (!selectedCountryId && countries?.length > 0) {
+      setSelectedCountryId(countries[0].id);
+    }
+  }, [countries]);
+
+  // Fetch universities
+  useEffect(() => {
+    if (!selectedCountryId) return;
+
+    dispatch(
+      fetchUniversitiesByCountry({
+        uid: safeUid,
+        id: selectedCountryId,
+        offset: 0,
+        keyword: "alluniversities",
+      })
+    );
+  }, [selectedCountryId, dispatch, safeUid]);
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6">
-      <section className="space-y-6">
-        <div className="relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm min-h-[300px]">
-          <img
-            className="absolute inset-y-0 right-0 h-full w-2/3 object-cover"
-            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
-            alt="Ireland"
-          />
+    <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {/* GRID LAYOUT */}
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6">
 
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/10" />
+        {/* LEFT SIDE */}
+        <section className="space-y-6 min-w-0">
 
-          <div className="relative max-w-md">
-            <p className="mb-5 font-bold text-primary">Welcome back, 👋</p>
+          {/* HERO */}
+          <div className="relative overflow-hidden rounded-3xl bg-white p-6 sm:p-8 shadow-sm min-h-[260px]">
+            <img
+              className="absolute inset-y-0 right-0 h-full w-1/2 sm:w-2/3 object-cover"
+              src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+              alt="hero"
+            />
 
-            <h1 className="text-5xl font-black leading-tight">
-              Your Dream,
-              <br />
-              <span className="text-primary">Our Guidance</span>
-            </h1>
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/10" />
 
-            <p className="mt-5 text-lg text-slate-700">
-              Let's take the next step towards your global future.
-            </p>
+            <div className="relative max-w-md">
+             <p className="mb-3 font-bold text-secondary text-sm sm:text-base">
+  Welcome back {email.split("@")[0].toUpperCase()}
+</p>
 
-            <button className="mt-7 rounded-xl bg-primary px-7 py-4 font-bold text-white shadow-lg">
-              Explore Destinations →
-            </button>
+              <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black leading-tight">
+                Your Dream,<br />
+                <span className="text-primary">Our Guidance</span>
+              </h1>
+
+              <p className="mt-4 text-sm sm:text-base text-slate-700">
+                Let's take the next step towards your global future.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* <div className="grid gap-4 md:grid-cols-4">
-          <StatCard
-            icon={GraduationCap}
-            value="03"
-            label="Applications"
-            status="In Progress"
-            color="#c9154f"
-          />
-
-          <StatCard
-            icon={BookOpen}
-            value="05"
-            label="Universities"
-            status="Shortlisted"
-            color="#7c3aed"
-          />
-
-          <StatCard
-            icon={CalendarDays}
-            value="02"
-            label="Counselor Sessions"
-            status="Upcoming"
-            color="#f97316"
-          />
-
-          <StatCard
-            icon={ShieldCheck}
-            value="01"
-            label="Offer Letter"
-            status="Received"
-            color="#16a34a"
-          />
-        </div> */}
-
-        <div className="rounded-3xl bg-white p-6 shadow-sm">
-          <SectionTitle title="" />
-
-          <div className="grid gap-5 grid-cols-1">
+          {/* COURSES */}
+          <div className="rounded-3xl bg-white p-4 sm:p-6 shadow-sm">
             <PopularCourses />
-            
-          </div>
-        </div>
-
-        <div className="rounded-3xl bg-white p-6 shadow-sm">
-          <SectionTitle title="Top Universities by Country" />
-
-          <div className="mb-5 flex gap-7 overflow-x-auto text-sm font-bold">
-            {countries.map((country) => (
-              <button
-                key={country}
-                onClick={() => setActiveCountry(country)}
-                className={`pb-3 ${
-                  activeCountry === country
-                    ? "border-b-4 border-secondary text-primary"
-                    : "text-slate-800"
-                }`}
-              >
-                {country}
-              </button>
-            ))}
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
-            {universities[activeCountry].map((uni, i) => (
-              <div
-                key={uni}
-                className="rounded-2xl border border-slate-100 bg-white p-5 text-center shadow-sm"
-              >
-                <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-primary text-lg font-black text-white">
-                  {uni
-                    .split(" ")
-                    .slice(0, 2)
-                    .map((w) => w[0])
-                    .join("")}
-                </div>
+          {/* UNIVERSITIES */}
+          <div className="rounded-3xl bg-white p-4 sm:p-6 shadow-sm min-w-0">
 
-                <h3 className="min-h-12 font-bold leading-tight">{uni}</h3>
-                <p className="mt-2 text-xs text-slate-500">QS Rank #{i + 3}</p>
+            <h2 className="text-lg sm:text-xl font-black mb-4">
+              Top Universities by Country
+            </h2>
 
-                <button className="mt-4 rounded-lg border border-secondary bg-secondary px-5 py-2 text-sm font-bold text-white">
-                  View Details
+            {/* TABS */}
+            <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-3 scrollbar-hide">
+              {countries?.map((country) => (
+                <button
+                  key={country.id}
+                  onClick={() => setSelectedCountryId(country.id)}
+                  className={`px-3 sm:px-4 py-2 rounded-xl whitespace-nowrap border text-sm sm:text-sm transition hover:cursor-pointer hover:bg-red-100 flex-shrink-0 ${
+                    selectedCountryId === country.id
+                      ? "bg-red-600 text-white border-red-600"
+                      : "bg-white text-slate-700 border-slate-200"
+                  }`}
+                >
+                  {country.country}
                 </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-3xl bg-white p-6 shadow-sm">
-          <SectionTitle title="Top Destinations" />
-
-          <div className="grid gap-5 md:grid-cols-4">
-            {destinations.map(([name, sub, flag, img]) => (
-              <div key={name} className="relative overflow-hidden rounded-2xl">
-                <img src={img} alt={name} className="h-40 w-full object-cover" />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-[#061d2b] to-transparent" />
-
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="font-black">{name}</p>
-                  <p className="text-sm">{sub}</p>
-                </div>
-
-                <div className="absolute bottom-4 right-4 text-3xl">{flag}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <aside className="space-y-6">
-        <div className="rounded-3xl bg-white p-6 shadow-sm">
-          <SectionTitle title="Upcoming Session" />
-
-          <div className="rounded-2xl p-5">
-            <div className="flex gap-4">
-              <img
-                className="h-16 w-16 rounded-full object-cover"
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&q=80"
-                alt="Counselor"
-              />
-
-              <div>
-                <p className="font-bold">Career Counseling</p>
-                <p className="text-sm text-slate-500">Ms. Anjali Sharma</p>
-              </div>
+              ))}
             </div>
 
-            <p className="mt-4 text-sm">28 May 2025, Wed</p>
-            <p className="text-sm">04:00 PM - 05:00 PM</p>
+            {/* CONTENT */}
+            {loading ? (
+              <p className="text-center py-10 text-sm sm:text-base">
+                Loading...
+              </p>
+            ) : universities?.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5 mt-4 max-h-72 overflow-y-auto">
 
-            <button className="mt-5 w-full rounded-xl bg-secondary py-3 font-bold text-white">
-              Join Session
-            </button>
+                {universities.map((item) => {
+                  const image =
+                    item?.logo && universityImagePath
+                      ? `${universityImagePath}/${item.logo}`
+                      : null;
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="border border-gray-100 bg-gray-50 flex flex-col items-center justify-center rounded-2xl p-3 sm:p-4 shadow-sm overflow-hidden"
+                    >
+                      {image ? (
+                        <img
+                          src={image}
+                          className="h-20 sm:h-20 w-20 object-cover rounded-xl border border-gray-100"
+                          alt={item.name}
+                        />
+                      ) : (
+                        <div className="h-20 sm:h-20 bg-slate-100 flex items-center justify-center rounded-xl border border-gray-100">
+                          <FaUniversity size={28} />
+                        </div>
+                      )}
+
+                      <h3 className="font-semibold mt-3 text-sm text-secondary text-center">
+                        {item.name}
+                      </h3>
+
+                      <p className="text-xs text-xs text-gray-700 flex items-center gap-2 mt-1 text-center">
+                        {/* <FaMapMarkerAlt /> */}
+                        {item.location}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-slate-500 text-center py-10 text-sm">
+                No universities found
+              </p>
+            )}
           </div>
-        </div>
+        </section>
 
-        <div className="rounded-3xl bg-white p-6 shadow-sm">
-          <SectionTitle title="Quick Links" />
-
-          {[
-            "Book a Free Counseling",
-            "IELTS Preparation",
-            "Visa Guide",
-            "Education Loan",
-            "Pre Departure Guide",
-          ].map((item) => (
-            <button
-              key={item}
-              className="flex w-full items-center justify-between border-b border-gray-200 py-4 text-left"
-            >
-              <span>{item}</span>
-              <ChevronRight size={18} />
-            </button>
-          ))}
-        </div>
-
-        <div className="rounded-3xl bg-white p-6 shadow-sm">
-          <SectionTitle title="Study for Free Countries" />
-
-          <div className="rounded-2xl bg-blue-700 p-8 text-white">
-            <p className="text-5xl font-black">USA</p>
-            <p className="text-2xl">MSc Nursing</p>
-
-            <div className="mt-5 inline-block rounded-full bg-red-600 px-5 py-3 font-black rotate-[-8deg]">
-              FREE
-            </div>
+        {/* RIGHT SIDEBAR */}
+        <aside className="w-full">
+          <div className="">
+            <SDBDestinations onCountrySelect={setSelectedCountryId} />
           </div>
 
-          <div className="mt-5 flex justify-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-secondary" />
-            <span className="h-3 w-3 rounded-full bg-slate-300" />
-            <span className="h-3 w-3 rounded-full bg-slate-300" />
-          </div>
-        </div>
-      </aside>
+          <div><SDBLanguagePrograms /></div>
+
+        </aside>
+        
+
+      </div>
     </div>
   );
 }

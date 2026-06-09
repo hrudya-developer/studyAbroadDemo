@@ -226,15 +226,16 @@ const Counselling = () => {
             }}
             data-aos="fade-right"
           >
-            <div className="absolute inset-0 bg-secondary/80"></div>
+            <div className="absolute inset-0 bg-secondary/90"></div>
 
-            <div className="relative z-10">
+            <div className="relative z-10 flex flex-col gap-10">
               <div className="mb-4 flex items-center gap-2 font-semibold text-white">
-                <Headphones className="h-5 w-5 text-primary" />
-                <span className="text-primary">Expert Guidance, Every Step</span>
+                <Headphones className="h-10 w-10 text-primary" />
+                <span className="text-primary text-2xl font-extrabold">Expert Guidance, Every Step</span>
+
               </div>
 
-              <h1 className="font-ubuntu mb-2 text-center text-3xl font-bold text-white sm:text-3xl md:text-4xl lg:text-left lg:text-5xl">
+              <h1 className="font-ubuntu my-8 text-center text-5xl font-bold text-white sm:text-5xl md:text-5xl lg:text-left lg:text-6xl">
                 Your Dream <br />
                 University <br />
                 <span className="text-primary">Awaits You</span>
@@ -242,7 +243,7 @@ const Counselling = () => {
 
               <div className="mt-5 mb-6 h-1 w-14 rounded-full bg-primary"></div>
 
-              <p className="max-w-md text-lg leading-8 text-white/90">
+              <p className="max-w-md text-xl leading-8 text-white/90">
                 We guide you at every step of your study abroad journey.
               </p>
             </div>

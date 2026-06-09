@@ -11,6 +11,8 @@ import SASteps from "../layout/SASteps"
 import SearchSection from "../layout/SearchSection"
 import StudyDestinations from "../layout/StudyDestinations"
 import Testimonial from "../layout/Testimonial"
+import LanguagePrograms from "../layout/LanguageProgram"
+import MobileApp from "../layout/MobileApp"
 // import Topbar from "../layout/Topbar"
 
 
@@ -19,16 +21,24 @@ const Home = () => {
     <>
     {/* <Topbar /> */}
     {/* <Navbar /> */}
+
+
+
     <Carousel />
       <SearchSection />
       <MainSectionOne />
       <ProgramsSection />
     <Destinations />
+    <LanguagePrograms />
+    <MobileApp />
     <EssentialService />
-    <SASteps />
-    <Testimonial />
-    <Counselling />
-    <StudyDestinations />
+    <SASteps /> 
+    <Testimonial /> 
+   <Counselling />
+    <StudyDestinations /> 
+
+
+
     {/* <Footer />
     <BottomBar /> */}
     </>

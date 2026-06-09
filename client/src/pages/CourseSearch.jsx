@@ -339,7 +339,7 @@ export default function CourseSearch() {
                     key={course?.id || course?.course_id || course?.c_id || index}
                     className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-xl"
                   >
-                    <h3 className="text-lg font-bold text-[#071d3a]">
+                    <h3 className="text-md font-bold text-primary">
                       {getCourseName(course)}
                     </h3>
 

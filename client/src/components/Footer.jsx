@@ -100,10 +100,10 @@ export default function Footer() {
   </div>
 
   {/* Existing Footer Content */}
-  <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
+  <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-3 lg:grid-cols-3 lg:px-8">
     
     {/* Logo Section */}
-    <div className="flex flex-col items-center justify-center text-center lg:items-start lg:text-left">
+    <div className="flex flex-col items-start text-center lg:items-start lg:text-left">
       <img src={logo} alt="Medcity International" className="mb-8 w-72" />
 
       <div className="flex items-center gap-5">
