@@ -29,7 +29,7 @@ const UniversityMainCourses = ({ onSelectMainCourse, selectedMainCourseId }) => 
     <div className="mb-8">
      
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-3">
         {universityMainCourses.map((course) => {
           const isActive = String(selectedMainCourseId) === String(course.c_id);
           const imageUrl =
@@ -40,13 +40,13 @@ const UniversityMainCourses = ({ onSelectMainCourse, selectedMainCourseId }) => 
               type="button"
               key={course.c_id}
               onClick={() => onSelectMainCourse?.(course.c_id)}
-              className={`rounded-xl p-3 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-md ${
+              className={`rounded-xl p-2 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-md ${
                 isActive
                   ? "bg-red-100"
                   : "bg-gray-100"
               }`}
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-white">
+              <div className="mb-2 flex h-8 w-8 items-center justify-center text-primary">
                 {imageUrl ? (
                   <img
                     src={imageUrl}
@@ -65,11 +65,11 @@ const UniversityMainCourses = ({ onSelectMainCourse, selectedMainCourseId }) => 
                 />
               </div>
 
-              <h4 className="text-md font-black text-[#081c47]">
+              <h4 className="text-sm font-extrabold text-[#081c47]">
                 {course.name}
               </h4>
 
-              <p className="mt-2 text-sm font-bold text-slate-700">
+              <p className="text-sm font-bold text-slate-700">
                 {course.courses} Courses
               </p>
             </button>

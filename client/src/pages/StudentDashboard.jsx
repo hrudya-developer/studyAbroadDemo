@@ -72,16 +72,16 @@ export default function StudentDashboard() {
             <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/10" />
 
             <div className="relative max-w-md">
-             <p className="mb-3 font-bold text-secondary text-sm sm:text-base">
-  Welcome back {email.split("@")[0].toUpperCase()}
+             <p className="mb-3 font-bold text-secondary text-sm sm:text-lg">
+  Welcome back <span className="text-primary bold text-xl font-extrabold">{email.split("@")[0].toUpperCase()}</span>
 </p>
 
-              <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black leading-tight">
+              <h1 className="text-3xl sm:text-3xl xl:text-4xl font-extrabold leading-tight">
                 Your Dream,<br />
                 <span className="text-primary">Our Guidance</span>
               </h1>
 
-              <p className="mt-4 text-sm sm:text-base text-slate-700">
+              <p className="mt-4 text-sm sm:text-sm text-slate-700">
                 Let's take the next step towards your global future.
               </p>
             </div>

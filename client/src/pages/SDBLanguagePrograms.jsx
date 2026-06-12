@@ -110,7 +110,7 @@ export default function SDBLanguagePrograms() {
               </div>
 
               {/* TITLE */}
-              <h3 className="text-sm sm:text-base font-bold text-secondary leading-snug">
+              <h3 className="text-sm sm:text-sm font-bold text-secondary leading-snug">
                 {program.title}
               </h3>
 

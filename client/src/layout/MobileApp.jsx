@@ -62,8 +62,8 @@ const MobileApp = () => {
               Download App
             </a>
 
-            <button className="border border-primary text-primary px-6 py-3 rounded-xl font-bold hover:bg-primary hover:text-white transition">
-              Learn More
+            <button className="border border-primary text-primary px-6 py-3 rounded-xl font-bold hover:bg-secondary hover:text-white transition">
+              <a href="#gfc_wrapper" className="w-full h-full">Get Free Counselling</a>
             </button>
           </div>
 

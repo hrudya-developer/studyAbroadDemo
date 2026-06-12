@@ -5,6 +5,7 @@ import courseReducer from "./slices/courseSlice";
 import universityReducer from "./slices/universitySlice";
 import courseSearchReducer from "./slices/courseSearchSlice";
 import germanProgramReducer from "./slices/germanProgramSlice";
+import findCourseReducer from "./slices/findCourseDBSlice";
 
 
 
@@ -17,6 +18,7 @@ export const store = configureStore({
          universityData: universityReducer,
          courseSearch: courseSearchReducer,
           germanProgramData: germanProgramReducer,
+          findCourse: findCourseReducer
         
     },
 })

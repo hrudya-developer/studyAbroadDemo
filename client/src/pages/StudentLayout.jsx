@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../assets/logo.png";
+import dbGlobe from "../assets/globeImg.png";
 
 import {
   Bell,
@@ -22,9 +23,12 @@ import {
   Wallet,
 } from "lucide-react";
 
+
 const navItems = [
   [Home, "Dashboard", "/student"],
   [User, "My Profile", "/student/profile"],
+  [GraduationCap, "Find a course", "/student/findCourse"],
+  
   
   // [FileText, "My Applications", "/student/applications"],
   // [BookOpen, "Shortlisted Universities", "/student/shortlisted-universities"],
@@ -69,7 +73,12 @@ function Sidebar() {
             )}
           </NavLink>
         ))}
+          <div className="w-full h-34 absolute bottom-15 left-0">
+            <img src={dbGlobe} className="object-contain mx-auto"/>
+
+      </div>
       </nav>
+    
     </aside>
   );
 }
@@ -81,7 +90,7 @@ function Header() {
     <header className="sticky top-0 z-30 h-24 border-b border-slate-200 bg-white/90 backdrop-blur lg:ml-72">
       <div className="flex h-full justify-between items-center gap-5 px-6 lg:px-8">
         <button className="rounded-xl p-2 hover:bg-slate-100">
-          <Menu />
+          {/* <Menu /> */}
         </button>
 
         {/* <div className="relative max-w-3xl flex-1">

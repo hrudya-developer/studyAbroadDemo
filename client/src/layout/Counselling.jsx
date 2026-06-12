@@ -362,7 +362,7 @@ const Counselling = () => {
                   value={formData.nearestidp}
                   onChange={handleSelectChange}
                   icon={<MapPin className="h-4 w-4" />}
-                  label="Nearest IDP Office*"
+                  label="Nearest Medcity Office*"
                   options={["Kochi", "Calicut", "Kannur", "Trivandrum"]}
                   error={errors.nearestidp}
                 />

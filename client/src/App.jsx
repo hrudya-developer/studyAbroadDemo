@@ -4,6 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import FollowCursor from "./layout/FollowCursor";
+import ProtectedRoute from "./protectedRoute/ProtectedRoute";
 
 import {
   BrowserRouter,
@@ -36,6 +37,7 @@ import StudyAbroadBlog from "./pages/StudyAbroadBlog";
 import GermanPrograms from "./pages/GermanPrograms";
 import PopularCoursesPublic from "./pages/PopularCoursesPublic";
 import AddOnServices from "./layout/AddOnServices";
+import StudentFindCourse from "./pages/SDBFindCourse";
 
 
 
@@ -53,6 +55,17 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/destinationList" element={<DestinationList />} />
+
+{/* protecte route */}
+<Route element={<ProtectedRoute />}>
+  <Route path="/student" element={<StudentLayout />}>
+    <Route index element={<StudentDashboard />} />
+    <Route path="profile" element={<StudentProfile />} />
+    <Route path="findCourse" element={<StudentFindCourse />} />
+  </Route>
+</Route>
+{/* protecte route */}
+
 
         <Route path="/loginViaOtp" element={<LoginPage />} />
         <Route path="/verify-otp" element={<OtpVerification />} />
@@ -85,11 +98,6 @@ function Layout() {
 
 
 
-
-        <Route path="/student" element={<StudentLayout />}>
-          <Route index element={<StudentDashboard />} />
-          <Route path="profile" element={<StudentProfile />} />
-        </Route>
       </Routes>
 
       {!hideLayout && <Footer />}

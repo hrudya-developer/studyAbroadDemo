@@ -6,23 +6,28 @@ import {
   GraduationCap,
   Clock,
   Wallet,
-  Globe,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import SDBQualificationModal from "./SDBQualificationModal";
+
 import {
   fetchUniversityCourses,
   fetchUniversityMainCourses,
   clearUniversityCourses,
 } from "../redux/slices/courseSlice";
+
 import UniversityMainCourses from "../pages/UniversityMainCourses";
 
 const CARDS_PER_PAGE = 10;
 
-const CoursesOfUniv = ({ courseCategoryId }) => {
+const SDBPreviewCourses = ({ courseCategoryId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const [showPopup, setShowPopup] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMainCourseId, setSelectedMainCourseId] = useState(
     courseCategoryId || ""
@@ -37,6 +42,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
     universityCourses = [],
     universityCoursesLoading,
     universityCoursesError,
+    universityMainCourses = [],
   } = useSelector((state) => state.courseData);
 
   useEffect(() => {
@@ -47,8 +53,13 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
   useEffect(() => {
     if (courseCategoryId) {
       setSelectedMainCourseId(courseCategoryId);
+      return;
     }
-  }, [courseCategoryId]);
+
+    if (!selectedMainCourseId && universityMainCourses.length > 0) {
+      setSelectedMainCourseId(universityMainCourses[0]?.c_id);
+    }
+  }, [courseCategoryId, selectedMainCourseId, universityMainCourses]);
 
   useEffect(() => {
     if (!selectedUniversity?.id || !selectedMainCourseId) return;
@@ -66,7 +77,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
     );
   }, [dispatch, safeUid, selectedUniversity?.id, selectedMainCourseId]);
 
-  const totalPages = Math.ceil(universityCourses.length / CARDS_PER_PAGE);
+  const totalPages = Math.ceil(universityCourses.length / CARDS_PER_PAGE) || 1;
 
   const currentCourses = useMemo(() => {
     const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
@@ -96,6 +107,16 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
     return "Fees not available";
   };
 
+  const saveCourseSession = (course) => {
+    sessionStorage.setItem("selectedCourse", JSON.stringify(course));
+    sessionStorage.setItem(
+      "selectedUniversity",
+      JSON.stringify(selectedUniversity)
+    );
+    sessionStorage.setItem("universityId", selectedUniversity?.id || "");
+    sessionStorage.setItem("countryId", selectedUniversity?.d_id || "");
+  };
+
   if (!selectedUniversity?.id) {
     return (
       <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
@@ -107,14 +128,12 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
   return (
     <section>
       <div className="mb-8">
-        <p className="my-5 mt-10 text-sm font-black uppercase text-primary">
-          Available Courses
-        </p>
-
-        <h2 className="text-3xl font-black text-[#081c47] sm:text-4xl">
+        <h2 className="mt-13 text-lg font-black text-[#081c47] sm:text-xl">
           Courses at{" "}
           <span className="text-[#cb0e10]">
-            {selectedUniversity?.name || "University"}
+            {selectedUniversity?.name ||
+              selectedUniversity?.university ||
+              "University"}
           </span>
         </h2>
       </div>
@@ -125,15 +144,13 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
             Main Courses
           </h3>
 
-          <div className="flex flex-col gap-3">
-            <UniversityMainCourses
-              selectedMainCourseId={selectedMainCourseId}
-              onSelectMainCourse={setSelectedMainCourseId}
-            />
-          </div>
+          <UniversityMainCourses
+            selectedMainCourseId={selectedMainCourseId}
+            onSelectMainCourse={setSelectedMainCourseId}
+          />
         </aside>
 
-        <main className="max-h-[625px] overflow-y-auto w-auto">
+        <main className="max-h-[625px] w-auto overflow-y-auto">
           {universityCoursesLoading && universityCourses.length === 0 ? (
             <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
               <p className="font-bold text-[#081c47]">Loading courses...</p>
@@ -162,16 +179,6 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
 
                     <div className="space-y-1">
                       <InfoLine
-                        icon={Globe}
-                        label="University"
-                        value={
-                          course?.university ||
-                          selectedUniversity?.name ||
-                          "University"
-                        }
-                      />
-
-                      <InfoLine
                         icon={GraduationCap}
                         label="Level"
                         value={course?.level || "Level not available"}
@@ -190,44 +197,21 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
                       />
                     </div>
 
-                    <Link
-                      to={`/courseDetailsOfUniv/${course.id}`}
-                      state={{
-                        course,
-                        universityId: selectedUniversity?.id,
-                        countryId: selectedUniversity?.d_id,
-                      }}
-                      onClick={() => {
-                        sessionStorage.setItem(
-                          "selectedCourse",
-                          JSON.stringify(course)
-                        );
-                        sessionStorage.setItem(
-                          "selectedUniversity",
-                          JSON.stringify(selectedUniversity)
-                        );
-                        sessionStorage.setItem(
-                          "universityId",
-                          selectedUniversity?.id
-                        );
-                        sessionStorage.setItem(
-                          "countryId",
-                          selectedUniversity?.d_id || ""
-                        );
-                      }}
-                    >
-                     <div className="flex flex-col md:flex-row gap-2">
-                      <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-[#cb0e10] transition hover:bg-[#cb0e10] hover:text-white">
-                        View Course
-                        <ArrowRight className="h-5 w-5" />
-                      </button>
-                        <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-white bg-primary transition hover:bg-secondary hover:text-white">
+                    <div className="mt-6 flex flex-col gap-2 md:flex-row">
+                     
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          saveCourseSession(course);
+                          setShowPopup(true);
+                        }}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-primary px-3 py-2 text-sm font-bold text-white transition hover:bg-secondary"
+                      >
                         Apply Now
                         <ArrowRight className="h-5 w-5" />
-                      </button></div> 
-
-
-                    </Link>
+                      </button>
+                    </div>
                   </article>
                 ))}
               </div>
@@ -280,6 +264,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
           ) : (
             <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
               <BookOpen className="mx-auto mb-4 h-14 w-14 text-[#cb0e10]" />
+
               <h3 className="mb-2 text-2xl font-black text-[#081c47]">
                 {selectedMainCourseId
                   ? "No courses found"
@@ -289,6 +274,15 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
           )}
         </main>
       </div>
+
+      <SDBQualificationModal
+        open={showPopup}
+        onClose={() => setShowPopup(false)}
+        onUpdate={() => {
+          setShowPopup(false);
+          navigate("/student/profile");
+        }}
+      />
     </section>
   );
 };
@@ -304,6 +298,7 @@ function InfoLine({ icon: Icon, label, value }) {
         <p className="text-[11px] font-black uppercase text-slate-400">
           {label}
         </p>
+
         <p className="mt-1 break-words text-sm font-bold leading-6 text-[#081c47]">
           {value}
         </p>
@@ -312,4 +307,4 @@ function InfoLine({ icon: Icon, label, value }) {
   );
 }
 
-export default CoursesOfUniv;
+export default SDBPreviewCourses;
