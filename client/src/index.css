@@ -81,12 +81,12 @@ body{
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d70707;
+  background: #631A33;
   border-radius: 10px;
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #d70707 transparent;
+  scrollbar-color: #631A33 transparent;
 }

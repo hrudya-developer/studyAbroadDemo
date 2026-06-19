@@ -254,7 +254,7 @@ const handleCountryClick = (country) => {
                         {/* DETAILS */}
                         <div className="p-5">
 
-                          <h3 className="text-lg font-extrabold text-slate-950 line-clamp-2 min-h-[56px]">
+                          <h3 className="text-md font-extrabold text-slate-950 line-clamp-2 min-h-[56px]">
                             {universityName}
                           </h3>
 
