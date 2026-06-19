@@ -64,14 +64,7 @@ export default function SDBLanguagePrograms() {
   return (
     <div className="w-full">
       
-<<<<<<< HEAD
     
-=======
-      {/* TITLE */}
-      <h1 className="text-lg sm:text-xl text-center font-extrabold mt-10 mb-5 text-secondary">
-        Our Language Programs
-      </h1>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
       {/* GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

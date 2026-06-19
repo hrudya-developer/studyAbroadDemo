@@ -5,15 +5,9 @@ const MainSectionOne = () => {
   return (
     <>
     <section id="_mainSectionOne" className="max-w-7xl mx-auto bg-white px-3 sm:px-5 md:px-8 py-18" data-aos="fade-up">
-<<<<<<< HEAD
         <h1 className="font-nunito font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 text-center text-darkPrimary">Everything You Need, All in <span className="text-primary">One</span> Place</h1>
         <p className="py-2 text-md sm:text-md md:text-lg lg:text-lg xl:text-lg text-center textColor">From shortlisting to visa guidance - we're with you at every step.</p>
 <div className="w-12.5 h-1.5 bg-primary rounded-2xl my-3 mx-auto"></div>
-=======
-        <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 text-center text-secondary">Everything You Need, All in <span className="text-primary">One</span> Place</h1>
-        <p className="py-2 text-md sm:text-md md:text-lg lg:text-xl xl:text-xl text-center textColor">From shortlisting to visa guidance - we're with you at every step.</p>
-<div className="w-12.5 h-1.5 bg-primary my-3 mx-auto"></div>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xxl:grid-cols-4 gap-3 my-15">
 

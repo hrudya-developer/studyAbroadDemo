@@ -4,10 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { BookOpen } from "lucide-react";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -38,13 +34,7 @@ const PopularCourses = () => {
 
   return (
     <div className="rounded-[32px] bg-white">
-<<<<<<< HEAD
     
-=======
-      <h2 className="mb-5 text-3xl font-black text-slate-950">
-        Popular Courses
-      </h2>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
       {popularCourses?.length > 0 ? (
         <Swiper
@@ -60,11 +50,7 @@ const PopularCourses = () => {
           breakpoints={{
             0: { slidesPerView: 1 },
             640: { slidesPerView: 2 },
-<<<<<<< HEAD
             1024: { slidesPerView: 2 },
-=======
-            1024: { slidesPerView: 3 },
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           }}
         >
           {popularCourses.map((course) => {
@@ -83,11 +69,7 @@ const PopularCourses = () => {
                       <img
                         src={courseImage}
                         alt={course.name || course.course || "Course"}
-<<<<<<< HEAD
                         className="h-full w-full object-cover object-center"
-=======
-                        className="h-full w-full object-cover"
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                       />
                     ) : (
                       <BookOpen size={44} className="text-primary" />

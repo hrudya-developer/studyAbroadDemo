@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 
-const FollowCursor = ({ color = '#c50920', zIndex }) => {
+const FollowCursor = ({ color = '#7c0f39', zIndex }) => {
   useEffect(() => {
     // Skip on touch devices/mobile
     const isTouchDevice =

@@ -29,11 +29,7 @@ const MobileApp = () => {
 
         {/* RIGHT CONTENT */}
         <div>
-<<<<<<< HEAD
           <h1 className="text-3xl md:text-4xl font-extrabold font-nunito text-darkPrimary">
-=======
-          <h1 className="text-3xl md:text-4xl font-extrabold text-secondary font-ubuntu">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             Study Abroad Mobile App
           </h1>
 

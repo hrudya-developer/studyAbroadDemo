@@ -74,11 +74,7 @@ export default function LanguagePrograms() {
             Our Language Programs
           </span>
 
-<<<<<<< HEAD
           <h2 className="mt-6 text-4xl font-bold leading-tight text-darkPrimary md:text-5xl lg:text-5xl font-nunito" data-aos="fade-up">
-=======
-          <h2 className="mt-6 text-4xl font-bold leading-tight text-secondary md:text-5xl lg:text-5xl font-ubuntu" data-aos="fade-up">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             Empowering You To{" "}
             <span className="text-primary">Communicate Globally</span>
           </h2>

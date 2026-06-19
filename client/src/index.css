@@ -5,17 +5,11 @@
 
 @theme {
   /* --color-primary: #cb0e10; old red*/
-<<<<<<< HEAD
   --color-primary:#c01f53;
   
   --color-secondary: #0466AF;
     --color-logoYellow:#F7EC22;
     --color-darkPrimary :#631A33;
-=======
-  --color-primary:#cb0e10;
-  --color-secondary: #081c47;
-    --color-logoYellow:#f0ea2c;
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   --font-ubuntu: "Ubuntu", sans-serif;
     --font-nunito: "Nunito", sans-serif;
 
@@ -26,16 +20,10 @@
   name: "mytheme";
   default: true;
 
-<<<<<<< HEAD
   --color-primary: #c01f53;
   --color-secondary: #0466AF;
   --color-logoYellow:#F7EC22;
   --color-darkPrimary :#631A33;
-=======
-  --color-primary: #cb0e10;
-  --color-secondary: #081c47;
-  --color-logoYellow:#f0ea2c;
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
  
 }
 html {

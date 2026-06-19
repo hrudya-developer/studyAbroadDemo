@@ -14,23 +14,13 @@ import {
   Percent,
   Headphones,
 } from "lucide-react";
-<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 
-=======
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import { useDispatch, useSelector } from "react-redux";
-
-import "swiper/css";
-import "swiper/css/pagination";
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 import avatarFemale from "../assets/avatar1.png";
 import avatarMale from "../assets/avatar2.png";
 
 import { fetchCountries } from "../redux/slices/countrySlice";
-<<<<<<< HEAD
 import { fetchStudentProfile } from "../redux/slices/studentSlice";
 import SDBUpdateStudentProfile from "./SDBUpdateStudentProfile";
 import SDBQualificationUpdate from "./SDBQualificationUpdate";
@@ -53,42 +43,12 @@ function InfoCard({ icon: Icon, label, value, color }) {
       </div>
 
       <p className="break-words text-base font-black text-slate-950">
-=======
-import SDBLanguagePrograms from "./SDBLanguagePrograms";
-
-function ProfileRow({ icon: Icon, label, value, color }) {
-  return (
-    <div className="flex items-center border-b border-slate-100 py-5">
-      <div
-        className="mr-5 grid h-11 w-11 shrink-0 place-items-center rounded-xl"
-        style={{ background: `${color}20`, color }}
-      >
-        <Icon size={20} />
-      </div>
-
-      <p className="w-44 shrink-0 text-sm font-medium text-slate-500">
-        {label}
-      </p>
-
-      <p className="flex-1 break-words text-sm font-bold text-slate-900">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
         {value || "N/A"}
       </p>
     </div>
   );
 }
 
-<<<<<<< HEAD
-=======
-function SectionTitle({ title }) {
-  return (
-    <div className="mb-5 flex items-center justify-between">
-      <h2 className="text-3xl font-black text-slate-950">{title}</h2>
-    </div>
-  );
-}
-
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 function hasValue(value) {
   return (
     value !== undefined &&
@@ -110,7 +70,6 @@ function percentValue(value) {
 }
 
 export default function StudentProfile() {
-<<<<<<< HEAD
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showEditQualification, setShowEditQualification] = useState(false);
   const dispatch = useDispatch();
@@ -130,63 +89,6 @@ export default function StudentProfile() {
       dispatch(fetchStudentProfile(uid));
     }
   }, [uid, dispatch]);
-=======
-  const dispatch = useDispatch();
-
-  const { uid, name, email, user } = useSelector((state) => state.auth);
-  const { countries = [], imagePath = "" } = useSelector(
-    (state) => state.countryData
-  );
-
-  const [profile, setProfile] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const API_KEY = "overseas@Miak2023";
-
-  const getProfile = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const response = await fetch(
-        "https://overseas.technocitysolutions.com/public/api/getStudentProfile",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ api: API_KEY, uid }),
-        }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok || result?.status === false) {
-        throw new Error(
-          result?.msg || result?.message || "Failed to fetch profile"
-        );
-      }
-
-      const studentData = Array.isArray(result?.data)
-        ? result.data[0]
-        : result?.data;
-
-      setProfile(studentData || {});
-    } catch (err) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (uid) {
-      getProfile();
-    } else {
-      setLoading(false);
-      setError("User ID not found. Please login again.");
-    }
-  }, [uid]);
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
   useEffect(() => {
     if (uid && countries.length === 0) {
@@ -244,7 +146,6 @@ export default function StudentProfile() {
       ? avatarFemale
       : "https://cdn-icons-png.flaticon.com/512/847/847969.png");
 
-<<<<<<< HEAD
   const profileRows = [
     {
       icon: IdCard,
@@ -284,8 +185,6 @@ export default function StudentProfile() {
     },
   ];
 
-=======
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   const qualificationRows = [
     {
       icon: GraduationCap,
@@ -391,7 +290,6 @@ export default function StudentProfile() {
     },
   ].filter((item) => hasValue(item.value));
 
-<<<<<<< HEAD
   if (!uid) {
     return (
       <div className="rounded-[32px] bg-white p-8 shadow-sm">
@@ -403,9 +301,6 @@ export default function StudentProfile() {
   }
 
   if (profileLoading) {
-=======
-  if (loading) {
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     return (
       <div className="rounded-[32px] bg-white p-8 shadow-sm">
         <p className="text-lg font-bold text-slate-700">Loading profile...</p>
@@ -413,23 +308,15 @@ export default function StudentProfile() {
     );
   }
 
-<<<<<<< HEAD
   if (profileError) {
     return (
       <div className="rounded-[32px] bg-white p-8 shadow-sm">
         <p className="text-lg font-bold text-red-500">{profileError}</p>
-=======
-  if (error) {
-    return (
-      <div className="rounded-[32px] bg-white p-8 shadow-sm">
-        <p className="text-lg font-bold text-red-500">{error}</p>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
       </div>
     );
   }
 
   return (
-<<<<<<< HEAD
     <section className="space-y-6">
       <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-[#ffcaca] to-[#fbd5ff] p-5 shadow-sm sm:p-8">
         <div className="grid items-center gap-6 md:grid-cols-[140px_1fr]">
@@ -510,63 +397,6 @@ export default function StudentProfile() {
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {qualificationRows.map((item) => (
                 <InfoCard
-=======
-    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_420px]">
-      <section className="space-y-6">
-        <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-[#ffcaca] to-[#fbd5ff] p-8 shadow-sm">
-          <div className="grid items-center gap-8 lg:grid-cols-[160px_1fr]">
-            <div className="relative">
-              <img
-                src={studentImage}
-                alt="student"
-                className="h-36 w-36 rounded-full object-cover ring-8 ring-white"
-              />
-              <span className="absolute bottom-2 right-2 h-7 w-7 rounded-full border-4 border-white bg-green-500" />
-            </div>
-
-            <div>
-              <p className="mb-3 font-bold text-primary">Welcome back, 👋</p>
-              <h1 className="text-5xl font-black leading-tight text-slate-950">
-                Hello, <span className="text-primary">{studentName}!</span>
-              </h1>
-              <p className="mt-5 max-w-md text-lg leading-8 text-slate-600">
-                Your journey to global education starts with the right guidance.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-[32px] bg-white p-8 shadow-sm">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-4xl font-black text-slate-950">My Profile</h2>
-
-            <button className="flex items-center gap-2 rounded-2xl bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-secondary">
-              <Edit size={18} />
-              Edit Details
-            </button>
-          </div>
-
-          <ProfileRow icon={IdCard} label="User name" value={studentName} color="#8b5cf6" />
-          <ProfileRow icon={Mail} label="Email" value={studentEmail} color="#7c3aed" />
-          <ProfileRow icon={Phone} label="Contact" value={studentPhone} color="#22c55e" />
-          <ProfileRow icon={CalendarDays} label="Date of Birth" value={studentDob} color="#f97316" />
-          <ProfileRow icon={User} label="Gender" value={studentGender} color="#ec4899" />
-          <ProfileRow icon={MapPin} label="Place" value={studentPlace} color="#3b82f6" />
-
-          {qualificationRows.length > 0 && (
-            <>
-              <div className="mb-2 mt-8 flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-red-50 text-primary">
-                  <FileText size={20} />
-                </div>
-                <h3 className="text-2xl font-black text-slate-950">
-                  Qualification Details
-                </h3>
-              </div>
-
-              {qualificationRows.map((item) => (
-                <ProfileRow
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                   key={item.label}
                   icon={item.icon}
                   label={item.label}
@@ -574,7 +404,6 @@ export default function StudentProfile() {
                   color={item.color}
                 />
               ))}
-<<<<<<< HEAD
             </div>
           </div>
         )}
@@ -595,85 +424,5 @@ export default function StudentProfile() {
   }}
 />
     </section>
-=======
-            </>
-          )}
-
-          <button className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-gray-100 py-4 text-base font-bold text-primary transition hover:cursor-pointer hover:bg-primary hover:text-white">
-            <Trash2 size={18} />
-            Disable Account
-          </button>
-        </div>
-      </section>
-
-      <aside className="space-y-6">
-        <div className="rounded-[32px] bg-white p-6 shadow-sm">
-          <SectionTitle title="Our Destinations" />
-
-          {countries?.length > 0 ? (
-            <Swiper
-              modules={[Autoplay]}
-              spaceBetween={16}
-              slidesPerView={2}
-              autoplay={{ delay: 2500, disableOnInteraction: false }}
-              loop={countries.length > 2}
-              breakpoints={{
-                0: { slidesPerView: 1 },
-                500: { slidesPerView: 2 },
-              }}
-            >
-              {countries.map((item) => {
-                const countryImage = item.image
-                  ? `${imagePath}/${item.image}`
-                  : "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop";
-
-                const flagImage = item.flag ? `${imagePath}/${item.flag}` : null;
-
-                return (
-                  <SwiperSlide key={item.id || item.country}>
-                    <div className="relative overflow-hidden rounded-3xl">
-                      <img
-                        src={countryImage}
-                        alt={item.country || "Destination"}
-                        className="h-56 w-full object-cover transition duration-500 hover:scale-110"
-                      />
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                      <div className="absolute left-4 top-4 rounded-full bg-white/90 p-2 text-sm font-black text-slate-900 backdrop-blur">
-                        {flagImage ? (
-                          <img
-                            src={flagImage}
-                            alt={item.country || "flag"}
-                            className="h-10 w-10 rounded-full object-cover shadow-sm"
-                          />
-                        ) : (
-                          "🌍"
-                        )}
-                      </div>
-
-                      <div className="absolute bottom-5 left-5">
-                        <h3 className="text-2xl font-black text-white">
-                          {item.country || "Destination"}
-                        </h3>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-          ) : (
-            <p className="text-sm font-semibold text-slate-500">
-              No destinations found
-            </p>
-          )}
-        </div>
-
-        <div className="rounded-[32px] bg-white p-6 shadow-sm">
-          <SDBLanguagePrograms />
-        </div>
-      </aside>
-    </div>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   );
 }

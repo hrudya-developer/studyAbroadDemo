@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -21,39 +20,11 @@ import {
 } from "lucide-react";
 
 const API_KEY = "overseas@Miak2023";
-=======
-import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import logo from "../assets/logo.png";
-import dbGlobe from "../assets/globeImg.png";
-
-import {
-  Bell,
-  BookOpen,
-  CalendarDays,
-  CircleUserRound,
-  FileText,
-  GraduationCap,
-  HelpCircle,
-  Home,
-  LogOut,
-  Menu,
-  MessageSquare,
-  Search,
-  ShieldCheck,
-  User,
-  Users,
-  Wallet,
-} from "lucide-react";
-
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 const navItems = [
   [Home, "Dashboard", "/student"],
   [User, "My Profile", "/student/profile"],
   [GraduationCap, "Find a course", "/student/findCourse"],
-<<<<<<< HEAD
   [FileText, "My Applications", "/student/studentApplications"],
   [Heart, "My Wishlist", "/student/studentWishlistItems"],
   [LogOut, "Logout", "/loginViaOtp"],
@@ -97,59 +68,6 @@ const displayLabel =
           <img src={dbGlobe} className="mx-auto object-contain" alt="" />
         </div>
       </nav>
-=======
-  
-  
-  // [FileText, "My Applications", "/student/applications"],
-  // [BookOpen, "Shortlisted Universities", "/student/shortlisted-universities"],
-  // [FileText, "My Documents", "/student/documents"],
-  // [GraduationCap, "My Courses", "/student/courses"],
-  // [Users, "Counselor Sessions", "/student/counselor-sessions"],
-  // [CalendarDays, "My Bookings", "/student/bookings"],
-  // [ShieldCheck, "Scholarships", "/student/scholarships"],
-  // [Wallet, "Payments", "/student/payments"],
-  // [MessageSquare, "Messages", "/student/messages"],
-  // [Bell, "Notifications", "/student/notifications"],
-  // [HelpCircle, "Help & Support", "/student/help-support"],
-  [LogOut, "Logout", "/loginViaOtp"],
-];
-
-function Sidebar() {
-  return (
-    <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-72 flex-col text-white bg-black">
-      <div className="h-24 flex items-center px-7 border-b border-white/10">
-        <img src={logo} alt="Logo" />
-      </div>
-
-      <nav className="flex-1 overflow-y-auto px-4 py-5 space-y-1">
-        {navItems.map(([Icon, label, path]) => (
-          <NavLink
-            key={label}
-            to={path}
-            end={path === "/student"}
-            className={({ isActive }) =>
-              `w-full flex items-center gap-4 rounded-xl px-4 py-3 text-left text-sm font-medium transition ${
-                isActive ? "bg-primary shadow-lg" : "hover:bg-white/10"
-              }`
-            }
-          >
-            <Icon size={20} />
-            <span className="flex-1">{label}</span>
-
-            {label === "Messages" && (
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-xs">
-                2
-              </span>
-            )}
-          </NavLink>
-        ))}
-          <div className="w-full h-34 absolute bottom-15 left-0">
-            <img src={dbGlobe} className="object-contain mx-auto"/>
-
-      </div>
-      </nav>
-    
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     </aside>
   );
 }
@@ -159,7 +77,6 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-30 h-24 border-b border-slate-200 bg-white/90 backdrop-blur lg:ml-72">
-<<<<<<< HEAD
       <div className="flex h-full items-center justify-between gap-5 px-6 lg:px-8">
         <div />
 
@@ -181,44 +98,6 @@ function Header() {
             <div>
               <p className="text-sm font-bold text-black">{email}</p>
               <p className="text-sm font-semibold text-secondary">Student</p>
-=======
-      <div className="flex h-full justify-between items-center gap-5 px-6 lg:px-8">
-        <button className="rounded-xl p-2 hover:bg-slate-100">
-          {/* <Menu /> */}
-        </button>
-
-        {/* <div className="relative max-w-3xl flex-1">
-          <Search
-            className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"
-            size={20}
-          />
-
-          <input
-            className="h-14 w-full rounded-xl border border-slate-200 bg-white pl-14 pr-16 shadow-sm outline-none focus:border-primary"
-            placeholder="Search for courses, universities, countries..."
-          />
-
-          <button className="absolute right-2 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full text-white bg-primary">
-            <Search size={20} />
-          </button>
-        </div> */}
-
-        <div className="flex gap-5">
-          <div className="p-3 rounded-xl bg-primary text-white">
-            <Bell className="hidden sm:block" />
-          </div>
-
-          <div className="p-3 rounded-xl bg-secondary text-white">
-            <MessageSquare className="hidden sm:block" />
-          </div>
-
-          <div className="hidden sm:flex items-center gap-3">
-           <span className="text-gray-400"><CircleUserRound size={45}/></span>
-
-            <div>
-              <p className="font-bold text-sm text-black">{email}</p>
-              <p className="font-semibold text-secondary text-sm">Student</p>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             </div>
           </div>
         </div>
@@ -228,7 +107,6 @@ function Header() {
 }
 
 export default function StudentLayout() {
-<<<<<<< HEAD
   const { uid } = useSelector((state) => state.auth);
   const location = useLocation();
 
@@ -369,15 +247,6 @@ useEffect(() => {
 
       <main className="p-6 lg:ml-72 lg:p-8">
         <Outlet context={{ applicationsCount, wishlistCount }} />
-=======
-  return (
-    <div className="min-h-screen bg-[#f7f9fc] text-slate-950">
-      <Sidebar />
-      <Header />
-
-      <main className="lg:ml-72 p-6 lg:p-8">
-        <Outlet />
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
       </main>
     </div>
   );

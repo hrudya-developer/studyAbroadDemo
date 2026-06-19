@@ -9,41 +9,28 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-<<<<<<< HEAD
 
 import SDBQualificationModal from "./SDBQualificationModal";
 import Swal from "sweetalert2";
 import { fetchStudentProfile } from "../redux/slices/studentSlice";
 
 
-=======
-import { Link, useNavigate } from "react-router-dom";
-
-import SDBQualificationModal from "./SDBQualificationModal";
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 import {
   fetchUniversityCourses,
   fetchUniversityMainCourses,
   clearUniversityCourses,
-<<<<<<< HEAD
   applyCourse,
   fetchCourseAppliedStatus,
 } from "../redux/slices/courseSlice";
 
 import SDBUniversityMainCourses from "../pages/SDBUniversityMainCourses";
 import SDBWishlistButton from "./SDBWishlistButton";
-=======
-} from "../redux/slices/courseSlice";
-
-import UniversityMainCourses from "../pages/UniversityMainCourses";
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 const CARDS_PER_PAGE = 10;
 
 const SDBPreviewCourses = ({ courseCategoryId }) => {
   const dispatch = useDispatch();
-<<<<<<< HEAD
 
   const { profile = {} } = useSelector((state) => state.studentData);
   const { uid } = useSelector((state) => state.auth);
@@ -63,31 +50,10 @@ const {
   const [showPopup, setShowPopup] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [applyingCourseId, setApplyingCourseId] = useState(null);
-=======
-  const navigate = useNavigate();
-
-  const [showPopup, setShowPopup] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   const [selectedMainCourseId, setSelectedMainCourseId] = useState(
     courseCategoryId || ""
   );
 
-<<<<<<< HEAD
-=======
-  const { uid } = useSelector((state) => state.auth);
-  const safeUid = uid || 0;
-
-  const { selectedUniversity } = useSelector((state) => state.universityData);
-
-  const {
-    universityCourses = [],
-    universityCoursesLoading,
-    universityCoursesError,
-    universityMainCourses = [],
-  } = useSelector((state) => state.courseData);
-
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   useEffect(() => {
     if (!selectedUniversity?.id) return;
     dispatch(fetchUniversityMainCourses(selectedUniversity.id));
@@ -127,7 +93,6 @@ const {
     return universityCourses.slice(startIndex, startIndex + CARDS_PER_PAGE);
   }, [universityCourses, currentPage]);
 
-<<<<<<< HEAD
   useEffect(() => {
   if (!safeUid || currentCourses.length === 0) return;
 
@@ -171,11 +136,6 @@ const {
         data?.tenth_overall &&
         data?.ielts_overall
     );
-=======
-  const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   };
 
   const getCourseName = (course) => {
@@ -206,7 +166,6 @@ const {
     sessionStorage.setItem("countryId", selectedUniversity?.d_id || "");
   };
 
-<<<<<<< HEAD
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
@@ -287,8 +246,6 @@ const {
     }
   };
 
-=======
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   if (!selectedUniversity?.id) {
     return (
       <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
@@ -310,32 +267,19 @@ const {
         </h2>
       </div>
 
-<<<<<<< HEAD
       <div className="mx-auto grid max-w-7xl gap-3 lg:grid-cols-1">
         <aside className="h-auto rounded-3xl border border-[#e6eaf2] bg-white p-4 shadow-xl shadow-slate-900/5">
-=======
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[280px_1fr]">
-        <aside className="max-h-[625px] overflow-y-auto rounded-3xl border border-[#e6eaf2] bg-white p-4 shadow-xl shadow-slate-900/5 lg:sticky lg:top-24">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           <h3 className="mb-4 text-lg font-black text-[#081c47]">
             Main Courses
           </h3>
 
-<<<<<<< HEAD
           <SDBUniversityMainCourses
-=======
-          <UniversityMainCourses
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             selectedMainCourseId={selectedMainCourseId}
             onSelectMainCourse={setSelectedMainCourseId}
           />
         </aside>
 
-<<<<<<< HEAD
         <main className="max-h-[625px] w-auto overflow-y-auto overflow-x-hidden">
-=======
-        <main className="max-h-[625px] w-auto overflow-y-auto">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           {universityCoursesLoading && universityCourses.length === 0 ? (
             <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
               <p className="font-bold text-[#081c47]">Loading courses...</p>
@@ -349,7 +293,6 @@ const {
           ) : currentCourses.length > 0 ? (
             <>
               <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
-<<<<<<< HEAD
                 
                 {currentCourses.map((course, index) => {
                   const courseId = getCourseId(course);
@@ -423,58 +366,6 @@ const {
                     </article>
                   );
                 })}
-=======
-                {currentCourses.map((course, index) => (
-                  <article
-                    key={`${course?.id || "course"}-${index}`}
-                    className="group rounded-3xl border border-[#e6eaf2] bg-white p-6 shadow-xl shadow-slate-900/5 transition hover:-translate-y-1 hover:shadow-2xl"
-                  >
-                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white ring-4 ring-[#cb0e10]/10">
-                      <BookOpen className="h-6 w-6" />
-                    </div>
-
-                    <h3 className="mb-4 text-md font-black leading-snug text-[#081c47]">
-                      {getCourseName(course)}
-                    </h3>
-
-                    <div className="space-y-1">
-                      <InfoLine
-                        icon={GraduationCap}
-                        label="Level"
-                        value={course?.level || "Level not available"}
-                      />
-
-                      <InfoLine
-                        icon={Clock}
-                        label="Duration"
-                        value={course?.duration || "Duration not available"}
-                      />
-
-                      <InfoLine
-                        icon={Wallet}
-                        label="Fees"
-                        value={getFees(course)}
-                      />
-                    </div>
-
-                    <div className="mt-6 flex flex-col gap-2 md:flex-row">
-                     
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          saveCourseSession(course);
-                          setShowPopup(true);
-                        }}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-primary px-3 py-2 text-sm font-bold text-white transition hover:bg-secondary"
-                      >
-                        Apply Now
-                        <ArrowRight className="h-5 w-5" />
-                      </button>
-                    </div>
-                  </article>
-                ))}
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               </div>
 
               {totalPages > 1 && (
@@ -489,7 +380,6 @@ const {
                     Prev
                   </button>
 
-<<<<<<< HEAD
                   {Array.from({ length: totalPages }, (_, index) => index + 1).map(
                     (page) => (
                       <button
@@ -507,26 +397,6 @@ const {
                       </button>
                     )
                   )}
-=======
-                  {Array.from(
-                    { length: totalPages },
-                    (_, index) => index + 1
-                  ).map((page) => (
-                    <button
-                      key={page}
-                      type="button"
-                      onClick={() => handlePageChange(page)}
-                      disabled={universityCoursesLoading}
-                      className={`h-10 w-10 rounded-xl font-extrabold transition ${
-                        currentPage === page
-                          ? "bg-[#cb0e10] text-white"
-                          : "border border-[#e6eaf2] bg-white text-[#081c47] hover:bg-[#f7f9fd]"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
                   <button
                     type="button"
@@ -546,11 +416,7 @@ const {
             <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
               <BookOpen className="mx-auto mb-4 h-14 w-14 text-[#cb0e10]" />
 
-<<<<<<< HEAD
               <h3 className="mb-2 text-2xl font-bold text-[#081c47]">
-=======
-              <h3 className="mb-2 text-2xl font-black text-[#081c47]">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                 {selectedMainCourseId
                   ? "No courses found"
                   : "Please select a main course"}
@@ -563,14 +429,7 @@ const {
       <SDBQualificationModal
         open={showPopup}
         onClose={() => setShowPopup(false)}
-<<<<<<< HEAD
         onUpdate={() => setShowPopup(false)}
-=======
-        onUpdate={() => {
-          setShowPopup(false);
-          navigate("/student/profile");
-        }}
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
       />
     </section>
   );
@@ -584,11 +443,7 @@ function InfoLine({ icon: Icon, label, value }) {
       </div>
 
       <div className="min-w-0">
-<<<<<<< HEAD
         <p className="text-[11px] font-bold uppercase text-slate-400">
-=======
-        <p className="text-[11px] font-black uppercase text-slate-400">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           {label}
         </p>
 

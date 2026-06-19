@@ -57,7 +57,6 @@ export default function SASteps() {
       <div className="relative max-w-7xl px-4 sm:px-5 md:px-8 flex justify-center mx-auto mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-[48%_52%] gap-8 p-6 sm:p-8 lg:p-12 xl:p-14">
           {/* Left Section */}
-<<<<<<< HEAD
           <div className="relative flex min-h-[760px] flex-col" data-aos="fade-up">
             <div className="relative z-20 max-w-xl">
               <p className="text-sm font-extrabold uppercase tracking-wide text-primary">
@@ -69,19 +68,6 @@ export default function SASteps() {
                 Your Path to <br />
                 Global <br />
                 <span className="text-primary">Education</span>
-=======
-          <div className="relative flex min-h-[760px] flex-col" data-aos="fade-right">
-            <div className="relative z-20 max-w-xl">
-              <p className="text-sm font-extrabold uppercase tracking-wide text-red-600">
-                Study Abroad
-              </p>
-              <div className="mt-3 h-1 w-14 rounded-full bg-red-600" />
-
-           <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl text-center lg:text-left text-secondary mt-5">
-                Your Path to <br />
-                Global <br />
-                <span className="text-red-600">Education</span>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               </h1>
 
               <p className="mt-5 text-base leading-relaxed text-black sm:text-lg text-center lg:text-left">
@@ -104,21 +90,13 @@ export default function SASteps() {
             </div>
 
             {/* CTA Card */}
-<<<<<<< HEAD
             <div className="absolute bottom-0 left-0 right-0 z-30 rounded-[26px] bg-darkPrimary p-5 shadow-2xl sm:p-6 lg:left-0 lg:right-auto lg:w-[96%]">
-=======
-            <div className="absolute bottom-0 left-0 right-0 z-30 rounded-[26px] bg-secondary p-5 shadow-2xl sm:p-6 lg:left-0 lg:right-auto lg:w-[96%]">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-2">
                  
 
                   <div>
-<<<<<<< HEAD
                     <h3 className="text-sm font-bold text-white">
-=======
-                    <h3 className="text-sm font-bold text-primary">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                       Need guidance?
                     </h3>
                     <p className="mt-1 max-w-[260px] text-sm leading-relaxed text-white/80">
@@ -131,21 +109,13 @@ export default function SASteps() {
                   Talk to an Advisor
                   <ArrowRight size={18} />
                 </button> */}
-<<<<<<< HEAD
                 <button className="p-3 rounded-xl border border-primary grid place-content-center text-white hover:cursor-pointer hover:border-white">Talk to an advisor</button>
-=======
-                <ButtonPrimary>Talk to an advisor</ButtonPrimary>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               </div>
             </div>
           </div>
 
           {/* Right Section */}
-<<<<<<< HEAD
           <div className="relative flex items-center" data-aos="fade-up">
-=======
-          <div className="relative flex items-center" data-aos="fade-left">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             <div className="absolute left-3 top-8 bottom-8 hidden w-px bg-[#001b66]/20 lg:block" />
 
             <div className="w-full space-y-5 lg:pl-8">
@@ -157,11 +127,7 @@ export default function SASteps() {
                   <div key={step.id} className="relative lg:pl-0">
                     <span
                       className={`absolute -left-[34px] top-1/2 hidden h-4 w-4 -translate-y-1/2 rounded-full ring-8 ring-white lg:block ${
-<<<<<<< HEAD
                         isRed ? "bg-primary" : "bg-[#001b66]"
-=======
-                        isRed ? "bg-red-600" : "bg-[#001b66]"
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                       }`}
                     />
 
@@ -171,11 +137,7 @@ export default function SASteps() {
                       </div>
 
                       <div className="min-w-0 flex-1">
-<<<<<<< HEAD
                         <p className="text-sm font-black leading-none text-primary sm:text-md">
-=======
-                        <p className="text-sm font-black leading-none text-red-600 sm:text-md">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                           {step.id}
                         </p>
                         <h3 className="mt-2 text-sm font-semibold leading-tight text-[#001b66] sm:text-lg">

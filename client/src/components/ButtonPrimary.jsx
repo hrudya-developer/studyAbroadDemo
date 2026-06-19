@@ -5,11 +5,7 @@ const ButtonPrimary = ({ children,onClick,className = "",}) => {
         relative overflow-hidden
         p-2.5 rounded-xl
         text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
-<<<<<<< HEAD
         bg-darkPrimary text-white
-=======
-        bg-primary text-white
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
         group
         hover:cursor-pointer
 

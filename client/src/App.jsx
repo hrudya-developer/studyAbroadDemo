@@ -38,13 +38,10 @@ import GermanPrograms from "./pages/GermanPrograms";
 import PopularCoursesPublic from "./pages/PopularCoursesPublic";
 import AddOnServices from "./layout/AddOnServices";
 import StudentFindCourse from "./pages/SDBFindCourse";
-<<<<<<< HEAD
 import SDBApplications from "./pages/SDBApplications";
 import SDBWishlistButton from "./pages/SDBWishlistButton";
 import SDBWishlistCourses from "./pages/SDBWishlistItems";
 import CommunityPosts from "./pages/CommunityPosts";
-=======
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 
 
@@ -62,10 +59,7 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/destinationList" element={<DestinationList />} />
-<<<<<<< HEAD
         <Route path="/communityPosts" element={<CommunityPosts />} />
-=======
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 {/* protecte route */}
 <Route element={<ProtectedRoute />}>
@@ -73,11 +67,8 @@ function Layout() {
     <Route index element={<StudentDashboard />} />
     <Route path="profile" element={<StudentProfile />} />
     <Route path="findCourse" element={<StudentFindCourse />} />
-<<<<<<< HEAD
     <Route path="studentApplications" element={<SDBApplications />} /> 
      <Route path="studentWishlistItems" element={<SDBWishlistCourses />} /> 
-=======
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   </Route>
 </Route>
 {/* protecte route */}

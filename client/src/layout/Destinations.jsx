@@ -50,11 +50,7 @@ const Destinations = () => {
             EXPLORE. LEARN. GROW
           </p>
 
-<<<<<<< HEAD
           <h1 className="mb-3 font-nunito text-3xl font-bold text-darkPrimary sm:text-3xl md:text-4xl lg:text-5xl">
-=======
-          <h1 className="mb-3 font-ubuntu text-3xl font-bold text-secondary sm:text-3xl md:text-4xl lg:text-5xl">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             Dream <span className="text-primary">Destinations</span>
           </h1>
 
@@ -63,11 +59,7 @@ const Destinations = () => {
             opportunities.
           </p>
 
-<<<<<<< HEAD
           <p className="mx-auto mt-4 h-[4px] w-[65px] bg-primary rounded-2xl"></p>
-=======
-          <p className="mx-auto mt-3 h-[3px] w-[65px] bg-[#008297]"></p>
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
         </div>
 
         {/* Carousel */}

@@ -75,11 +75,7 @@ const EssentialService = () => {
             <span className="w-10 h-[2px] bg-primary"></span>
           </div>
 
-<<<<<<< HEAD
          <h1 className="font-nunito font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 text-white">
-=======
-         <h1 className="font-ubuntu font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 text-white">
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             Everything You Need,{" "}
             <span className="text-primary">
               We’ve Got You Covered
