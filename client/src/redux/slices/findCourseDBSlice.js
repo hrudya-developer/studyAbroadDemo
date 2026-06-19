@@ -242,6 +242,7 @@ const fetchCourseDetails = async ({ uid, id, signal }) => {
 
   const result = await response.json();
 
+<<<<<<< HEAD
  const appliedStatus =
   result?.applied === true ||
   result?.applied === 1 ||
@@ -281,6 +282,18 @@ return {
     result?.image_path ||
     "",
 };
+=======
+  return {
+    courses: Array.isArray(result?.course) ? result.course : [],
+    raw: result,
+    nextOffset: null,
+    imagePath:
+      result?.universities_image_path ||
+      result?.maincourse_image_path ||
+      result?.image_path ||
+      "",
+  };
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 };
 
 const fetchCoursePage = async ({

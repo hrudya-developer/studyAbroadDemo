@@ -81,16 +81,26 @@ if (loading) {
       <div className="relative z-10 mx-auto max-w-7xl" data-aos="fade-up">
         {/* Heading */}
         <div className="text-center">
+<<<<<<< HEAD
            <h1 className="font-nunito font-bold text-3xl sm:text-4xl lg:text-5xl text-darkPrimary">
             Explore Top{" "}
             <span className="text-primary">Study Destinations</span>
+=======
+           <h1 className="font-ubuntu font-bold text-3xl sm:text-4xl lg:text-5xl text-secondary">
+            Explore Top{" "}
+            <span className="text-red-600">Study Destinations</span>
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           </h1>
 
           <p className="mt-5 text-lg text-black">
             Choose your dream destination and start your global journey today!
           </p>
 
+<<<<<<< HEAD
           <div className="mx-auto mt-6 h-1.5 w-20 rounded-full bg-primary" />
+=======
+          <div className="mx-auto mt-6 h-1.5 w-20 rounded-full bg-red-600" />
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
         </div>
 
         {/* Destination Cards */}

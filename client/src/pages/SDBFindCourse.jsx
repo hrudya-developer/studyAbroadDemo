@@ -15,16 +15,24 @@ import {
   fetchUniversityDetails,
   clearUniversityDetails,
 } from "../redux/slices/universitySlice";
+<<<<<<< HEAD
 
 import {
   fetchPopularCourses,
   fetchUniversityMainCoursesByUid,
 } from "../redux/slices/courseSlice";
+=======
+import { fetchPopularCourses } from "../redux/slices/courseSlice";
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 import Pagination from "../components/Pagination";
 import FilterSelect from "../pages/SDBFilterSelect";
 import SDBFindCourseCard from "../pages/SDBFindCourseCard";
+<<<<<<< HEAD
 import SDBPreviewCourses from "./SDBPreviewCourses";
+=======
+import CoursesOfUniv from "../pages/CoursesOfUniv";
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 import {
   fetchFindCourseResults,
@@ -33,6 +41,11 @@ import {
   clearFindCourseSuggestions,
 } from "../redux/slices/findCourseDBSlice";
 
+<<<<<<< HEAD
+=======
+import SDBPreviewCourses from "./SDBPreviewCourses";
+
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 const ITEMS_PER_PAGE = 6;
 const SUGGESTION_DEBOUNCE_MS = 500;
 const MIN_SEARCH_LENGTH = 2;
@@ -65,10 +78,18 @@ const MONTHS = [
 function getOptionValue(item, keys) {
   for (const key of keys) {
     const value = item?.[key];
+<<<<<<< HEAD
+=======
+
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     if (value !== undefined && value !== null && String(value).trim() !== "") {
       return value;
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   return "";
 }
 
@@ -97,9 +118,18 @@ function getLogoUrl(logo, imagePath = "") {
   if (!logo) return "";
 
   const value = String(logo).trim();
+<<<<<<< HEAD
   if (!value) return "";
 
   if (value.startsWith("http")) return value;
+=======
+
+  if (!value) return "";
+
+  if (value.startsWith("http")) {
+    return value;
+  }
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
   const cleanImagePath = String(imagePath || "").replace(/\/$/, "");
 
@@ -131,6 +161,10 @@ export default function SDBFindCourse() {
   const [selectedSearch, setSelectedSearch] = useState({ type: "", id: "" });
   const [selectedSuggestionUniversity, setSelectedSuggestionUniversity] =
     useState(null);
+<<<<<<< HEAD
+=======
+  const [showUniversityCourses, setShowUniversityCourses] = useState(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
   const { uid } = useSelector((state) => state.auth);
   const safeUid = uid || 0;
@@ -147,11 +181,15 @@ export default function SDBFindCourse() {
     detailsError,
   } = useSelector((state) => state.universityData);
 
+<<<<<<< HEAD
   const {
     popularCourses = [],
     universityMainCourses = [],
     universityMainCoursesLoading,
   } = useSelector((state) => state.courseData);
+=======
+  const { popularCourses = [] } = useSelector((state) => state.courseData);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
   const {
     results = [],
@@ -204,6 +242,7 @@ export default function SDBFindCourse() {
     [universities]
   );
 
+<<<<<<< HEAD
   const studyAreaOptions = useMemo(() => {
     const source = universityId ? universityMainCourses : popularCourses;
 
@@ -219,10 +258,29 @@ export default function SDBFindCourse() {
       ]),
     }));
   }, [universityId, universityMainCourses, popularCourses]);
+=======
+  const studyAreaOptions = useMemo(
+    () =>
+      popularCourses.map((item) => ({
+        value: getOptionValue(item, ["c_id", "id"]),
+        label: getOptionValue(item, [
+          "course",
+          "main_course",
+          "name",
+          "course_name",
+        ]),
+      })),
+    [popularCourses]
+  );
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
   const universityBox = selectedUniversity || selectedSuggestionUniversity;
 
   const universityName = getUniversityName(universityBox);
+<<<<<<< HEAD
+=======
+
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   const universityCountry = getCountryName(
     universityBox,
     selectedSuggestionUniversity?.country
@@ -236,12 +294,21 @@ export default function SDBFindCourse() {
   const universityType =
     universityBox?.type || universityBox?.university_type || "University";
 
+<<<<<<< HEAD
   const universityLogo =
     universityBox?.logo ||
     universityBox?.image ||
     universityBox?.university_logo ||
     universityBox?.university_logo_path ||
     "";
+=======
+const universityLogo =
+  universityBox?.logo ||
+  universityBox?.image ||
+  universityBox?.university_logo ||
+  universityBox?.university_logo_path ||
+  "";
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
   const universityLogoUrl = getLogoUrl(universityLogo, universityImagePath);
 
@@ -265,6 +332,7 @@ export default function SDBFindCourse() {
     ]);
   };
 
+<<<<<<< HEAD
   const getSuggestionLogo = (item) => {
     return getLogoUrl(
       item?.logo ||
@@ -274,6 +342,17 @@ export default function SDBFindCourse() {
       item?.imagePath || universityImagePath
     );
   };
+=======
+ const getSuggestionLogo = (item) => {
+  return getLogoUrl(
+    item?.logo ||
+      item?.image ||
+      item?.university_logo ||
+      item?.university_logo_path,
+    item?.imagePath || universityImagePath
+  );
+};
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
   useEffect(() => {
     dispatch(fetchCountries(safeUid));
@@ -282,7 +361,10 @@ export default function SDBFindCourse() {
 
   useEffect(() => {
     setUniversityId("");
+<<<<<<< HEAD
     setStudyAreaId("");
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
     if (!countryId) return;
 
@@ -297,6 +379,7 @@ export default function SDBFindCourse() {
   }, [dispatch, safeUid, countryId]);
 
   useEffect(() => {
+<<<<<<< HEAD
     setStudyAreaId("");
 
     if (!universityId) return;
@@ -310,6 +393,8 @@ export default function SDBFindCourse() {
   }, [dispatch, universityId, safeUid]);
 
   useEffect(() => {
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     const timer = setTimeout(() => {
       setDebouncedKeyword(keyword.trim());
     }, SUGGESTION_DEBOUNCE_MS);
@@ -379,6 +464,10 @@ export default function SDBFindCourse() {
     setCurrentPage(1);
     setShowSuggestions(false);
     setSelectedSuggestionUniversity(null);
+<<<<<<< HEAD
+=======
+    setShowUniversityCourses(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
     dispatch(clearUniversityDetails());
 
@@ -430,19 +519,31 @@ export default function SDBFindCourse() {
     setCurrentPage(1);
 
     if (item.type === "university") {
+<<<<<<< HEAD
       const country = getSuggestionCountry(item);
 
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
       const preview = {
         id: item.id,
         name: item.label,
         university: item.label,
+<<<<<<< HEAD
         country,
         destination: country,
+=======
+        country: getSuggestionCountry(item),
+        destination: getSuggestionCountry(item),
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
         logo: item.logo || item.image || item.university_logo || "",
       };
 
       setSelectedSuggestionUniversity(preview);
       setSelectedSearch({ type: "university", id: item.id });
+<<<<<<< HEAD
+=======
+      setShowUniversityCourses(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
       dispatch(clearFindCourseResults());
       dispatch(clearUniversityDetails());
@@ -458,6 +559,10 @@ export default function SDBFindCourse() {
     }
 
     setSelectedSuggestionUniversity(null);
+<<<<<<< HEAD
+=======
+    setShowUniversityCourses(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     dispatch(clearUniversityDetails());
 
     const nextSelectedSearch = {
@@ -487,6 +592,10 @@ export default function SDBFindCourse() {
     setCurrentPage(1);
     setSelectedSearch({ type: "", id: "" });
     setSelectedSuggestionUniversity(null);
+<<<<<<< HEAD
+=======
+    setShowUniversityCourses(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     setShowSuggestions(false);
 
     dispatch(clearFindCourseResults());
@@ -515,7 +624,11 @@ export default function SDBFindCourse() {
           </p>
         </div>
 
+<<<<<<< HEAD
         <div className="relative flex w-full max-w-xl items-center gap-3 rounded-xl bg-white px-3 py-3 shadow-md">
+=======
+        <div className="relative flex w-full max-w-xl items-center gap-3 rounded-xl bg-white px-3 py-3 font-lg shadow-md">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           <Search size={22} className="text-slate-500" />
 
           <input
@@ -525,6 +638,10 @@ export default function SDBFindCourse() {
               setKeyword(e.target.value);
               setSelectedSearch({ type: "", id: "" });
               setSelectedSuggestionUniversity(null);
+<<<<<<< HEAD
+=======
+              setShowUniversityCourses(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               dispatch(clearUniversityDetails());
             }}
             onFocus={() => {
@@ -558,6 +675,10 @@ export default function SDBFindCourse() {
               ) : suggestions.length > 0 ? (
                 suggestions.map((item) => {
                   const logoUrl = getSuggestionLogo(item);
+<<<<<<< HEAD
+=======
+                  const country = getSuggestionCountry(item);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
                   return (
                     <button
@@ -568,7 +689,11 @@ export default function SDBFindCourse() {
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex min-w-0 items-start gap-3">
+<<<<<<< HEAD
                           <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100">
+=======
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 itesm-center">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                             {logoUrl ? (
                               <img
                                 src={logoUrl}
@@ -593,6 +718,15 @@ export default function SDBFindCourse() {
                                 {item.university}
                               </p>
                             )}
+<<<<<<< HEAD
+=======
+
+                            {/* {item.type === "university" && (
+                              <p className="mt-1 truncate text-xs text-slate-500">
+                                {country || "Country not available"}
+                              </p>
+                            )} */}
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
                           </div>
                         </div>
 
@@ -634,10 +768,17 @@ export default function SDBFindCourse() {
             onChange={(value) => {
               setCountryId(value);
               setUniversityId("");
+<<<<<<< HEAD
               setStudyAreaId("");
               setCurrentPage(1);
               setSelectedSearch({ type: "", id: "" });
               setSelectedSuggestionUniversity(null);
+=======
+              setCurrentPage(1);
+              setSelectedSearch({ type: "", id: "" });
+              setSelectedSuggestionUniversity(null);
+              setShowUniversityCourses(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               dispatch(clearUniversityDetails());
             }}
             placeholder="Select Country"
@@ -649,10 +790,17 @@ export default function SDBFindCourse() {
             value={universityId}
             onChange={(value) => {
               setUniversityId(value);
+<<<<<<< HEAD
               setStudyAreaId("");
               setCurrentPage(1);
               setSelectedSearch({ type: "", id: "" });
               setSelectedSuggestionUniversity(null);
+=======
+              setCurrentPage(1);
+              setSelectedSearch({ type: "", id: "" });
+              setSelectedSuggestionUniversity(null);
+              setShowUniversityCourses(false);
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               dispatch(clearUniversityDetails());
             }}
             placeholder="Select University"
@@ -668,12 +816,16 @@ export default function SDBFindCourse() {
               setCurrentPage(1);
               setSelectedSearch({ type: "", id: "" });
             }}
+<<<<<<< HEAD
             placeholder={
               universityMainCoursesLoading
                 ? "Loading Study Areas..."
                 : "Select Study Area"
             }
             disabled={Boolean(universityId && universityMainCoursesLoading)}
+=======
+            placeholder="Select Study Area"
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             options={studyAreaOptions}
           />
 
@@ -731,6 +883,7 @@ export default function SDBFindCourse() {
               {detailsError}
             </div>
           ) : universityBox ? (
+<<<<<<< HEAD
             <div className="rounded-2xl bg-white p-6 shadow-md">
               <div className="mb-4 flex items-start justify-between gap-4 border-b pb-4">
                 <div className="flex items-start gap-4">
@@ -784,6 +937,80 @@ export default function SDBFindCourse() {
                 <SDBPreviewCourses />
               </div>
             </div>
+=======
+            showUniversityCourses ? (
+              <CoursesOfUniv />
+            ) : (
+              <div className="rounded-2xl bg-white p-6 shadow-md">
+                <div className="mb-4 flex items-start justify-between gap-4 border-b pb-4">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100">
+                      {universityLogoUrl ? (
+                        <img
+                          src={universityLogoUrl}
+                          alt={universityName}
+                          className="h-full w-full object-contain"
+                        />
+                      ) : (
+                        <Landmark size={28} className="text-slate-400" />
+                      )}
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-black uppercase text-red-600">
+                        University Details
+                      </p>
+
+                      <h2 className="mt-2 text-2xl font-black text-slate-900">
+                        {universityName}
+                      </h2>
+
+                      <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-500">
+                        <MapPin size={16} className="text-red-600" />
+                        {universityCountry}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="rounded-full bg-red-50 px-3 py-1 text-xs font-black uppercase text-red-600">
+                    University
+                  </div>
+                </div>
+
+                <p className="text-sm leading-7 text-slate-600">{aboutText}</p>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  <UniversityFact
+                    icon={Landmark}
+                    label="Type"
+                    value={universityType}
+                  />
+
+                  <UniversityFact
+                    icon={MapPin}
+                    label="Location"
+                    value={universityLocation}
+                  />
+
+                  <UniversityFact
+                    icon={Star}
+                    label="Ranking"
+                    value={universityRank}
+                  />
+
+                  <UniversityFact
+                    icon={BookOpen}
+                    label="Courses"
+                    value={`${selectedCourses?.length || 0} available`}
+                  />
+                </div>
+
+                <div className="mt-6">
+                  <SDBPreviewCourses />
+                </div>
+              </div>
+            )
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           ) : loading ? (
             <div className="rounded-xl bg-white p-8 text-center font-bold shadow-md">
               Loading courses...

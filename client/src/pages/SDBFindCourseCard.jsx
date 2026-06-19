@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { fetchStudentProfile } from "../redux/slices/studentSlice";
 
+=======
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 import {
   Calendar,
   BookOpen,
@@ -13,17 +19,23 @@ import {
   Wallet,
   MapPin,
   ArrowRight,
+<<<<<<< HEAD
   Heart,
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 } from "lucide-react";
 
 import SDBFindCourseInfo from "../pages/SDBFindCourseInfo";
 import SDBQualificationModal from "./SDBQualificationModal";
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import {
   applyCourse,
   fetchCourseAppliedStatus,
 } from "../redux/slices/courseSlice";
 import SDBWishlistButton from "./SDBWishlistButton";
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 function getValue(item, keys, fallback = "N/A") {
   for (const key of keys) {
@@ -72,6 +84,7 @@ function InitialLogo({ name }) {
 }
 
 export default function SDBFindCourseCard({ course }) {
+<<<<<<< HEAD
 
   const dispatch = useDispatch();
 
@@ -89,6 +102,9 @@ const {
 
 
 
+=======
+  const navigate = useNavigate();
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   const [showPopup, setShowPopup] = useState(false);
 
   const { universityImagePath = "", selectedUniversity } = useSelector(
@@ -211,6 +227,7 @@ const {
       sessionStorage.setItem("countryId", selectedUniversity?.d_id || "");
     }
   };
+<<<<<<< HEAD
 const hasQualification = (data) => {
   return Boolean(
     data?.highest &&
@@ -328,6 +345,14 @@ await dispatch(
 </div>
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded bg-slate-100">
             
+=======
+
+  return (
+    <>
+      <div className="grid gap-6 rounded-xl bg-white p-5 shadow-md md:p-6 xl:grid-cols-[270px_1fr_150px] xl:items-center">
+        <div className="flex items-center gap-4">
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded bg-slate-100">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             {logoUrl ? (
               <img
                 src={logoUrl}
@@ -368,7 +393,11 @@ await dispatch(
           </div>
         </div>
 
+<<<<<<< HEAD
         <div className="grid gap-4 border-slate-200 sm:grid-cols-1 xl:px-6">
+=======
+        <div className="grid gap-4 border-slate-200 sm:grid-cols-2 xl:border-x xl:px-6">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           <SDBFindCourseInfo
             icon={<GraduationCap />}
             label="Course"
@@ -496,6 +525,7 @@ await dispatch(
           </div>
         </div>
 
+<<<<<<< HEAD
 <button
   type="button"
   disabled={isApplied || courseApplyLoading}
@@ -518,6 +548,29 @@ await dispatch(
     setShowPopup(false);
   }}
 />
+=======
+        <button
+          type="button"
+          onClick={() => {
+            saveCourseSession();
+            setShowPopup(true);
+          }}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-primary px-3 py-3 text-sm font-bold text-white transition hover:bg-secondary xl:w-auto"
+        >
+          Apply Now
+          <ArrowRight className="h-5 w-5" />
+        </button>
+      </div>
+
+      <SDBQualificationModal
+        open={showPopup}
+        onClose={() => setShowPopup(false)}
+        onUpdate={() => {
+          setShowPopup(false);
+          navigate("/student/profile");
+        }}
+      />
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     </>
   );
 }

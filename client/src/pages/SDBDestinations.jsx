@@ -25,7 +25,13 @@ const SDBDestinations = () => {
 
   return (
     <section className="bg-white shadow-md p-3 rounded-[32px]">
+<<<<<<< HEAD
     
+=======
+      <h2 className="mb-6 text-3xl font-extrabold text-start p-2 border-b border-b-gray-100 rounded-lg text-secondary">
+        Destinations
+      </h2>
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
       {countries?.length > 0 ? (
         <Swiper
@@ -43,10 +49,17 @@ const SDBDestinations = () => {
               slidesPerView: 1,
             },
             768: {
+<<<<<<< HEAD
               slidesPerView: 1,
             },
             1024: {
               slidesPerView: 1,
+=======
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 2,
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             },
           }}
         >

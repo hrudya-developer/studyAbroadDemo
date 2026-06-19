@@ -89,7 +89,11 @@ const LoginPage = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="h-100dvh grid place-content-center max-w-7xl mx-auto" style={{backgroundImage:`url(${login_bg})`}}>
+=======
+    <div className="h-[calc(100vh-132px)] grid place-content-center max-w-7xl mx-auto" style={{backgroundImage:`url(${login_bg})`}}>
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
       <div className="grid md:grid-cols-1 p-5 rounded-3xl w-auto md:w-[600px]">
 

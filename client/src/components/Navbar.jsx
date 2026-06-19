@@ -12,14 +12,24 @@ const Navbar = () => {
   return (
     <header
       data-theme="mytheme"
+<<<<<<< HEAD
       className="relative z-[999]"
     >
       <div className="navbar mx-auto max-w-7xl bg-darkPrimary lg:bg-darkPrimary px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn shadow-xs">
+=======
+      className="relative z-[999] bg-secondary lg:bg-[#fafdff]"
+    >
+      <div className="navbar mx-auto max-w-7xl px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn shadow-xs">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
         {/* LEFT - LOGO */}
         <div className="navbar-start">
           <Link to = "/"><div
             className="
+<<<<<<< HEAD
+=======
+              bg-secondary
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               w-[230px]
               sm:w-[200px]
               md:w-[320px]
@@ -30,7 +40,11 @@ const Navbar = () => {
               md:rounded-tr-[100px]
               shrink-0
               p-2
+<<<<<<< HEAD
               md:p-3
+=======
+              md:p-5
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             "
           >
             <img
@@ -43,7 +57,11 @@ const Navbar = () => {
 
         {/* CENTER - DESKTOP MENU */}
         <div className="navbar-center hidden lg:flex">
+<<<<<<< HEAD
           <ul className="menu menu-horizontal px-1 text-base font-semibold font-nunito text-white">
+=======
+          <ul className="menu menu-horizontal px-1 text-[17px] font-semibold font-nunito text-black">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             <li><Link to="/destinationList">Destinations</Link></li>
             <li><Link to="/allUniversities">Universities</Link></li>
             <li><Link to="/courseSearch">Courses</Link></li>
@@ -58,6 +76,7 @@ const Navbar = () => {
 
           {/* DESKTOP BUTTONS */}
           <div className="hidden lg:flex gap-3">
+<<<<<<< HEAD
              <button className="p-3 px-5 rounded-xl
         text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
         text-black bg-white border
@@ -73,6 +92,13 @@ const Navbar = () => {
         flex items-center justify-center">
                   Sign In
                 </button></Link>
+=======
+            <ButtonPrimary>
+              <a href="#gfc_wrapper" className="w-full h-full">Get Free Counselling</a>
+            </ButtonPrimary>
+
+           <Link to="/loginViaOtp"><ButtonSecondary>Login</ButtonSecondary></Link>
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           </div>
 
           {/* MOBILE MENU */}
@@ -116,12 +142,20 @@ const Navbar = () => {
                 z-[999]
               "
             >
+<<<<<<< HEAD
                  <li><Link to="/destinationList">Destinations</Link></li>
             <li><Link to="/allUniversities">Universities</Link></li>
             <li><Link to="/courseSearch">Courses</Link></li>
         <ExploreMenu />
            <li><Link to="/studyAbroadBlog">Blogs</Link></li>
             
+=======
+              <li><a>Destinations</a></li>
+              <li><a>Universities</a></li>
+              <li><a>Courses</a></li>
+              <li><a>Scholarships</a></li>
+              <li><a>Visa Process</a></li>
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
               {/* MOBILE BUTTONS */}
               <div className="mt-4 flex flex-col gap-3">
@@ -129,6 +163,7 @@ const Navbar = () => {
                   Book Free Counselling
                 </ButtonPrimary>
 
+<<<<<<< HEAD
                 <button className=" p-3 px-5 rounded-xl
         text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
         text-white bg-secondary
@@ -137,6 +172,11 @@ const Navbar = () => {
         flex items-center justify-center">
                   Sign In
                 </button>
+=======
+                <ButtonSecondary className="w-full">
+                  Sign In
+                </ButtonSecondary>
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               </div>
             </ul>
           </div>

@@ -93,12 +93,26 @@ export const fetchUniversityMainCourses = createAsyncThunk(
 
 export const fetchUniversityCourses = createAsyncThunk(
   "courseData/fetchUniversityCourses",
+<<<<<<< HEAD
   async (
     { uid, courseIds = [], courseId = "", universityId = "", offset = 0 },
     { rejectWithValue }
   ) => {
     try {
       const ids = courseIds.length ? courseIds : courseId ? [courseId] : [""];
+=======
+
+  async (
+     
+     { uid, courseIds = [], courseId = "", universityId = "", offset = 0 },
+
+
+
+  { rejectWithValue }
+  ) => {
+    try {
+     const ids = courseIds.length ? courseIds : courseId ? [courseId] : [""];
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
       let allCourses = [];
       let raw = null;
@@ -154,6 +168,49 @@ export const fetchUniversityCourses = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
+=======
+
+//old - it was working 
+
+// export const fetchAllUniversityCoursesLatest = createAsyncThunk(
+//   "courseData/fetchAllUniversityCoursesLatest",
+//   async (
+//     { uid, courseId = "", universityId = "", offset = 0 },
+//     { rejectWithValue }
+//   ) => {
+//     try {
+//       const formData = new FormData();
+
+//       formData.append("api", API_KEY);
+//       formData.append("uid", String(uid ?? 0));
+//       formData.append("c_id", String(courseId));
+//       formData.append("u_id", String(universityId));
+//       formData.append("offset", String(offset));
+
+//       const response = await fetch(
+//         "https://overseas.technocitysolutions.com/public/api/getAllUniversityCoursesLatest",
+//         {
+//           method: "POST",
+//           body: formData,
+//         }
+//       );
+
+//       const result = await parseApiResponse(response);
+
+//       return {
+//         courses: Array.isArray(result?.course) ? result.course : [],
+//         nextOffset: result?.nextoffset || null,
+//         courseImagePath: result?.maincourse_image_path || "",
+//         raw: result,
+//       };
+//     } catch (error) {
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 export const fetchAllUniversityCoursesLatest = createAsyncThunk(
   "courseData/fetchAllUniversityCoursesLatest",
   async (
@@ -221,6 +278,7 @@ export const fetchAllUniversityCoursesLatest = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 export const applyCourse = createAsyncThunk(
   "courseData/applyCourse",
   async ({ uid, courseId, course, university }, { rejectWithValue }) => {
@@ -392,6 +450,9 @@ export const fetchCourseAppliedStatus = createAsyncThunk(
     }
   }
 );
+=======
+
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 const initialState = {
   popularCourses: [],
   universityMainCourses: [],
@@ -415,6 +476,7 @@ const initialState = {
   universityMainCoursesError: null,
   universityCoursesError: null,
   allUniversityCoursesError: null,
+<<<<<<< HEAD
 
   courseApplyLoading: false,
   courseApplyError: null,
@@ -427,6 +489,8 @@ const initialState = {
 
   appliedStatusByCourseId: {},
   
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 };
 
 const courseSlice = createSlice({
@@ -450,6 +514,7 @@ const courseSlice = createSlice({
       state.allUniversityCoursesError = null;
       state.allUniversityCoursesLoading = false;
     },
+<<<<<<< HEAD
 
     clearAppliedCourses: (state) => {
       state.appliedCourseIds = [];
@@ -457,10 +522,13 @@ const courseSlice = createSlice({
       state.appliedCourseDetailsError = null;
       state.appliedCourseDetailsLoading = false;
     },
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
   },
 
   extraReducers: (builder) => {
     builder
+<<<<<<< HEAD
 
 .addCase(fetchCourseAppliedStatus.fulfilled, (state, action) => {
   const { courseId, applied } = action.payload;
@@ -525,6 +593,8 @@ const courseSlice = createSlice({
     });
   }
 })
+=======
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
       .addCase(fetchPopularCourses.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -598,6 +668,7 @@ const courseSlice = createSlice({
         state.allUniversityCoursesLoading = false;
         state.allUniversityCoursesError =
           action.payload || "Failed to fetch all university courses";
+<<<<<<< HEAD
       })
 
       .addCase(applyCourse.pending, (state) => {
@@ -646,5 +717,13 @@ export const {
   clearAllUniversityCourses,
   clearAppliedCourses,
 } = courseSlice.actions;
+=======
+      });
+  },
+});
+
+export const { clearUniversityCourses, clearAllUniversityCourses } =
+  courseSlice.actions;
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
 
 export default courseSlice.reducer;

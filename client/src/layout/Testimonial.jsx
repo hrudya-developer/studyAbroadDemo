@@ -82,7 +82,11 @@ export default function Testimonial() {
             </span>
           </div>
 
+<<<<<<< HEAD
           <h1 className="font-nunito text-3xl font-bold text-darkPrimary sm:text-4xl lg:text-5xl">
+=======
+          <h1 className="font-ubuntu text-3xl font-bold text-secondary sm:text-4xl lg:text-5xl">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
             What people say <span className="text-primary">about us</span>
           </h1>
 

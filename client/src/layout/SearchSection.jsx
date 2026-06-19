@@ -231,7 +231,11 @@ const SearchSection = () => {
 
   return (
     <section className="py-0">
+<<<<<<< HEAD
       <div className="mx-auto max-w-7xl bg-[#181717] px-3 sm:px-5 md:px-8" data-aos="fade-up">
+=======
+      <div className="mx-auto max-w-7xl bg-secondary px-3 sm:px-5 md:px-8" data-aos="fade-up">
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
         <div className="py-10">
           <div className="grid grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <SelectField icon={MapPin}>

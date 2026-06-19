@@ -224,6 +224,7 @@ const Counselling = () => {
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
+<<<<<<< HEAD
             data-aos="fade-up"
           >
             <div className="absolute inset-0 bg-black/70"></div>
@@ -239,6 +240,23 @@ const Counselling = () => {
                 Your Dream <br />
                 University <br />
                 <span className="text-logoYellow">Awaits You</span>
+=======
+            data-aos="fade-right"
+          >
+            <div className="absolute inset-0 bg-secondary/90"></div>
+
+            <div className="relative z-10 flex flex-col gap-10">
+              <div className="mb-4 flex items-center gap-2 font-semibold text-white">
+                <Headphones className="h-10 w-10 text-primary" />
+                <span className="text-primary text-2xl font-extrabold">Expert Guidance, Every Step</span>
+
+              </div>
+
+              <h1 className="font-ubuntu my-8 text-center text-5xl font-bold text-white sm:text-5xl md:text-5xl lg:text-left lg:text-6xl">
+                Your Dream <br />
+                University <br />
+                <span className="text-primary">Awaits You</span>
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
               </h1>
 
               <div className="mt-5 mb-6 h-1 w-14 rounded-full bg-primary"></div>
@@ -255,7 +273,11 @@ const Counselling = () => {
 
           <div
             className="rounded-[30px] bg-white p-6 shadow-xl sm:p-8 lg:p-10"
+<<<<<<< HEAD
             data-aos="fade-up"
+=======
+            data-aos="fade-left"
+>>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
           >
             <h2 className="text-xl font-bold leading-tight text-[#071c4d] sm:text-xl">
               Get <span className="text-primary">FREE</span> Counselling Today!
