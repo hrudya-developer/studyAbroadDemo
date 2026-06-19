@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+
+@theme {
+  /* --color-primary: #cb0e10; old red*/
+  --color-primary:#c01f53;
+  
+  --color-secondary: #0466AF;
+    --color-logoYellow:#F7EC22;
+    --color-darkPrimary :#631A33;
+  --font-ubuntu: "Ubuntu", sans-serif;
+    --font-nunito: "Nunito", sans-serif;
+
+
+}
+
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true;
+
+  --color-primary: #c01f53;
+  --color-secondary: #0466AF;
+  --color-logoYellow:#F7EC22;
+  --color-darkPrimary :#631A33;
+ 
+}
+html {
+  color-scheme: light;
+  width:100%;
+  height:100%;
+}
+
+
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+:root {
+  color-scheme: light;
+}
+
+
+}
+body{
+  font-family: var(--font-nunito);
+    background: white;
+  color: #111827;
+  overflow-x: hidden;
+   width:100%;
+  height:100%;
+   
+}
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+}
+.textColor{
+  color:#000;
+}
+.destinationSwiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+.talk-btn:hover {
+  animation: swing;
+  animation-duration: 1s;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d70707;
+  border-radius: 10px;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d70707 transparent;
+}
