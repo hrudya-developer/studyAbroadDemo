@@ -96,7 +96,7 @@ function ExploreMenu() {
         Add On Services
       </span>
     </Link>
-        {/* <Link
+        <Link
       to="/communityPosts" onClick={closeMenus}
       className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-primary/10"
     >
@@ -106,7 +106,7 @@ function ExploreMenu() {
       <span className="text-sm font-bold text-gray-800">
         View Community Posts
       </span>
-    </Link> */}
+    </Link>
   </li>
 
   <li>

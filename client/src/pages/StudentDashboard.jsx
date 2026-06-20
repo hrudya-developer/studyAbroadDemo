@@ -218,7 +218,7 @@ function StatCard({ title, count, text, icon: Icon, to, accent }) {
 
       <div className="relative mt-5">
         <p className="text-sm font-black text-[#081c47]">{title}</p>
-        <h3 className="mt-3 text-2xl font-bold text-secondary">{count}</h3>
+        <h3 className="mt-3 text-xl font-bold text-secondary">{count}</h3>
         <p className="mt-2 max-w-[160px] text-xs font-semibold leading-5 text-slate-500">
           {text}
         </p>

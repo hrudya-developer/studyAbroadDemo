@@ -217,11 +217,7 @@ const Carousel = () => {
 
 <h1
   className={`
-<<<<<<< HEAD
     font-nunito text-4xl sm:text-5xl md:text-5xl lg:6xl font-extrabold leading-tight
-=======
-    font-ubuntu text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
     animate__animated animate__bounceInLeft
     text-white md:text-black
   `}
@@ -231,16 +227,10 @@ const Carousel = () => {
 
 <p
   className={`
-<<<<<<< HEAD
     mt-5 text-base sm:text-lg md:text-lg font-bold font-nunito
     animate__animated animate__bounceInLeft
     ${slide.mobileDescColor || "text-white"}
 md:${slide.descColor || "text-black"}
-=======
-    mt-5 text-base sm:text-lg md:text-xl font-bold font-nunito
-    animate__animated animate__bounceInLeft
-    ${slide.mobileDescColor || slide.descColor}
->>>>>>> c96e84eba6b33b7f18f3a15db5029d90e32e553e
    text-white md:text-black
   `}
 >

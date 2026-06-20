@@ -76,7 +76,7 @@ const PopularCourses = () => {
                     )}
                   </div>
 
-                  <h3 className="text-md font-bold text-slate-950">
+                  <h3 className="text-sm font-bold text-slate-950">
                     {course.name ||
                       course.course_name ||
                       course.title ||
@@ -84,7 +84,7 @@ const PopularCourses = () => {
                       "Course"}
                   </h3>
 
-                  <p className="mt-2 line-clamp-2 text-sm font-medium leading-6 text-slate-500">
+                  <p className="mt-2 line-clamp-2 text-sm font-medium leading-6 text-slate-600">
                     {course.description ||
                       course.short_description ||
                       "Explore this course and start your study abroad journey."}
