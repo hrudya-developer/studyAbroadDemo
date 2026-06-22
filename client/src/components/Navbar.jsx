@@ -1,85 +1,95 @@
 import logo from "../assets/logo.png";
 import ButtonPrimary from "./ButtonPrimary";
-import ButtonSecondary from "./ButtonSecondary";
 import { Link } from "react-router-dom";
-
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ExploreMenu from "./ExploreMenu";
 
 const Navbar = () => {
- 
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
+
+  const closeMenu = () => setMobileOpen(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
+        setMobileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <header
-      data-theme="mytheme"
-      className="relative z-[999]"
-    >
-      <div className="navbar mx-auto max-w-7xl bg-darkPrimary lg:bg-darkPrimary px-3 sm:px-5 md:px-8 font-nunito animate__animated animate__zoomIn shadow-xs">
-
+    <header data-theme="mytheme" className="relative z-[999]">
+      <div className="navbar mx-auto max-w-7xl bg-primary lg:bg-darkPrimary px-3 sm:px-5 md:px-8 font-nunito shadow-xs">
         {/* LEFT - LOGO */}
         <div className="navbar-start">
-          <Link to = "/"><div
-            className="
-              w-[230px]
-              sm:w-[200px]
-              md:w-[320px]
-              lg:w-[240px]
-              xl:w-[260px]
-              rounded-md
-              rounded-tr-[80px]
-              md:rounded-tr-[100px]
-              shrink-0
-              p-2
-              md:p-3
-            "
-          >
-            <img
-              src={logo}
-              alt="logo"
-              className="block h-auto w-full object-contain"
-            />
-          </div></Link>
+          <Link to="/" onClick={closeMenu}>
+            <div className="w-[200px] sm:w-[220px] md:w-[220px] lg:w-[230px] xl:w-[260px] shrink-0 p-2 md:p-3">
+              <img
+                src={logo}
+                alt="logo"
+                className="block h-auto w-full object-contain"
+              />
+            </div>
+          </Link>
         </div>
 
         {/* CENTER - DESKTOP MENU */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-base font-semibold font-nunito text-white">
-            <li><Link to="/destinationList">Destinations</Link></li>
-            <li><Link to="/allUniversities">Universities</Link></li>
-            <li><Link to="/courseSearch">Courses</Link></li>
-        <ExploreMenu />
-           <li><Link to="/studyAbroadBlog">Blogs</Link></li>
-          
+          <ul className="menu menu-horizontal px-1 text-md [@media(min-width:1024px)_and_(max-width:1086px)]:text-[14px] lg:text-base font-semibold font-nunito text-white">
+            <li>
+              <Link to="/destinationList">Destinations</Link>
+            </li>
+            <li>
+              <Link to="/allUniversities">Universities</Link>
+            </li>
+            <li>
+              <Link to="/courseSearch">Courses</Link>
+            </li>
+
+            <ExploreMenu />
+
+            <li>
+              <Link to="/studyAbroadBlog">Blogs</Link>
+            </li>
           </ul>
         </div>
 
         {/* RIGHT SIDE */}
         <div className="navbar-end">
-
           {/* DESKTOP BUTTONS */}
           <div className="hidden lg:flex gap-3">
-             <button className="p-3 px-5 rounded-xl
-        text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
-        text-black bg-white border
-        hover:cursor-pointer
-        flex items-center justify-center">
-              <a href="#gfc_wrapper" className="w-full h-full">Get Free Counselling</a>
-            </button>
+            <a
+              href="#gfc_wrapper"
+              className="py-3 px-2 lg:px-5 rounded-xl text-[12px] [@media(min-width:1024px)_and_(max-width:1086px)]:text-[13px] lg:text-[14px] font-semibold text-black bg-white border-white hover:cursor-pointer flex items-center justify-center"
+            >
+              Get Free Counselling
+            </a>
 
-           <Link to="/loginViaOtp">        <button className="p-3 px-5 rounded-xl
-        text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
-        text-logoYellow bg-transparent border border-logoYellow
-        hover:cursor-pointer
-        flex items-center justify-center">
-                  Sign In
-                </button></Link>
+            <Link
+              to="/loginViaOtp"
+              className="py-3 px-2 lg:px-5 rounded-xl text-[12px] lg:text-[14px] text-logoYellow bg-transparent border border-logoYellow hover:cursor-pointer flex items-center justify-center"
+            >
+              Sign In
+            </Link>
           </div>
 
           {/* MOBILE MENU */}
-          <div className="dropdown dropdown-end lg:hidden relative">
+          <div ref={mobileMenuRef} className="lg:hidden relative">
             <button
-              tabIndex={0}
               type="button"
+              onClick={() => setMobileOpen((prev) => !prev)}
               className="btn btn-ghost text-white hover:bg-transparent"
             >
               <svg
@@ -89,63 +99,76 @@ const Navbar = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
+                {mobileOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h8m-8 6h16"
+                  />
+                )}
               </svg>
             </button>
 
-            <ul
-              tabIndex={0}
-              className="
-                dropdown-content
-                menu
-                absolute
-                right-0
-                top-full
-                mt-3
-                w-64
-                rounded-box
-                bg-base-100
-                p-4
-                shadow-xl
-                gap-2
-                z-[999]
-              "
-            >
-                 <li><Link to="/destinationList">Destinations</Link></li>
-            <li><Link to="/allUniversities">Universities</Link></li>
-            <li><Link to="/courseSearch">Courses</Link></li>
-        <ExploreMenu />
-           <li><Link to="/studyAbroadBlog">Blogs</Link></li>
-            
+            {mobileOpen && (
+              <div className="absolute right-0 top-full mt-3 w-[92vw] max-w-[340px] max-h-[75vh] overflow-y-auto rounded-xl bg-white p-4 shadow-xl z-[999] animate-[slideDown_0.25s_ease-out]">
+                <ul className="menu w-full text-black font-semibold gap-2">
+                  <li className="bg-secondary/10 rounded-lg">
+                    <Link onClick={closeMenu} to="/destinationList">
+                      Destinations
+                    </Link>
+                  </li>
 
-              {/* MOBILE BUTTONS */}
-              <div className="mt-4 flex flex-col gap-3">
-                <ButtonPrimary className="w-full">
-                  Book Free Counselling
-                </ButtonPrimary>
+                  <li className="bg-secondary/10 rounded-lg">
+                    <Link onClick={closeMenu} to="/allUniversities">
+                      Universities
+                    </Link>
+                  </li>
 
-                <button className=" p-3 px-5 rounded-xl
-        text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
-        text-white bg-secondary
-        group hover:cursor-pointer
+                  <li className="bg-secondary/10 rounded-lg">
+                    <Link onClick={closeMenu} to="/courseSearch">
+                      Courses
+                    </Link>
+                  </li>
 
-        flex items-center justify-center">
-                  Sign In
-                </button>
+                  <ExploreMenu mobile onNavigate={closeMenu} />
+
+                  <li className="bg-secondary/10 rounded-lg">
+                    <Link onClick={closeMenu} to="/studyAbroadBlog">
+                      Blogs
+                    </Link>
+                  </li>
+                </ul>
+
+                {/* MOBILE BUTTONS */}
+                <div className="mt-4 flex flex-col gap-3">
+                  <a href="#gfc_wrapper" onClick={closeMenu} className="w-full">
+                    <ButtonPrimary className="w-full">
+                      Book Free Counselling
+                    </ButtonPrimary>
+                  </a>
+
+                  <Link
+                    to="/loginViaOtp"
+                    onClick={closeMenu}
+                    className="w-full py-2 px-5 rounded-xl text-[14px] text-white bg-secondary hover:cursor-pointer flex items-center justify-center"
+                  >
+                    Sign In
+                  </Link>
+                </div>
               </div>
-            </ul>
+            )}
           </div>
-
         </div>
       </div>
-       
     </header>
-  
   );
 };
 

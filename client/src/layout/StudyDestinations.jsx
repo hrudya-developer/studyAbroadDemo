@@ -100,11 +100,11 @@ if (loading) {
     key={item.id}
     to={`/destination/${item.id}`}
     state={{ country: item }}
-    className="group flex items-center justify-between rounded-2xl border border-red-100 bg-white px-5 py-4 shadow-[0_8px_25px_rgba(220,0,0,0.08)] transition hover:-translate-y-1 hover:border-red-300 hover:shadow-[0_12px_30px_rgba(220,0,0,0.16)]"
+    className="group flex items-center justify-between rounded-2xl border border-gray-50 bg-white px-5 py-4 shadow-[0_8px_25px_rgba(220,0,0,0.08)] transition hover:-translate-y-1 hover:border-primary hover:shadow-[0_12px_30px_rgba(220,0,0,0.16)]"
   >
     <div className="flex items-center gap-4">
-      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
-        <MapPin className="h-6 w-6 fill-red-600 text-white" />
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/20 text-primary">
+        <MapPin className="h-6 w-6 fill-primary text-white" />
       </span>
 
       <span className="font-semibold text-secondary">
@@ -114,25 +114,25 @@ if (loading) {
 
     <div className="h-8 w-px bg-red-100" />
 
-    <ChevronRight className="h-6 w-6 text-red-600 transition group-hover:translate-x-1" />
+    <ChevronRight className="h-6 w-6 text-primary transition group-hover:translate-x-1" />
   </Link>
 ))}
         </div>
 
         {/* Feature Box */}
-        <div className="mt-12 rounded-3xl border border-slate-100 bg-white px-6 py-8 shadow-[0_10px_35px_rgba(0,0,0,0.12)]">
+        <div className="mt-12 rounded-3xl border border-slate-100 bg-secondary px-6 py-8 shadow-[0_10px_35px_rgba(0,0,0,0.12)]">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {features.map((item, index) => (
               <div
                 key={index}
                 className="flex items-center gap-5 border-slate-200 lg:border-r lg:pr-6 last:border-r-0"
               >
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary text-white">
                   <div className="h-8 w-8 grid place-content-center">{item.icon}</div>
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-secondary">{item.title}</h3>
+                  <h3 className="font-bold text-white">{item.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-black">
                     {item.text}
                   </p>

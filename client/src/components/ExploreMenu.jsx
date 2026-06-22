@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { BookOpenText, ChevronDown, GraduationCap, HandHelping, StickyNote } from "lucide-react";
+import {
+  BookOpenText,
+  ChevronDown,
+  GraduationCap,
+  HandHelping,
+  StickyNote,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGermanPrograms } from "../redux/slices/germanProgramSlice";
 
 const defaultGermanPrograms = [{ label: "FSJ", to: "/germanPrograms/6" }];
 
-function ExploreMenu() {
+function ExploreMenu({ mobile = false, onNavigate }) {
   const dispatch = useDispatch();
 
   const { relatedPrograms = [] } = useSelector(
@@ -23,13 +29,15 @@ function ExploreMenu() {
       label: item.name,
       to: `/germanPrograms/${item.id}`,
     })),
-  ].filter((item, index, array) => {
-    return array.findIndex((program) => program.to === item.to) === index;
-  });
+  ].filter(
+    (item, index, array) =>
+      array.findIndex((program) => program.to === item.to) === index
+  );
 
   const closeMenus = () => {
     setOpenExplore(false);
     setOpenGerman(false);
+    onNavigate?.();
   };
 
   useEffect(() => {
@@ -37,25 +45,27 @@ function ExploreMenu() {
   }, [dispatch]);
 
   useEffect(() => {
+    if (mobile) return;
+
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        closeMenus();
+        setOpenExplore(false);
+        setOpenGerman(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobile]);
 
   return (
     <li ref={menuRef} className="relative list-none">
       <button
         type="button"
         onClick={() => setOpenExplore((prev) => !prev)}
-        className="flex items-center gap-1 font-medium text-white transition"
+        className={`flex w-full items-center justify-between gap-1 font-medium transition duration-300 ${
+          mobile ? "py-3 text-black" : "text-white"
+        }`}
       >
         Explore
         <ChevronDown
@@ -67,102 +77,132 @@ function ExploreMenu() {
       </button>
 
       {openExplore && (
-        <ul className="absolute left-0 top-full z-50 mt-4 w-[310px] rounded-3xl border border-gray-100 bg-white p-3 shadow-2xl ring-1 ring-black/5 max-h-64 overflow-y-auto">
-
-  <li>
- <Link
-  to="/popularCoursePublic"
-  onClick={closeMenus}
-  className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-primary/10"
->
-  <span className="text-primary">
-    <BookOpenText size={20} />
-  </span>
-  <span className="text-sm font-bold text-gray-800">
-    Popular Courses
-  </span>
-</Link>
-  </li>
-
-  <li>
-    <Link
-      to="/addOnServices" onClick={closeMenus}
-      className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-primary/10"
-    >
-      <span className="text-primary">
-        <HandHelping size={20} />
-      </span>
-      <span className="text-sm font-bold text-gray-800">
-        Add On Services
-      </span>
-    </Link>
-        <Link
-      to="/communityPosts" onClick={closeMenus}
-      className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-primary/10"
-    >
-      <span className="text-primary">
-        <StickyNote size={20} />
-      </span>
-      <span className="text-sm font-bold text-gray-800">
-        View Community Posts
-      </span>
-    </Link>
-  </li>
-
-  <li>
-    <button
-      type="button"
-      onClick={() => setOpenGerman((prev) => !prev)}
-      className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left hover:bg-primary/10"
-    >
-      <div className="flex items-center gap-3">
-        <span className="text-primary">
-          <GraduationCap size={20} />
-        </span>
-
-        <div>
-          <div className="text-sm font-bold text-gray-800">
-            German Programs
-          </div>
-          <div className="text-xs text-gray-500">
-            Ausbildung, FSJ, Studienkollegs & more
-          </div>
-        </div>
-      </div>
-
-      <ChevronDown
-        size={16}
-        className={`transition-transform ${
-          openGerman ? "rotate-180" : ""
-        }`}
-      />
-    </button>
-
-    {openGerman && (
-      <ul className="mt-2 max-h-[220px] overflow-y-auto rounded-2xl bg-gray-50 p-2">
-        {germanPrograms.map((item) => (
-          <li key={item.to}>
-            <SubMenuLink to={item.to} onClick={closeMenus}>
-              {item.label}
-            </SubMenuLink>
+        <ul
+          className={`${
+            mobile
+              ? "mt-2 max-h-[300px] w-full overflow-y-auto rounded-xl bg-primary p-2 text-white"
+              : "absolute left-0 top-full z-50 mt-4 max-h-[300px] w-[340px] overflow-y-auto rounded-3xl border border-gray-100 bg-gray-50 p-3 text-gray-900 shadow-2xl ring-1 ring-black/5"
+          } animate-[slideDown_0.25s_ease-out]`}
+        >
+          <li>
+            <MenuLink
+              to="/popularCoursePublic"
+              onClick={closeMenus}
+              mobile={mobile}
+              icon={<BookOpenText size={20} />}
+            >
+              Popular Courses
+            </MenuLink>
           </li>
-        ))}
-      </ul>
-    )}
-  </li>
 
-</ul>
+          <li>
+            <MenuLink
+              to="/addOnServices"
+              onClick={closeMenus}
+              mobile={mobile}
+              icon={<HandHelping size={20} />}
+            >
+              Add On Services
+            </MenuLink>
+          </li>
+
+          <li>
+            <MenuLink
+              to="/communityPosts"
+              onClick={closeMenus}
+              mobile={mobile}
+              icon={<StickyNote size={20} />}
+            >
+              View Community Posts
+            </MenuLink>
+          </li>
+
+          <li>
+            <button
+              type="button"
+              onClick={() => setOpenGerman((prev) => !prev)}
+              className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left transition ${
+                mobile ? "hover:bg-white/10" : "hover:bg-primary/10"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <GraduationCap
+                  size={20}
+                  className={mobile ? "text-logoYellow" : "text-primary"}
+                />
+
+                <span
+                  className={`text-sm font-medium ${
+                    mobile ? "text-logoYellow" : "text-gray-900"
+                  }`}
+                >
+                  German Programs
+                </span>
+              </div>
+
+              <ChevronDown
+                size={16}
+                className={`transition-transform duration-300 ${
+                  mobile ? "text-logoYellow" : "text-gray-900"
+                } ${openGerman ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {openGerman && (
+              <ul
+                className={`mt-2 max-h-[160px] overflow-y-auto rounded-xl py-1 animate-[slideDown_0.25s_ease-out] ${
+                  mobile
+                    ? "bg-white/10"
+                    : "border border-gray-100 bg-white text-gray-900"
+                }`}
+              >
+                {germanPrograms.map((item) => (
+                  <li key={item.to}>
+                    <SubMenuLink
+                      to={item.to}
+                      onClick={closeMenus}
+                      mobile={mobile}
+                    >
+                      {item.label}
+                    </SubMenuLink>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        </ul>
       )}
     </li>
   );
 }
 
-function SubMenuLink({ to, children, onClick }) {
+function MenuLink({ to, children, onClick, mobile, icon }) {
   return (
     <Link
       to={to}
       onClick={onClick}
-      className="block w-full rounded-xl px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-white hover:text-primary hover:shadow-sm"
+      className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
+        mobile
+          ? "text-white hover:bg-white/10"
+          : "text-gray-900 hover:bg-primary/10"
+      }`}
+    >
+      <span className={mobile ? "text-white" : "text-primary"}>{icon}</span>
+      <span>{children}</span>
+    </Link>
+  );
+}
+
+function SubMenuLink({ to, children, onClick, mobile }) {
+  return (
+    <Link
+      to={to}
+      onClick={onClick}
+      className={`mx-2 block rounded-xl px-3 py-2.5 text-sm font-medium transition ${
+        mobile
+          ? "text-white hover:bg-white/10"
+          : "text-gray-700 hover:bg-gray-100 hover:text-primary"
+      }`}
     >
       {children}
     </Link>

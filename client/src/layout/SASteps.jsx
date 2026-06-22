@@ -96,10 +96,10 @@ export default function SASteps() {
                  
 
                   <div>
-                    <h3 className="text-sm font-bold text-white">
+                    <h3 className="text-sm font-bold text-logoYellow">
                       Need guidance?
                     </h3>
-                    <p className="mt-1 max-w-[260px] text-sm leading-relaxed text-white/80">
+                    <p className="mt-1 max-w-[260px] text-sm leading-relaxed text-white">
                       Our experts are here to help you every step of the way.
                     </p>
                   </div>
@@ -109,7 +109,7 @@ export default function SASteps() {
                   Talk to an Advisor
                   <ArrowRight size={18} />
                 </button> */}
-                <button className="p-3 rounded-xl border border-primary grid place-content-center text-white hover:cursor-pointer hover:border-white">Talk to an advisor</button>
+                <button className="p-3 rounded-xl border border-logoYellow grid place-content-center text-logoYellow hover:cursor-pointer hover:border-white">Talk to an advisor</button>
               </div>
             </div>
           </div>
@@ -127,20 +127,20 @@ export default function SASteps() {
                   <div key={step.id} className="relative lg:pl-0">
                     <span
                       className={`absolute -left-[34px] top-1/2 hidden h-4 w-4 -translate-y-1/2 rounded-full ring-8 ring-white lg:block ${
-                        isRed ? "bg-primary" : "bg-[#001b66]"
+                        isRed ? "bg-primary" : "bg-secondary"
                       }`}
                     />
 
                     <div className="group flex items-center gap-4 rounded-[26px] bg-white p-4 shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition hover:-translate-y-1 hover:shadow-[0_18px_48px_rgba(0,0,0,0.12)] sm:gap-6 sm:p-5">
                       <div className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-[#f6f6f6] shadow-inner sm:h-[48px] sm:w-[48px]">
-                        <Icon className="h-6 w-8 text-[#001b66] sm:h-8 sm:w-8" />
+                        <Icon className="h-6 w-8 text-secondary sm:h-8 sm:w-8" />
                       </div>
 
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-black leading-none text-primary sm:text-md">
                           {step.id}
                         </p>
-                        <h3 className="mt-2 text-sm font-semibold leading-tight text-[#001b66] sm:text-lg">
+                        <h3 className="mt-2 text-sm font-semibold leading-tight text-darkPrimary sm:text-lg">
                           {step.title}
                         </h3>
                         <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-sm">
@@ -148,7 +148,7 @@ export default function SASteps() {
                         </p>
                       </div>
 
-                      <ChevronRight className="hidden h-6 w-6 shrink-0 text-[#001b66] transition group-hover:translate-x-1 sm:block" />
+                      <ChevronRight className="hidden h-6 w-6 shrink-0 text-secondary transition group-hover:translate-x-1 sm:block" />
                     </div>
                   </div>
                 );

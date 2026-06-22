@@ -109,7 +109,7 @@ export default function LanguagePrograms() {
                 />
 
                 <div
-                  className={`mb-6 flex h-20 w-20 items-center justify-center rounded-full ${
+                  className={`mb-6 flex h-20 w-20 items-center justify-center mx-auto rounded-full ${
                     program.color === "red"
                       ? "bg-red-50"
                       : "bg-blue-50"
@@ -125,19 +125,19 @@ export default function LanguagePrograms() {
                   />
                 </div>
 
-                <h3 className="text-2xl font-bold text-secondary">
+                <h3 className="text-lg font-bold text-secondary text-center">
                   {program.title}
                 </h3>
 
                 <div
-                  className={`mt-3 h-1 w-12 rounded-full ${
+                  className={`mt-3 h-1 w-12 rounded-full mx-auto ${
                     program.color === "red"
                       ? "bg-primary"
                       : "bg-secondary"
                   }`}
                 />
 
-                <p className="mt-4 text-sm leading-7 text-slate-600">
+                <p className="mt-4 text-sm leading-7 text-slate-600 text-center">
                   {program.desc}
                 </p>
 

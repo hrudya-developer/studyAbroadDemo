@@ -231,7 +231,7 @@ const SearchSection = () => {
 
   return (
     <section className="py-0">
-      <div className="mx-auto max-w-7xl bg-[#181717] px-3 sm:px-5 md:px-8" data-aos="fade-up">
+      <div className="mx-auto max-w-7xl bg-darkPrimary lg:bg-[#181717] px-3 sm:px-5 md:px-8" data-aos="fade-up">
         <div className="py-10">
           <div className="grid grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <SelectField icon={MapPin}>
@@ -304,7 +304,7 @@ const SearchSection = () => {
                 type="button"
                 disabled={!hasSelection || universityCoursesLoading}
                 onClick={handleSearch}
-                className="flex w-full cursor-pointer items-center justify-center gap-4 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex w-full cursor-pointer items-center justify-center gap-4 rounded-lg bg-white lg:bg-primary px-5 py-3 text-sm text-black font-semibold lg:text-white transition-all duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {universityCoursesLoading ? "Searching..." : "Search"}
                 <Search size={17} />

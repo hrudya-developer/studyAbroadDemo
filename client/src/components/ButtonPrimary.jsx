@@ -3,11 +3,11 @@ const ButtonPrimary = ({ children,onClick,className = "",}) => {
     <button onClick={onClick}
       className={`
         relative overflow-hidden
-        p-2.5 rounded-xl
+        py-3 px-5 rounded-xl
         text-[14px] sm:text-[14px] md:text-[13px] lg:text-[14px] xl:text-[15px]
         bg-darkPrimary text-white
         group
-        hover:cursor-pointer
+        hover:cursor-pointer border-darkPrimary
 
         flex items-center justify-center
 

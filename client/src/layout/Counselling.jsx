@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 import counselling from "../assets/counselling.png";
-import aeroplanePath from "../assets/aeroplanePath.png";
+import aeroplanePath from "../assets/aeroplanePath.webp";
 import { fetchCountries } from "../redux/slices/countrySlice";
 
 const getCountryName = (country) =>
@@ -231,11 +231,11 @@ const Counselling = () => {
             <div className="relative z-10 flex flex-col gap-10">
               <div className="mb-4 flex items-center gap-2 font-semibold text-white">
                 <Headphones className="h-10 w-10 text-logoYellow" />
-                <span className="text-logoYellow text-2xl font-extrabold">Expert Guidance, Every Step</span>
+                <span className="text-logoYellow text-xl font-extrabold">Expert Guidance, Every Step</span>
 
               </div>
 
-              <h1 className="font-nunito my-8 text-center text-5xl font-bold text-white sm:text-5xl md:text-5xl lg:text-left lg:text-6xl">
+              <h1 className="font-nunito my-8 text-center text-4xl font-bold text-white sm:text-4xl md:text-4xl lg:text-left lg:text-5xl">
                 Your Dream <br />
                 University <br />
                 <span className="text-logoYellow">Awaits You</span>
@@ -243,12 +243,12 @@ const Counselling = () => {
 
               <div className="mt-5 mb-6 h-1 w-14 rounded-full bg-primary"></div>
 
-              <p className="max-w-md text-xl leading-8 text-white/90">
+              <p className="max-w-md text-lg leading-8 text-white">
                 We guide you at every step of your study abroad journey.
               </p>
             </div>
 
-            <div className="absolute top-10 right-6 z-10 hidden lg:block">
+            <div className="absolute top-10 right-6 z-10 hidden lg:block w-22 h-auto">
               <img src={aeroplanePath} alt="Aeroplane path" />
             </div>
           </div>

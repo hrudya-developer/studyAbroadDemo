@@ -90,3 +90,20 @@ body{
   scrollbar-width: thin;
   scrollbar-color: #631A33 transparent;
 }
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.menu li ul {
+  margin-inline-start: 0 !important;
+  /* padding-left: 0 !important; */
+}
