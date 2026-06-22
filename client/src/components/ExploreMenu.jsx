@@ -150,7 +150,7 @@ function ExploreMenu({ mobile = false, onNavigate }) {
 
             {openGerman && (
               <ul
-                className={`mt-2 max-h-[160px] overflow-y-auto rounded-xl py-1 animate-[slideDown_0.25s_ease-out] ${
+                className={`mt-2 rounded-xl py-1 animate-[slideDown_0.25s_ease-out] ${
                   mobile
                     ? "bg-white/10"
                     : "border border-gray-100 bg-white text-gray-900"

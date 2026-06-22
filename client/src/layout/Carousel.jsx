@@ -198,14 +198,14 @@ const Carousel = () => {
 
       <Swiper
         modules={[Autoplay]}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 400000, disableOnInteraction: false }}
         loop
         className="
           h-auto min-h-[760px] w-full
           sm:min-h-[760px]
           md:min-h-[720px]
           lg:min-h-[760px]
-          xl:min-h-[800px]
+          xl:min-h-[760px]
         "
       >
         {slides.map((slide, index) => (
@@ -225,7 +225,7 @@ const Carousel = () => {
               <div className="absolute inset-0 bg-black/80 lg:hidden" />
 
               {/* Content */}
-              <div className="relative z-10 flex min-h-[760px] w-full items-center sm:min-h-[760px] md:min-h-[720px] lg:min-h-[760px] xl:min-h-[800px]">
+              <div className="relative z-10 flex min-h-[760px] w-full items-center sm:min-h-[760px] md:min-h-[720px] lg:min-h-[760px] xl:min-h-[760px]">
                 <div
                   className="
                     mx-auto flex w-full max-w-7xl flex-col
@@ -289,7 +289,7 @@ const Carousel = () => {
                         md:justify-start mb-10
                       "
                     >
-                      <ButtonPrimary className="w-1/2 bg-primary transition ease-in-out sm:w-auto">
+                      <ButtonPrimary className="w-[70%] bg-primary transition ease-in-out sm:w-auto">
                         <a
                           href="#gfc_wrapper"
                           className="flex h-full w-full items-center justify-center hover:cursor-pointer"
@@ -301,7 +301,7 @@ const Carousel = () => {
                       <a
                         href="#ep_section"
                         className="
-                          flex w-1/2 items-center justify-center rounded-xl
+                          flex w-[70%] items-center justify-center rounded-xl
                           border border-white bg-white px-5 py-3 text-sm
                           font-bold text-darkPrimary transition ease-in-out
                           hover:cursor-pointer hover:border-primary hover:bg-primary
