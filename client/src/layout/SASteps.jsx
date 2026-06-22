@@ -57,14 +57,14 @@ export default function SASteps() {
       <div className="relative max-w-7xl px-4 sm:px-5 md:px-8 flex justify-center mx-auto mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-[48%_52%] gap-8 p-6 sm:p-8 lg:p-12 xl:p-14">
           {/* Left Section */}
-          <div className="relative flex min-h-[760px] flex-col" data-aos="fade-up">
+          <div className="relative flex min-h-[760px] flex-col items-center lg:items-left" data-aos="fade-up">
             <div className="relative z-20 max-w-xl">
               <p className="text-sm font-extrabold uppercase tracking-wide text-primary">
                 Study Abroad
               </p>
               <div className="mt-3 h-1 w-14 rounded-full bg-primary" />
 
-           <h1 className="font-nunito font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl text-center lg:text-left text-darkPrimary mt-5">
+           <h1 className="font-nunito font-bold text-4xl sm:text-5xl md:text-5xl lg:text-5xl text-center lg:text-left text-darkPrimary mt-5">
                 Your Path to <br />
                 Global <br />
                 <span className="text-primary">Education</span>
@@ -137,10 +137,10 @@ export default function SASteps() {
                       </div>
 
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-black leading-none text-primary sm:text-md">
+                        <p className="text-sm font-black leading-none text-darkPrimary sm:text-md">
                           {step.id}
                         </p>
-                        <h3 className="mt-2 text-sm font-semibold leading-tight text-darkPrimary sm:text-lg">
+                        <h3 className="mt-2 text-sm font-semibold leading-tight text-primary sm:text-lg">
                           {step.title}
                         </h3>
                         <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-sm">

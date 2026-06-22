@@ -182,7 +182,7 @@ const Carousel = () => {
           type="button"
           className="
             talk-btn
-            flex items-center gap-2 rounded-2xl bg-logoYellow px-3 py-2
+            flex items-center gap-1 rounded-2xl bg-logoYellow px-3 py-2
             text-xs font-bold text-black shadow-xl
             hover:cursor-pointer
             sm:gap-3 sm:rounded-3xl sm:px-5 sm:py-4 sm:text-base
@@ -353,7 +353,7 @@ const Carousel = () => {
                               className="
                                 mt-2 text-base font-extrabold text-white
                                 sm:text-lg
-                                lg:text-xl lg:text-darkPrimary
+                                lg:text-xl lg:text-secondary
                               "
                             >
                               <Counter end={item.count} />

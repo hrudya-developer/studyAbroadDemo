@@ -44,8 +44,8 @@ const DestinationList = () => {
     <div className="relative min-h-screen bg-white max-w-7xl mx-auto px-4">
       <div style={{backgroundImage:`url(${map_bg})`}} className="h-auto grid place-content-center gap-5">
         <span className="flex gap-2 text-primary justify-center items-center mt-20"><span className="p-2 bg-secondary text-white rounded-full"><Globe2 /></span><span className="p-2 px-4 border border-secondary text-secondary rounded-full text-sm">Explore.Learn.Succeed</span></span>
-<h1 className="text-5xl font-extrabold text-center my-5">
-          Study Abroad <span className="text-[#d70707]">Destinations</span>
+<h1 className="text-4xl sm:text-5xl font-extrabold text-center my-5 text-darkPrimary">
+          Study Abroad <span className="text-primary">Destinations</span>
         </h1>
         <div className="flex gap-2 justify-center">
         <div className="w-[25%] h-[6px] bg-primary grid place-content-center"></div>
@@ -76,7 +76,7 @@ const DestinationList = () => {
                   />
 
                   <Link to={`/destination/${item.id}`}>
-                    <button className="absolute bottom-3 right-3 bg-white p-2 rounded-full text-[#d70707]">
+                    <button className="absolute bottom-3 right-3 bg-white p-2 rounded-full text-primary">
                       <FaArrowRight />
                     </button>
                   </Link>
