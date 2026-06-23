@@ -6,9 +6,10 @@ import sliderImg2 from "../assets/sliderImg2.png";
 import studentImg from "../assets/studentImg.png";
 import sliderImg3 from "../assets/sliderImg3.png";
 import sliderImg4 from "../assets/sliderImg4.png";
-import mobileAppBg from "../assets/mobileAppBg.png";
-// import sliderImg6 from "../assets/sliderImg6.webp";
-import sliderImg7 from "../assets/sliderImg7.png";
+
+
+import sliderImg8 from "../assets/sliderImg8.png";
+import sliderImg9 from "../assets/sliderImg9.png";
 
 import ButtonPrimary from "../components/ButtonPrimary";
 
@@ -19,6 +20,7 @@ import {
   HeadsetIcon,
   Plane,
   School,
+  UsersRound,
 } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -49,54 +51,57 @@ const Counter = ({ end, duration = 2000 }) => {
 
 const Carousel = () => {
   const slides = [
-    {
+   
+     {
       label: "Learn Beyond Borders",
       mobileLabel: "Study Abroad",
-      image: sliderImg7,
-      mobileImage: sliderImg7,
+      image: sliderImg8,
+      mobileImage: sliderImg8,
       heading: (
         <>
-          Your <span className="text-primary">International</span>
+          Your <span className="text-primary lg:text-black">International</span>
           <br />
           Journey
           <br />
-          <span className="text-primary">Begins</span> Here
+          <span className="text-primary lg:text-black">Begins</span> Here
         </>
       ),
       description: "Explore top universities and global scholarships.",
     },
-    {
+     {
       label: "Learn Beyond Borders",
       mobileLabel: "Study Abroad",
       image: sliderImg2,
       mobileImage: sliderImg2,
       heading: (
         <>
-          Your <span className="text-primary">International</span>
+          Your <span className="text-primary lg:text-black">International</span>
           <br />
           Journey
           <br />
-          <span className="text-primary">Begins</span> Here
+          <span className="text-primary lg:text-black">Begins</span> Here
         </>
       ),
       description: "Explore top universities and global scholarships.",
     },
-    {
+   
+     {
       label: "Learn Beyond Borders",
       mobileLabel: "Study Abroad",
-      image: mobileAppBg,
-      mobileImage: mobileAppBg,
+      image: sliderImg9,
+      mobileImage: sliderImg9,
       heading: (
         <>
-          Your <span className="text-primary">International</span>
+          Your <span className="text-primary lg:text-black">International</span>
           <br />
           Journey
           <br />
-          <span className="text-primary">Begins</span> Here
+          <span className="text-primary lg:text-black">Begins</span> Here
         </>
       ),
       description: "Explore top universities and global scholarships.",
     },
+   
     {
       label: "Learn Beyond Borders",
       mobileLabel: "Study Abroad",
@@ -104,11 +109,11 @@ const Carousel = () => {
       mobileImage: studentImg,
       heading: (
         <>
-          Your <span className="text-primary">International</span>
+          Your <span className="text-primary lg:text-black">International</span>
           <br />
           Journey
           <br />
-          <span className="text-primary">Begins</span> Here
+          <span className="text-primary lg:text-black">Begins</span> Here
         </>
       ),
       description: "Explore top universities and global scholarships.",
@@ -120,11 +125,11 @@ const Carousel = () => {
       mobileImage: sliderImg3,
       heading: (
         <>
-          Study <span className="text-primary">Abroad</span>
+          Study <span className="text-primary lg:text-black">Abroad</span>
           <br />
           With Expert
           <br />
-          <span className="text-primary">Guidance</span>
+          <span className="text-primary lg:text-black">Guidance</span>
         </>
       ),
       description: "Get personalized counselling for your dream destination.",
@@ -136,11 +141,11 @@ const Carousel = () => {
       mobileImage: sliderImg4,
       heading: (
         <>
-          Study <span className="text-primary">Abroad</span>
+          Study <span className="text-primary lg:text-black">Abroad</span>
           <br />
           With Expert
           <br />
-          <span className="text-primary">Guidance</span>
+          <span className="text-primary lg:text-black">Guidance</span>
         </>
       ),
       description: "Get personalized counselling for your dream destination.",
@@ -258,12 +263,12 @@ const Carousel = () => {
                     <h1
                       className="
                         animate__animated animate__bounceInLeft
-                        font-ubuntu text-[34px] font-extrabold leading-[1.08]
+                        font-nunito text-[34px] font-extrabold leading-[1.08]
                         text-white
                         min-[390px]:text-4xl
                         sm:text-5xl
                         md:text-5xl
-                        lg:text-6xl lg:text-darkPrimary
+                        lg:text-6xl lg:text-primary
                       "
                     >
                       {slide.heading}
@@ -275,7 +280,7 @@ const Carousel = () => {
                         leading-relaxed text-white
                         sm:text-base
                         md:mx-0 md:text-lg
-                        lg:text-darkPrimary
+                        lg:text-black
                       "
                     >
                       {slide.description}
@@ -289,7 +294,7 @@ const Carousel = () => {
                         md:justify-start mb-10
                       "
                     >
-                      <ButtonPrimary className="w-[70%] bg-primary transition ease-in-out sm:w-auto">
+                      <ButtonPrimary className="w-[70%] bg-darkPrimary transition ease-in-out sm:w-auto">
                         <a
                           href="#gfc_wrapper"
                           className="flex h-full w-full items-center justify-center hover:cursor-pointer"
@@ -374,6 +379,12 @@ const Carousel = () => {
                           </div>
                         ))}
                       </div>
+                    </div>
+                    <div className="bg-secondary p-5 py-6 text-white absolute rounded-2xl right-10 bottom-3 hidden lg:flex gap-2">
+                      <span className="bg-white rounded-full shadow-xl p-2 w-12 h-12 grid place-content-center">
+                        <UsersRound className="text-primary"/></span>
+                     <span className=" flex flex-col text-sm">10k +<br />
+                    Students <br />Guided Successfully</span> 
                     </div>
                   </div>
                 </div>

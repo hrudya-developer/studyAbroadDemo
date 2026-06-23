@@ -29,13 +29,38 @@ const Navbar = () => {
     };
   }, []);
 
+  const [scrolled, setScrolled] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 50);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
   return (
-    <header data-theme="mytheme" className="relative z-[999]">
-      <div className="navbar mx-auto max-w-7xl bg-primary lg:bg-darkPrimary px-3 sm:px-5 md:px-8 font-nunito shadow-xs">
+<header data-theme="mytheme" className="sticky top-0 z-[999] w-full">
+  <div
+    className={`navbar mx-auto max-w-7xl bg-primary px-3 sm:px-5 md:px-8 font-nunito transition-all duration-500 ease-in-out ${
+      scrolled
+        ? "min-h-[60px] py-0 shadow-lg"
+        : "min-h-[96px] py-2 shadow-xs"
+    }`}
+  >
         {/* LEFT - LOGO */}
         <div className="navbar-start">
           <Link to="/" onClick={closeMenu}>
-            <div className="w-[200px] sm:w-[220px] md:w-[220px] lg:w-[230px] xl:w-[260px] shrink-0 p-2 md:p-3">
+           <div
+  className={`shrink-0 transition-all duration-500 ease-in-out ${
+    scrolled
+      ? "w-[135px] sm:w-[150px] lg:w-[170px] p-1"
+      : "w-[200px] sm:w-[220px] md:w-[220px] lg:w-[230px] xl:w-[260px] p-2 md:p-3"
+  }`}
+>
               <img
                 src={logo}
                 alt="logo"
@@ -71,18 +96,22 @@ const Navbar = () => {
           {/* DESKTOP BUTTONS */}
           <div className="hidden lg:flex gap-3">
             <a
-              href="#gfc_wrapper"
-              className="py-3 px-2 lg:px-5 rounded-xl text-[12px] [@media(min-width:1024px)_and_(max-width:1086px)]:text-[13px] lg:text-[14px] font-semibold text-black bg-white border-white hover:cursor-pointer flex items-center justify-center"
-            >
-              Get Free Counselling
-            </a>
+  href="#gfc_wrapper"
+  className={`rounded-xl text-[12px] lg:text-[14px] font-semibold text-black bg-white border-white hover:cursor-pointer flex items-center justify-center transition-all duration-500 ease-in-out ${
+    scrolled ? "py-2 px-4" : "py-3 px-5"
+  }`}
+>
+  Get Free Counselling
+</a>
 
-            <Link
-              to="/loginViaOtp"
-              className="py-3 px-2 lg:px-5 rounded-xl text-[12px] lg:text-[14px] text-logoYellow bg-transparent border border-logoYellow hover:cursor-pointer flex items-center justify-center"
-            >
-              Sign In
-            </Link>
+         <Link
+  to="/loginViaOtp"
+  className={`rounded-xl text-[12px] lg:text-[14px] text-logoYellow bg-transparent border border-logoYellow hover:cursor-pointer flex items-center justify-center transition-all duration-500 ease-in-out ${
+    scrolled ? "py-2 px-4" : "py-3 px-5"
+  }`}
+>
+  Sign In
+</Link>
           </div>
 
           {/* MOBILE MENU */}
