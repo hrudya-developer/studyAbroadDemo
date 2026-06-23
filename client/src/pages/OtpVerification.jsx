@@ -160,14 +160,14 @@ export default function VerifyOtpPage() {
   };
 
   return (
-    <div className="h-[calc(100vh-132px)] flex items-center justify-center p-4" style={{backgroundImage:`url(${login_bg})`}}>
+    <div className="h-100dvh flex items-center justify-center p-4 py-20 max-w-7xl mx-auto" style={{backgroundImage:`url(${login_bg})`}}>
       <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl">
-        <div className="relative overflow-hidden bg-[#081c47] px-8 py-10 text-center text-white">
-          <div className="absolute -left-12 -bottom-12 h-36 w-36 rounded-full bg-[#cb0e10]/50" />
+        <div className="relative overflow-hidden bg-darkPrimary px-8 py-10 text-center text-white">
+          <div className="absolute -left-12 -bottom-12 h-36 w-36 rounded-full bg-white/10" />
           <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10" />
 
           <div className="relative z-10">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#cb0e10] text-2xl font-bold shadow-lg">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold shadow-lg">
               OTP
             </div>
 
@@ -179,7 +179,7 @@ export default function VerifyOtpPage() {
               Enter the 4 digit code sent to
             </p>
 
-            <p className="mt-1 break-all font-semibold text-[#ff4d4f]">
+            <p className="mt-1 break-all font-semibold text-logoYellow">
               {email}
             </p>
           </div>
@@ -212,7 +212,7 @@ export default function VerifyOtpPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-[#cb0e10] py-3 text-lg font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70"
+              className="w-full rounded-xl bg-darkPrimary py-3 text-lg font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70"
             >
               {loading ? "Verifying..." : "Verify OTP"}
             </button>

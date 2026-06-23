@@ -89,19 +89,20 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="h-100dvh grid place-content-center max-w-7xl mx-auto" style={{backgroundImage:`url(${login_bg})`}}>
+    <div className="h-100dvh grid place-content-center max-w-7xl mx-auto bg-cover bg-center" style={{backgroundImage:`url(${login_bg})`}}>
 
-      <div className="grid md:grid-cols-1 p-5 rounded-3xl w-auto md:w-[600px]">
+      <div className="grid md:grid-cols-1 p-5 rounded-3xl w-auto md:w-[600px] my-10 ">
 
-       
+      
 
 
-      <div className="p-6 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.5)] py-10 bg-black/15">
+      <div className="p-6 rounded-2xl shadow-2xl py-10 bg-white">
+        
         <div className="flex justify-center items-center mb-8"><span className="bg-primary text-white p-3 rounded-full shadow-sm"><Globe size={28}/></span></div>
-        <h2 className="text-3xl font-extrabold text-center text-white my-5">
-         <span className="text-white">Welcome</span> Back !
+        <h2 className="text-3xl font-extrabold text-center text-darkPrimary my-5">
+         <span className="text-darkPrimary">Welcome</span> Back !
         </h2>
-        <p className="text-center text-white text-md">Sign in to continue to your account.</p>
+        <p className="text-center text-darkPrimary text-md">Sign in to continue to your account.</p>
 
 
 
@@ -119,7 +120,7 @@ const LoginPage = () => {
       onChange={(e) => setEmail(e.target.value)}
       type="email"
       placeholder="Enter email"
-      className="w-full h-10 border border-gray-200 text-white pl-10 pr-4 rounded-lg"
+      className="w-full h-10 border border-gray-300 text-black pl-10 pr-4 rounded-lg"
     />
   </div>
 
@@ -127,7 +128,7 @@ const LoginPage = () => {
   <button
     type="submit"
     disabled={loading}
-    className="w-full h-10 bg-primary text-white rounded-lg disabled:opacity-60 flex gap-4 justify-center items-center shadow-sm hover:cursor-pointer hover:bg-white hover:text-primary"
+    className="w-full h-10 bg-darkPrimary text-white rounded-lg disabled:opacity-60 flex gap-4 justify-center items-center shadow-sm hover:cursor-pointer hover:bg-primary hover:text-white"
   >
    <span><LockKeyhole size={17}/></span> {loading ? "Sending..." : "Get OTP"}
   </button>
@@ -137,8 +138,8 @@ const LoginPage = () => {
 </form>
 
 <div className="border-t border-t-dashed border-t-gray-600 pt-5 flex justify-center gap-4 flex-col md:flex-row items-center">
- <h1 className="text-md font-bold text-logoYellow">Download our Mobile App</h1>
- <button className="bg-white text-secondary text-sm font-semibold p-2 px-3 hover:cursor-pointer rounded-xl hover:bg-primary hover:text-white">
+ <h1 className="text-md font-bold text-black">Download our Mobile App</h1>
+ <button className="bg-black text-white text-sm font-semibold p-2 px-3 hover:cursor-pointer rounded-xl hover:bg-primary hover:text-white">
   <a href="https://play.google.com/store/apps/details?id=com.medcity.overseas" target="_blank" className="w-full h-full">Download App</a></button>
   </div>
       </div>

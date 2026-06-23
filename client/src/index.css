@@ -107,3 +107,7 @@ body{
   margin-inline-start: 0 !important;
   /* padding-left: 0 !important; */
 }
+body.swal2-shown {
+  overflow: hidden !important;
+  touch-action: none;
+}

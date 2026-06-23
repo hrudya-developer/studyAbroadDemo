@@ -3,12 +3,29 @@ import ButtonPrimary from "./ButtonPrimary";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import ExploreMenu from "./ExploreMenu";
+import FreeCounsellingForm from "../pages/FreeCounsellingForm";
 
 const Navbar = () => {
+  const [showCounsellingPopup, setShowCounsellingPopup] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileMenuRef = useRef(null);
 
   const closeMenu = () => setMobileOpen(false);
+
+  useEffect(() => {
+  if (showCounsellingPopup) {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+  }
+
+  return () => {
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+  };
+}, [showCounsellingPopup]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -95,14 +112,15 @@ useEffect(() => {
         <div className="navbar-end">
           {/* DESKTOP BUTTONS */}
           <div className="hidden lg:flex gap-3">
-            <a
-  href="#gfc_wrapper"
+<button
+  type="button"
+  onClick={() => setShowCounsellingPopup(true)}
   className={`rounded-xl text-[12px] lg:text-[14px] font-semibold text-black bg-white border-white hover:cursor-pointer flex items-center justify-center transition-all duration-500 ease-in-out ${
     scrolled ? "py-2 px-4" : "py-3 px-5"
   }`}
 >
   Get Free Counselling
-</a>
+</button>
 
          <Link
   to="/loginViaOtp"
@@ -178,11 +196,18 @@ useEffect(() => {
 
                 {/* MOBILE BUTTONS */}
                 <div className="mt-4 flex flex-col gap-3">
-                  <a href="#gfc_wrapper" onClick={closeMenu} className="w-full">
-                    <ButtonPrimary className="w-full">
-                      Book Free Counselling
-                    </ButtonPrimary>
-                  </a>
+                <button
+  type="button"
+  onClick={() => {
+    closeMenu();
+    setShowCounsellingPopup(true);
+  }}
+  className="w-full"
+>
+  <ButtonPrimary className="w-full">
+    Book Free Counselling
+  </ButtonPrimary>
+</button>
 
                   <Link
                     to="/loginViaOtp"
@@ -197,6 +222,23 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      {showCounsellingPopup && (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 px-4">
+    <div className="relative max-h-[90vh] w-[90%] sm:w-[90%] md:w-[90%] lg:[60%] max-w-3xl overflow-y-auto rounded-[30px] bg-white shadow-2xl">
+      <button
+        type="button"
+        onClick={() => setShowCounsellingPopup(false)}
+        className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xl font-bold text-white"
+      >
+        ×
+      </button>
+
+      <FreeCounsellingForm
+  onSuccess={() => setShowCounsellingPopup(false)}
+/>
+    </div>
+  </div>
+)}
     </header>
   );
 };
