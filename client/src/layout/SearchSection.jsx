@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import {
   MapPin,
@@ -8,74 +8,49 @@ import {
   School,
   Search,
   ArrowRight,
+  GraduationCapIcon,
+  School2,
+  MapPinCheck,
 } from "lucide-react";
 
 import { fetchCountries } from "../redux/slices/countrySlice";
 import { fetchUniversitiesByCountry } from "../redux/slices/universitySlice";
-import { fetchPopularCourses } from "../redux/slices/courseSlice";
 import {
-  fetchCourseSearchResults,
-  clearCourseSearchResults,
-} from "../redux/slices/courseSearchSlice";
+  fetchUniversityMainCoursesByUid,
+  fetchAllUniversityCoursesLatest,
+  clearAllUniversityCourses,
+} from "../redux/slices/courseSlice";
 
 const selectStyles = {
   control: (base, state) => ({
     ...base,
     backgroundColor: "transparent",
+    fontSize: "14px",
+    fontWeight: "bold",
     borderColor: "#ffffff",
     minHeight: "48px",
     boxShadow: state.isFocused ? "0 0 0 1px #ffffff" : "none",
-    "&:hover": {
-      borderColor: "#ffffff",
-    },
+    "&:hover": { borderColor: "#ffffff" },
   }),
-  singleValue: (base) => ({
-    ...base,
-    color: "#ffffff",
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: "#ffffff",
-  }),
-  input: (base) => ({
-    ...base,
-    color: "#ffffff",
-  }),
-  menu: (base) => ({
-    ...base,
-    zIndex: 9999,
-  }),
-  menuList: (base) => ({
-    ...base,
-    maxHeight: 200,
-  }),
+  singleValue: (base) => ({ ...base, color: "#ffffff" }),
+  placeholder: (base) => ({ ...base, color: "#ffffff" }),
+  input: (base) => ({ ...base, fontSize: "13px", color: "#ffffff" }),
+  menuPortal: (base) => ({ ...base, zIndex: 99999 }),
+  menu: (base) => ({ ...base, zIndex: 99999 }),
+  menuList: (base) => ({ ...base, maxHeight: 220 }),
   option: (base, state) => ({
     ...base,
-    backgroundColor: state.isFocused ? "#f3f4f6" : "#ffffff",
-    color: "#111827",
+    backgroundColor: state.isSelected
+      ? "#c01f53"
+      : state.isFocused
+      ? "#f3f4f6"
+      : "#ffffff",
+    color: state.isSelected ? "#ffffff" : "#111827",
     cursor: "pointer",
   }),
 };
 
-const getMappedMainCourseId = (courseName) => {
-  const name = String(courseName || "").toLowerCase();
-
-  if (
-    name.includes("mbbs") ||
-    name.includes("medicine") ||
-    name.includes("medical") ||
-    name.includes("nursing") ||
-    name.includes("health")
-  ) {
-    return "9";
-  }
-
-  return "";
-};
-
-
 const SearchSection = () => {
-  const [showPopup, setShowPopup] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -88,28 +63,31 @@ const SearchSection = () => {
     (state) => state.universityData || {}
   );
 
-  const { popularCourses = [], loading: coursesLoading } = useSelector(
-    (state) => state.courseData || {}
-  );
-
   const {
-    results: universityCourses = [],
-    loading: universityCoursesLoading,
-    error: universityCoursesError,
-  } = useSelector((state) => state.courseSearch || {});
+    universityMainCourses = [],
+    universityMainCoursesLoading = false,
+    allUniversityCourses = [],
+    allUniversityCoursesLoading = false,
+  } = useSelector((state) => state.courseData || {});
 
   const [selectedCountryId, setSelectedCountryId] = useState("");
-  const [selectedCourseId, setSelectedCourseId] = useState("");
   const [selectedUniversityId, setSelectedUniversityId] = useState("");
+  const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   const [searched, setSearched] = useState(false);
+
+  const portalTarget =
+    typeof document !== "undefined" ? document.body : undefined;
 
   useEffect(() => {
     dispatch(fetchCountries(safeUid));
-    dispatch(fetchPopularCourses(safeUid));
   }, [dispatch, safeUid]);
 
   useEffect(() => {
     setSelectedUniversityId("");
+    setSelectedCourseId("");
+    setSearched(false);
+    dispatch(clearAllUniversityCourses());
 
     if (!selectedCountryId) return;
 
@@ -123,81 +101,132 @@ const SearchSection = () => {
     );
   }, [dispatch, safeUid, selectedCountryId]);
 
+  useEffect(() => {
+    setSelectedCourseId("");
+    setSearched(false);
+    dispatch(clearAllUniversityCourses());
+
+    if (!selectedUniversityId) return;
+
+    dispatch(
+      fetchUniversityMainCoursesByUid({
+        universityId: selectedUniversityId,
+        uid: safeUid,
+      })
+    );
+  }, [dispatch, selectedUniversityId, safeUid]);
+
+  useEffect(() => {
+    if (!showPopup) return;
+
+    const bodyOverflow = document.body.style.overflow;
+    const htmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = bodyOverflow;
+      document.documentElement.style.overflow = htmlOverflow;
+    };
+  }, [showPopup]);
+
   const getCountryId = (item) =>
-    item?.id || item?.d_id || item?.country_id || "";
+    String(item?.id || item?.d_id || item?.country_id || "");
 
   const getCountryName = (item) =>
     item?.country || item?.name || item?.country_name || "Destination";
 
   const getUniversityId = (item) =>
-    item?.id || item?.u_id || item?.university_id || "";
+    String(item?.id || item?.u_id || item?.university_id || "");
 
   const getUniversityName = (item) =>
     item?.name || item?.university || item?.university_name || "University";
 
+  const getCourseId = (item) =>
+    String(
+      item?.c_id ||
+        item?.id ||
+        item?.course_id ||
+        item?.main_course_id ||
+        item?.uc_id ||
+        ""
+    );
+
   const getCourseName = (item) =>
     item?.course ||
-    item?.course_name ||
     item?.main_course ||
     item?.name ||
+    item?.course_name ||
+    item?.main_course_name ||
     item?.title ||
     "Course";
 
-  const countryOptions = countries.map((item) => ({
-    value: getCountryId(item),
-    label: getCountryName(item),
-  }));
+  const countryOptions = useMemo(
+    () =>
+      countries
+        .map((item) => ({
+          value: getCountryId(item),
+          label: getCountryName(item),
+        }))
+        .filter((item) => item.value),
+    [countries]
+  );
 
-  const courseOptions = popularCourses.map((item) => ({
-    value: String(
-      item?.id || item?.course_id || item?.main_course_id || item?.c_id || ""
-    ),
-    apiCourseId: String(
-      item?.c_id || item?.main_course_id || item?.course_id || item?.id || ""
-    ),
-    label: getCourseName(item),
-    raw: item,
-  }));
+  const universityOptions = useMemo(
+    () =>
+      universities
+        .map((item) => ({
+          value: getUniversityId(item),
+          label: getUniversityName(item),
+        }))
+        .filter((item) => item.value),
+    [universities]
+  );
 
-  const universityOptions = universities.map((item) => ({
-    value: getUniversityId(item),
-    label: getUniversityName(item),
-  }));
+  const mainCourseOptions = useMemo(
+    () =>
+      universityMainCourses
+        .map((item) => ({
+          value: getCourseId(item),
+          label: getCourseName(item),
+          raw: item,
+        }))
+        .filter((item) => item.value && item.label && item.label !== "Course"),
+    [universityMainCourses]
+  );
 
-  const resetSearchResults = () => {
-    setSearched(false);
-    dispatch(clearCourseSearchResults());
-  };
-
- const handleSearch = () => {
-  setSearched(true);
-  setShowPopup(true);
-  dispatch(clearCourseSearchResults());
-
-  const selectedCourse = courseOptions.find(
+  const selectedMainCourseOption = mainCourseOptions.find(
     (option) => option.value === selectedCourseId
   );
 
-  const mappedCourseId = getMappedMainCourseId(selectedCourse?.label);
+  const getResultCourseId = (course) =>
+    String(
+      course?.id ||
+        course?.course_id ||
+        course?.c_id ||
+        course?.uc_id ||
+        course?.cid ||
+        ""
+    );
 
-  const finalCourseId =
-    mappedCourseId || selectedCourse?.apiCourseId || selectedCourseId || "";
+  const handleSearch = () => {
+    setSearched(true);
+    setShowPopup(true);
+    dispatch(clearAllUniversityCourses());
 
-  dispatch(
-    fetchCourseSearchResults({
-      uid: safeUid,
-      countryId: selectedCountryId || "",
-      universityId: selectedUniversityId || "",
-      courseId: finalCourseId,
-      keyword: selectedCourse?.label || "",
-      keytype: "course",
-      offset: 0,
-    })
-  );
-};
+    dispatch(
+      fetchAllUniversityCoursesLatest({
+        uid: safeUid,
+        universityId: selectedUniversityId,
+        courseId: selectedCourseId,
+        offset: 0,
+      })
+    );
+  };
 
   const handleViewCourse = (course) => {
-    const courseId = course?.id || course?.course_id || course?.c_id;
+    const courseId = getResultCourseId(course);
 
     if (!courseId) return;
 
@@ -215,23 +244,14 @@ const SearchSection = () => {
   };
 
   const hasSelection =
-    selectedCountryId || selectedCourseId || selectedUniversityId;
-
-    useEffect(() => {
-  if (showPopup) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
-
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, [showPopup]);
+    selectedCountryId && selectedUniversityId && selectedCourseId;
 
   return (
-    <section className="py-0">
-      <div className="mx-auto max-w-7xl bg-darkPrimary lg:bg-[#181717] px-3 sm:px-5 md:px-8" data-aos="fade-up">
+    <section className="relative z-30 py-0">
+      <div
+        className="relative z-30 mx-auto max-w-7xl bg-darkPrimary px-3 sm:px-5 md:px-8 lg:bg-[#181717]"
+        data-aos="fade-up"
+      >
         <div className="py-10">
           <div className="grid grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <SelectField icon={MapPin}>
@@ -244,31 +264,17 @@ const SearchSection = () => {
                 onChange={(option) => {
                   setSelectedCountryId(option?.value || "");
                   setSelectedUniversityId("");
-                  resetSearchResults();
+                  setSelectedCourseId("");
+                  setSearched(false);
+                  dispatch(clearAllUniversityCourses());
                 }}
                 options={countryOptions}
                 placeholder="Select Destination"
-                maxMenuHeight={200}
+                isSearchable
+                maxMenuHeight={220}
                 styles={selectStyles}
-              />
-            </SelectField>
-
-            <SelectField icon={GraduationCap}>
-              <Select
-                value={
-                  courseOptions.find(
-                    (option) => option.value === selectedCourseId
-                  ) || null
-                }
-                onChange={(option) => {
-                  setSelectedCourseId(option?.value || "");
-                  resetSearchResults();
-                }}
-                options={courseOptions}
-                placeholder={coursesLoading ? "Loading..." : "Select Course"}
-                isLoading={coursesLoading}
-                maxMenuHeight={200}
-                styles={selectStyles}
+                menuPortalTarget={portalTarget}
+                menuPosition="fixed"
               />
             </SelectField>
 
@@ -281,32 +287,72 @@ const SearchSection = () => {
                 }
                 onChange={(option) => {
                   setSelectedUniversityId(option?.value || "");
-                  resetSearchResults();
+                  setSelectedCourseId("");
+                  setSearched(false);
+                  dispatch(clearAllUniversityCourses());
                 }}
                 options={universityOptions}
                 placeholder={
                   !selectedCountryId
-                    ? "Select University"
+                    ? "Select Country First"
                     : universitiesLoading
-                    ? "Loading..."
+                    ? "Loading Universities..."
                     : "Select University"
                 }
                 isDisabled={!selectedCountryId}
                 isLoading={universitiesLoading}
                 isSearchable
-                maxMenuHeight={200}
+                maxMenuHeight={220}
                 styles={selectStyles}
+                menuPortalTarget={portalTarget}
+                menuPosition="fixed"
+              />
+            </SelectField>
+
+            <SelectField icon={GraduationCap}>
+              <Select
+                value={
+                  mainCourseOptions.find(
+                    (option) => option.value === selectedCourseId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedCourseId(option?.value || "");
+                  setSearched(false);
+                  dispatch(clearAllUniversityCourses());
+                }}
+                options={mainCourseOptions}
+                placeholder={
+                  !selectedUniversityId
+                    ? "Select University First"
+                    : universityMainCoursesLoading
+                    ? "Loading Main Courses..."
+                    : mainCourseOptions.length === 0
+                    ? "No Main Courses Found"
+                    : "Select Main Course"
+                }
+                isDisabled={
+                  !selectedUniversityId ||
+                  universityMainCoursesLoading ||
+                  mainCourseOptions.length === 0
+                }
+                isLoading={universityMainCoursesLoading}
+                isSearchable
+                maxMenuHeight={220}
+                styles={selectStyles}
+                menuPortalTarget={portalTarget}
+                menuPosition="fixed"
               />
             </SelectField>
 
             <div className="w-full">
               <button
                 type="button"
-                disabled={!hasSelection || universityCoursesLoading}
+                disabled={!hasSelection || allUniversityCoursesLoading}
                 onClick={handleSearch}
-                className="flex w-full cursor-pointer items-center justify-center gap-4 rounded-lg bg-white lg:bg-primary px-5 py-3 text-sm text-black font-semibold lg:text-white transition-all duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex w-full cursor-pointer items-center justify-center gap-4 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-black transition-all duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 lg:bg-primary lg:text-white"
               >
-                {universityCoursesLoading ? "Searching..." : "Search"}
+                {allUniversityCoursesLoading ? "Searching..." : "Search"}
                 <Search size={17} />
               </button>
             </div>
@@ -314,144 +360,106 @@ const SearchSection = () => {
         </div>
       </div>
 
-      {/* <div className="mx-auto mt-8 max-w-7xl px-3 sm:px-5 md:px-8">
-        {universityCoursesError && (
-          <p className="text-center text-sm font-semibold text-red-600">
-            {universityCoursesError}
-          </p>
-        )}
+      {showPopup && (
+        <div
+          className="fixed inset-0 z-[99999] flex h-full w-full items-center justify-center bg-black/80 px-4 py-6"
+          onClick={() => setShowPopup(false)}
+        >
+          <div
+            className="relative max-h-[82vh] w-full max-w-6xl overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl sm:p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              className="sticky top-0 float-right z-20 rounded-full bg-primary px-3 py-1 text-lg font-bold text-white hover:bg-primary"
+            >
+              ×
+            </button>
 
-        {searched &&
-          !universityCoursesLoading &&
-          universityCourses.length === 0 && (
-            <p className="text-center text-sm font-semibold text-gray-500">
-              No courses found.
-            </p>
-          )}
+            <h2 className="mb-2 flex flex-wrap items-center gap-3 pr-12 text-xl font-bold text-darkPrimary">
+              <span className="grid size-10 place-content-center rounded-lg bg-pink-100 p-1 shadow-lg">
+                <GraduationCapIcon className="text-primary" />
+              </span>
+              {selectedMainCourseOption?.label || "Course"} Results
+            </h2>
 
-        {universityCourses.length > 0 && (
-          <>
-            <p className="mb-4 text-sm font-semibold text-gray-600">
-              Showing {universityCourses.length} courses
-            </p>
+            {allUniversityCoursesLoading && (
+              <p className="mb-5 text-sm font-semibold text-gray-600">
+                Loading courses...
+              </p>
+            )}
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {universityCourses.map((course, index) => (
+          <div className="mb-5">  {!allUniversityCoursesLoading && allUniversityCourses.length > 0 && (
+              <span className="my-2 text-sm font-semibold text-black inline-flex gap-2 items-center">
+               <span className="size-10 bg-primary text-white p-1 rounded-lg text-md shadow-lg grid place-content-center"> {allUniversityCourses.length} </span> Showing <span className="text-primary">{allUniversityCourses.length} </span>Courses
+              </span>
+            )}</div>
+
+            {!allUniversityCoursesLoading &&
+              searched &&
+              allUniversityCourses.length === 0 && (
+                <p className="py-10 text-center text-sm font-semibold text-gray-500">
+                  No courses found under this main course.
+                </p>
+              )}
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {allUniversityCourses.map((course, index) => (
                 <div
-                  key={course?.id || course?.course_id || course?.c_id || index}
-                  className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-xl"
+                  key={getResultCourseId(course) || index}
+                  className="rounded-2xl bg-[#f4f4f4] p-5 shadow-lg ring-1 ring-gray-100"
                 >
-                  <h3 className="text-lg font-bold text-[#071d3a]">
-                    {getCourseName(course)}
+                  <h3 className="text-sm font-bold text-black flex flex-col sm:flex-row gap-3 items-center">
+                    <span className="bg-primary/10 rounded-lg size-10 grid place-content-center"> <GraduationCapIcon className="text-primary" /></span>{getCourseName(course)}
                   </h3>
 
-                  <p className="mt-2 text-sm text-gray-500">
+                  <p className="mt-2 text-sm text-black flex flex-col sm:flex-row gap-3 items-center">
+
+                    <span className="bg-secondary/10 rounded-lg size-10 grid place-content-center"><School2 className="text-secondary"/></span>
+
+
                     {course?.university ||
                       course?.university_name ||
+                      universityOptions.find(
+                        (item) => item.value === selectedUniversityId
+                      )?.label ||
                       "University not available"}
                   </p>
 
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-2 text-sm text-black flex flex-col sm:flex-row gap-3 items-center">
+
+                    <span className="bg-darkPrimary/10 rounded-lg size-10 grid place-content-center"><MapPinCheck className="text-darkPrimary"/></span>
+
                     {course?.country ||
                       course?.country_name ||
+                      countryOptions.find(
+                        (item) => item.value === selectedCountryId
+                      )?.label ||
                       "Country not available"}
                   </p>
-
+<div className="flex gap-1 flex flex-col sm:flex-row sm:justify-between">
                   <button
                     type="button"
                     onClick={() => handleViewCourse(course)}
-                    className="mt-5 flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary"
+                    className="mt-5 flex items-center gap-2 mx-auto sm:mx-0 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
                   >
-                    View Details
+                    View 
                     <ArrowRight className="h-4 w-4" />
                   </button>
+                      <Link to="/loginViaOtp"><button
+                    type="button"
+                    className="mt-5 flex items-center gap-2 mx-auto sm:mx-0 rounded-lg bg-darkPrimary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
+                  >
+                    Apply 
+                    <ArrowRight className="h-4 w-4" />
+                  </button></Link> </div>
                 </div>
               ))}
             </div>
-          </>
-        )}
-      </div> */}
-
-
-      {showPopup && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 px-4">
-    <div className="relative max-h-[85vh] w-auto overflow-y-auto rounded-2xl bg-white p-10 shadow-2xl">
-      <button
-        type="button"
-        onClick={() => setShowPopup(false)}
-        className="absolute right-4 top-4 rounded-full bg-secondary px-3 py-1 text-lg font-bold hover:bg-primary text-white"
-      >
-        ×
-      </button>
-
-      <h2 className="mb-5 pr-10 text-xl font-bold text-secondary">
-        Search Results
-      </h2>
-
-      {universityCoursesLoading && (
-        <p className="text-center text-sm font-semibold text-black">
-          Searching courses...
-        </p>
-      )}
-
-      {universityCoursesError && (
-        <p className="text-center text-sm font-semibold text-red-600">
-          {universityCoursesError}
-        </p>
-      )}
-
-      {searched &&
-        !universityCoursesLoading &&
-        universityCourses.length === 0 && (
-          <p className="text-center text-sm font-semibold text-gray-500">
-            No courses found.
-          </p>
-        )}
-
-      {universityCourses.length > 0 && (
-        <>
-          <p className="mb-4 text-md font-semibold text-gray-600">
-            Showing {universityCourses.length} courses
-          </p>
-
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {universityCourses.map((course, index) => (
-              <div
-                key={course?.id || course?.course_id || course?.c_id || index}
-                className="rounded-2xl bg-white p-5 shadow-md ring-1 ring-gray-100"
-              >
-                <h3 className="text-md font-bold text-secondary">
-                  {getCourseName(course)}
-                </h3>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  {course?.university ||
-                    course?.university_name ||
-                    "University not available"}
-                </p>
-
-                <p className="mt-1 text-sm text-gray-500">
-                  {course?.country ||
-                    course?.country_name ||
-                    "Country not available"}
-                </p>
-
-                <button
-                  type="button"
-                  onClick={() => handleViewCourse(course)}
-                  className="mt-5 flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
-                >
-                  View Details
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
-            ))}
           </div>
-        </>
+        </div>
       )}
-    </div>
-  </div>
-)}
     </section>
   );
 };
@@ -463,10 +471,9 @@ function SelectField({ icon: Icon, children }) {
         <Icon className="text-white" size={20} />
       </div>
 
-      <div className="flex-1">{children}</div>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 }
 
 export default SearchSection;
-

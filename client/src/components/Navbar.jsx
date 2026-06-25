@@ -12,18 +12,18 @@ const Navbar = () => {
 
   const closeMenu = () => setMobileOpen(false);
 
-  useEffect(() => {
-  if (showCounsellingPopup) {
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-    document.documentElement.style.overflow = "auto";
-  }
+useEffect(() => {
+  if (!showCounsellingPopup) return;
+
+  const originalBodyOverflow = document.body.style.overflow;
+  const originalHtmlOverflow = document.documentElement.style.overflow;
+
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
 
   return () => {
-    document.body.style.overflow = "auto";
-    document.documentElement.style.overflow = "auto";
+    document.body.style.overflow = originalBodyOverflow;
+    document.documentElement.style.overflow = originalHtmlOverflow;
   };
 }, [showCounsellingPopup]);
 
@@ -60,12 +60,12 @@ useEffect(() => {
   };
 }, []);
   return (
-<header data-theme="mytheme" className="sticky top-0 z-[999] w-full">
+<header data-theme="mytheme" className="sticky top-0 z-10 w-full bg-primary">
   <div
     className={`navbar mx-auto max-w-7xl bg-primary px-3 sm:px-5 md:px-8 font-nunito transition-all duration-500 ease-in-out ${
       scrolled
         ? "min-h-[60px] py-0 shadow-lg"
-        : "min-h-[96px] py-2 shadow-xs"
+        : "min-h-[96px] py-0 shadow-xs"
     }`}
   >
         {/* LEFT - LOGO */}
@@ -74,8 +74,8 @@ useEffect(() => {
            <div
   className={`shrink-0 transition-all duration-500 ease-in-out ${
     scrolled
-      ? "w-[135px] sm:w-[150px] lg:w-[170px] p-1"
-      : "w-[200px] sm:w-[220px] md:w-[220px] lg:w-[230px] xl:w-[260px] p-2 md:p-3"
+      ? "w-[210px] sm:w-[210px] lg:w-[210px] p-1"
+      : "w-[220px] sm:w-[230px] md:w-[240px] lg:w-[250px] xl:w-[260px] p-2 md:p-3"
   }`}
 >
               <img
@@ -116,7 +116,7 @@ useEffect(() => {
   type="button"
   onClick={() => setShowCounsellingPopup(true)}
   className={`rounded-xl text-[12px] lg:text-[14px] font-semibold text-black bg-white border-white hover:cursor-pointer flex items-center justify-center transition-all duration-500 ease-in-out ${
-    scrolled ? "py-2 px-4" : "py-3 px-5"
+    scrolled ? "py-2 px-4" : "py-2 px-5"
   }`}
 >
   Get Free Counselling
@@ -222,10 +222,15 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      {showCounsellingPopup && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 px-4">
-    <div className="relative max-h-[90vh] w-[90%] sm:w-[90%] md:w-[90%] lg:[60%] max-w-3xl overflow-y-auto rounded-[30px] bg-white shadow-2xl">
-      <button
+ {showCounsellingPopup && (
+  <div
+    className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 px-4"
+    onClick={() => setShowCounsellingPopup(false)}
+  >
+    <div
+      className="relative max-h-[90vh] w-[90%] sm:w-[90%] md:w-[90%] lg:w-[60%] max-w-3xl overflow-y-auto rounded-[30px] bg-white shadow-2xl"
+      onClick={(e) => e.stopPropagation()}
+    > <button
         type="button"
         onClick={() => setShowCounsellingPopup(false)}
         className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xl font-bold text-white"

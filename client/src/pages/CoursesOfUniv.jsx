@@ -99,7 +99,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
   if (!selectedUniversity?.id) {
     return (
       <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
-        <p className="font-bold text-[#cb0e10]">University not selected.</p>
+        <p className="font-bold text-darkPrimary">University not selected.</p>
       </div>
     );
   }
@@ -107,19 +107,19 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
   return (
     <section>
       <div className="mb-8">
-        <p className="my-5 mt-10 text-sm font-black uppercase text-primary">
+        <p className="my-5 mt-10 text-sm font-black uppercase text-secondary underline">
           Available Courses
         </p>
 
-        <h2 className="text-3xl font-black text-[#081c47] sm:text-4xl">
+        <h2 className="text-2xl font-bold text-[#081c47] sm:text-3xl md:text-4xl">
           Courses at{" "}
-          <span className="text-[#cb0e10]">
+          <span className="text-primary">
             {selectedUniversity?.name || "University"}
           </span>
         </h2>
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[280px_1fr]">
+      <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-[280px_1fr]">
         <aside className="max-h-[625px] overflow-y-auto rounded-3xl border border-[#e6eaf2] bg-white p-4 shadow-xl shadow-slate-900/5 lg:sticky lg:top-24">
           <h3 className="mb-4 text-lg font-black text-[#081c47]">
             Main Courses
@@ -146,7 +146,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
             </div>
           ) : currentCourses.length > 0 ? (
             <>
-              <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
                 {currentCourses.map((course, index) => (
                   <article
                     key={`${course?.id || "course"}-${index}`}
@@ -156,7 +156,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
                       <BookOpen className="h-6 w-6" />
                     </div>
 
-                    <h3 className="mb-4 text-md font-black leading-snug text-[#081c47]">
+                    <h3 className="mb-4 text-md font-bold leading-snug text-darkPrimary">
                       {getCourseName(course)}
                     </h3>
 
@@ -217,11 +217,11 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
                       }}
                     >
                      <div className="flex flex-col md:flex-row gap-2">
-                      <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-[#cb0e10] transition hover:bg-[#cb0e10] hover:text-white">
+                      <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-primary transition hover:bg-secondary hover:text-white">
                         View Course
                         <ArrowRight className="h-5 w-5" />
                       </button>
-                        <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-white bg-primary transition hover:bg-secondary hover:text-white">
+                        <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-white bg-darkPrimary transition hover:bg-secondary hover:text-white">
                         Apply Now
                         <ArrowRight className="h-5 w-5" />
                       </button></div> 
@@ -255,7 +255,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
                       disabled={universityCoursesLoading}
                       className={`h-10 w-10 rounded-xl font-extrabold transition ${
                         currentPage === page
-                          ? "bg-[#cb0e10] text-white"
+                          ? "bg-primary text-white"
                           : "border border-[#e6eaf2] bg-white text-[#081c47] hover:bg-[#f7f9fd]"
                       }`}
                     >
@@ -279,7 +279,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
             </>
           ) : (
             <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
-              <BookOpen className="mx-auto mb-4 h-14 w-14 text-[#cb0e10]" />
+              <BookOpen className="mx-auto mb-4 h-14 w-14 text-primary" />
               <h3 className="mb-2 text-2xl font-black text-[#081c47]">
                 {selectedMainCourseId
                   ? "No courses found"
@@ -296,7 +296,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
 function InfoLine({ icon: Icon, label, value }) {
   return (
     <div className="flex gap-3 rounded-2xl bg-[#f7f9fd] p-3">
-      <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-[#cb0e10] shadow-sm">
+      <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-primary shadow-sm">
         <Icon className="h-4 w-4" />
       </div>
 

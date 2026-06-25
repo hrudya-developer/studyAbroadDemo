@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchDestinationDetails } from "../redux/slices/countrySlice";
 import ButtonPrimary from "../components/ButtonPrimary";
+import FreeCounsellingForm from "../pages/FreeCounsellingForm";
 
 import {
   FaUniversity,
@@ -32,7 +33,7 @@ const InfoCard = ({ icon, label, value }) => (
 
 const Feature = ({ text }) => (
   <div className="flex items-center gap-3">
-    <div className="h-12 w-12 shrink-0 rounded-full bg-red-50 text-[#d70707] flex items-center justify-center">
+    <div className="h-12 w-12 shrink-0 rounded-full bg-primary text-white flex items-center justify-center">
       <FaCheck />
     </div>
     <p className="text-sm font-medium text-slate-700">{text}</p>
@@ -40,6 +41,8 @@ const Feature = ({ text }) => (
 );
 
 const CountryDetails = () => {
+
+  const [showCounsellingPopup, setShowCounsellingPopup] = useState(false);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -59,6 +62,21 @@ const CountryDetails = () => {
       })
     );
   }, [dispatch, safeUid, id]);
+
+  useEffect(() => {
+  if (!showCounsellingPopup) return;
+
+  const originalBodyOverflow = document.body.style.overflow;
+  const originalHtmlOverflow = document.documentElement.style.overflow;
+
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
+
+  return () => {
+    document.body.style.overflow = originalBodyOverflow;
+    document.documentElement.style.overflow = originalHtmlOverflow;
+  };
+}, [showCounsellingPopup]);
 
   if (detailsLoading) {
     return (
@@ -270,14 +288,40 @@ const CountryDetails = () => {
             </p>
           </div>
 
-          <Link to="/contact">
-            <button className="bg-[#d70707] hover:bg-red-700 px-8 py-4 rounded-lg font-bold flex items-center gap-3">
-              Get Free Counselling <FaArrowRight />
-            </button>
-          </Link>
+        <button
+  onClick={() => setShowCounsellingPopup(true)}
+  className="bg-darkPrimary hover:bg-primary px-8 py-4 rounded-lg font-bold flex items-center gap-3"
+>
+  Get Free Counselling <FaArrowRight />
+</button>
         </div>
+
       </section>
+      {showCounsellingPopup && (
+  <div
+    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 px-4"
+    onClick={() => setShowCounsellingPopup(false)}
+  >
+    <div
+      className="relative max-h-[90vh] w-[90%] md:w-[80%] lg:w-[60%] max-w-4xl overflow-y-auto rounded-[30px] bg-white shadow-2xl"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        type="button"
+        onClick={() => setShowCounsellingPopup(false)}
+        className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xl font-bold text-white"
+      >
+        ×
+      </button>
+
+      <FreeCounsellingForm
+        onSuccess={() => setShowCounsellingPopup(false)}
+      />
+    </div>
+  </div>
+)}
     </main>
+    
   );
 };
 

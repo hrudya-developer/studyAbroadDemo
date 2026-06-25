@@ -85,7 +85,7 @@ const handleTabChange = (tab) => {
             onClick={() => navigate(-1)}
             className="rounded-full bg-transparent px-6 py-3 font-bold text-white border border-white"
           >
-            Back to Universities
+            Go Back
           </button>
         </div>
       </div>
@@ -105,7 +105,7 @@ const handleTabChange = (tab) => {
             onClick={() => navigate(-1)}
             className="rounded-full bg-transparent px-6 py-3 font-bold text-white border border-white"
           >
-            Back to Universities
+            Go Back
           </button>
         </div>
       </div>
@@ -185,10 +185,10 @@ const handleTabChange = (tab) => {
         <div className="absolute right-8 top-5 z-30">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-bold text-white shadow-lg backdrop-blur-md"
+            className="flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-md"
           >
-            <ArrowLeft className="h-5 w-5 text-[#cb0e10]" />
-            Back to Universities
+            <ArrowLeft className="h-5 w-5 text-primary" />
+            Go Back
           </button>
         </div>
 
@@ -215,53 +215,53 @@ const handleTabChange = (tab) => {
               ))}
             </Swiper>
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-slate-100 text-[#cb0e10]">
+            <div className="flex h-full w-full items-center justify-center bg-slate-100 text-secondary">
               <Landmark className="h-24 w-24" />
             </div>
           )}
 
-          <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/55 to-transparent" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/75 to-black/70" />
 
           <div className="absolute inset-0 z-20 flex items-center px-4 pt-1 sm:px-8 lg:px-14 justify-between">
-            <div className="max-w-3xl">
+            <div className="max-w-7xl">
               
-              <p className="mb-10 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/20 backdrop-blur-md">
+              {/* <p className="my-10 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/20 backdrop-blur-md">
                 University Profile
-              </p>
-                      <div className="flex gap-5 items-center my-5">
-                        <div className="h-22 w-22 bg-white rounded-full shadow-lg p-2 relative grid place-content-center">
+              </p> */}
+                      <div className="flex gap-5 items-center md:items-center my-5 flex-col sm:flex-col md:flex-row mt-24 md:mt-2">
+                        <div className="w-14 h-14 sm:h-18 sm:w-18 overflow-hidden bg-white rounded-full shadow-lg p-2 relative grid place-content-center">
   {logo && (
     <img
       src={logo}
       alt={universityName}
-      className="h-22 w-22 object-contain rounded-full"
+      className="h-12 w-12 sm:w-16 sm:h-16 object-contain rounded-full"
     />
   )}
   {/* <div className="bg-primary text-white font-extrabold grid place-content-center size-10 rounded-full text-4xl">{ranking}</div> */}
 </div>
 
-              <h1 className="text-4xl font-black leading-tight tracking-[-0.04em] text-white sm:text-5xl lg:text-4xl">
+              <h1 className="text-2xl text-center md:text-left font-bold leading-tight tracking-[-0.04em] text-white sm:text-3xl lg:text-4xl">
                 {universityName}
-                <CheckCircle className="ml-3 inline h-8 w-8 fill-[#cb0e10] text-white" />
+                <CheckCircle className="ml-3 inline h-8 w-8 fill-primary text-white" />
               </h1></div> 
 
-              <p className="mt-5 flex items-center gap-2 text-lg font-bold text-[#f0ea2c]">
+              <p className="mt-5 flex items-center justify-center md:justify-start gap-2 text-md font-bold text-[#f0ea2c]">
                 <MapPin className="h-6 w-6 text-[#f0ea2c]" />
                 {locationText}
               </p>
 
-              <div className="mt-7 flex flex-wrap gap-3">
-                <span className="flex items-center gap-2 rounded-full bg-white px-5 py-3 font-extrabold text-[#cb0e10] shadow-lg">
+              <div className="my-7 flex flex-wrap justify-center md:justify-start gap-3">
+                <span className="flex items-center gap-2 rounded-full bg-white px-3 py-2 font-semibold text-primary text-sm md:shadow-md">
                   <Star className="h-5 w-5" />
                   Ranking {ranking}
                 </span>
 
-                <span className="flex items-center gap-2 rounded-full bg-white/15 px-5 py-3 font-extrabold text-white ring-1 ring-white/20 backdrop-blur-md">
+                <span className="flex items-center gap-2 rounded-full bg-white/15 px-3 py-2 font-semibold text-sm md:shadow-md text-white ring-1 ring-white/20 backdrop-blur-md">
                   <Landmark className="h-5 w-5" />
                   {universityType}
                 </span>
 
-                <span className="flex items-center gap-2 rounded-full bg-white/15 px-5 py-3 font-extrabold text-white ring-1 ring-white/20 backdrop-blur-md">
+                <span className="flex items-center gap-2 rounded-full bg-white/15 px-3 py-2 font-semibold text-sm md:shadow-md text-white ring-1 ring-white/20 backdrop-blur-md">
                   <Globe className="h-5 w-5" />
                   {countryName}
                 </span>
@@ -277,7 +277,7 @@ const handleTabChange = (tab) => {
     onClick={() => handleTabChange("about")}
     className={`flex min-w-fit items-center gap-3 px-6 py-5 font-extrabold uppercase ${
       activeTab === "about"
-        ? "border-b-4 border-[#cb0e10] text-[#cb0e10]"
+        ? "border-b-4 border-darkPrimary text-darkPrimary"
         : "text-[#51607d]"
     }`}
   >
@@ -289,7 +289,7 @@ const handleTabChange = (tab) => {
     onClick={() => handleTabChange("courses")}
     className={`flex min-w-fit items-center gap-3 px-6 py-5 font-extrabold uppercase ${
       activeTab === "courses"
-        ? "border-b-4 border-[#cb0e10] text-[#cb0e10]"
+        ? "border-b-4 border-secondary text-secondary"
         : "text-[#51607d]"
     }`}
   >
@@ -306,11 +306,11 @@ const handleTabChange = (tab) => {
                 About the University
               </p>
 
-              <div className="mb-5 h-1 w-12 rounded-full bg-[#cb0e10]" />
+              <div className="mb-5 h-1 w-12 rounded-full bg-primary" />
 
-              <h2 className="mb-5 text-3xl font-black leading-tight sm:text-4xl">
+              <h2 className="mb-5 text-2xl font-bold leading-tight sm:text-3xl">
                 Study at{" "}
-                <span className="text-[#cb0e10]">{universityName}</span>
+                <span className="text-darkPrimary">{universityName}</span>
               </h2>
 
               <p className="text-sm font-medium leading-7 text-[#081c47]/80 sm:text-base">
@@ -326,7 +326,7 @@ const handleTabChange = (tab) => {
 
           <button
   onClick={() => handleTabChange("courses")}
-  className="mt-7 flex items-center gap-3 rounded-xl bg-[#cb0e10] px-6 py-4 font-extrabold text-white shadow-lg shadow-red-900/20"
+  className="mt-7 flex items-center gap-3 rounded-xl bg-primary px-6 py-4 font-extrabold text-white shadow-lg shadow-red-900/20 hover:cursor-pointer hover:bg-darkPrimary"
 >
                 Explore Courses
                 <ArrowRight className="h-5 w-5" />
@@ -339,7 +339,7 @@ const handleTabChange = (tab) => {
               </div>
 
               <div className="relative z-10">
-                <p className="mb-3 text-sm font-black uppercase text-[#cb0e10]">
+                <p className="mb-3 text-sm font-black uppercase text-secondary">
                   Quick Info
                 </p>
 
@@ -371,7 +371,7 @@ const handleTabChange = (tab) => {
                 key={label}
                 className="group rounded-2xl border border-[#e6eaf2] bg-white p-5 shadow-lg shadow-slate-900/5 transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#081c47] text-white ring-4 ring-[#cb0e10]/10">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-darkPrimary text-white ring-4 ring-[#cb0e10]/10">
                   <Icon className="h-8 w-8" />
                 </div>
 
@@ -383,7 +383,7 @@ const handleTabChange = (tab) => {
                   {value}
                 </h3>
 
-                <div className="mt-4 h-1 w-10 rounded-full bg-[#cb0e10]" />
+                <div className="mt-4 h-1 w-10 rounded-full bg-primary" />
               </article>
             ))}
           </section>
@@ -392,7 +392,7 @@ const handleTabChange = (tab) => {
             <div className="overflow-hidden rounded-3xl border border-[#e6eaf2] bg-white shadow-xl shadow-slate-900/5">
               <div className="flex flex-col gap-4 border-b border-[#e6eaf2] p-5 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm font-black uppercase text-[#cb0e10]">
+                  <p className="text-sm font-black uppercase text-secondary">
                     Exact Location
                   </p>
 
@@ -401,7 +401,7 @@ const handleTabChange = (tab) => {
                   </h2>
 
                   <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-500">
-                    <MapPin className="h-4 w-4 text-[#cb0e10]" />
+                    <MapPin className="h-4 w-4 text-secondary" />
                     {locationText}
                   </p>
                 </div>
@@ -410,7 +410,7 @@ const handleTabChange = (tab) => {
                   href={googleMapOpenUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#cb0e10] px-5 py-3 text-sm font-bold text-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white"
                 >
                   Open in Google Maps
                   <ExternalLink className="h-4 w-4" />
@@ -450,7 +450,7 @@ function InfoBadge({ label, value }) {
 
       <p
         className={`font-black ${
-          positive ? "text-emerald-600" : "text-[#cb0e10]"
+          positive ? "text-emerald-600" : "text-primary"
         }`}
       >
         {value}

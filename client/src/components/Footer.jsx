@@ -15,7 +15,10 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 
+
+
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -103,59 +106,60 @@ export default function Footer() {
   <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-3 lg:grid-cols-3 lg:px-8">
     
     {/* Logo Section */}
-    <div className="flex flex-col items-start text-center lg:items-start lg:text-left">
-      <img src={logo} alt="Medcity International" className="mb-8 w-72" />
+  <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+  <img
+    src={logo}
+    alt="Medcity International"
+    className="mb-6 w-48 sm:w-56 md:w-60 lg:w-64"
+  />
 
-      <div className="flex items-center gap-5">
-        <CircleIcon icon={<GraduationCap />} />
-        <Divider />
-        <CircleIcon icon={<BriefcaseBusiness />} />
-        <Divider />
-        <CircleIcon icon={<Plane />} />
-      </div>
-    </div>
+  <div className="flex w-full max-w-xs items-center justify-center gap-3 sm:justify-start sm:gap-4 lg:gap-5">
+    <CircleIcon icon={<GraduationCap />} />
+    <Divider />
+    <CircleIcon icon={<BriefcaseBusiness />} />
+    <Divider />
+    <CircleIcon icon={<Plane />} />
+  </div>
+
+
+</div>
 
     {/* About */}
     <div className="border-white/15 lg:border-l lg:px-8">
-      <h3 className="text-2xl font-bold">About Us</h3>
-      <div className="mt-4 h-1 w-10 bg-primary" />
+      <h3 className="text-xl font-bold text-center sm:text-left">About Us</h3>
+      <div className="mt-4 h-1 w-10 bg-primary flex mx-auto sm:mx-0" />
 
-      <p className="mt-6 max-w-md text-sm leading-7 text-white/80">
+      <p className="mt-6 max-w-md text-[12px] leading-loose text-white/90 text-center sm:text-left mx-auto sm:mx-0">
         Since 2012, Medcity International Overseas Corporation has been
         offering gamut of Professional Services to students who inspire to
         study overseas and proficient professionals who dream of working
         overseas.
       </p>
 
-      <button className="mt-7 flex items-center gap-4 rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary">
-        Learn More
+      <Link to="/loginViaOtp"><button className="mt-7 flex items-center justify-center sm:justify-start mx-auto sm:mx-0 gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary">
+        Login
         <ArrowRight className="h-4 w-4" />
-      </button>
+      </button></Link>
     </div>
 
     {/* Contact */}
-    <div className="border-white/15 lg:border-l lg:px-8">
-      <h3 className="text-2xl font-bold">Contact Us</h3>
-      <div className="mt-4 h-1 w-10 bg-primary" />
+  <div className="border-white/15 lg:border-l lg:px-8">
+  <h3 className="text-center text-2xl font-bold sm:text-left">Contact Us</h3>
+  <div className="mx-auto mt-4 h-1 w-10 bg-primary sm:mx-0" />
 
-      <div className="mt-6 space-y-6">
-        <ContactItem icon={<MapPin />}>
-          Medcity International Overseas Corporation, Chettipeedika,
-          Kannur - 4, Kerala, India.
-        </ContactItem>
+  <div className="mt-6 flex flex-col items-center gap-6 sm:items-start">
+    <ContactItem icon={<MapPin />}>
+      Medcity International Overseas Corporation, Chettipeedika, Kannur - 4,
+      Kerala, India.
+    </ContactItem>
 
-          <ContactItem icon={<Phone />}>+918943280333 <br /> +919645020503</ContactItem>
+    <ContactItem icon={<Phone />}>
+      +918943280333 <br /> +919645020503
+    </ContactItem>
 
-        <ContactItem icon={<Mail />}>info@mioc.in</ContactItem>
-      </div>
-
-      <div className="mt-10 flex gap-5 justify-center items-center">
-        <SocialIcon icon={<FaInstagram />} />
-        <SocialIcon icon={<FaFacebookF />} />
-        <SocialIcon icon={<FaLinkedinIn />} />
-        <SocialIcon icon={<FaTwitter />} />
-      </div>
-    </div>
+    <ContactItem icon={<Mail />}>info@mioc.in</ContactItem>
+  </div>
+</div>
   </div>
 
 
@@ -165,8 +169,10 @@ export default function Footer() {
 
 function CircleIcon({ icon }) {
   return (
-    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/20 text-white">
-      <div className="h-7 w-7 grid place-content-center">{icon}</div>
+    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white border border-white/20 text-darkPrimary sm:h-12 sm:w-12 lg:h-14 lg:w-14">
+      <div className="grid h-5 w-5 place-content-center sm:h-6 sm:w-6 lg:h-7 lg:w-7">
+        {icon}
+      </div>
     </div>
   );
 }
@@ -177,23 +183,22 @@ function Divider() {
 
 function ContactItem({ icon, children }) {
   return (
-    <div className="flex gap-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 text-primary">
-        <div className="h-5 w-5 grid place-content-center">{icon}</div>
+    <div className="flex w-full max-w-xs flex-col items-center gap-3 text-center sm:max-w-none sm:flex-row sm:items-start sm:text-left">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-primary">
+        {icon}
       </div>
 
-      <p className="text-sm leading-7 text-white/80">{children}</p>
+      <p className="text-[12px] leading-6 text-white/80 sm:leading-7">
+        {children}
+      </p>
     </div>
   );
 }
 
-function SocialIcon({ icon }) {
+
+
+function StatDivider() {
   return (
-    <a
-      href="#"
-      className="flex h-12 w-12 items-center justify-center rounded-full border border-primary text-white transition hover:bg-primary"
-    >
-      <div className="h-5 w-5 grid place-content-center">{icon}</div>
-    </a>
+    <div className="hidden h-16 w-px bg-white/20 sm:block" />
   );
 }

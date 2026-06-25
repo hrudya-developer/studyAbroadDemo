@@ -1,17 +1,20 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { fetchUniversitiesByCountry } from "../redux/slices/universitySlice";
 
 const UnivOfCountry = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const { uid } = useSelector((state) => state.auth);
+  const { uid } = useSelector((state) => state.auth || {});
 
-  const { universities, universityImagePath, loading, error } = useSelector(
-    (state) => state.universityData
-  );
+  const {
+    universities = [],
+    universityImagePath,
+    loading,
+    error,
+  } = useSelector((state) => state.universityData || {});
 
   const safeUid = uid ?? 0;
 
@@ -27,7 +30,11 @@ const UnivOfCountry = () => {
   }, [dispatch, safeUid, id]);
 
   if (loading) {
-    return <div className="p-6 text-center font-bold">Loading universities...</div>;
+    return (
+      <div className="p-6 text-center font-bold">
+        Loading universities...
+      </div>
+    );
   }
 
   if (error) {
@@ -36,41 +43,45 @@ const UnivOfCountry = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
-      
-
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {universities?.length > 0 ? (
+        {universities.length > 0 ? (
           universities.map((item) => {
+            const universityId =
+              item?.id || item?.u_id || item?.university_id;
+
             const image =
               item?.image && universityImagePath
                 ? `${universityImagePath}/${item.image}`
                 : null;
 
             return (
-              <div
-                key={item.id}
-                className="bg-white rounded-2xl shadow-md overflow-hidden"
+              <Link
+                key={universityId}
+                to={`/universityDetails/${universityId}`}
+                className="block"
               >
-                {image && (
-                  <img
-                    src={image}
-                    alt={item?.university || item?.name}
-                    className="h-48 w-full object-cover"
-                  />
-                )}
-
-                <div className="p-5">
-                  <h3 className="font-bold text-md text-secondary">
-                    {item?.university || item?.name}
-                  </h3>
-
-                  {item?.location && (
-                    <p className="text-sm text-slate-500 mt-2">
-                      {item.location}
-                    </p>
+                <div className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer transition hover:-translate-y-1 hover:shadow-xl">
+                  {image && (
+                    <img
+                      src={image}
+                      alt={item?.university || item?.name}
+                      className="h-48 w-full object-cover"
+                    />
                   )}
+
+                  <div className="p-5">
+                    <h3 className="font-bold text-md text-secondary">
+                      {item?.university || item?.name}
+                    </h3>
+
+                    {item?.location && (
+                      <p className="text-sm text-slate-500 mt-2">
+                        {item.location}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </Link>
             );
           })
         ) : (

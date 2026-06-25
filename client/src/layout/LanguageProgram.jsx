@@ -94,13 +94,13 @@ export default function LanguagePrograms() {
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                className="group relative overflow-hidden rounded-3xl border border-slate-100 bg-[#f4f4f4] p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
               >
                 {/* Corner Accent */}
                 <div
                   className={`absolute left-0 top-0 h-16 w-16 ${
                     program.color === "red"
-                      ? "bg-primary"
+                      ? "bg-darkPrimary"
                       : "bg-secondary"
                   }`}
                   style={{
@@ -137,7 +137,7 @@ export default function LanguagePrograms() {
                   }`}
                 />
 
-                <p className="mt-4 text-sm leading-7 text-slate-600 text-center">
+                <p className="mt-4 text-sm leading-7 text-slate-800 text-center">
                   {program.desc}
                 </p>
 

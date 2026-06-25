@@ -63,8 +63,8 @@ function ExploreMenu({ mobile = false, onNavigate }) {
       <button
         type="button"
         onClick={() => setOpenExplore((prev) => !prev)}
-        className={`flex w-full items-center justify-between gap-1 font-medium transition duration-300 ${
-          mobile ? "py-3 text-black" : "text-white"
+        className={`flex w-full items-center justify-between gap-1 font-medium transition bg-secondary/10 lg:bg-transparent rounded-lg duration-300 ${
+          mobile ? "py-2 text-black" : "text-white"
         }`}
       >
         Explore

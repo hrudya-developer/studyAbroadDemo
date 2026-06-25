@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { PhoneInput } from "react-international-phone";
@@ -44,9 +44,12 @@ const normalizeCountries = (data) => {
 const Counselling = () => {
   const dispatch = useDispatch();
 
-  const { countries = [], loading: countriesLoading } = useSelector(
-    (state) => state.countryData
+  const { countries = [], loading: countriesLoading = false } = useSelector(
+    (state) => state.countryData || {}
   );
+
+  const { uid } = useSelector((state) => state.auth || {});
+  const safeUid = uid ?? 0;
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -62,16 +65,20 @@ const Counselling = () => {
 
   const [mobile, setMobile] = useState("");
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchCountries());
-  }, [dispatch]);
+    if (!countries.length) {
+      dispatch(fetchCountries(safeUid));
+    }
+  }, [dispatch, safeUid, countries.length]);
 
-  const destinationOptions = normalizeCountries(countries)
-    .map((country) => getCountryName(country))
-    .filter(Boolean)
-    .filter((item, index, array) => array.indexOf(item) === index);
+  const destinationOptions = useMemo(() => {
+    return normalizeCountries(countries)
+      .map((country) => getCountryName(country))
+      .filter(Boolean)
+      .filter((item, index, array) => array.indexOf(item) === index);
+  }, [countries]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,7 +157,7 @@ const Counselling = () => {
 
     if (!validateForm()) return;
 
-    setLoading(true);
+    setSubmitting(true);
 
     try {
       const data = new FormData();
@@ -208,7 +215,7 @@ const Counselling = () => {
         confirmButtonColor: "#071c4d",
       });
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -231,8 +238,9 @@ const Counselling = () => {
             <div className="relative z-10 flex flex-col gap-10">
               <div className="mb-4 flex items-center gap-2 font-semibold text-white">
                 <Headphones className="h-10 w-10 text-logoYellow" />
-                <span className="text-logoYellow text-xl font-extrabold">Expert Guidance, Every Step</span>
-
+                <span className="text-logoYellow text-xl font-extrabold">
+                  Expert Guidance, Every Step
+                </span>
               </div>
 
               <h1 className="font-nunito my-8 text-center text-4xl font-bold text-white sm:text-4xl md:text-4xl lg:text-left lg:text-5xl">
@@ -407,10 +415,10 @@ const Counselling = () => {
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={submitting}
                 className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? "Submitting..." : "Request Free Counselling"}
+                {submitting ? "Submitting..." : "Request Free Counselling"}
               </button>
             </form>
           </div>
@@ -486,7 +494,7 @@ const ReactSelectField = ({
       </label>
 
       <div
-        className={`flex h-[42px] items-center gap-3 rounded-lg border px-4 ${
+        className={`flex min-h-[42px] items-center gap-3 rounded-lg border px-4 ${
           error ? "border-red-500" : "border-gray-300"
         }`}
       >
@@ -505,14 +513,12 @@ const ReactSelectField = ({
               control: (base) => ({
                 ...base,
                 minHeight: "40px",
-                height: "40px",
                 border: "none",
                 boxShadow: "none",
                 backgroundColor: "transparent",
               }),
               valueContainer: (base) => ({
                 ...base,
-                height: "40px",
                 padding: 0,
               }),
               input: (base) => ({
@@ -530,10 +536,6 @@ const ReactSelectField = ({
                 color: "#6b7280",
                 fontSize: "14px",
               }),
-              indicatorsContainer: (base) => ({
-                ...base,
-                height: "40px",
-              }),
               indicatorSeparator: () => ({
                 display: "none",
               }),
@@ -541,14 +543,9 @@ const ReactSelectField = ({
                 ...base,
                 padding: 0,
               }),
-              menuList: (base) => ({
-                ...base,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
               menu: (base) => ({
                 ...base,
-                zIndex: 9999,
+                zIndex: 99999,
               }),
             }}
           />

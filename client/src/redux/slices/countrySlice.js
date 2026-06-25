@@ -25,10 +25,10 @@ export const fetchCountries = createAsyncThunk(
             "Content-Type": "application/json",
           },
 
-          body: JSON.stringify({
-            api: API_KEY,
-            uid,
-          }),
+        body: JSON.stringify({
+  api: API_KEY,
+  uid: uid ?? 0,
+}),
         }
       );
 

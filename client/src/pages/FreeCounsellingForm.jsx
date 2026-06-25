@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { PhoneInput } from "react-international-phone";
@@ -16,8 +16,6 @@ import {
   Wallet,
 } from "lucide-react";
 
-import counselling from "../assets/counselling.png";
-import aeroplanePath from "../assets/aeroplanePath.webp";
 import { fetchCountries } from "../redux/slices/countrySlice";
 
 const getCountryName = (country) =>
@@ -44,9 +42,12 @@ const normalizeCountries = (data) => {
 const FreeCounsellingForm = ({ onSuccess }) => {
   const dispatch = useDispatch();
 
-  const { countries = [], loading: countriesLoading } = useSelector(
-    (state) => state.countryData
+  const { countries = [], loading: countriesLoading = false } = useSelector(
+    (state) => state.countryData || {}
   );
+
+  const { uid } = useSelector((state) => state.auth || {});
+  const safeUid = uid ?? 0;
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -62,16 +63,20 @@ const FreeCounsellingForm = ({ onSuccess }) => {
 
   const [mobile, setMobile] = useState("");
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchCountries());
-  }, [dispatch]);
+    if (!countries.length) {
+      dispatch(fetchCountries(safeUid));
+    }
+  }, [dispatch, safeUid, countries.length]);
 
-  const destinationOptions = normalizeCountries(countries)
-    .map((country) => getCountryName(country))
-    .filter(Boolean)
-    .filter((item, index, array) => array.indexOf(item) === index);
+  const destinationOptions = useMemo(() => {
+    return normalizeCountries(countries)
+      .map((country) => getCountryName(country))
+      .filter(Boolean)
+      .filter((item, index, array) => array.indexOf(item) === index);
+  }, [countries]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,7 +155,7 @@ const FreeCounsellingForm = ({ onSuccess }) => {
 
     if (!validateForm()) return;
 
-    setLoading(true);
+    setSubmitting(true);
 
     try {
       const data = new FormData();
@@ -180,16 +185,16 @@ const FreeCounsellingForm = ({ onSuccess }) => {
 
       if (response.ok) {
         resetForm();
-onSuccess?.();
-     Swal.fire({
-  icon: "success",
-  title: "Submitted Successfully!",
-  text: "Your enquiry has been submitted. Our team will contact you soon.",
-  confirmButtonText: "OK",
-  confirmButtonColor: "#c01f53",
-}).then(() => {
-  onSuccess?.(); // closes popup
-});
+
+        Swal.fire({
+          icon: "success",
+          title: "Submitted Successfully!",
+          text: "Your enquiry has been submitted. Our team will contact you soon.",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#c01f53",
+        }).then(() => {
+          onSuccess?.();
+        });
       } else {
         Swal.fire({
           icon: "error",
@@ -210,179 +215,172 @@ onSuccess?.();
         confirmButtonColor: "#071c4d",
       });
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
   return (
-   <section className="bg-white" id="gfc_wrapper">
+    <section className="bg-white" id="gfc_wrapper">
       <div className="mx-auto max-w-7xl">
-        <div className="grid items-center gap-8 lg:grid-cols-1">
-          
+        <div className="rounded-[30px] bg-white p-6 shadow-xl sm:p-8 lg:p-10">
+          <h2 className="text-xl font-bold leading-tight text-[#071c4d]">
+            Get <span className="text-primary">FREE</span> Counselling Today!
+          </h2>
 
-          <div
-            className="rounded-[30px] bg-white p-6 shadow-xl sm:p-8 lg:p-10"
-            data-aos="fade-up"
-          >
-            <h2 className="text-xl font-bold leading-tight text-[#071c4d] sm:text-xl">
-              Get <span className="text-primary">FREE</span> Counselling Today!
-            </h2>
+          <div className="mt-5 mb-6 h-1 w-14 rounded-full bg-primary"></div>
 
-            <div className="mt-5 mb-6 h-1 w-14 rounded-full bg-primary"></div>
+          <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <InputField
+                name="firstname"
+                value={formData.firstname}
+                onChange={handleChange}
+                icon={<User className="h-4 w-4" />}
+                placeholder="Enter first name"
+                label="First name*"
+                error={errors.firstname}
+              />
 
-            <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
-                <InputField
-                  name="firstname"
-                  value={formData.firstname}
-                  onChange={handleChange}
-                  icon={<User className="h-4 w-4" />}
-                  placeholder="Enter first name"
-                  label="First name*"
-                  error={errors.firstname}
-                />
+              <InputField
+                name="lastname"
+                value={formData.lastname}
+                onChange={handleChange}
+                icon={<User className="h-4 w-4" />}
+                placeholder="Enter last name"
+                label="Last name*"
+                error={errors.lastname}
+              />
+            </div>
 
-                <InputField
-                  name="lastname"
-                  value={formData.lastname}
-                  onChange={handleChange}
-                  icon={<User className="h-4 w-4" />}
-                  placeholder="Enter last name"
-                  label="Last name*"
-                  error={errors.lastname}
-                />
-              </div>
- 
             <div className="grid gap-4 sm:grid-cols-2">
-  <InputField
-    name="email"
-    type="email"
-    value={formData.email}
-    onChange={handleChange}
-    icon={<Mail className="h-4 w-4" />}
-    placeholder="Enter your email"
-    label="Email address*"
-    error={errors.email}
-  />
+              <InputField
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                icon={<Mail className="h-4 w-4" />}
+                placeholder="Enter your email"
+                label="Email address*"
+                error={errors.email}
+              />
 
-  <div>
-    <label className="mb-2 block text-sm font-semibold text-[#071c4d]">
-      Mobile number*
-    </label>
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-[#071c4d]">
+                  Mobile number*
+                </label>
 
-    <div
-      className={`rounded-lg border ${
-        errors.mobile ? "border-red-500" : "border-gray-300"
-      }`}
-    >
-      <PhoneInput
-        defaultCountry="in"
-        value={mobile}
-        onChange={(phone) => {
-          setMobile(phone);
-          setErrors((prev) => ({ ...prev, mobile: "" }));
-        }}
-        inputProps={{
-          name: "mobile",
-          required: true,
-        }}
-        className="w-full"
-        inputClassName="!w-full !border-0 !text-sm !outline-none"
-      />
-    </div>
+                <div
+                  className={`rounded-lg border ${
+                    errors.mobile ? "border-red-500" : "border-gray-300"
+                  }`}
+                >
+                  <PhoneInput
+                    defaultCountry="in"
+                    value={mobile}
+                    onChange={(phone) => {
+                      setMobile(phone);
+                      setErrors((prev) => ({ ...prev, mobile: "" }));
+                    }}
+                    inputProps={{
+                      name: "mobile",
+                      required: true,
+                    }}
+                    className="w-full"
+                    inputClassName="!w-full !border-0 !text-sm !outline-none"
+                  />
+                </div>
 
-    {errors.mobile && (
-      <p className="mt-1 text-xs text-red-500">{errors.mobile}</p>
-    )}
-  </div>
-</div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <ReactSelectField
-                  name="destination"
-                  value={formData.destination}
-                  onChange={handleSelectChange}
-                  icon={<Globe className="h-4 w-4" />}
-                  label="Your preferred study destination*"
-                  options={destinationOptions}
-                  loading={countriesLoading}
-                  error={errors.destination}
-                />
-
-                <ReactSelectField
-                  name="starttime"
-                  value={formData.starttime}
-                  onChange={handleSelectChange}
-                  icon={<CalendarDays className="h-4 w-4" />}
-                  label="When would you like to start?*"
-                  options={[
-                    "Immediately",
-                    "Within 3 Months",
-                    "Within 6 Months",
-                    "Next Year",
-                  ]}
-                  error={errors.starttime}
-                />
+                {errors.mobile && (
+                  <p className="mt-1 text-xs text-red-500">{errors.mobile}</p>
+                )}
               </div>
+            </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                <ReactSelectField
-                  name="nearestidp"
-                  value={formData.nearestidp}
-                  onChange={handleSelectChange}
-                  icon={<MapPin className="h-4 w-4" />}
-                  label="Nearest Medcity Office*"
-                  options={["Kochi", "Calicut", "Kannur", "Trivandrum"]}
-                  error={errors.nearestidp}
-                />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <ReactSelectField
+                name="destination"
+                value={formData.destination}
+                onChange={handleSelectChange}
+                icon={<Globe className="h-4 w-4" />}
+                label="Your preferred study destination*"
+                options={destinationOptions}
+                loading={countriesLoading}
+                error={errors.destination}
+              />
 
-                <ReactSelectField
-                  name="modeofcounselling"
-                  value={formData.modeofcounselling}
-                  onChange={handleSelectChange}
-                  icon={<Headphones className="h-4 w-4" />}
-                  label="Preferred mode of counselling*"
-                  options={["Online", "Offline", "Phone Call"]}
-                  error={errors.modeofcounselling}
-                />
-              </div>
+              <ReactSelectField
+                name="starttime"
+                value={formData.starttime}
+                onChange={handleSelectChange}
+                icon={<CalendarDays className="h-4 w-4" />}
+                label="When would you like to start?*"
+                options={[
+                  "Immediately",
+                  "Within 3 Months",
+                  "Within 6 Months",
+                  "Next Year",
+                ]}
+                error={errors.starttime}
+              />
+            </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                <ReactSelectField
-                  name="studylevel"
-                  value={formData.studylevel}
-                  onChange={handleSelectChange}
-                  icon={<GraduationCap className="h-4 w-4" />}
-                  label="Preferred study level*"
-                  options={["Bachelor's", "Master's", "Diploma", "PhD"]}
-                  error={errors.studylevel}
-                />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <ReactSelectField
+                name="nearestidp"
+                value={formData.nearestidp}
+                onChange={handleSelectChange}
+                icon={<MapPin className="h-4 w-4" />}
+                label="Nearest Medcity Office*"
+                options={["Kochi", "Calicut", "Kannur", "Trivandrum"]}
+                error={errors.nearestidp}
+              />
 
-                <ReactSelectField
-                  name="fund"
-                  value={formData.fund}
-                  onChange={handleSelectChange}
-                  icon={<Wallet className="h-4 w-4" />}
-                  label="How would you fund your education?*"
-                  options={[
-                    "Self Funded",
-                    "Education Loan",
-                    "Scholarship",
-                    "Family Support",
-                  ]}
-                  error={errors.fund}
-                />
-              </div>
+              <ReactSelectField
+                name="modeofcounselling"
+                value={formData.modeofcounselling}
+                onChange={handleSelectChange}
+                icon={<Headphones className="h-4 w-4" />}
+                label="Preferred mode of counselling*"
+                options={["Online", "Offline", "Phone Call"]}
+                error={errors.modeofcounselling}
+              />
+            </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {loading ? "Submitting..." : "Request Free Counselling"}
-              </button>
-            </form>
-          </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <ReactSelectField
+                name="studylevel"
+                value={formData.studylevel}
+                onChange={handleSelectChange}
+                icon={<GraduationCap className="h-4 w-4" />}
+                label="Preferred study level*"
+                options={["Bachelor's", "Master's", "Diploma", "PhD"]}
+                error={errors.studylevel}
+              />
+
+              <ReactSelectField
+                name="fund"
+                value={formData.fund}
+                onChange={handleSelectChange}
+                icon={<Wallet className="h-4 w-4" />}
+                label="How would you fund your education?*"
+                options={[
+                  "Self Funded",
+                  "Education Loan",
+                  "Scholarship",
+                  "Family Support",
+                ]}
+                error={errors.fund}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? "Submitting..." : "Request Free Counselling"}
+            </button>
+          </form>
         </div>
       </div>
     </section>
@@ -455,7 +453,7 @@ const ReactSelectField = ({
       </label>
 
       <div
-        className={`flex h-[42px] items-center gap-3 rounded-lg border px-4 ${
+        className={`flex min-h-[42px] items-center gap-3 rounded-lg border px-4 ${
           error ? "border-red-500" : "border-gray-300"
         }`}
       >
@@ -474,14 +472,12 @@ const ReactSelectField = ({
               control: (base) => ({
                 ...base,
                 minHeight: "40px",
-                height: "40px",
                 border: "none",
                 boxShadow: "none",
                 backgroundColor: "transparent",
               }),
               valueContainer: (base) => ({
                 ...base,
-                height: "40px",
                 padding: 0,
               }),
               input: (base) => ({
@@ -499,10 +495,6 @@ const ReactSelectField = ({
                 color: "#6b7280",
                 fontSize: "14px",
               }),
-              indicatorsContainer: (base) => ({
-                ...base,
-                height: "40px",
-              }),
               indicatorSeparator: () => ({
                 display: "none",
               }),
@@ -510,14 +502,9 @@ const ReactSelectField = ({
                 ...base,
                 padding: 0,
               }),
-              menuList: (base) => ({
-                ...base,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
               menu: (base) => ({
                 ...base,
-                zIndex: 9999,
+                zIndex: 99999,
               }),
             }}
           />

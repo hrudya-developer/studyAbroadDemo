@@ -162,7 +162,7 @@ export default function SDBWishlistItems() {
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-2xl font-black text-[#081c47]">My Wishlist</h2>
+        <h2 className="text-2xl font-black text-black">My Wishlist</h2>
         <p className="mt-1 text-sm text-slate-500">
           Courses you have saved for later.
         </p>

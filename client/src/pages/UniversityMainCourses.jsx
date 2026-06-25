@@ -29,23 +29,21 @@ const UniversityMainCourses = ({ onSelectMainCourse, selectedMainCourseId }) => 
     <div className="mb-8">
      
 
-      <div className="grid grid-cols-1 gap-3">
+     <div className="flex w-full gap-3 overflow-x-auto overflow-y-hidden pb-3 md:max-h-[420px] md:flex-col md:overflow-x-hidden md:overflow-y-auto md:pr-2">
         {universityMainCourses.map((course) => {
           const isActive = String(selectedMainCourseId) === String(course.c_id);
           const imageUrl =
             imageBasePath && course.icon ? `${imageBasePath}${course.icon}` : "";
 
           return (
-            <button
-              type="button"
-              key={course.c_id}
-              onClick={() => onSelectMainCourse?.(course.c_id)}
-              className={`rounded-xl p-2 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-md ${
-                isActive
-                  ? "bg-red-100"
-                  : "bg-gray-100"
-              }`}
-            >
+          <button
+  type="button"
+  key={course.c_id}
+  onClick={() => onSelectMainCourse?.(course.c_id)}
+  className={`shrink-0 w-[180px] rounded-xl p-3 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-md md:w-full md:shrink ${
+    isActive ? "bg-red-100" : "bg-gray-100"
+  }`}
+>
               <div className="mb-2 flex h-8 w-8 items-center justify-center text-primary">
                 {imageUrl ? (
                   <img
@@ -65,11 +63,11 @@ const UniversityMainCourses = ({ onSelectMainCourse, selectedMainCourseId }) => 
                 />
               </div>
 
-              <h4 className="text-sm font-extrabold text-[#081c47]">
+              <h4 className="text-sm font-bold text-darkPrimary">
                 {course.name}
               </h4>
 
-              <p className="text-sm font-bold text-slate-700">
+              <p className="text-sm font-bold text-secondary">
                 {course.courses} Courses
               </p>
             </button>

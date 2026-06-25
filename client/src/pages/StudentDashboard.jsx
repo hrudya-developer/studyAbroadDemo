@@ -8,7 +8,7 @@ import { fetchUniversitiesByCountry } from "../redux/slices/universitySlice";
 import PopularCourses from "./PopularCourses";
 import SDBDestinations from "./SDBDestinations";
 import dbBg from "../assets/DbBg.png";
-import SDBLanguagePrograms from "./SDBLanguagePrograms";
+// import SDBLanguagePrograms from "./SDBLanguagePrograms";
 
 import {
   ArrowRight,
@@ -73,7 +73,7 @@ export default function StudentDashboard() {
           text="Track submitted applications"
           icon={FileText}
           to="/student/studentApplications"
-          accent="from-pink-50 to-white"
+          accent="from-pink-100 to-pink-100"
         />
 
         <StatCard
@@ -82,7 +82,7 @@ export default function StudentDashboard() {
           text="Saved courses for later"
           icon={Heart}
           to="/student/studentWishlistItems"
-          accent="from-purple-50 to-white"
+          accent="from-purple-100 to-purple-100"
         />
 
         <StatCard
@@ -91,7 +91,7 @@ export default function StudentDashboard() {
           text="Search courses globally"
           icon={BookOpen}
           to="/student/findCourse"
-          accent="from-blue-50 to-white"
+          accent="from-blue-100 to-blue-100"
         />
       </section>
 
@@ -133,9 +133,9 @@ export default function StudentDashboard() {
             <SDBDestinations onCountrySelect={setSelectedCountryId} />
           </Card>
 
-          <Card title="Our Language Programs" icon={Search}>
+          {/* <Card title="Our Language Programs" icon={Search}>
             <SDBLanguagePrograms />
-          </Card>
+          </Card> */}
         </aside>
       </section>
 

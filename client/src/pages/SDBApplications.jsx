@@ -5,6 +5,7 @@ import {
   Building2,
   CheckCircle,
   MapPin,
+  FileUser,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 
@@ -71,15 +72,15 @@ export default function SDBApplications() {
   if (error) {
     return (
       <div className="rounded-3xl bg-white p-6 shadow-lg">
-        <p className="font-bold text-[#cb0e10]">{error}</p>
+        <p className="font-bold text-primary">{error}</p>
       </div>
     );
   }
 
   if (!applications.length) {
     return (
-      <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-lg">
-        <h2 className="text-xl font-bold text-[#081c47]">My Applications</h2>
+      <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-lg py-10">
+        <h2 className="text-xl font-bold text-[#081c47] my-3">My Applications</h2>
         <p className="mt-2 text-sm text-slate-500">
           No applied courses found.
         </p>
@@ -89,7 +90,7 @@ export default function SDBApplications() {
 
   return (
     <div className="space-y-5">
-      <h2 className="text-2xl font-bold text-[#081c47]">My Applications</h2>
+      <h2 className="text-2xl font-black text-black my-5 flex gap-2 justify-between">My Applications<span><FileUser className="text-secondary"/></span></h2>
 
       {paginatedApplications.map((application, index) => (
         <ApplicationCard
@@ -149,13 +150,13 @@ function ApplicationCard({ application }) {
 
   return (
     <div className="rounded-3xl border border-green-100 bg-white p-6 shadow-lg transition hover:shadow-xl">
-      <div className="mb-4 flex items-center justify-between gap-4">
+      <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-lg font-bold text-[#081c47]">
+          <h3 className="text-md font-bold text-primary">
             {application?.course || "N/A"}
           </h3>
 
-          <div className="mt-1 flex items-center gap-2 text-sm text-slate-500">
+          <div className="mt-1 flex items-center gap-2 text-sm text-primary">
             <Building2 className="h-4 w-4" />
             <span>{application?.name || "N/A"}</span>
           </div>
@@ -205,7 +206,7 @@ function ApplicationCard({ application }) {
 function InfoItem({ icon, label, value }) {
   return (
     <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-3">
-      <div className="text-[#cb0e10]">{icon}</div>
+      <div className="text-secondary">{icon}</div>
 
       <div>
         <p className="text-xs font-semibold uppercase text-slate-400">
