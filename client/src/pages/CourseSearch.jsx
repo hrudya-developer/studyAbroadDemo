@@ -203,7 +203,7 @@ export default function CourseSearch() {
   return (
     <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div
-        className="relative z-10 mx-auto max-w-7xl bg-no-repeat"
+        className="relative mx-auto max-w-7xl bg-no-repeat"
         style={{ backgroundImage: `url(${mapBg})` }}
       >
         <div className="text-center">
@@ -214,7 +214,7 @@ export default function CourseSearch() {
           </div>
 
           <h1 className="text-2xl font-bold text-[#071d3a] sm:text-4xl">
-            Find the <span className="text-red-600">Perfect Course</span>
+            Find the <span className="text-primary">Perfect Course</span>
           </h1>
 
           <p className="mb-10 mt-3 text-sm text-gray-500 sm:text-base">
@@ -298,7 +298,7 @@ export default function CourseSearch() {
               type="button"
               disabled={!hasSelection || universityCoursesLoading}
               onClick={handleSearch}
-              className="flex items-center gap-3 rounded-xl bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-red-200 transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50 sm:px-12 sm:text-base"
+              className="flex items-center gap-3 rounded-xl bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-red-200 transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50 sm:px-12 sm:text-base"
             >
               {universityCoursesLoading ? "Searching..." : "Find Search Results"}
               <Search className="h-5 w-5" />
@@ -314,7 +314,7 @@ export default function CourseSearch() {
           )}
 
           {universityCoursesError && (
-            <p className="text-center text-sm font-semibold text-red-600">
+            <p className="text-center text-sm font-semibold text-primary">
               {universityCoursesError}
             </p>
           )}
@@ -378,7 +378,7 @@ function DropdownBox({ icon: Icon, label, children }) {
   return (
     <div>
       <label className="mb-2 flex items-center gap-2 text-sm font-bold text-gray-700">
-        <Icon className="h-5 w-5 text-red-600" />
+        <Icon className="h-5 w-5 text-primary" />
         {label}
       </label>
 

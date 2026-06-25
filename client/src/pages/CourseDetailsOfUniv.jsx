@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUniversityCourses } from "../redux/slices/courseSlice";
 import { fetchUniversityDetails } from "../redux/slices/universitySlice";
@@ -17,6 +17,8 @@ import {
   Headphones,
   Award,
   RotateCcw,
+  CornerDownRight,
+  MoveRight,
 } from "lucide-react";
 
 export default function CourseDetailsOfUniv() {
@@ -240,10 +242,13 @@ export default function CourseDetailsOfUniv() {
       >
         <div className="mx-auto flex min-h-[500px] max-w-7xl items-center px-5 py-5 sm:px-8 lg:px-12">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-3 rounded-full bg-logoYellow px-4 py-2 text-sm font-bold text-black shadow-lg">
+           <div className="flex gap-3"> <div className="inline-flex items-center gap-3 rounded-full bg-logoYellow px-4 py-2 text-sm font-bold text-black shadow-lg">
               <GraduationCap size={22} />
               {level}
             </div>
+            <div className="inline-flex items-center gap-3 hover:bg-primary rounded-full bg-darkPrimary px-4 py-2 text-sm font-bold text-white shadow-lg">
+            <Link to="/loginViaOtp"><button className="flex gap-2 items-center">Apply Now <span><MoveRight className="w-5"/></span></button> </Link>
+            </div></div>
 
             <h1 className="mt-8 max-w-2xl text-2xl font-extrabold leading-tight text-slate-950 sm:text-3xl lg:text-4xl">
               {courseTitle}
