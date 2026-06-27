@@ -8,7 +8,6 @@ import { fetchUniversitiesByCountry } from "../redux/slices/universitySlice";
 import PopularCourses from "./PopularCourses";
 import SDBDestinations from "./SDBDestinations";
 import dbBg from "../assets/DbBg.png";
-// import SDBLanguagePrograms from "./SDBLanguagePrograms";
 
 import {
   ArrowRight,
@@ -16,7 +15,6 @@ import {
   FileText,
   Heart,
   MapPin,
-  Search,
   University,
 } from "lucide-react";
 
@@ -26,16 +24,15 @@ export default function StudentDashboard() {
 
   const [selectedCountryId, setSelectedCountryId] = useState(null);
 
-  const { uid, email } = useSelector((state) => state.auth);
+  const { uid, email } = useSelector((state) => state.auth || {});
   const safeUid = uid ?? 0;
 
-  const { countries = [] } = useSelector((state) => state.countryData);
-
+  const { countries = [] } = useSelector((state) => state.countryData || {});
   const {
     universities = [],
     universityImagePath,
     loading,
-  } = useSelector((state) => state.universityData);
+  } = useSelector((state) => state.universityData || {});
 
   const studentName = email ? email.split("@")[0].toUpperCase() : "STUDENT";
 
@@ -45,7 +42,7 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     if (!selectedCountryId && countries?.length > 0) {
-      setSelectedCountryId(countries[0].id);
+      setSelectedCountryId(countries[0]?.id || countries[0]?.d_id);
     }
   }, [countries, selectedCountryId]);
 
@@ -63,7 +60,7 @@ export default function StudentDashboard() {
   }, [selectedCountryId, dispatch, safeUid]);
 
   return (
-    <div className="mx-auto w-full max-w-[1500px] space-y-6 px-3 sm:px-5 lg:px-8">
+    <div className="mx-auto w-full max-w-[1500px] space-y-6">
       <Hero studentName={studentName} />
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -73,7 +70,7 @@ export default function StudentDashboard() {
           text="Track submitted applications"
           icon={FileText}
           to="/student/studentApplications"
-          accent="from-pink-100 to-pink-100"
+          accent="from-pink-100 to-white"
         />
 
         <StatCard
@@ -82,7 +79,7 @@ export default function StudentDashboard() {
           text="Saved courses for later"
           icon={Heart}
           to="/student/studentWishlistItems"
-          accent="from-purple-100 to-purple-100"
+          accent="from-purple-100 to-white"
         />
 
         <StatCard
@@ -91,58 +88,53 @@ export default function StudentDashboard() {
           text="Search courses globally"
           icon={BookOpen}
           to="/student/findCourse"
-          accent="from-blue-100 to-blue-100"
+          accent="from-blue-100 to-white"
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <main className="min-w-0 space-y-6">
-          <Card
-            title="Popular Courses"
-            subtitle="Explore trending courses selected for students."
-            icon={BookOpen}
-          >
-            <PopularCourses />
-          </Card>
+      <section className="grid grid-cols-1 gap-6 2xl:grid-cols-[minmax(0,1fr)_390px]">
+        <Card
+          title="Popular Courses"
+          subtitle="Explore trending courses selected for students."
+          icon={BookOpen}
+        >
+          <PopularCourses />
+        </Card>
 
-          <Card
-            title="Top Universities & Colleges"
-            subtitle="Discover and connect with top global institutions."
-            icon={University}
-          >
-            <CountryTabs
-              countries={countries}
-              selectedCountryId={selectedCountryId}
-              onSelect={setSelectedCountryId}
-            />
-
-            <UniversitiesGrid
-              loading={loading}
-              universities={universities}
-              universityImagePath={universityImagePath}
-            />
-          </Card>
-        </main>
-
-        <aside className="space-y-6">
-          <Card
-            title="Destinations"
-            subtitle="Pick your preferred country"
-            icon={MapPin}
-          >
-            <SDBDestinations onCountrySelect={setSelectedCountryId} />
-          </Card>
-
-          {/* <Card title="Our Language Programs" icon={Search}>
-            <SDBLanguagePrograms />
-          </Card> */}
-        </aside>
+        <Card
+          title="Destinations"
+          subtitle="Pick your preferred country"
+          icon={MapPin}
+        >
+          <SDBDestinations onCountrySelect={setSelectedCountryId} />
+        </Card>
       </section>
 
-      <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-[#081c47] to-primary p-6 text-white shadow-sm">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+      <Card
+        title="Top Universities & Colleges"
+        subtitle="Discover and connect with top global institutions."
+        icon={University}
+        full
+      >
+        <CountryTabs
+          countries={countries}
+          selectedCountryId={selectedCountryId}
+          onSelect={setSelectedCountryId}
+        />
+
+        <UniversitiesGrid
+          loading={loading}
+          universities={universities}
+          universityImagePath={universityImagePath}
+        />
+      </Card>
+
+      <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-[#081c47] to-primary p-5 text-white shadow-sm sm:p-6 lg:p-8">
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
-            <h2 className="text-xl font-black">Your Future, Our Mission</h2>
+            <h2 className="text-xl font-black sm:text-2xl">
+              Your Future, Our Mission
+            </h2>
             <p className="mt-1 text-sm text-white/80">
               Explore. Learn. Achieve.
             </p>
@@ -150,7 +142,7 @@ export default function StudentDashboard() {
 
           <Link
             to="/student/findCourse"
-            className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-bold text-[#081c47]"
+            className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#081c47] transition hover:-translate-y-1 hover:shadow-lg"
           >
             Explore Courses
             <ArrowRight size={16} />
@@ -163,35 +155,35 @@ export default function StudentDashboard() {
 
 function Hero({ studentName }) {
   return (
-    <section className="relative min-h-[240px] overflow-hidden rounded-[28px] bg-[#081c47] p-6 text-white shadow-sm sm:p-8 lg:p-10">
+    <section className="relative overflow-hidden rounded-[28px] bg-[#081c47] shadow-sm">
       <img
         className="absolute inset-0 h-full w-full object-cover"
         src={dbBg}
-        alt="hero"
+        alt="Dashboard hero"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#000]/90 via-darkPrimary/85 to-darkPrimary/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-darkPrimary/80 to-black/20" />
 
-      <div className="relative max-w-xl">
-        <p className="text-sm font-semibold text-white/90 sm:text-base">
-          Welcome back, <span className="font-black">{studentName}</span> 👋
-        </p>
+      <div className="relative flex min-h-[230px] items-center p-6 sm:p-8 lg:p-10">
+        <div className="max-w-xl">
+          <p className="text-sm font-semibold text-white/90 sm:text-base">
+            Welcome back, <span className="font-black">{studentName}</span> 👋
+          </p>
 
-        <h1 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-4xl">
-          Your Dream,
-          <br />
-          <span className="text-primary">Our Guidance</span>
-        </h1>
+          <h1 className="mt-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
+            Your Dream,
+            <br />
+            <span className="text-primary">Our Guidance</span>
+          </h1>
 
-     
-
-        <Link
-          to="/student/findCourse"
-          className="mt-7 inline-flex items-center gap-3 rounded-xl border border-white text-primary hover:bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-white hover:text-primary"
-        >
-          Find a Course
-          <ArrowRight size={17} />
-        </Link>
+          <Link
+            to="/student/findCourse"
+            className="mt-7 inline-flex items-center gap-3 rounded-xl border border-white/70 px-6 py-3 text-sm font-bold text-white transition hover:bg-white hover:text-primary"
+          >
+            Find a Course
+            <ArrowRight size={17} />
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -201,11 +193,9 @@ function StatCard({ title, count, text, icon: Icon, to, accent }) {
   return (
     <Link
       to={to}
-      className={`group relative overflow-hidden rounded-3xl border border-slate-100 bg-gradient-to-br ${accent} p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl`}
+      className={`group relative overflow-hidden rounded-3xl border border-slate-100 bg-gradient-to-br ${accent} p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-6`}
     >
-      {/* <div className="absolute -bottom-10 -right-10 h-36 w-36 rounded-full border border-primary/20" /> */}
-
-      <div className="relative flex items-start justify-between">
+      <div className="flex items-start justify-between">
         <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-primary shadow-sm">
           <Icon size={24} />
         </div>
@@ -216,10 +206,10 @@ function StatCard({ title, count, text, icon: Icon, to, accent }) {
         />
       </div>
 
-      <div className="relative mt-5">
+      <div className="mt-5">
         <p className="text-sm font-black text-[#081c47]">{title}</p>
-        <h3 className="mt-3 text-xl font-bold text-secondary">{count}</h3>
-        <p className="mt-2 max-w-[160px] text-xs font-semibold leading-5 text-slate-500">
+        <h3 className="mt-3 text-2xl font-black text-secondary">{count}</h3>
+        <p className="mt-2 text-xs font-semibold leading-5 text-slate-500">
           {text}
         </p>
       </div>
@@ -227,56 +217,58 @@ function StatCard({ title, count, text, icon: Icon, to, accent }) {
   );
 }
 
-function Card({ title, subtitle, icon: Icon, children }) {
+function Card({ title, subtitle, icon: Icon, children, full = false }) {
   return (
-    <section className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm sm:p-5 lg:p-6">
-      <div className="mb-5 flex items-start justify-between gap-4">
-        <div className="flex items-start gap-3">
-          {Icon && (
-            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/10 text-primary">
-              <Icon size={20} />
-            </div>
-          )}
-
-          <div>
-            <h2 className="text-base font-black text-[#081c47] sm:text-lg">
-              {title}
-            </h2>
-            {subtitle && (
-              <p className="mt-1 text-xs font-semibold text-slate-400 sm:text-sm">
-                {subtitle}
-              </p>
-            )}
+    <section
+      className={`min-w-0 rounded-3xl border border-slate-100 bg-white shadow-sm ${
+        full ? "p-4 sm:p-6 lg:p-8" : "p-4 sm:p-5 lg:p-6"
+      }`}
+    >
+      <div className="mb-5 flex items-start gap-3">
+        {Icon && (
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary">
+            <Icon size={20} />
           </div>
-        </div>
+        )}
 
-        {/* <button className="hidden text-xs font-black text-primary hover:underline sm:block">
-          View all
-        </button> */}
+        <div className="min-w-0">
+          <h2 className="text-base font-black text-[#081c47] sm:text-lg lg:text-xl">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="mt-1 text-xs font-semibold text-slate-400 sm:text-sm">
+              {subtitle}
+            </p>
+          )}
+        </div>
       </div>
 
-      {children}
+      <div className="min-w-0">{children}</div>
     </section>
   );
 }
 
 function CountryTabs({ countries, selectedCountryId, onSelect }) {
   return (
-    <div className="mb-5 flex gap-2 overflow-x-auto pb-2">
-      {countries?.map((country) => (
-        <button
-          key={country.id}
-          type="button"
-          onClick={() => onSelect(country.id)}
-          className={`shrink-0 rounded-full border px-5 py-2 text-sm font-black transition ${
-            selectedCountryId === country.id
-              ? "border-primary bg-primary text-white shadow-sm"
-              : "border-slate-200 bg-white text-[#081c47] hover:border-primary hover:text-primary"
-          }`}
-        >
-          {country.country}
-        </button>
-      ))}
+    <div className="mb-6 flex gap-2 overflow-x-auto pb-3">
+      {countries?.map((country) => {
+        const countryId = country?.id || country?.d_id;
+
+        return (
+          <button
+            key={countryId}
+            type="button"
+            onClick={() => onSelect(countryId)}
+            className={`shrink-0 rounded-full border px-4 py-2 text-xs font-black transition sm:px-5 sm:text-sm ${
+              String(selectedCountryId) === String(countryId)
+                ? "border-primary bg-primary text-white shadow-sm"
+                : "border-slate-200 bg-white text-[#081c47] hover:border-primary hover:text-primary"
+            }`}
+          >
+            {country?.country || country?.name}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -284,7 +276,7 @@ function CountryTabs({ countries, selectedCountryId, onSelect }) {
 function UniversitiesGrid({ loading, universities, universityImagePath }) {
   if (loading) {
     return (
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
@@ -305,7 +297,7 @@ function UniversitiesGrid({ loading, universities, universityImagePath }) {
   }
 
   return (
-    <div className="grid max-h-[430px] grid-cols-1 gap-4 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-2">
+    <div className="grid max-h-[430px] grid-cols-1 gap-4 overflow-y-auto pr-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {universities.map((item) => {
         const image =
           item?.logo && universityImagePath
@@ -314,28 +306,33 @@ function UniversitiesGrid({ loading, universities, universityImagePath }) {
 
         return (
           <div
-            key={item.id}
-            className="rounded-2xl border border-slate-100 bg-white p-4 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            key={item?.id || item?.u_id}
+            className="group rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg"
           >
-            <div className="mx-auto grid h-20 w-20 place-items-center overflow-hidden rounded-2xl bg-slate-50">
-              {image ? (
-                <img
-                  src={image}
-                  className="h-full w-full object-contain p-2"
-                  alt={item.name}
-                />
-              ) : (
-                <University size={30} className="text-primary" />
-              )}
+            <div className="flex items-center gap-4">
+              <div className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-2xl bg-slate-50 ring-1 ring-slate-100">
+                {image ? (
+                  <img
+                    src={image}
+                    className="h-full w-full object-contain p-2"
+                    alt={item?.name || "University"}
+                  />
+                ) : (
+                  <University size={30} className="text-primary" />
+                )}
+              </div>
+
+              <div className="min-w-0">
+                <h3 className="line-clamp-2 text-sm font-black leading-5 text-[#081c47] group-hover:text-primary">
+                  {item?.name || item?.university || "University"}
+                </h3>
+
+                <p className="mt-2 flex items-center gap-1 line-clamp-1 text-xs font-semibold text-slate-500">
+                  <MapPin size={13} className="shrink-0" />
+                  {item?.location || "N/A"}
+                </p>
+              </div>
             </div>
-
-            <h3 className="mt-3 line-clamp-2 text-sm font-black text-[#081c47]">
-              {item.name}
-            </h3>
-
-            <p className="mt-2 line-clamp-1 text-xs font-semibold text-slate-500">
-              {item.location || "N/A"}
-            </p>
           </div>
         );
       })}

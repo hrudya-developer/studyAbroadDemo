@@ -89,68 +89,73 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="h-100dvh grid place-content-center max-w-7xl mx-auto bg-cover bg-center" style={{backgroundImage:`url(${login_bg})`}}>
+   <div
+  className="min-h-[100dvh] w-full bg-cover bg-center bg-no-repeat px-4 py-8 sm:px-6"
+  style={{ backgroundImage: `url(${login_bg})` }}
+>
+  <div className="mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-7xl items-center justify-center">
+    <div className="w-full max-w-[430px] sm:max-w-[500px] md:max-w-[600px]">
+      <div className="rounded-3xl bg-white/95 p-5 shadow-2xl backdrop-blur sm:p-8 md:p-10">
+        <div className="mb-6 flex items-center justify-center">
+          <span className="rounded-full bg-primary p-3 text-white shadow-sm">
+            <Globe size={28} />
+          </span>
+        </div>
 
-      <div className="grid md:grid-cols-1 p-5 rounded-3xl w-auto md:w-[600px] my-10 ">
-
-      
-
-
-      <div className="p-6 rounded-2xl shadow-2xl py-10 bg-white">
-        
-        <div className="flex justify-center items-center mb-8"><span className="bg-primary text-white p-3 rounded-full shadow-sm"><Globe size={28}/></span></div>
-        <h2 className="text-3xl font-extrabold text-center text-darkPrimary my-5">
-         <span className="text-darkPrimary">Welcome</span> Back !
+        <h2 className="text-center text-2xl font-extrabold text-darkPrimary sm:text-3xl">
+          <span className="text-darkPrimary">Welcome</span> Back!
         </h2>
-        <p className="text-center text-darkPrimary text-md">Sign in to continue to your account.</p>
 
+        <p className="mt-3 text-center text-sm text-darkPrimary">
+          Sign in to continue to your account.
+        </p>
 
+        <form onSubmit={sendOtp} className="mt-7 space-y-5">
+          <div className="relative">
+            <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
 
-<form onSubmit={sendOtp} className="mt-6 space-y-6">
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="Enter email"
+              className="h-11 w-full rounded-xl border border-gray-300 bg-white pl-10 pr-4 text-sm text-black outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
 
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex h-11 w-full items-center justify-center gap-3 rounded-xl bg-darkPrimary text-sm font-bold text-white shadow-sm transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <LockKeyhole size={17} />
+            {loading ? "Sending..." : "Get OTP"}
+          </button>
 
+          <p className="flex items-center justify-center gap-2 text-center text-xs font-medium text-slate-500 sm:text-sm">
+            <ShieldCheck className="h-4 w-4 shrink-0 text-primary" />
+            Secure Login. Your data is protected.
+          </p>
+        </form>
 
+        <div className="mt-7 flex flex-col items-center justify-center gap-4 border-t border-dashed border-gray-300 pt-6 text-center sm:flex-row sm:text-left">
+          <h1 className="text-sm font-bold text-black sm:text-base">
+            Download our Mobile App
+          </h1>
 
-  {/* Email Input */}
-  <div className="relative">
-    <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
-
-    <input
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      type="email"
-      placeholder="Enter email"
-      className="w-full h-10 border border-gray-300 text-black pl-10 pr-4 rounded-lg"
-    />
-  </div>
-
-  {/* Button */}
-  <button
-    type="submit"
-    disabled={loading}
-    className="w-full h-10 bg-darkPrimary text-white rounded-lg disabled:opacity-60 flex gap-4 justify-center items-center shadow-sm hover:cursor-pointer hover:bg-primary hover:text-white"
-  >
-   <span><LockKeyhole size={17}/></span> {loading ? "Sending..." : "Get OTP"}
-  </button>
-
-  <p className="text-white text-center flex gap-3 justify-center items-center mb-5 text-sm"><span><ShieldCheck /></span>Secure Login. Your data is protected.</p>
-
-</form>
-
-<div className="border-t border-t-dashed border-t-gray-600 pt-5 flex justify-center gap-4 flex-col md:flex-row items-center">
- <h1 className="text-md font-bold text-black">Download our Mobile App</h1>
- <button className="bg-black text-white text-sm font-semibold p-2 px-3 hover:cursor-pointer rounded-xl hover:bg-primary hover:text-white">
-  <a href="https://play.google.com/store/apps/details?id=com.medcity.overseas" target="_blank" className="w-full h-full">Download App</a></button>
-  </div>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.medcity.overseas"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-xl bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary"
+          >
+            Download App
+          </a>
+        </div>
       </div>
-
-   
-</div>
-
-
-
-
     </div>
+  </div>
+</div>
   );
 };
 

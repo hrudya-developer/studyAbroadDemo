@@ -46,6 +46,12 @@ const SDBDestinations = () => {
               slidesPerView: 2,
             },
             1024: {
+              slidesPerView: 1,
+            },
+            1100: {
+              slidesPerView: 2,
+            },
+             1200: {
               slidesPerView: 3,
             },
           }}

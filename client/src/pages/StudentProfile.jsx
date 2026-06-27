@@ -332,7 +332,7 @@ export default function StudentProfile() {
           <div className="text-center md:text-left">
             <p className="mb-2 font-bold text-primary">Welcome back, 👋</p>
 
-            <h1 className="text-3xl font-black leading-tight text-slate-950 sm:text-4xl">
+            <h1 className="text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
               Hello, <span className="text-primary">{studentName}!</span>
             </h1>
 
@@ -344,18 +344,18 @@ export default function StudentProfile() {
       </div>
 
       <div className="rounded-[32px] bg-slate-50 p-5 shadow-sm sm:p-8">
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">
+        <div className="mb-6 flex gap-4 justify-between">
+          <h2 className="text-2xl font-bold text-black sm:text-2xl">
             My Profile
           </h2>
 
          <button
   type="button"
   onClick={() => setShowEditProfile(true)}
-  className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-secondary"
+  className="flex items-center justify-center gap-2 rounded-2xl bg-primary p-2 md:p-3 rounded-full text-sm font-bold text-white transition hover:bg-secondary"
 >
   <Edit size={18} />
-  Edit Details
+  
 </button>
         </div>
 
@@ -379,7 +379,7 @@ export default function StudentProfile() {
       <FileText size={22} />
     </div>
 
-    <h3 className="text-2xl font-black text-slate-950">
+    <h3 className="text-2xl font-bold text-slate-950">
       Qualification Details
     </h3>
   </div>
@@ -387,10 +387,10 @@ export default function StudentProfile() {
   <button
     type="button"
     onClick={() => setShowEditQualification(true)}
-    className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-secondary"
+    className="flex items-center justify-center gap-2 rounded-2xl bg-primary p-2 md:p-3 rounded-full text-sm font-bold text-white transition hover:bg-secondary"
   >
     <Edit size={18} />
-    Edit Qualification
+   
   </button>
 </div>
 

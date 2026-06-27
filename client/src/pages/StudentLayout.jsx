@@ -109,11 +109,11 @@ const handleLogout = async () => {
 
     if (label === "Logout") {
       return (
-        <button
+ <button
   key={label}
   type="button"
   onClick={handleLogout}
-  className="flex w-full items-center gap-4 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-white/10"
+  className="flex w-full items-center justify-center gap-4 rounded-xl px-3 py-3 text-sm font-medium transition hover:bg-white/10 md:justify-start md:px-4"
 >
   <Icon size={21} className="shrink-0" />
   <span className="hidden md:block">{displayLabel}</span>
@@ -188,7 +188,7 @@ function Header({ onMenuClick }) {
   return (
     <header
       className={`sticky top-0 z-30 border-b border-slate-200 bg-darkPrimary sm:bg-white/95 backdrop-blur transition-all duration-300 lg:ml-72 ${
-        scrolled ? "h-16 shadow-md" : "h-20 lg:h-24"
+        scrolled ? "h-18 shadow-md" : "h-20 lg:h-24"
       }`}
     >
       <div className="flex h-full items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
@@ -196,7 +196,7 @@ function Header({ onMenuClick }) {
           <button
             type="button"
             onClick={onMenuClick}
-            className={`grid place-content-center rounded-xl bg-darkPrimary text-white transition-all duration-300 lg:hidden ${
+            className={`grid place-content-center rounded-lg bg-darkPrimary text-white transition-all duration-300 lg:hidden ${
               scrolled ? "h-9 w-9" : "h-11 w-11"
             }`}
           >
@@ -204,15 +204,15 @@ function Header({ onMenuClick }) {
           </button>
 
           <div
-            className={`flex items-center rounded-xl bg-darkPrimary px-3 transition-all duration-300 lg:hidden ${
-              scrolled ? "h-10" : "h-12"
+            className={`flex items-center rounded-lg bg-darkPrimary px-3 transition-all duration-300 lg:hidden ${
+              scrolled ? "h-12" : "h-14"
             }`}
           >
             <img
               src={logo}
               alt="Logo"
-              className={`object-contain transition-all duration-300 ${
-                scrolled ? "w-42" : "w-44"
+              className={`object-contain transition-all p-2 duration-300 ${
+                scrolled ? "w-48" : "w-48"
               }`}
             />
           </div>

@@ -60,7 +60,7 @@ useEffect(() => {
   };
 }, []);
   return (
-<header data-theme="mytheme" className="sticky top-0 z-10 w-full bg-primary">
+<header data-theme="mytheme" className="sticky top-0 z-10 max-w-7xl mx-auto bg-primary">
   <div
     className={`navbar mx-auto max-w-7xl bg-primary px-3 sm:px-5 md:px-8 font-nunito transition-all duration-500 ease-in-out ${
       scrolled

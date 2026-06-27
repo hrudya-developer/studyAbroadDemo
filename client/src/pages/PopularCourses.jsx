@@ -51,6 +51,8 @@ const PopularCourses = () => {
             0: { slidesPerView: 1 },
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 2 },
+             1120: { slidesPerView: 2 },
+            1200: { slidesPerView: 3 },
           }}
         >
           {popularCourses.map((course) => {
@@ -64,7 +66,7 @@ const PopularCourses = () => {
             return (
               <SwiperSlide key={course.id || course.course_id}>
                 <div className="h-full rounded-3xl bg-white p-4 shadow-sm transition hover:shadow-md">
-                  <div className="mb-4 grid h-40 place-items-center overflow-hidden rounded-2xl bg-slate-50">
+                  <div className="mb-4 grid h-44 place-items-center overflow-hidden rounded-2xl bg-slate-50">
                     {courseImage ? (
                       <img
                         src={courseImage}
@@ -84,11 +86,11 @@ const PopularCourses = () => {
                       "Course"}
                   </h3>
 
-                  <p className="mt-2 line-clamp-2 text-sm font-medium leading-6 text-slate-600">
+                  {/* <p className="mt-2 line-clamp-2 text-sm font-medium leading-6 text-slate-600">
                     {course.description ||
                       course.short_description ||
                       "Explore this course and start your study abroad journey."}
-                  </p>
+                  </p> */}
                 </div>
               </SwiperSlide>
             );

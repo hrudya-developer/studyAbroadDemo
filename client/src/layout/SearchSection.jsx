@@ -25,21 +25,58 @@ const selectStyles = {
   control: (base, state) => ({
     ...base,
     backgroundColor: "transparent",
-    fontSize: "14px",
-    fontWeight: "bold",
+    fontSize: "13px",
+    fontWeight: 400,
     borderColor: "#ffffff",
-    minHeight: "48px",
+    minHeight: "46px",
     boxShadow: state.isFocused ? "0 0 0 1px #ffffff" : "none",
     "&:hover": { borderColor: "#ffffff" },
   }),
-  singleValue: (base) => ({ ...base, color: "#ffffff" }),
-  placeholder: (base) => ({ ...base, color: "#ffffff" }),
-  input: (base) => ({ ...base, fontSize: "13px", color: "#ffffff" }),
-  menuPortal: (base) => ({ ...base, zIndex: 99999 }),
-  menu: (base) => ({ ...base, zIndex: 99999 }),
-  menuList: (base) => ({ ...base, maxHeight: 220 }),
+
+  singleValue: (base) => ({
+    ...base,
+    color: "#ffffff",
+    fontSize: "13px",
+  }),
+
+  placeholder: (base) => ({
+    ...base,
+    color: "#ffffff",
+    fontSize: "13px",
+  }),
+
+  input: (base) => ({
+    ...base,
+    color: "#ffffff",
+    fontSize: "13px",
+  }),
+
+  menuPortal: (base) => ({
+    ...base,
+    zIndex: 99999,
+  }),
+
+  menu: (base) => ({
+    ...base,
+    zIndex: 99999,
+    marginTop: 6,
+    padding: "6px",          // Space from border
+    borderRadius: "12px",
+    overflow: "hidden",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: 220,
+    padding: "4px",          // Inner padding
+  }),
+
   option: (base, state) => ({
     ...base,
+    fontSize: "13px",        // Option font size
+    padding: "10px 12px",    // Padding around each option
+    borderRadius: "8px",     // Rounded options
+    marginBottom: "2px",     // Small spacing between options
     backgroundColor: state.isSelected
       ? "#c01f53"
       : state.isFocused
@@ -49,7 +86,6 @@ const selectStyles = {
     cursor: "pointer",
   }),
 };
-
 const SearchSection = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -471,7 +507,7 @@ function SelectField({ icon: Icon, children }) {
         <Icon className="text-white" size={20} />
       </div>
 
-      <div className="min-w-0 flex-1">{children}</div>
+      <div className="min-w-0 flex-1 text-sm">{children}</div>
     </div>
   );
 }

@@ -320,7 +320,7 @@ await dispatch(
   return (
     <>
       <div className="grid gap-6 rounded-xl bg-white p-5 shadow-md md:p-6 xl:grid-cols-1 xl:items-center relative">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-start sm:flex-rowsm:items-center gap-4">
          <div className="group absolute right-3 top-3">
 <SDBWishlistButton courseId={course?.id} />
 

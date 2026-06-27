@@ -505,17 +505,17 @@ export default function SDBFindCourse() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 text-slate-900 sm:p-6 lg:p-8">
-      <div className="flex flex-col items-center justify-between rounded-3xl bg-blue-50 px-5 py-10 shadow-md md:flex-row">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="flex flex-col m-5 items-center justify-between rounded-3xl bg-blue-50 px-5 py-5 shadow-md md:flex-row">
         <div>
           <h1 className="text-2xl font-black sm:text-3xl">Find a Course</h1>
 
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="my-2 text-sm text-slate-500">
             Search and explore courses from top universities around the world.
           </p>
         </div>
 
-        <div className="relative flex w-full max-w-xl items-center gap-3 rounded-xl bg-white px-3 py-3 shadow-md">
+        <div className="relative flex w-full max-w-xl items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-md">
           <Search size={22} className="text-slate-500" />
 
           <input
@@ -544,7 +544,7 @@ export default function SDBFindCourse() {
             type="button"
             onClick={handleSearch}
             disabled={loading || loadMoreLoading}
-            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Searching..." : "Search"}
           </button>
@@ -613,15 +613,15 @@ export default function SDBFindCourse() {
         </div>
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[230px_1fr] m-5">
         <aside className="h-fit rounded-xl bg-white p-5 shadow-md">
-          <div className="flex items-center justify-between border-b pb-4">
+          <div className="flex items-center justify-between border-b pb-4 mb-5">
             <h2 className="text-lg font-bold">Filter</h2>
 
             <button
               type="button"
               onClick={handleClear}
-              className="flex items-center gap-1 text-sm font-semibold text-red-600 hover:cursor-pointer"
+              className="flex items-center gap-1 text-sm font-semibold text-primary hover:cursor-pointer"
             >
               <RotateCcw size={14} />
               Clear
@@ -715,7 +715,7 @@ export default function SDBFindCourse() {
             type="button"
             onClick={handleSearch}
             disabled={loading || loadMoreLoading}
-            className="mt-5 w-full rounded-lg bg-red-600 px-4 py-3 text-sm font-bold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-5 w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-white hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Applying..." : "Apply Filters"}
           </button>
@@ -727,7 +727,7 @@ export default function SDBFindCourse() {
               Loading university details...
             </div>
           ) : detailsError ? (
-            <div className="rounded-xl bg-white p-8 text-center font-bold text-red-600 shadow-md">
+            <div className="rounded-xl bg-white p-8 text-center font-bold text-primary shadow-md">
               {detailsError}
             </div>
           ) : universityBox ? (
@@ -747,7 +747,7 @@ export default function SDBFindCourse() {
                   </div>
 
                   <div>
-                    <p className="text-xs font-black uppercase text-red-600">
+                    <p className="text-xs font-black uppercase text-primary">
                       University Details
                     </p>
 
@@ -756,13 +756,13 @@ export default function SDBFindCourse() {
                     </h2>
 
                     <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-500">
-                      <MapPin size={16} className="text-red-600" />
+                      <MapPin size={16} className="text-primary" />
                       {universityCountry}
                     </p>
                   </div>
                 </div>
 
-                <div className="rounded-full bg-red-50 px-3 py-1 text-xs font-black uppercase text-red-600">
+                <div className="rounded-full bg-primary px-3 py-1 text-xs font-black uppercase text-white">
                   University
                 </div>
               </div>
@@ -789,7 +789,7 @@ export default function SDBFindCourse() {
               Loading courses...
             </div>
           ) : error ? (
-            <div className="rounded-xl bg-white p-8 text-center font-bold text-red-600 shadow-md">
+            <div className="rounded-xl bg-white p-8 text-center font-bold text-primary shadow-md">
               {error}
             </div>
           ) : results.length > 0 ? (
@@ -844,7 +844,7 @@ export default function SDBFindCourse() {
 function UniversityFact({ icon: Icon, label, value }) {
   return (
     <div className="rounded-xl bg-slate-50 p-4">
-      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-red-600 shadow-sm">
+      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-primary shadow-sm">
         <Icon size={18} />
       </div>
 

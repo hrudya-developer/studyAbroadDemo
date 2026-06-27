@@ -145,7 +145,7 @@ export default function SDBWishlistItems() {
 
   if (error) {
     return (
-      <div className="rounded-2xl bg-white p-6 text-center font-bold text-red-600 shadow">
+      <div className="rounded-2xl bg-white p-6 text-center font-bold text-secondary shadow">
         {error}
       </div>
     );
@@ -162,7 +162,7 @@ export default function SDBWishlistItems() {
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-2xl font-black text-black">My Wishlist</h2>
+        <h2 className="text-2xl font-bold text-black pt-4 sm:pt-2">My Wishlist</h2>
         <p className="mt-1 text-sm text-slate-500">
           Courses you have saved for later.
         </p>
@@ -201,7 +201,7 @@ export default function SDBWishlistItems() {
               onClick={() => setCurrentPage(page)}
               className={`h-9 w-9 rounded-lg text-sm font-bold ${
                 currentPage === page
-                  ? "bg-red-100 text-red-600"
+                  ? "bg-secondary text-white"
                   : "border bg-white text-slate-700"
               }`}
             >
@@ -373,7 +373,7 @@ function WishlistCard({ course, onRemoved }) {
             <h3 className="text-lg font-black text-[#081c47]">{courseName}</h3>
 
             <p className="mt-1 flex items-center gap-2 text-sm font-bold text-slate-700">
-              <Building2 size={15} className="text-red-600" />
+              <Building2 size={15} className="text-primary" />
               {university}
             </p>
 
@@ -441,7 +441,7 @@ function WishlistCard({ course, onRemoved }) {
 
 function Badge({ icon, text }) {
   return (
-    <span className="flex items-center gap-1 rounded-lg bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+    <span className="flex items-center gap-1 rounded-lg bg-green-100 px-3 py-1 text-xs font-bold text-slate-600">
       {icon}
       {text || "N/A"}
     </span>

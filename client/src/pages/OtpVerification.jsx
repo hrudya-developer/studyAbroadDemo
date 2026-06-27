@@ -166,16 +166,16 @@ export default function VerifyOtpPage() {
           <div className="absolute -left-12 -bottom-12 h-36 w-36 rounded-full bg-white/10" />
           <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10" />
 
-          <div className="relative z-10">
+          <div className="relative z-1">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold shadow-lg">
               OTP
             </div>
 
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-xl sm:text-2xl font-bold">
               OTP Verification
             </h2>
 
-            <p className="mt-2 text-sm text-white/80">
+            <p className="mt-2 text-sm text-white">
               Enter the 4 digit code sent to
             </p>
 
@@ -212,7 +212,7 @@ export default function VerifyOtpPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-darkPrimary py-3 text-lg font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70"
+              className="w-full rounded-xl bg-darkPrimary py-2 text-sm sm:text-md font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70"
             >
               {loading ? "Verifying..." : "Verify OTP"}
             </button>

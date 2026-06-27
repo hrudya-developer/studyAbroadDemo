@@ -182,7 +182,7 @@ const handleTabChange = (tab) => {
   return (
     <main className="mx-auto min-h-screen max-w-7xl bg-[#f7f9fd] text-[#081c47]">
       <section className="relative overflow-hidden bg-white">
-        <div className="absolute right-8 top-5 z-30">
+        <div className="absolute right-8 top-5 z-3">
           <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-md"
@@ -220,9 +220,9 @@ const handleTabChange = (tab) => {
             </div>
           )}
 
-          <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/75 to-black/70" />
+          <div className="absolute inset-0 z-1 bg-gradient-to-r from-black/90 via-black/75 to-black/70" />
 
-          <div className="absolute inset-0 z-20 flex items-center px-4 pt-1 sm:px-8 lg:px-14 justify-between">
+          <div className="absolute inset-0 z-2 flex items-center px-4 pt-1 sm:px-8 lg:px-14 justify-between">
             <div className="max-w-7xl">
               
               {/* <p className="my-10 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/20 backdrop-blur-md">
@@ -338,7 +338,7 @@ const handleTabChange = (tab) => {
                 {ranking !== "N/A" ? ranking : "UNI"}
               </div>
 
-              <div className="relative z-10">
+              <div className="relative">
                 <p className="mb-3 text-sm font-black uppercase text-secondary">
                   Quick Info
                 </p>

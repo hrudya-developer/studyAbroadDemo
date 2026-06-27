@@ -182,7 +182,7 @@ const Carousel = () => {
   return (
     <section className="relative mx-auto w-full max-w-7xl overflow-hidden">
       {/* Floating CTA */}
-      <div className="absolute right-3 top-3 z-10 animate__animated animate__pulse sm:right-4 sm:top-4">
+      <div className="absolute right-3 top-3 z-9 animate__animated animate__pulse sm:right-4 sm:top-4">
         <button
           type="button"
           className="

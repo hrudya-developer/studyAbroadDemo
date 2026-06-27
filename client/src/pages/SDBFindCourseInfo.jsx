@@ -2,7 +2,10 @@ import React from "react";
 
 export default function SDBFindCourseInfo({ icon, label, value }) {
   return (
-    <div className="flex items-start gap-2 text-sm">
+    <div className="flex
+  flex-row
+  min-[1024px]:flex-col
+  min-[1113px]:flex-row gap-2 text-sm">
       {React.cloneElement(icon, {
         size: 16,
         className: "mt-0.5 shrink-0 text-red-600",

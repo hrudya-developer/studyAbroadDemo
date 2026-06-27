@@ -80,7 +80,7 @@ export default function SDBApplications() {
   if (!applications.length) {
     return (
       <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-lg py-10">
-        <h2 className="text-xl font-bold text-[#081c47] my-3">My Applications</h2>
+        <h2 className="text-xl font-bold text-black mt-3 mb-2">My Applications</h2>
         <p className="mt-2 text-sm text-slate-500">
           No applied courses found.
         </p>
@@ -90,7 +90,7 @@ export default function SDBApplications() {
 
   return (
     <div className="space-y-5">
-      <h2 className="text-2xl font-black text-black my-5 flex gap-2 justify-between">My Applications<span><FileUser className="text-secondary"/></span></h2>
+      <h2 className="text-2xl font-bold text-black my-5 mb-3 flex gap-4 items-center"><span className=""><FileUser className="text-secondary"/></span>My Applications</h2>
 
       {paginatedApplications.map((application, index) => (
         <ApplicationCard
@@ -152,7 +152,7 @@ function ApplicationCard({ application }) {
     <div className="rounded-3xl border border-green-100 bg-white p-6 shadow-lg transition hover:shadow-xl">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-md font-bold text-primary">
+          <h3 className="text-md font-bold text-darkPrimary">
             {application?.course || "N/A"}
           </h3>
 

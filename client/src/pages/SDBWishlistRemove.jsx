@@ -87,7 +87,7 @@ export default function SDBWishlistRemove({ courseId, onRemoved }) {
       type="button"
       onClick={handleRemove}
       disabled={removing}
-      className="rounded-full p-2 text-secondary transition hover:bg-red-50 hover:text-primary disabled:cursor-not-allowed disabled:opacity-60"
+      className="rounded-full p-2 text-white transition bg-primary hover:bg-secondary hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
       aria-label="Remove from wishlist"
     >
       <Trash2 size={20} />

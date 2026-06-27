@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 export default function SDBFilterSelect({
   label,
@@ -9,6 +10,7 @@ export default function SDBFilterSelect({
   disabled = false,
 }) {
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const validOptions = options.filter(
     (item) =>
@@ -24,29 +26,57 @@ export default function SDBFilterSelect({
     (item) => String(item.value) === String(value)
   );
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative mt-5">
-      <label className="text-sm font-bold">{label}</label>
+    <div ref={dropdownRef} className="relative w-full min-w-0 mb-5">
+      {label && (
+        <label className="mb-2 block text-sm font-bold text-slate-900">
+          {label}
+        </label>
+      )}
 
       <button
         type="button"
         disabled={disabled}
         onClick={() => setOpen((prev) => !prev)}
-        className="mt-2 flex h-12 w-full items-center justify-between border-b bg-white px-1 text-left text-sm text-slate-500 outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex h-10 w-full min-w-0 items-center justify-between rounded-xl border border-slate-200 bg-white px-4 text-left text-sm text-slate-600 shadow-sm outline-none transition hover:border-primary focus:border-primary disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
       >
-        <span className="truncate">{selected?.label || placeholder}</span>
-        <span className="ml-2">⌄</span>
+        <span className="min-w-0 flex-1 truncate">
+          {selected?.label || placeholder}
+        </span>
+
+        <ChevronDown
+          size={18}
+          className={`ml-3 shrink-0 transition duration-200 ${
+            open ? "rotate-180 text-primary" : "text-slate-400"
+          }`}
+        />
       </button>
 
       {open && !disabled && (
-        <div className="absolute left-0 top-full z-50 mt-1 max-h-52 w-full overflow-y-auto rounded-md border border-slate-200 bg-white shadow-lg">
+        <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-60 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-xl">
           <button
             type="button"
             onClick={() => {
               onChange("");
               setOpen(false);
             }}
-            className="block w-full px-3 py-2 text-left text-sm text-slate-500 hover:bg-slate-100"
+            className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-400 transition hover:bg-slate-100"
           >
             {placeholder}
           </button>
@@ -59,7 +89,11 @@ export default function SDBFilterSelect({
                 onChange(item.value);
                 setOpen(false);
               }}
-              className="block w-full px-3 py-2 text-left text-sm text-slate-600 hover:bg-slate-100"
+              className={`block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold transition ${
+                String(item.value) === String(value)
+                  ? "bg-primary text-white"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
             >
               {item.label}
             </button>

@@ -154,7 +154,7 @@ export default function SDBWishlistButton({ courseId }) {
       className={`group relative grid place-content-center rounded-full p-2 text-white transition ${
         added
           ? "cursor-not-allowed bg-primary opacity-90"
-          : "bg-darkPrimary hover:bg-primary"
+          : "bg-primary hover:bg-secondary"
       } ${checking || loading ? "cursor-wait opacity-70" : ""}`}
     >
       <Heart size={18} fill={added ? "currentColor" : "none"} />
