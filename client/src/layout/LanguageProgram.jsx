@@ -8,185 +8,158 @@ import {
   Monitor,
   Stethoscope,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const programs = [
   {
+    title: "German Language",
+    desc: "Learn German from A1 to B2 with CEFR-based training, speaking practice, Goethe/TELC exam preparation and Germany pathway guidance.",
+    icon: GraduationCap,
+    color: "blue",
+    link:"/germanLanguage"
+  },
+  {
     title: "IELTS",
-    desc: "World's most popular English language test for study, work and migration.",
+    desc: "Prepare for IELTS Academic and General Training with mock tests, speaking practice, writing correction and band score improvement support.",
     icon: Globe,
     color: "red",
   },
   {
     title: "OET",
-    desc: "English test designed for healthcare professionals worldwide.",
+    desc: "Join OET coaching for nurses, doctors and pharmacists with writing correction, speaking role-play practice and computerised test support.",
     icon: Stethoscope,
     color: "blue",
   },
   {
     title: "PTE",
-    desc: "Fast computer-based English proficiency test accepted globally.",
+    desc: "Get PTE Academic and PTE Core coaching with AI-evaluated mock tests, speaking and writing feedback and exam booking guidance.",
     icon: Monitor,
     color: "red",
   },
   {
-    title: "German A1 & A2",
-    desc: "Build strong German language foundations for study and work.",
-    icon: GraduationCap,
-    color: "blue",
-  },
-  {
-    title: "DHA",
-    desc: "Gateway examination for healthcare professionals in Dubai.",
+    title: "DHA / HAAD / MOH",
+    desc: "Prepare for DHA, Prometric, HAAD and MOH healthcare exams with structured training for Gulf career opportunities.",
     icon: Award,
-    color: "red",
-  },
-  {
-    title: "Prometric",
-    desc: "Global assessment provider for healthcare professionals.",
-    icon: BookOpen,
     color: "blue",
   },
   {
     title: "NCLEX-RN",
-    desc: "Licensure exam for registered nurses in the USA and Canada.",
+    desc: "Build NCLEX-RN exam readiness with nursing concept review, practice questions, test strategies and international nursing career guidance.",
     icon: Stethoscope,
     color: "red",
-  },
-  {
-    title: "CBT",
-    desc: "Computer-based testing solutions for healthcare certifications.",
-    icon: Monitor,
-    color: "blue",
   },
 ];
 
 export default function LanguagePrograms() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white py-16 md:py-24 max-w-7xl mx-auto">
-      {/* Background Decorations */}
-      <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-red-500/5 blur-3xl" />
-      <div className="absolute -right-24 top-1/3 h-72 w-72 rounded-full bg-blue-900/5 blur-3xl" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white py-16 md:py-24">
+      <div className="absolute -left-28 -top-28 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+      <div className="absolute -right-28 top-1/3 h-80 w-80 rounded-full bg-secondary/10 blur-3xl" />
+      <div className="absolute bottom-10 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-logoYellow/10 blur-3xl" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center" data-aos="fade-up">
-          <span className="inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-red-600">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-primary/10 px-5 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-primary">
             Our Language Programs
           </span>
 
-          <h2 className="mt-6 text-4xl font-bold leading-tight text-darkPrimary md:text-5xl lg:text-5xl font-nunito" data-aos="fade-up">
+          <h2
+            className="mt-6 font-nunito text-3xl font-extrabold leading-tight text-darkPrimary sm:text-4xl md:text-5xl"
+            data-aos="fade-up"
+          >
             Empowering You To{" "}
             <span className="text-primary">Communicate Globally</span>
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base text-slate-600 md:text-lg" data-aos="fade-up">
+          <p
+            className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base md:text-lg"
+            data-aos="fade-up"
+          >
             Industry-focused language and healthcare certification programs
             designed to help you achieve your global education, migration and
             career goals.
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-4" data-aos="fade-up">
+        <div
+          className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          data-aos="fade-up"
+        >
           {programs.map((program, index) => {
             const Icon = program.icon;
+            const isRed = program.color === "red";
 
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-3xl border border-slate-100 bg-[#f4f4f4] p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                className="group relative flex min-h-[330px] flex-col overflow-hidden rounded-[28px] border border-white/70 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-500 hover:-translate-y-2 hover:border-primary/20 hover:shadow-[0_30px_80px_rgba(192,31,83,0.18)]"
               >
-                {/* Corner Accent */}
                 <div
-                  className={`absolute left-0 top-0 h-16 w-16 ${
-                    program.color === "red"
-                      ? "bg-darkPrimary"
-                      : "bg-secondary"
+                  className={`absolute inset-x-0 top-0 h-1.5 ${
+                    isRed ? "bg-primary" : "bg-secondary"
                   }`}
-                  style={{
-                    clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                  }}
                 />
 
                 <div
-                  className={`mb-6 flex h-20 w-20 items-center justify-center mx-auto rounded-full ${
-                    program.color === "red"
-                      ? "bg-red-50"
-                      : "bg-blue-50"
+                  className={`absolute -right-12 -top-12 h-32 w-32 rounded-full transition-all duration-500 group-hover:scale-125 ${
+                    isRed ? "bg-primary/10" : "bg-secondary/10"
                   }`}
-                >
-                  <Icon
-                    size={38}
-                    className={
-                      program.color === "red"
-                        ? "text-primary"
-                        : "text-secondary"
-                    }
+                />
+
+                <div
+                  className={`absolute -bottom-16 -left-16 h-36 w-36 rounded-full transition-all duration-500 group-hover:scale-125 ${
+                    isRed ? "bg-primary/5" : "bg-secondary/5"
+                  }`}
+                />
+
+                <div className="relative z-10 flex flex-1 flex-col">
+                  <div
+                    className={`mx-auto flex h-20 w-20 items-center justify-center rounded-3xl shadow-inner transition-all duration-500 group-hover:rotate-3 group-hover:scale-105 ${
+                      isRed
+                        ? "bg-primary/10 text-primary"
+                        : "bg-secondary/10 text-secondary"
+                    }`}
+                  >
+                    <Icon size={38} strokeWidth={2.2} />
+                  </div>
+
+                  <h3 className="mt-6 text-center text-xl font-extrabold text-darkPrimary">
+                    {program.title}
+                  </h3>
+
+                  <div
+                    className={`mx-auto mt-3 h-1 w-12 rounded-full ${
+                      isRed ? "bg-primary" : "bg-secondary"
+                    }`}
                   />
+
+                  <p className="mt-5 flex-1 text-center text-sm leading-7 text-slate-600">
+                    {program.desc}
+                  </p>
+
+                 <div>
+                 <Link to={program.link}>
+                 <button
+                    type="button"
+                    className={`mx-auto mt-6 flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:gap-3 ${
+                      isRed
+                        ? "bg-primary shadow-primary/20"
+                        : "bg-secondary shadow-secondary/20"
+                    }`}
+                  >
+                    Learn More
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    />
+                  </button></Link> </div>
                 </div>
-
-                <h3 className="text-lg font-bold text-secondary text-center">
-                  {program.title}
-                </h3>
-
-                <div
-                  className={`mt-3 h-1 w-12 rounded-full mx-auto ${
-                    program.color === "red"
-                      ? "bg-primary"
-                      : "bg-secondary"
-                  }`}
-                />
-
-                <p className="mt-4 text-sm leading-7 text-slate-800 text-center">
-                  {program.desc}
-                </p>
-
-                {/* <button
-                  className={`mt-6 flex items-center gap-2 text-sm font-bold ${
-                    program.color === "red"
-                      ? "text-primary"
-                      : "text-secondary"
-                  }`}
-                >
-                  Learn More
-                  <ArrowRight
-                    size={16}
-                    className="transition group-hover:translate-x-1"
-                  />
-                </button> */}
               </div>
             );
           })}
-
-          {/* Featured CTA Card */}
-          {/* <div className="sm:col-span-2 xl:col-span-2 overflow-hidden rounded-3xl bg-secondary p-8 text-white shadow-2xl">
-            <div className="flex h-full flex-col justify-between">
-              <div>
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10">
-                  <Globe size={32} />
-                </div>
-
-                <h3 className="mt-6 text-3xl font-bold">
-                  Your Global Future
-                  <span className="text-primary"> Starts Here</span>
-                </h3>
-
-                <p className="mt-4 max-w-lg text-white/80">
-                  Expert guidance, structured training and proven strategies to
-                  help you succeed in your chosen pathway.
-                </p>
-              </div>
-
-              <button className="mt-8 flex w-fit items-center gap-2 rounded-xl bg-primary px-6 py-4 font-semibold text-white transition hover:opacity-90">
-                Explore Programs
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </div> */}
         </div>
 
-        {/* Bottom Features */}
-        <div className="mt-14 grid gap-6 rounded-3xl border border-slate-100 bg-secondary p-6 shadow-lg md:grid-cols-4">
+        <div className="mt-14 grid gap-5 rounded-[30px] bg-gradient-to-r from-darkPrimary via-primary to-secondary p-6 shadow-[0_25px_80px_rgba(99,26,51,0.25)] md:grid-cols-4">
           <Feature
             icon={GraduationCap}
             title="Expert Trainers"
@@ -215,14 +188,14 @@ export default function LanguagePrograms() {
 
 function Feature({ icon: Icon, title, desc }) {
   return (
-    <div className="flex items-start gap-4">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white">
+    <div className="flex items-start gap-4 rounded-2xl bg-white/10 p-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/15">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-primary shadow-lg">
         <Icon size={22} />
       </div>
 
       <div>
         <h4 className="font-bold text-white">{title}</h4>
-        <p className="mt-1 text-sm text-white">{desc}</p>
+        <p className="mt-1 text-sm leading-6 text-white/80">{desc}</p>
       </div>
     </div>
   );

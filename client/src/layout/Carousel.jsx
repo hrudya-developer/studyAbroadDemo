@@ -182,7 +182,7 @@ const Carousel = () => {
   return (
     <section className="relative mx-auto w-full max-w-7xl overflow-hidden">
       {/* Floating CTA */}
-      <div className="absolute right-3 top-3 z-9 animate__animated animate__pulse sm:right-4 sm:top-4">
+      <div className="absolute right-3 top-3 z-[2] animate__animated animate__pulse sm:right-4 sm:top-4">
         <button
           type="button"
           className="
@@ -227,7 +227,7 @@ const Carousel = () => {
         <div className="relative z-10 flex min-h-[520px] w-full items-center sm:min-h-[600px] md:min-h-[620px] lg:min-h-[620px] xl:min-h-[650px]">
   <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-16 sm:px-6 sm:py-20 md:items-start md:px-8 md:py-20 lg:px-10 xl:px-12">
     <div className="flex w-full max-w-xl flex-col items-center text-center md:items-start md:text-left">
-      <span className="mb-4 inline-flex max-w-full items-center gap-2 rounded-full border border-white px-4 py-2 text-xs font-bold text-white shadow-md sm:text-sm lg:border-0 lg:bg-logoYellow/90 lg:text-darkPrimary">
+      <span className="my-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white px-4 py-2 text-xs font-bold text-white shadow-md sm:text-sm lg:border-0 lg:bg-logoYellow/90 lg:text-darkPrimary">
         <Plane className="size-4 shrink-0 sm:size-5" />
         <span className="whitespace-nowrap sm:hidden">
           {slide.mobileLabel || "Study Abroad"}

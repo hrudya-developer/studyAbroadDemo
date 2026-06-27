@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
+
 import {
   MapPin,
   GraduationCap,
@@ -53,12 +54,12 @@ const selectStyles = {
 
   menuPortal: (base) => ({
     ...base,
-    zIndex: 99999,
+    zIndex: 10,
   }),
 
   menu: (base) => ({
     ...base,
-    zIndex: 99999,
+    zIndex: 10,
     marginTop: 6,
     padding: "6px",          // Space from border
     borderRadius: "12px",
@@ -283,9 +284,9 @@ const SearchSection = () => {
     selectedCountryId && selectedUniversityId && selectedCourseId;
 
   return (
-    <section className="relative z-30 py-0">
+    <section className="relative py-0">
       <div
-        className="relative z-30 mx-auto max-w-7xl bg-darkPrimary px-3 sm:px-5 md:px-8 lg:bg-[#181717]"
+        className="relative mx-auto max-w-7xl bg-darkPrimary px-3 sm:px-5 md:px-8 lg:bg-[#181717]"
         data-aos="fade-up"
       >
         <div className="py-10">
@@ -408,12 +409,12 @@ const SearchSection = () => {
             <button
               type="button"
               onClick={() => setShowPopup(false)}
-              className="sticky top-0 float-right z-20 rounded-full bg-primary px-3 py-1 text-lg font-bold text-white hover:bg-primary"
+              className="shadow-lg absolute top-2 right-2 z-20 rounded-full bg-primary p-2 size-7 sm:size-8 grid place-content-center text-md font-bold text-white hover:bg-primary"
             >
               ×
             </button>
 
-            <h2 className="mb-2 flex flex-wrap items-center gap-3 pr-12 text-xl font-bold text-darkPrimary">
+            <h2 className="my-5 flex flex-wrap items-center gap-2 pr-3 text-md sm:text-lg font-bold text-darkPrimary">
               <span className="grid size-10 place-content-center rounded-lg bg-pink-100 p-1 shadow-lg">
                 <GraduationCapIcon className="text-primary" />
               </span>
@@ -428,7 +429,7 @@ const SearchSection = () => {
 
           <div className="mb-5">  {!allUniversityCoursesLoading && allUniversityCourses.length > 0 && (
               <span className="my-2 text-sm font-semibold text-black inline-flex gap-2 items-center">
-               <span className="size-10 bg-primary text-white p-1 rounded-lg text-md shadow-lg grid place-content-center"> {allUniversityCourses.length} </span> Showing <span className="text-primary">{allUniversityCourses.length} </span>Courses
+               <span className="size-10 bg-secondary/10 text-secondary p-1 rounded-lg text-lg shadow-lg grid place-content-center"> {allUniversityCourses.length} </span> Showing <span className="text-primary">{allUniversityCourses.length} </span>Courses
               </span>
             )}</div>
 
@@ -446,7 +447,7 @@ const SearchSection = () => {
                   key={getResultCourseId(course) || index}
                   className="rounded-2xl bg-[#f4f4f4] p-5 shadow-lg ring-1 ring-gray-100"
                 >
-                  <h3 className="text-sm font-bold text-black flex flex-col sm:flex-row gap-3 items-center">
+                  <h3 className="text-sm font-bold text-black flex flex-col justify-center text-center sm:text-left sm:justify-start sm:flex-row gap-3 items-center">
                     <span className="bg-primary/10 rounded-lg size-10 grid place-content-center"> <GraduationCapIcon className="text-primary" /></span>{getCourseName(course)}
                   </h3>
 
@@ -474,22 +475,24 @@ const SearchSection = () => {
                       )?.label ||
                       "Country not available"}
                   </p>
-<div className="flex gap-1 flex flex-col sm:flex-row sm:justify-between">
-                  <button
-                    type="button"
-                    onClick={() => handleViewCourse(course)}
-                    className="mt-5 flex items-center gap-2 mx-auto sm:mx-0 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
-                  >
-                    View 
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                      <Link to="/loginViaOtp"><button
-                    type="button"
-                    className="mt-5 flex items-center gap-2 mx-auto sm:mx-0 rounded-lg bg-darkPrimary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
-                  >
-                    Apply 
-                    <ArrowRight className="h-4 w-4" />
-                  </button></Link> </div>
+<div className="mt-5 flex flex-wrap justify-center sm:justify-start gap-3">
+  <button
+    type="button"
+    onClick={() => handleViewCourse(course)}
+    className="flex h-10 items-center gap-2 rounded-lg bg-secondary px-4 text-sm font-semibold text-white transition hover:bg-secondary"
+  >
+    View
+    <ArrowRight className="h-4 w-4" />
+  </button>
+
+  <Link
+    to="/loginViaOtp"
+    className="flex h-10 items-center gap-2 rounded-lg bg-darkPrimary px-4 text-sm font-semibold text-white transition hover:bg-secondary"
+  >
+    Apply
+    <ArrowRight className="h-4 w-4" />
+  </Link>
+</div>
                 </div>
               ))}
             </div>

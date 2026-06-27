@@ -260,7 +260,7 @@ export default function CourseSearch() {
     selectedCountryId && selectedUniversityId && selectedCourseId;
 
   return (
-    <section className="relative mx-auto max-w-7xl overflow-hidden bg-gray-50">
+    <section className="relative mx-auto max-w-7xl overflow-hidden">
       <div
         className="relative flex h-[380px] items-center justify-center bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out sm:h-[450px] lg:h-[500px]"
         style={{ backgroundImage: `url(${courseBg})` }}
@@ -286,6 +286,7 @@ export default function CourseSearch() {
         </div>
       </div>
 
+     <div className="relative -mt-16 sm:-mt-20 w-full">
       <div
         id="searchArea"
         className="scroll-mt-28 relative z-1 mx-auto -mt-16 w-[92%] rounded-3xl bg-white p-4 shadow-[0_15px_45px_rgba(0,0,0,0.12)] ring-1 ring-gray-100 transition-all duration-500 ease-in-out sm:-mt-20 sm:w-[88%] sm:p-6 lg:w-[80%] lg:p-8"
@@ -548,7 +549,7 @@ export default function CourseSearch() {
           )}
         </div>
       </div>
-
+</div>
       <PopularCoursesPublic />
     </section>
   );

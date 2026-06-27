@@ -42,6 +42,7 @@ import SDBApplications from "./pages/SDBApplications";
 import SDBWishlistButton from "./pages/SDBWishlistButton";
 import SDBWishlistCourses from "./pages/SDBWishlistItems";
 import CommunityPosts from "./pages/CommunityPosts";
+import GermanLP from "./pages/GermanLP";
 
 
 
@@ -60,6 +61,7 @@ function Layout() {
         <Route path="/" element={<Home />} />
         <Route path="/destinationList" element={<DestinationList />} />
         <Route path="/communityPosts" element={<CommunityPosts />} />
+        <Route path="/germanLanguage" element={<GermanLP />} />
 
 {/* protecte route */}
 <Route element={<ProtectedRoute />}>

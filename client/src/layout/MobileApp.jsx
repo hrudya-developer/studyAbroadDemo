@@ -57,12 +57,12 @@ const MobileApp = () => {
             <a
               href="https://play.google.com/store/apps/details?id=com.medcity.overseas"
               target="_blank"
-              className="bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-secondary transition"
+              className="bg-primary text-white text-md text-center px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-secondary transition"
             >
               Download App
             </a>
 
-            <button className="border border-primary text-primary px-6 py-3 rounded-xl font-bold hover:bg-secondary hover:text-white transition">
+            <button className="border border-primary text-primary text-md px-6 py-3 text-center rounded-xl font-bold hover:bg-secondary hover:text-white transition">
               <a href="#gfc_wrapper" className="w-full h-full">Get Free Counselling</a>
             </button>
           </div>

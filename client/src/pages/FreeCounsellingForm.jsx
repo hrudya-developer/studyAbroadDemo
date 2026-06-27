@@ -223,7 +223,7 @@ const FreeCounsellingForm = ({ onSuccess }) => {
     <section className="bg-white" id="gfc_wrapper">
       <div className="mx-auto max-w-7xl">
         <div className="rounded-[30px] bg-white p-6 shadow-xl sm:p-8 lg:p-10">
-          <h2 className="text-xl font-bold leading-tight text-[#071c4d]">
+          <h2 className="text-md md:text-lg font-bold leading-tight text-black">
             Get <span className="text-primary">FREE</span> Counselling Today!
           </h2>
 
