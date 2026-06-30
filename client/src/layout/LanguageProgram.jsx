@@ -8,7 +8,6 @@ import {
   Monitor,
   Stethoscope,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 
 const programs = [
   {
@@ -16,37 +15,42 @@ const programs = [
     desc: "Learn German from A1 to B2 with CEFR-based training, speaking practice, Goethe/TELC exam preparation and Germany pathway guidance.",
     icon: GraduationCap,
     color: "blue",
-    link:"/germanLanguage"
+    link: "https://medcityacademy.com/best-german-language-institute-kerala/",
   },
   {
     title: "IELTS",
     desc: "Prepare for IELTS Academic and General Training with mock tests, speaking practice, writing correction and band score improvement support.",
     icon: Globe,
     color: "red",
+    link: "https://medcityacademy.com/ielts-academic-reading-questions-of-23rd-may-download-now/",
   },
   {
     title: "OET",
     desc: "Join OET coaching for nurses, doctors and pharmacists with writing correction, speaking role-play practice and computerised test support.",
     icon: Stethoscope,
     color: "blue",
+    link: "https://medcityacademy.com/courses/pte/",
   },
   {
     title: "PTE",
     desc: "Get PTE Academic and PTE Core coaching with AI-evaluated mock tests, speaking and writing feedback and exam booking guidance.",
     icon: Monitor,
     color: "red",
+    link: "https://medcityacademy.com/courses/oet/",
   },
   {
     title: "DHA / HAAD / MOH",
     desc: "Prepare for DHA, Prometric, HAAD and MOH healthcare exams with structured training for Gulf career opportunities.",
     icon: Award,
     color: "blue",
+    link: "https://medcityacademy.com/courses/dha/",
   },
   {
     title: "NCLEX-RN",
     desc: "Build NCLEX-RN exam readiness with nursing concept review, practice questions, test strategies and international nursing career guidance.",
     icon: Stethoscope,
     color: "red",
+    link: "https://medcityacademy.com/courses/nclex-rn/",
   },
 ];
 
@@ -63,28 +67,19 @@ export default function LanguagePrograms() {
             Our Language Programs
           </span>
 
-          <h2
-            className="mt-6 font-nunito text-3xl font-extrabold leading-tight text-darkPrimary sm:text-4xl md:text-5xl"
-            data-aos="fade-up"
-          >
+          <h2 className="mt-6 font-nunito text-3xl font-extrabold leading-tight text-darkPrimary sm:text-4xl md:text-5xl">
             Empowering You To{" "}
             <span className="text-primary">Communicate Globally</span>
           </h2>
 
-          <p
-            className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base md:text-lg"
-            data-aos="fade-up"
-          >
+          <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base md:text-lg">
             Industry-focused language and healthcare certification programs
             designed to help you achieve your global education, migration and
             career goals.
           </p>
         </div>
 
-        <div
-          className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          data-aos="fade-up"
-        >
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {programs.map((program, index) => {
             const Icon = program.icon;
             const isRed = program.color === "red";
@@ -137,22 +132,22 @@ export default function LanguagePrograms() {
                     {program.desc}
                   </p>
 
-                 <div>
-                 <Link to={program.link}>
-                 <button
-                    type="button"
-                    className={`mx-auto mt-6 flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:gap-3 ${
+                  <a
+                    href={program.link}
+                    target="_top"
+                    rel="noopener noreferrer"
+                    className={`mx-auto mt-6 inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:gap-3 ${
                       isRed
                         ? "bg-primary shadow-primary/20"
                         : "bg-secondary shadow-secondary/20"
                     }`}
                   >
-                    Learn More
+                    <span>Learn More</span>
                     <ArrowRight
                       size={16}
                       className="transition-transform duration-300 group-hover:translate-x-1"
                     />
-                  </button></Link> </div>
+                  </a>
                 </div>
               </div>
             );

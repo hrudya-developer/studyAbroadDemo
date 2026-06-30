@@ -374,15 +374,13 @@ export default function StudentProfile() {
         {qualificationRows.length > 0 && (
           <div className="mt-8">
            <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-  <div className="flex items-center gap-3">
-    <div className="grid h-11 w-11 place-items-center rounded-2xl bg-red-50 text-primary">
-      <FileText size={22} />
-    </div>
+  <div className="flex w-full items-center justify-between gap-3">
+   
 
     <h3 className="text-2xl font-bold text-slate-950">
       Qualification Details
     </h3>
-  </div>
+  
 
   <button
     type="button"
@@ -391,7 +389,7 @@ export default function StudentProfile() {
   >
     <Edit size={18} />
    
-  </button>
+  </button></div>
 </div>
 
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

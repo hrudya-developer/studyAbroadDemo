@@ -7,7 +7,7 @@ const ProgramsSection = () => {
     <>
 <div className="max-w-7xl mx-auto px-4" data-aos="fade-up" id="ep_section">
     <div style={{backgroundImage:`url(${mapBg})`}} className="h-auto mb-14 bg-no-repeat bg-contain bg-top w-full">
-        <p className="text-secondary font-bold text-center flex gap-3 justify-center mb-4"><span><Send className="text-secondary"/></span>EXPLORE OUR PROGRAMS</p>
+        <p className="text-secondary font-bold text-center flex gap-3 justify-center pb-8 pt-15"><span><Send className="text-secondary"/></span>EXPLORE OUR PROGRAMS</p>
   <h1 className="font-nunito font-bold text-3xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 text-center text-darkPrimary">Unlock Global <span className="text-primary">Opportunities</span></h1>
    <h5 className="font-bold text-gray-800 text-lg text-center my-2 px-5 md:px-3">Your Gateway to International Education and Immigration Success.</h5>
    <p className="text-center textColor w-[90%] sm:w-[90%] md:w-[65%] lg:w-[60%] mx-auto pt-3 text-md">

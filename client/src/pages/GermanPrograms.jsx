@@ -48,17 +48,17 @@ const GermanPrograms = () => {
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[28px]">
         <div className="grid items-center lg:grid-cols-2">
           <div className="relative z-10 p-8 md:p-14 bg-no-repeat bg-right" style={{backgroundImage:`url(${mapBackground})`}}>
-            <p className="mb-4 text-sm font-extrabold uppercase tracking-wider text-secondary">
+            <p className="mb-4 text-sm inline-block sm:text-md font-bold text-black px-3 py-2 mb-5 rounded-full bg-logoYellow">
               Build Your Future
             </p>
 
-            <h1 className="text-3xl font-black leading-tight text-secondary md:text-5xl">
+            <h1 className="text-3xl font-black leading-tight text-black md:text-4xl">
               {mainData?.name || "German Program"}
               <br />
-              <span className="text-primary">Germany</span>
+              <span className="text-darkPrimary">Germany</span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg font-medium text-slate-600">
+            <p className="mt-6 max-w-xl text-md font-medium text-slate-700">
               {mainData?.titleWhy || "Learn. Grow. Succeed in Germany."}
             </p>
 

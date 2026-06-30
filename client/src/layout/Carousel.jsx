@@ -4,7 +4,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import sliderImg2 from "../assets/sliderImg2.png";
 import studentImg from "../assets/studentImg.png";
-import sliderImg3 from "../assets/sliderImg3.png";
+// import sliderImg3 from "../assets/sliderImg3.png";
 import sliderImg4 from "../assets/sliderImg4.png";
 
 
@@ -118,22 +118,22 @@ const Carousel = () => {
       ),
       description: "Explore top universities and global scholarships.",
     },
-    {
-      label: "Learn Beyond Borders",
-      mobileLabel: "Study Abroad",
-      image: sliderImg3,
-      mobileImage: sliderImg3,
-      heading: (
-        <>
-          Study <span className="text-primary lg:text-black">Abroad</span>
-          <br />
-          With Expert
-          <br />
-          <span className="text-primary lg:text-black">Guidance</span>
-        </>
-      ),
-      description: "Get personalized counselling for your dream destination.",
-    },
+    // {
+    //   label: "Learn Beyond Borders",
+    //   mobileLabel: "Study Abroad",
+    //   image: sliderImg3,
+    //   mobileImage: sliderImg3,
+    //   heading: (
+    //     <>
+    //       Study <span className="text-primary lg:text-black">Abroad</span>
+    //       <br />
+    //       With Expert
+    //       <br />
+    //       <span className="text-primary lg:text-black">Guidance</span>
+    //     </>
+    //   ),
+    //   description: "Get personalized counselling for your dream destination.",
+    // },
     {
       label: "Learn Beyond Borders",
       mobileLabel: "Study Abroad",
