@@ -9,24 +9,26 @@ import { createPortal } from "react-dom";
 const Navbar = () => {
   const [showCounsellingPopup, setShowCounsellingPopup] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
   const mobileMenuRef = useRef(null);
 
   const closeMenu = () => setMobileOpen(false);
 
-useEffect(() => {
-  if (!showCounsellingPopup) return;
+  useEffect(() => {
+    if (!showCounsellingPopup) return;
 
-  const originalBodyOverflow = document.body.style.overflow;
-  const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
 
-  document.body.style.overflow = "hidden";
-  document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
-  return () => {
-    document.body.style.overflow = originalBodyOverflow;
-    document.documentElement.style.overflow = originalHtmlOverflow;
-  };
-}, [showCounsellingPopup]);
+    return () => {
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+    };
+  }, [showCounsellingPopup]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -47,205 +49,221 @@ useEffect(() => {
     };
   }, []);
 
-  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    let ticking = false;
 
-useEffect(() => {
-  const handleScroll = () => {
-    setScrolled(window.scrollY > 50);
-  };
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 80);
+          ticking = false;
+        });
 
-  window.addEventListener("scroll", handleScroll);
+        ticking = true;
+      }
+    };
 
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-  };
-}, []);
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-<header data-theme="mytheme" className="sticky top-0 z-50 bg-primary">
-  <div
-    className={`navbar mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 font-nunito transition-all duration-300 ${
-      scrolled
-        ? "h-14 min-h-14 shadow-lg"
-        : "h-16 lg:h-[76px] min-h-16 lg:min-h-[76px]"
-    }`}
-  >
-    {/* LEFT - LOGO */}
-    <div className="navbar-start flex-1">
-      <Link
-        to="/"
-        onClick={closeMenu}
-        className="flex items-center shrink-0 max-w-[190px] sm:max-w-[220px] lg:max-w-[240px]"
-      >
-        <img
-          src={logo}
-          alt="Medicity Study Abroad"
-          className={`w-full object-contain object-left transition-all duration-300 ${
+    <header data-theme="mytheme" className="sticky top-0 z-50 w-full">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-primary">
+        <div
+          className={`navbar font-nunito transition-all duration-300 ease-in-out ${
             scrolled
-              ? "max-h-9 sm:max-h-10"
-              : "max-h-10 sm:max-h-11 lg:max-h-12"
-          }`}
-        />
-      </Link>
-    </div>
-
-    {/* CENTER - DESKTOP MENU */}
-    <div className="navbar-center hidden lg:flex flex-none">
-      <ul className="menu menu-horizontal gap-1 px-0 text-sm xl:text-base font-semibold text-white">
-        <li>
-          <Link to="/destinationList">Destinations</Link>
-        </li>
-        <li>
-          <Link to="/allUniversities">Universities</Link>
-        </li>
-        <li>
-          <Link to="/courseSearch">Courses</Link>
-        </li>
-
-        <ExploreMenu />
-
-        <li>
-          <Link to="/studyAbroadBlog">Blogs</Link>
-        </li>
-      </ul>
-    </div>
-
-    {/* RIGHT SIDE */}
-    <div className="navbar-end flex-1">
-      <div className="hidden lg:flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => setShowCounsellingPopup(true)}
-          className={`rounded-xl bg-white text-black font-semibold transition-all duration-300 hover:opacity-90 ${
-            scrolled ? "h-9 px-4 text-sm" : "h-10 px-5 text-sm"
+              ? "h-14 min-h-14 shadow-lg"
+              : "h-16 min-h-16 lg:h-[76px] lg:min-h-[76px]"
           }`}
         >
-          Get Free Counselling
-        </button>
-
-        <Link
-          to="/loginViaOtp"
-          className={`rounded-xl border border-logoYellow text-logoYellow font-semibold flex items-center justify-center transition-all duration-300 ${
-            scrolled ? "h-9 px-4 text-sm" : "h-10 px-5 text-sm"
-          }`}
-        >
-          Sign In
-        </Link>
-      </div>
-
-      {/* MOBILE MENU */}
-      <div ref={mobileMenuRef} className="lg:hidden relative">
-        <button
-          type="button"
-          onClick={() => setMobileOpen((prev) => !prev)}
-          className="btn btn-ghost btn-sm text-white hover:bg-transparent"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {mobileOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
+          {/* LEFT - LOGO */}
+          <div className="navbar-start flex-1">
+            <Link
+              to="/"
+              onClick={closeMenu}
+              className="flex shrink-0 items-center max-w-[190px] sm:max-w-[220px] lg:max-w-[240px]"
+            >
+              <img
+                src={logo}
+                alt="Medicity Study Abroad"
+                className={`w-full object-contain object-left transition-all duration-300 ease-in-out ${
+                  scrolled
+                    ? "max-h-8 sm:max-h-9"
+                    : "max-h-10 sm:max-h-11 lg:max-h-12"
+                }`}
               />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            )}
-          </svg>
-        </button>
+            </Link>
+          </div>
 
-        {mobileOpen && (
-          <div className="absolute right-0 top-full mt-3 max-h-[75vh] w-[280px] sm:w-[320px] overflow-y-auto rounded-xl bg-white p-4 shadow-xl z-[999] animate-[slideDown_0.25s_ease-out]">
-            <ul className="menu w-full text-black font-semibold gap-2">
-              <li className="bg-secondary/10 rounded-lg">
-                <Link onClick={closeMenu} to="/destinationList">
-                  Destinations
-                </Link>
+          {/* CENTER - DESKTOP MENU */}
+          <div className="navbar-center hidden flex-none lg:flex">
+            <ul className="menu menu-horizontal gap-1 px-0 text-sm font-semibold text-white xl:text-base">
+              <li>
+                <Link to="/destinationList">Destinations</Link>
               </li>
 
-              <li className="bg-secondary/10 rounded-lg">
-                <Link onClick={closeMenu} to="/allUniversities">
-                  Universities
-                </Link>
+              <li>
+                <Link to="/allUniversities">Universities</Link>
               </li>
 
-              <li className="bg-secondary/10 rounded-lg">
-                <Link onClick={closeMenu} to="/courseSearch">
-                  Courses
-                </Link>
+              <li>
+                <Link to="/courseSearch">Courses</Link>
               </li>
 
-              <ExploreMenu mobile onNavigate={closeMenu} />
+              <ExploreMenu />
 
-              <li className="bg-secondary/10 rounded-lg">
-                <Link onClick={closeMenu} to="/studyAbroadBlog">
-                  Blogs
-                </Link>
+              <li>
+                <Link to="/studyAbroadBlog">Blogs</Link>
               </li>
             </ul>
+          </div>
 
-            <div className="mt-4 flex flex-col gap-3">
+          {/* RIGHT SIDE */}
+          <div className="navbar-end flex-1">
+            <div className="hidden items-center gap-3 lg:flex">
               <button
                 type="button"
-                onClick={() => {
-                  closeMenu();
-                  setShowCounsellingPopup(true);
-                }}
-                className="w-full"
+                onClick={() => setShowCounsellingPopup(true)}
+                className={`rounded-xl bg-white font-semibold text-black transition-all duration-300 ease-in-out hover:opacity-90 ${
+                  scrolled ? "h-9 px-4 text-sm" : "h-10 px-5 text-sm"
+                }`}
               >
-                <ButtonPrimary className="w-full">
-                  Book Free Counselling
-                </ButtonPrimary>
+                Get Free Counselling
               </button>
 
               <Link
                 to="/loginViaOtp"
-                onClick={closeMenu}
-                className="w-full py-2 px-5 rounded-xl text-[14px] text-white bg-secondary hover:cursor-pointer flex items-center justify-center"
+                className={`flex items-center justify-center rounded-xl border border-logoYellow font-semibold text-logoYellow transition-all duration-300 ease-in-out ${
+                  scrolled ? "h-9 px-4 text-sm" : "h-10 px-5 text-sm"
+                }`}
               >
                 Sign In
               </Link>
             </div>
+
+            {/* MOBILE MENU */}
+            <div ref={mobileMenuRef} className="relative lg:hidden">
+              <button
+                type="button"
+                onClick={() => setMobileOpen((prev) => !prev)}
+                className="btn btn-ghost btn-sm text-white hover:bg-transparent"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  {mobileOpen ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h8m-8 6h16"
+                    />
+                  )}
+                </svg>
+              </button>
+
+              {mobileOpen && (
+                <div className="absolute right-0 top-full z-[999] mt-3 max-h-[75vh] w-[280px] overflow-y-auto rounded-xl bg-white p-4 shadow-xl animate-[slideDown_0.25s_ease-out] sm:w-[320px]">
+                  <ul className="menu w-full gap-2 font-semibold text-black">
+                    <li className="rounded-lg bg-secondary/10">
+                      <Link onClick={closeMenu} to="/destinationList">
+                        Destinations
+                      </Link>
+                    </li>
+
+                    <li className="rounded-lg bg-secondary/10">
+                      <Link onClick={closeMenu} to="/allUniversities">
+                        Universities
+                      </Link>
+                    </li>
+
+                    <li className="rounded-lg bg-secondary/10">
+                      <Link onClick={closeMenu} to="/courseSearch">
+                        Courses
+                      </Link>
+                    </li>
+
+                    <ExploreMenu mobile onNavigate={closeMenu} />
+
+                    <li className="rounded-lg bg-secondary/10">
+                      <Link onClick={closeMenu} to="/studyAbroadBlog">
+                        Blogs
+                      </Link>
+                    </li>
+                  </ul>
+
+                  <div className="mt-4 flex flex-col gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        closeMenu();
+                        setShowCounsellingPopup(true);
+                      }}
+                      className="w-full"
+                    >
+                      <ButtonPrimary className="w-full">
+                        Book Free Counselling
+                      </ButtonPrimary>
+                    </button>
+
+                    <Link
+                      to="/loginViaOtp"
+                      onClick={closeMenu}
+                      className="flex w-full items-center justify-center rounded-xl bg-secondary px-5 py-2 text-[14px] text-white hover:cursor-pointer"
+                    >
+                      Sign In
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
-    </div>
-  </div>
-
-  {showCounsellingPopup &&
-    createPortal(
-      <div
-        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4"
-        onClick={() => setShowCounsellingPopup(false)}
-      >
-        <div
-          className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[30px] bg-white shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            type="button"
-            onClick={() => setShowCounsellingPopup(false)}
-            className="absolute right-4 top-4 z-50 flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white hover:opacity-90"
-          >
-            ×
-          </button>
-
-          <FreeCounsellingForm onSuccess={() => setShowCounsellingPopup(false)} />
         </div>
-      </div>,
-      document.body
-    )}
-</header>
+      </div>
+
+      {showCounsellingPopup &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4"
+            onClick={() => setShowCounsellingPopup(false)}
+          >
+            <div
+              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[30px] bg-white shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setShowCounsellingPopup(false)}
+                className="absolute right-4 top-4 z-50 flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white hover:opacity-90"
+              >
+                ×
+              </button>
+
+              <FreeCounsellingForm
+                onSuccess={() => setShowCounsellingPopup(false)}
+              />
+            </div>
+          </div>,
+          document.body
+        )}
+    </header>
   );
 };
 

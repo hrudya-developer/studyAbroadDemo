@@ -365,14 +365,14 @@ function WishlistCard({ course, onRemoved }) {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-[120px_1fr] lg:items-start">
-          <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-primary/10">
-            <HeartPlus size={42} className="text-primary" strokeWidth={2.5} />
+          <div className="flex h-20 w-20 shadow-sm items-center justify-center rounded-2xl bg-primary/10">
+            <HeartPlus size={38} className="text-primary" strokeWidth={2.5} />
           </div>
 
           <div className="pr-8">
-            <h3 className="text-lg font-black text-[#081c47]">{courseName}</h3>
+            <h3 className="text-lg font-bold text-[#081c47]">{courseName}</h3>
 
-            <p className="mt-1 flex items-center gap-2 text-sm font-bold text-slate-700">
+            <p className="mt-1 flex items-center gap-2 text-sm font-bold text-primary">
               <Building2 size={15} className="text-primary" />
               {university}
             </p>
@@ -441,7 +441,7 @@ function WishlistCard({ course, onRemoved }) {
 
 function Badge({ icon, text }) {
   return (
-    <span className="flex items-center gap-1 rounded-lg bg-green-100 px-3 py-1 text-xs font-bold text-slate-600">
+    <span className="flex items-center gap-1 rounded-lg bg-blue-50 px-3 py-1 text-xs font-bold text-secondary">
       {icon}
       {text || "N/A"}
     </span>

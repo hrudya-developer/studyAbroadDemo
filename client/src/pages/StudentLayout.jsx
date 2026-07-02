@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -42,40 +40,41 @@ function Sidebar({
   email,
 }) {
   const dispatch = useDispatch();
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const handleLogout = async () => {
-  const result = await Swal.fire({
-    title: "Logout?",
-    text: "Are you sure you want to logout?",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Yes, Logout",
-    cancelButtonText: "Cancel",
-    confirmButtonColor: "#c2185b",
-    cancelButtonColor: "#6c757d",
-  });
-
-  if (result.isConfirmed) {
-    dispatch(logout());
-    setSidebarOpen(false);
-
-    await Swal.fire({
-      title: "Logged Out",
-      text: "You have been logged out successfully.",
-      icon: "success",
-      timer: 1500,
-      showConfirmButton: false,
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Logout?",
+      text: "Are you sure you want to logout?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Logout",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#c2185b",
+      cancelButtonColor: "#6c757d",
     });
 
-    navigate("/loginViaOtp", { replace: true });
-  }
-};
+    if (result.isConfirmed) {
+      dispatch(logout());
+      setSidebarOpen(false);
+
+      await Swal.fire({
+        title: "Logged Out",
+        text: "You have been logged out successfully.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      navigate("/loginViaOtp", { replace: true });
+    }
+  };
+
   return (
     <>
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -98,47 +97,47 @@ const handleLogout = async () => {
           </button>
         </div>
 
-       <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-5">
-  {navItems.map(([Icon, label, path]) => {
-    const displayLabel =
-      label === "My Applications"
-        ? `My Applications (${applicationsCount})`
-        : label === "My Wishlist"
-        ? `My Wishlist (${wishlistCount})`
-        : label;
+        <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-5">
+          {navItems.map(([Icon, label, path]) => {
+            const displayLabel =
+              label === "My Applications"
+                ? `My Applications (${applicationsCount})`
+                : label === "My Wishlist"
+                ? `My Wishlist (${wishlistCount})`
+                : label;
 
-    if (label === "Logout") {
-      return (
- <button
-  key={label}
-  type="button"
-  onClick={handleLogout}
-  className="flex w-full items-center justify-center gap-4 rounded-xl px-3 py-3 text-sm font-medium transition hover:bg-white/10 md:justify-start md:px-4"
->
-  <Icon size={21} className="shrink-0" />
-  <span className="hidden md:block">{displayLabel}</span>
-</button>
-      );
-    }
+            if (label === "Logout") {
+              return (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={handleLogout}
+                  className="flex w-full items-center justify-center gap-4 rounded-xl px-3 py-3 text-sm font-medium transition hover:bg-white/10 md:justify-start md:px-4"
+                >
+                  <Icon size={21} className="shrink-0" />
+                  <span className="hidden md:block">{displayLabel}</span>
+                </button>
+              );
+            }
 
-    return (
-      <NavLink
-        key={label}
-        to={path}
-        end={path === "/student"}
-        onClick={() => setSidebarOpen(false)}
-        className={({ isActive }) =>
-          `flex w-full items-center justify-center gap-4 rounded-xl px-3 py-3 text-sm font-medium transition md:justify-start md:px-4 ${
-            isActive ? "bg-primary shadow-lg" : "hover:bg-white/10"
-          }`
-        }
-      >
-        <Icon size={21} />
-        <span className="hidden flex-1 md:block">{displayLabel}</span>
-      </NavLink>
-    );
-  })}
-</nav>
+            return (
+              <NavLink
+                key={label}
+                to={path}
+                end={path === "/student"}
+                onClick={() => setSidebarOpen(false)}
+                className={({ isActive }) =>
+                  `flex w-full items-center justify-center gap-4 rounded-xl px-3 py-3 text-sm font-medium transition md:justify-start md:px-4 ${
+                    isActive ? "bg-primary shadow-lg" : "hover:bg-white/10"
+                  }`
+                }
+              >
+                <Icon size={21} className="shrink-0" />
+                <span className="hidden flex-1 md:block">{displayLabel}</span>
+              </NavLink>
+            );
+          })}
+        </nav>
 
         <div className="border-t border-white/10 px-3 py-4 sm:hidden">
           <div className="mb-4 flex justify-center gap-3">
@@ -172,83 +171,51 @@ const handleLogout = async () => {
   );
 }
 
-function Header({ onMenuClick }) {
+function Header({ onMenuClick, scrolled }) {
   const { email } = useSelector((state) => state.auth || {});
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <header
-      className={`sticky top-0 z-30 border-b border-slate-200 bg-darkPrimary sm:bg-white/95 backdrop-blur transition-all duration-300 lg:ml-72 ${
-        scrolled ? "h-18 shadow-md" : "h-20 lg:h-24"
+      className={`fixed left-0 right-0 top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur transition-all duration-300 ease-in-out lg:left-72 ${
+        scrolled ? "h-16 shadow-lg" : "h-24 shadow-none"
       }`}
     >
-      <div className="flex h-full items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="flex h-full items-center justify-between px-4 transition-all duration-300 ease-in-out sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onMenuClick}
-            className={`grid place-content-center rounded-lg bg-darkPrimary text-white transition-all duration-300 lg:hidden ${
-              scrolled ? "h-9 w-9" : "h-11 w-11"
-            }`}
+            className="grid h-11 w-11 place-content-center rounded-lg bg-darkPrimary text-white lg:hidden"
           >
             <Menu size={22} />
           </button>
 
           <div
-            className={`flex items-center rounded-lg bg-darkPrimary px-3 transition-all duration-300 lg:hidden ${
-              scrolled ? "h-12" : "h-14"
+            className={`flex items-center rounded-lg bg-darkPrimary px-3 transition-all duration-300 ease-in-out lg:hidden ${
+              scrolled ? "h-11" : "h-14"
             }`}
           >
-            <img
-              src={logo}
-              alt="Logo"
-              className={`object-contain transition-all p-2 duration-300 ${
-                scrolled ? "w-48" : "w-48"
-              }`}
-            />
+            <img src={logo} alt="Logo" className="w-44 object-contain p-2" />
           </div>
         </div>
 
         <div className="ml-auto flex items-center gap-3 sm:gap-5">
-          <div
-            className={`hidden place-content-center rounded-full bg-secondary text-white shadow-lg transition-all duration-300 sm:grid ${
-              scrolled ? "h-9 w-9" : "h-10 w-10"
-            }`}
-          >
+          <div className="hidden h-10 w-10 place-content-center rounded-full bg-secondary text-white shadow-lg sm:grid">
             <Bell className="h-5 w-5" />
           </div>
 
-          <div
-            className={`hidden place-content-center rounded-full bg-primary text-white shadow-lg transition-all duration-300 sm:grid ${
-              scrolled ? "h-9 w-9" : "h-10 w-10"
-            }`}
-          >
+          <div className="hidden h-10 w-10 place-content-center rounded-full bg-primary text-white shadow-lg sm:grid">
             <MessageSquare className="h-5 w-5" />
           </div>
 
           <div className="hidden items-center gap-3 sm:flex">
-            <span
-              className={`grid place-content-center rounded-full bg-gray-100 text-darkPrimary shadow-lg transition-all duration-300 ${
-                scrolled ? "h-9 w-9" : "h-10 w-10"
-              }`}
-            >
+            <span className="grid h-10 w-10 place-content-center rounded-full bg-gray-100 text-darkPrimary shadow-lg">
               <UserRound className="h-6 w-6" />
             </span>
 
-            <div className={scrolled ? "leading-tight" : ""}>
-              <p className="text-sm font-bold text-black">
-                {email || "Student"}
-              </p>
-            </div>
+            <p className="text-sm font-bold text-black">
+              {email || "Student"}
+            </p>
           </div>
         </div>
       </div>
@@ -263,6 +230,18 @@ export default function StudentLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [applicationsCount, setApplicationsCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const fetchWishlistCount = async () => {
     if (!uid) {
@@ -357,7 +336,7 @@ export default function StudentLayout() {
       const increment = Number(event?.detail?.increment || 0);
 
       if (increment) {
-        setApplicationsCount((prev) => prev + increment);
+        setApplicationsCount((prev) => Math.max(0, prev + increment));
       }
 
       fetchApplicationsCount();
@@ -383,9 +362,13 @@ export default function StudentLayout() {
         email={email}
       />
 
-      <Header onMenuClick={() => setSidebarOpen(true)} />
+      <Header onMenuClick={() => setSidebarOpen(true)} scrolled={scrolled} />
 
-      <main className="p-4 sm:p-6 lg:ml-72 lg:p-8">
+      <main
+        className={`px-4 pb-8 transition-all duration-300 ease-in-out sm:px-6 lg:ml-72 lg:px-8 ${
+          scrolled ? "pt-20" : "pt-28"
+        }`}
+      >
         <Outlet context={{ applicationsCount, wishlistCount }} />
       </main>
     </div>

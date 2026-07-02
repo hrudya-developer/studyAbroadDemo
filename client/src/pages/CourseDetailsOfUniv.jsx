@@ -240,13 +240,14 @@ export default function CourseDetailsOfUniv() {
         className="relative mx-auto min-h-[400px] max-w-7xl overflow-hidden bg-cover bg-center"
         style={{ backgroundImage: `url(${bg_coursesDetails})` }}
       >
-        <div className="mx-auto flex min-h-[500px] max-w-7xl items-center px-5 py-5 sm:px-8 lg:px-12">
+        <div className="mx-auto flex min-h-[420px] max-w-7xl items-center px-5 py-5 sm:px-8 lg:px-12">
           <div className="max-w-3xl">
-           <div className="flex gap-3"> <div className="inline-flex items-center gap-3 rounded-full bg-logoYellow px-4 py-2 text-sm font-bold text-black shadow-lg">
+           <div className="flex gap-3">
+             <div className="inline-flex items-center gap-3 rounded-full bg-logoYellow px-4 py-2 text-[12px] sm:text-sm font-bold text-black shadow-lg">
               <GraduationCap size={22} />
               {level}
             </div>
-            <div className="inline-flex items-center gap-3 hover:bg-primary rounded-full bg-darkPrimary px-4 py-2 text-sm font-bold text-white shadow-lg">
+            <div className="inline-flex items-center gap-3 hover:bg-primary rounded-full bg-darkPrimary px-4 py-2 text-[12px] sm:text-sm font-bold text-white shadow-lg">
             <Link to="/loginViaOtp"><button className="flex gap-2 items-center">Apply Now <span><MoveRight className="w-5"/></span></button> </Link>
             </div></div>
 

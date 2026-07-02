@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import candidate_2 from "../assets/candidate_2.png";
 import ButtonPrimary from "../components/ButtonPrimary";
+import { ScrollToCounselling } from "../layout/ScrollToCounselling";
 
 const steps = [
   {
@@ -109,7 +110,13 @@ export default function SASteps() {
                   Talk to an Advisor
                   <ArrowRight size={18} />
                 </button> */}
-                <button className="p-3 rounded-xl border border-logoYellow grid place-content-center text-logoYellow hover:cursor-pointer hover:border-white">Talk to an advisor</button>
+             <button
+  type="button"
+  onClick={ScrollToCounselling}
+  className="p-3 rounded-xl border border-logoYellow grid place-content-center text-logoYellow transition-all duration-300 hover:cursor-pointer hover:border-white hover:bg-logoYellow hover:text-darkPrimary"
+>
+  Talk to an advisor
+</button>
               </div>
             </div>
           </div>

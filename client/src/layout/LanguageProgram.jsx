@@ -56,7 +56,7 @@ const programs = [
 
 export default function LanguagePrograms() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white py-16 md:py-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white py-16 md:py-24 max-w-7xl mx-auto">
       <div className="absolute -left-28 -top-28 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute -right-28 top-1/3 h-80 w-80 rounded-full bg-secondary/10 blur-3xl" />
       <div className="absolute bottom-10 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-logoYellow/10 blur-3xl" />
