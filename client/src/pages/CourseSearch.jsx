@@ -260,7 +260,7 @@ export default function CourseSearch() {
     selectedCountryId && selectedUniversityId && selectedCourseId;
 
   return (
-    <section className="relative mx-auto max-w-7xl overflow-hidden">
+    <section className="relative mx-auto max-w-7xl overflow-hidden bg-[#f5fbff]">
       <div
         className="relative flex h-[380px] items-center justify-center bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out sm:h-[450px] lg:h-[500px]"
         style={{ backgroundImage: `url(${courseBg})` }}
