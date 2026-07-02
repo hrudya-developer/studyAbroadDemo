@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import candidate_2 from "../assets/candidate_2.png";
 import ButtonPrimary from "../components/ButtonPrimary";
-import { ScrollToCounselling } from "../layout/ScrollToCounselling";
+import { ScrollToCounselling } from "./ScrollToCounselling";
 
 const steps = [
   {
