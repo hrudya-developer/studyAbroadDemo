@@ -92,7 +92,7 @@ const DestinationList = () => {
         </div>
 
         {/* Excerpt */}
-        <p className="flex-1 text-sm leading-7 text-slate-700">
+        <p className="flex-1 text-md leading-7 text-slate-700">
           {DestinationExcerpts(item.country)}
         </p>
 

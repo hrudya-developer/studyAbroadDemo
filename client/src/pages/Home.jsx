@@ -6,7 +6,7 @@ import SearchSection from "../layout/SearchSection";
 import MainSectionOne from "../layout/MainSectionOne";
 import ProgramsSection from "../layout/ProgramsSection";
 import Destinations from "../layout/Destinations";
-import LanguagePrograms from "../layout/LanguageProgram";
+// import LanguagePrograms from "../layout/LanguageProgram";
 import MobileApp from "../layout/MobileApp";
 import EssentialService from "../layout/EssentialService";
 import SASteps from "../layout/SASteps";
@@ -63,7 +63,7 @@ const Home = () => {
       <MainSectionOne />
       <ProgramsSection />
       <Destinations />
-      <LanguagePrograms />
+      {/* <LanguagePrograms /> */}
       <MobileApp />
       <EssentialService />
       <SASteps />
