@@ -74,7 +74,7 @@ const Navbar = () => {
 
   return (
     <header data-theme="mytheme" className="sticky top-0 z-50 w-full">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-primary">
+      <div className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8 bg-primary">
         <div
           className={`navbar font-nunito transition-all duration-300 ease-in-out ${
             scrolled
@@ -83,12 +83,17 @@ const Navbar = () => {
           }`}
         >
           {/* LEFT - LOGO */}
-          <div className="navbar-start flex-1">
-            <Link
-              to="/"
-              onClick={closeMenu}
-              className="flex shrink-0 items-center max-w-[190px] sm:max-w-[220px] lg:max-w-[240px]"
-            >
+          <div className="navbar-start">
+           <Link
+  to="/"
+  onClick={closeMenu}
+  className="
+    flex shrink-0 items-center
+    max-w-[190px]
+    sm:max-w-[200px]
+    lg:max-w-[210px]
+  "
+>
               <img
                 src={logo}
                 alt="Medicity Study Abroad"
@@ -102,7 +107,7 @@ const Navbar = () => {
           </div>
 
           {/* CENTER - DESKTOP MENU */}
-          <div className="navbar-center hidden flex-none lg:flex">
+          <div className="navbar-center hidden flex-none lg:flex min-[1025px]:max-[1071px]:-ml-20">
             <ul className="menu menu-horizontal gap-1 px-0 text-sm font-semibold text-white xl:text-base">
               <li>
                 <Link to="/destinationList">Destinations</Link>
@@ -125,7 +130,7 @@ const Navbar = () => {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="navbar-end flex-1">
+          <div className="navbar-end ml-auto">
             <div className="hidden items-center gap-3 lg:flex">
               <button
                 type="button"

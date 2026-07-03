@@ -60,7 +60,7 @@ const immigrationData = [
 
 const MigrateTabContent = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-100">
+    <section className="py-10 bg-gradient-to-b from-white to-gray-100">
       <div className="max-w-7xl mx-auto px-3 sm:px-5 md:px-8">
         {/* heading */}
         <div className="text-center mb-14">

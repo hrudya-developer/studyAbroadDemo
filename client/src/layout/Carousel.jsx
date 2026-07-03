@@ -5,7 +5,7 @@ const Carousel = () => {
   return (
     <section
       id="hero-section"
-      className="relative mx-auto w-full max-w-7xl overflow-hidden bg-black"
+      className="relative mx-auto w-full max-w-9xl overflow-hidden bg-black"
     >
       <div className="relative w-full overflow-hidden bg-black">
         {/* Mobile Video */}

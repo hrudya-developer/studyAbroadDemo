@@ -15,6 +15,8 @@ import Counselling from "../layout/Counselling";
 import StudyDestinations from "../layout/StudyDestinations";
 import MiaModal from "./MiaAgentModal";
 
+import MiaButton from "./MiaButton";
+
 
 const Home = () => {
   const [showMiaModal, setShowMiaModal] = useState(false);
@@ -79,16 +81,14 @@ const Home = () => {
         }}
       />
 
-      {showMiaButton && (
-        <button
-          onClick={openModal}
-          className="fixed right-0 top-1/2 z-[9998] flex -translate-y-1/2 rounded-l-2xl bg-secondary px-5 py-3 text-sm font-bold text-white shadow-2xl transition hover:bg-darkPrimary"
-          style={{ writingMode: "vertical-lr" }}
-        >
-          <MessageCircle size={20} className="mb-2" />
-        Talk to Mia
-        </button>
-      )}
+    {showMiaButton && (
+  <button
+    onClick={openModal}
+    className="fixed right-0 -bottom-7 z-[20] flex drop-shadow-2xl"
+  >
+    <MiaButton />
+  </button>
+)}
     </>
   );
 };

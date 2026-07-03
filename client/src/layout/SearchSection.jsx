@@ -286,7 +286,7 @@ const SearchSection = () => {
   return (
     <section className="relative py-0">
       <div
-        className="relative mx-auto max-w-7xl bg-darkPrimary px-3 sm:px-5 md:px-8 lg:bg-[#181717]"
+        className="relative mx-auto max-w-9xl bg-darkPrimary px-3 sm:px-5 md:px-8 lg:bg-[#181717]"
         data-aos="fade-up"
       >
         <div className="py-10">

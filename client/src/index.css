@@ -12,7 +12,9 @@
     --color-darkPrimary :#631A33;
   --font-ubuntu: "Ubuntu", sans-serif;
     --font-nunito: "Nunito", sans-serif;
-
+  /* Custom container sizes */
+  --container-8xl: 90rem;   /* 1440px */
+  --container-9xl: 100rem;  /* 1600px */
 
 }
 
@@ -24,6 +26,9 @@
   --color-secondary: #0466AF;
   --color-logoYellow:#F7EC22;
   --color-darkPrimary :#631A33;
+
+    --container-8xl: 90rem;   /* 1440px */
+  --container-9xl: 100rem;  /* 1600px */
  
 }
 html {
@@ -110,4 +115,36 @@ body{
 body.swal2-shown {
   overflow: hidden !important;
   touch-action: none;
+}
+
+.tabs .tab:has(input:checked) {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.tabs .tab:has(input:checked) svg {
+  color: white;
+}
+
+@keyframes flipY {
+  0%
+  {
+    transform: perspective(800px) rotateY(0deg);
+  }
+
+
+
+  100% {
+    transform: perspective(800px) rotateY(360deg);
+  }
+}
+
+.animate-flip {
+  animation: flipY 15s ease-in-out infinite;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
+.animate-flip:hover {
+  animation-play-state: paused;
 }

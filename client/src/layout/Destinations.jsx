@@ -73,7 +73,7 @@ const Destinations = () => {
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
+            pauseOnMouseEnter: true,
           }}
           breakpoints={{
             320: {

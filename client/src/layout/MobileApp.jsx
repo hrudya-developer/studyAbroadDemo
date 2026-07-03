@@ -7,6 +7,22 @@ const MobileApp = () => {
     <section className="relative overflow-hidden py-16 bg-gradient-to-br from-slate-50 via-white to-red-50 mx-auto max-w-7xl" data-aos="fade-up">
 
       {/* Top wave */}
+       <style>
+        {`
+          @keyframes floatMobile {
+            0%, 100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-22px);
+            }
+          }
+
+          .mobile-float {
+            animation: floatMobile 2.5s ease-in-out infinite;
+          }
+        `}
+      </style>
     
 
       {/* Background pattern */}
@@ -22,7 +38,7 @@ const MobileApp = () => {
             <img
               src={mobilApp}
               alt="Mobile App"
-              className="relative w-[280px] md:w-[360px] drop-shadow-2xl"
+              className="relative w-[280px] md:w-[360px] drop-shadow-2xl mobile-float"
             />
           </div>
         </div>

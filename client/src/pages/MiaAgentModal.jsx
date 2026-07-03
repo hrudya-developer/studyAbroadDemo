@@ -8,7 +8,8 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import miaAgent from "../assets/Mia.png";
+// import miaAgent from "../assets/MiaAgent.png";
+import MiaAgent from "../assets/animatedMia.webm";
 import agentModalBg from "../assets/agentModalBg.png";
 
 export default function MiaModal({ isOpen, onClose, onTalk }) {
@@ -43,7 +44,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
       }`}
     >
       <div
-        className={`relative w-full max-w-[520px] overflow-hidden rounded-[34px] shadow-[0_30px_90px_rgba(0,0,0,.35)] ${
+        className={`relative w-full max-w-[520px] overflow-hidden rounded-[34px] shadow-[0_30px_90px_rgba(0,0,0,.35)] animate__animated animate__slideInRight ${
           closing ? "animate-modalClose" : "animate-modalOpen"
         }`}
         style={{
@@ -74,9 +75,12 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
             <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl" />
             <div className="absolute -inset-3 rounded-full" />
 
-            <img
-              src={miaAgent}
-              alt="Mia Study Abroad Assistant"
+            <video
+              src={MiaAgent}
+              autoPlay
+              muted
+              loop
+              playsInline
               className="relative z-10 h-40 w-auto animate-miaFlip object-contain drop-shadow-2xl sm:h-48"
             />
           </div>

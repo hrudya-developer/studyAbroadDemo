@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#070707] text-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
+    <footer className="relative overflow-hidden bg-[#070707] text-white max-w-9xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
   
   {/* Main Background Gradient */}
   <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(168, 13, 65, 0.45),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(211, 39, 159, 0.4),transparent_30%),linear-gradient(135deg,rgba(255,0,0,0.08),transparent_40%)]" />
@@ -103,7 +103,7 @@ export default function Footer() {
   </div> */}
 
   {/* Existing Footer Content */}
-  <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-3 lg:grid-cols-3 lg:px-8">
+  <div className="relative z-10 mx-auto grid max-w-9xl gap-10 px-6 py-16 md:grid-cols-3 lg:grid-cols-3 lg:px-8">
     
     {/* Logo Section */}
   <div className="flex flex-col items-center text-center sm:items-start sm:text-left">

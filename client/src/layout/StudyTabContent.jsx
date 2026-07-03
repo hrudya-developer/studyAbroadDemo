@@ -42,7 +42,7 @@ if (loading) {
 
 
   return (
-    <section className="">
+    <section className="py-10">
 
 
   <div className="max-w-6xl mx-auto">

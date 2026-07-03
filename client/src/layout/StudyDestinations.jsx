@@ -100,14 +100,14 @@ if (loading) {
     key={item.id}
     to={`/destination/${item.id}`}
     state={{ country: item }}
-    className="group flex items-center justify-between rounded-2xl border border-gray-50 bg-white px-5 py-4 shadow-[0_8px_25px_rgba(220,0,0,0.08)] transition hover:-translate-y-1 hover:border-primary hover:shadow-[0_12px_30px_rgba(220,0,0,0.16)]"
+    className="border border-gray-200 group flex items-center justify-between rounded-2xl border border-gray-50 bg-white px-5 py-4 shadow-[0_8px_25px_rgba(220,0,0,0.08)] transition hover:-translate-y-1 hover:border-primary hover:shadow-[0_12px_30px_rgba(220,0,0,0.16)]"
   >
     <div className="flex items-center gap-4">
       <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 text-primary">
         <MapPin className="h-6 w-6 fill-primary text-white" />
       </span>
 
-      <span className="font-semibold text-secondary">
+      <span className="font-semibold text-black">
         {item.country}
       </span>
     </div>
