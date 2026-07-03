@@ -1,5 +1,8 @@
-import heroVideoDesktop from "../assets/medcity2025.15f1bf21a50a5d60cdae.mp4";
-import heroVideoMobile from "../assets/mobilemedcity2.e47b58ad13ce13294963.mp4";
+const heroVideoDesktop =
+  "/videos/medcity2025.15f1bf21a50a5d60cdae.mp4";
+
+const heroVideoMobile =
+  "/videos/mobilemedcity2.e47b58ad13ce13294963.mp4";
 
 const Carousel = () => {
   return (

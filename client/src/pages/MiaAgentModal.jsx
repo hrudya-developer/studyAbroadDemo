@@ -8,7 +8,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-// import miaAgent from "../assets/MiaAgent.png";
 import MiaAgent from "../assets/animatedMia.webm";
 import agentModalBg from "../assets/agentModalBg.png";
 
@@ -22,6 +21,10 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
       setClosing(false);
       document.body.style.overflow = "hidden";
     }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
   const handleClose = () => {
@@ -31,8 +34,13 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
       setShowModal(false);
       setClosing(false);
       document.body.style.overflow = "";
-      onClose();
+      onClose?.();
     }, 450);
+  };
+
+  const handleTalk = () => {
+    onTalk?.();
+    handleClose();
   };
 
   if (!showModal) return null;
@@ -44,7 +52,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
       }`}
     >
       <div
-        className={`relative w-full max-w-[520px] overflow-hidden rounded-[34px] shadow-[0_30px_90px_rgba(0,0,0,.35)] animate__animated animate__slideInRight ${
+        className={`relative w-full max-w-[520px] overflow-hidden rounded-[34px] shadow-[0_30px_90px_rgba(0,0,0,.35)] animate__animated animate__slideInLeft ${
           closing ? "animate-modalClose" : "animate-modalOpen"
         }`}
         style={{
@@ -73,7 +81,6 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
 
           <div className="relative">
             <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl" />
-            <div className="absolute -inset-3 rounded-full" />
 
             <video
               src={MiaAgent}
@@ -106,7 +113,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
 
           <button
             type="button"
-            onClick={onTalk}
+            onClick={handleTalk}
             className="group mt-7 flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-darkPrimary px-5 py-3.5 text-base font-extrabold text-white shadow-xl shadow-primary/30 transition duration-300 hover:-translate-y-1 hover:shadow-2xl active:scale-95"
           >
             <MessageCircle
