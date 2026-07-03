@@ -52,7 +52,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
       }`}
     >
       <div
-        className={`relative w-full max-w-[520px] overflow-hidden rounded-[34px] shadow-[0_30px_90px_rgba(0,0,0,.35)] animate__animated animate__slideInLeft ${
+        className={`relative w-full max-w-[520px] overflow-hidden rounded-[34px] shadow-[0_30px_90px_rgba(0,0,0,.35)] animate__animated animate__fadeInBottomRight ${
           closing ? "animate-modalClose" : "animate-modalOpen"
         }`}
         style={{
@@ -64,7 +64,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-30 grid h-9 w-9 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-primary hover:text-white"
+          className="absolute right-4 top-4 z-30 grid h-9 w-9 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-darkPrimary hover:text-white hover:cursor-pointer"
         >
           <X size={22} />
         </button>
