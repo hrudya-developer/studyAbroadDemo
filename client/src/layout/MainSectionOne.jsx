@@ -61,7 +61,7 @@ export default function EssentialServices() {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary shadow-sm">
+          <div className="mb-4 inline-flex items-center uppercase gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary shadow-sm">
             <Star size={16} className="fill-primary" />
             Your Global Education Partner
           </div>
