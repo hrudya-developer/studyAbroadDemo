@@ -122,18 +122,18 @@ const EssentialService = () => {
 
               <div className="relative z-10 flex items-center justify-between gap-4">
                 <button className="group/btn flex items-center gap-3 font-semibold text-white">
-                  Learn More
-                  <ArrowRight
+                  {/* Learn More */}
+                  {/* <ArrowRight
                     size={20}
                     className="text-primary transition duration-300 group-hover/btn:translate-x-2"
-                  />
+                  /> */}
                 </button>
 
                 <div className="grid grid-cols-4 gap-2 opacity-70">
                   {[...Array(12)].map((_, i) => (
                     <span
                       key={i}
-                      className="h-[4px] w-[4px] rounded-full bg-white"
+                      className="h-[4px] w-[4px] rounded-full bg-logoYellow"
                     />
                   ))}
                 </div>

@@ -68,6 +68,21 @@ const Home = () => {
     startPopupWatcher(win);
   };
 
+  const closeModal = () => {
+    setShowMiaModal(false);
+    setShowMiaButton(true);
+  };
+
+  const openModal = () => {
+    if (miaChatOpen || isMiaPopupOpen()) {
+      miaWindowRef.current?.focus();
+      return;
+    }
+
+    setShowMiaButton(false);
+    setShowMiaModal(true);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (autoPopupShownRef.current || miaChatOpen || isMiaPopupOpen()) return;
@@ -80,6 +95,7 @@ const Home = () => {
       if (window.scrollY > heroBottom - 100) {
         autoPopupShownRef.current = true;
         setShowMiaModal(true);
+        setShowMiaButton(false);
       }
     };
 
@@ -95,21 +111,6 @@ const Home = () => {
       }
     };
   }, []);
-
-  const closeModal = () => {
-    setShowMiaModal(false);
-    setShowMiaButton(true);
-  };
-
-  const openModal = () => {
-    if (miaChatOpen || isMiaPopupOpen()) {
-      miaWindowRef.current?.focus();
-      return;
-    }
-
-    setShowMiaButton(false);
-    setShowMiaModal(true);
-  };
 
   return (
     <>
@@ -135,19 +136,10 @@ const Home = () => {
       />
 
       {showMiaButton && (
-        <button
-          type="button"
+        <MiaButton
           onClick={openModal}
           disabled={miaChatOpen || isMiaPopupOpen()}
-          aria-disabled={miaChatOpen || isMiaPopupOpen()}
-          className={`fixed right-0 -bottom-7 z-[20] flex drop-shadow-2xl transition animate__animated animate__fadeInTopLeft ${
-            miaChatOpen || isMiaPopupOpen()
-              ? "pointer-events-none cursor-not-allowed opacity-40"
-              : ""
-          }`}
-        >
-          <MiaButton />
-        </button>
+        />
       )}
     </>
   );

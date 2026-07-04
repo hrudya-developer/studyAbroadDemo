@@ -20,6 +20,10 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
       setShowModal(true);
       setClosing(false);
       document.body.style.overflow = "hidden";
+    } else {
+      setShowModal(false);
+      setClosing(false);
+      document.body.style.overflow = "";
     }
 
     return () => {
@@ -64,7 +68,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-30 grid h-9 w-9 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-darkPrimary hover:text-white hover:cursor-pointer"
+          className="absolute right-4 top-4 z-30 grid h-9 w-9 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-darkPrimary hover:text-white"
         >
           <X size={22} />
         </button>
