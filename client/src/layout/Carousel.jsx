@@ -2,15 +2,15 @@ const heroVideoDesktop =
   "/videos/medcity2025.15f1bf21a50a5d60cdae.mp4";
 
 const heroVideoMobile =
-  "/videos/mobilemedcity2.e47b58ad13ce13294963.mp4";
+  "videos/mobilemedcity2.e47b58ad13ce13294963.mp4";
 
 const Carousel = () => {
   return (
     <section
       id="hero-section"
-      className="relative mx-auto w-full max-w-9xl overflow-hidden bg-black"
+      className="relative mx-auto w-full max-w-9xl overflow-hidden bg-white"
     >
-      <div className="relative w-full overflow-hidden bg-black">
+      <div className="relative w-full overflow-hidden bg-white">
         {/* Mobile Video */}
         <video
           className="block w-full h-auto object-cover md:hidden"
