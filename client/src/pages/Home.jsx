@@ -13,6 +13,7 @@ import Counselling from "../layout/Counselling";
 import StudyDestinations from "../layout/StudyDestinations";
 import MiaModal from "./MiaAgentModal";
 import MiaButton from "./MiaButton";
+import GermanCoursesLayout from "../GermanCoursesLayout";
 
 const MIA_GPT_URL =
   "https://chatgpt.com/g/g-69ec914630a08191a423917354e31099-study-abroad-advisor";
@@ -123,6 +124,8 @@ const Home = () => {
       <ProgramsSection />
       <Destinations />
       <MobileApp />
+      <GermanCoursesLayout />
+      
       <EssentialService />
       <SASteps />
       <Testimonial />

@@ -44,6 +44,7 @@ import SDBWishlistCourses from "./pages/SDBWishlistItems";
 import CommunityPosts from "./pages/CommunityPosts";
 // import GermanLP from "./pages/GermanLP";
 import ScrollToTop from "./components/ScrollToTop";
+import GermanPopularCourses from "./layout/GermanPopularCourses";
 
 
 
@@ -63,6 +64,7 @@ function Layout() {
         <Route path="/destinationList" element={<DestinationList />} />
         <Route path="/communityPosts" element={<CommunityPosts />} />
         {/* <Route path="/germanLanguage" element={<GermanLP />} /> */}
+        <Route path="/germanPopularCourses" element={<GermanPopularCourses />} />
 
 {/* protecte route */}
 <Route element={<ProtectedRoute />}>

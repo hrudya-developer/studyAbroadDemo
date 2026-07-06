@@ -1,4 +1,5 @@
 import { Briefcase, CalendarDays, Newspaper } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Topbar = () => {
   return (
@@ -18,7 +19,7 @@ const Topbar = () => {
         </div>
 
         <div className="flex items-center gap-2 animate__animated animate__backInLeft">
-          <button className="p-2 px-2 text-[12px] sm:p-2 sm:px-3 rounded-lg bg-darkPrimary text-white border border-gray-300 sm:text-sm hover:cursor-pointer hover:bg-black hover:text-white">German Programs</button>         
+          <Link to="/germanPopularCourses"><button className="p-2 px-2 text-[12px] sm:p-2 sm:px-3 rounded-lg border border-darkPrimary text-darkPrimary sm:text-sm hover:cursor-pointer hover:bg-black hover:text-white">German Programs</button>  </Link>       
         </div>
         </div>
 
