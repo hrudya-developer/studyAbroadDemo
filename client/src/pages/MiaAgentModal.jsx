@@ -42,10 +42,16 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
     }, 450);
   };
 
-  const handleTalk = () => {
+ const handleTalk = () => {
+  setClosing(true);
+
+  setTimeout(() => {
+    setShowModal(false);
+    setClosing(false);
+    document.body.style.overflow = "";
     onTalk?.();
-    handleClose();
-  };
+  }, 450);
+};
 
   if (!showModal) return null;
 
@@ -68,7 +74,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-30 grid h-9 w-9 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-darkPrimary hover:text-white"
+          className="absolute right-4 top-4 z-30 grid h-9 w-9 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-darkPrimary hover:text-white hover:cursor-pointer"
         >
           <X size={22} />
         </button>
@@ -109,7 +115,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
             scholarships and travel guidance.
           </p>
 
-          <div className="mt-6 grid w-full grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="mt-6 grid w-full max-[450px]:grid-cols-1 grid-cols-3 gap-3 sm:grid-cols-3">
             <Feature icon={<GraduationCap size={23} />} title="Course Guidance" />
             <Feature icon={<FileCheck size={23} />} title="Admission Support" />
             <Feature icon={<Plane size={23} />} title="Visa & Travel Help" />
@@ -118,7 +124,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
           <button
             type="button"
             onClick={handleTalk}
-            className="group mt-7 flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-darkPrimary px-5 py-3.5 text-base font-extrabold text-white shadow-xl shadow-primary/30 transition duration-300 hover:-translate-y-1 hover:shadow-2xl active:scale-95"
+            className="group mt-7 flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-darkPrimary px-5 py-3.5 text-base font-extrabold text-white shadow-xl shadow-primary/30 hover:cursor-pointer transition duration-300 hover:-translate-y-1 hover:shadow-2xl active:scale-95"
           >
             <MessageCircle
               size={24}
