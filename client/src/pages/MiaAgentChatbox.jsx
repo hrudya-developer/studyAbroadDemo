@@ -1,7 +1,7 @@
 import { X, Send } from "lucide-react";
 import MiaAvatar from "../assets/miaSticker.png";
 
-export default function MiaAgentChatBox({ onClose }) {
+export default function MiaAgentChatbox({ onClose }) {
   return (
     <div className="fixed bottom-4 right-4 z-[9999] w-[94vw] max-w-sm overflow-hidden rounded-[28px] bg-white shadow-2xl shadow-pink-300/50 sm:bottom-6 sm:right-6">
       <div className="flex items-center gap-3 bg-darkPrimary p-4 text-white">

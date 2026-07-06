@@ -15,7 +15,7 @@ import GermanCoursesLayout from "../GermanCoursesLayout";
 
 import MiaModal from "./MiaAgentModal";
 import MiaButton from "./MiaButton";
-import MiaAgentChatBox from "./MiaAgentChatBox";
+import MiaAgentChatbox from "./MiaAgentChatbox";
 
 const Home = () => {
   const [showMiaModal, setShowMiaModal] = useState(false);
@@ -102,7 +102,7 @@ const Home = () => {
 
       {/* Chatbot */}
       {showMiaChatBox && (
-        <MiaAgentChatBox
+        <MiaAgentChatbox
           onClose={closeMiaChatBox}
         />
       )}
