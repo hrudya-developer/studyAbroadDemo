@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import {
   Globe2,
@@ -13,7 +13,6 @@ import {
   GraduationCapIcon,
   ChevronLeft,
   ChevronRight,
-  X,
   CircleX,
 } from "lucide-react";
 
@@ -154,9 +153,7 @@ export default function CourseSearch() {
     "Course";
 
   const getResultCourseId = (course) =>
-    String(
-      course?.id || course?.course_id || course?.c_id || course?.uc_id || ""
-    );
+    String(course?.id || course?.course_id || course?.c_id || course?.uc_id || "");
 
   const countryOptions = useMemo(
     () =>
@@ -239,11 +236,23 @@ export default function CourseSearch() {
     }, 300);
   };
 
+  const saveCourseForDetails = (course) => {
+    sessionStorage.setItem("selectedCourse", JSON.stringify(course));
+    sessionStorage.setItem(
+      "universityId",
+      course?.u_id || course?.university_id || selectedUniversityId || ""
+    );
+    sessionStorage.setItem(
+      "countryId",
+      course?.d_id || course?.country_id || selectedCountryId || ""
+    );
+  };
+
   const handleViewCourse = (course) => {
     const courseId = getResultCourseId(course);
     if (!courseId) return;
 
-    sessionStorage.setItem("selectedCourse", JSON.stringify(course));
+    saveCourseForDetails(course);
 
     navigate(`/courseDetailsOfUniv/${courseId}`, {
       state: {
@@ -256,11 +265,43 @@ export default function CourseSearch() {
     });
   };
 
+  const handleApplyNow = (course) => {
+    const courseId = getResultCourseId(course);
+    if (!courseId) return;
+
+    const universityId =
+      course?.u_id || course?.university_id || selectedUniversityId || "";
+
+    const countryId =
+      course?.d_id || course?.country_id || selectedCountryId || "";
+
+    saveCourseForDetails(course);
+
+    sessionStorage.setItem(
+      "pendingApplyCourse",
+      JSON.stringify({
+        course,
+        courseId,
+        universityId,
+        countryId,
+      })
+    );
+
+    sessionStorage.setItem("loginRedirectType", "applyCourse");
+
+    if (!uid || Number(uid) === 0) {
+      navigate("/loginViaOtp");
+      return;
+    }
+
+    navigate("/student/findCourse");
+  };
+
   const hasSelection =
     selectedCountryId && selectedUniversityId && selectedCourseId;
 
   return (
-    <section className="relative mx-auto max-w-7xl overflow-hidden bg-[#f5fbff]">
+    <section className="relative mx-auto max-w-9xl overflow-hidden bg-[#f5fbff]">
       <div
         className="relative flex h-[380px] items-center justify-center bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out sm:h-[450px] lg:h-[500px]"
         style={{ backgroundImage: `url(${courseBg})` }}
@@ -286,270 +327,270 @@ export default function CourseSearch() {
         </div>
       </div>
 
-     <div className="relative -mt-16 sm:-mt-20 w-full">
-      <div
-        id="searchArea"
-        className="scroll-mt-28 relative z-1 mx-auto -mt-16 w-[92%] rounded-3xl bg-white p-4 shadow-[0_15px_45px_rgba(0,0,0,0.12)] ring-1 ring-gray-100 transition-all duration-500 ease-in-out sm:-mt-20 sm:w-[88%] sm:p-6 lg:w-[80%] lg:p-8"
-      >
-        <div className="grid gap-5 md:grid-cols-3">
-          <DropdownBox icon={Globe2} label="Country">
-            <Select
-              value={
-                countryOptions.find(
-                  (option) => option.value === selectedCountryId
-                ) || null
-              }
-              onChange={(option) => {
-                setSelectedCountryId(option?.value || "");
-                setSelectedUniversityId("");
-                setSelectedCourseId("");
-                resetResults();
-              }}
-              options={countryOptions}
-              placeholder={countriesLoading ? "Loading..." : "Select Country"}
-              isLoading={countriesLoading}
-              isSearchable
-              styles={selectStyles}
-            />
-          </DropdownBox>
+      <div className="relative -mt-16 w-full sm:-mt-20">
+        <div
+          id="searchArea"
+          className="scroll-mt-28 relative z-1 mx-auto -mt-16 w-[92%] rounded-3xl bg-white p-4 shadow-[0_15px_45px_rgba(0,0,0,0.12)] ring-1 ring-gray-100 transition-all duration-500 ease-in-out sm:-mt-20 sm:w-[88%] sm:p-6 lg:w-[80%] lg:p-8"
+        >
+          <div className="grid gap-5 md:grid-cols-3">
+            <DropdownBox icon={Globe2} label="Country">
+              <Select
+                value={
+                  countryOptions.find(
+                    (option) => option.value === selectedCountryId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedCountryId(option?.value || "");
+                  setSelectedUniversityId("");
+                  setSelectedCourseId("");
+                  resetResults();
+                }}
+                options={countryOptions}
+                placeholder={countriesLoading ? "Loading..." : "Select Country"}
+                isLoading={countriesLoading}
+                isSearchable
+                styles={selectStyles}
+              />
+            </DropdownBox>
 
-          <DropdownBox icon={Landmark} label="University">
-            <Select
-              value={
-                universityOptions.find(
-                  (option) => option.value === selectedUniversityId
-                ) || null
-              }
-              onChange={(option) => {
-                setSelectedUniversityId(option?.value || "");
-                setSelectedCourseId("");
-                resetResults();
-              }}
-              options={universityOptions}
-              placeholder={
-                !selectedCountryId
-                  ? "Select country first"
-                  : universitiesLoading
-                  ? "Loading..."
-                  : "Select University"
-              }
-              isDisabled={!selectedCountryId}
-              isLoading={universitiesLoading}
-              isSearchable
-              styles={selectStyles}
-            />
-          </DropdownBox>
+            <DropdownBox icon={Landmark} label="University">
+              <Select
+                value={
+                  universityOptions.find(
+                    (option) => option.value === selectedUniversityId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedUniversityId(option?.value || "");
+                  setSelectedCourseId("");
+                  resetResults();
+                }}
+                options={universityOptions}
+                placeholder={
+                  !selectedCountryId
+                    ? "Select country first"
+                    : universitiesLoading
+                    ? "Loading..."
+                    : "Select University"
+                }
+                isDisabled={!selectedCountryId}
+                isLoading={universitiesLoading}
+                isSearchable
+                styles={selectStyles}
+              />
+            </DropdownBox>
 
-          <DropdownBox icon={GraduationCap} label="Main Course">
-            <Select
-              value={
-                mainCourseOptions.find(
-                  (option) => option.value === selectedCourseId
-                ) || null
-              }
-              onChange={(option) => {
-                setSelectedCourseId(option?.value || "");
-                resetResults();
-              }}
-              options={mainCourseOptions}
-              placeholder={
-                !selectedUniversityId
-                  ? "Select university first"
-                  : universityMainCoursesLoading
-                  ? "Loading..."
-                  : mainCourseOptions.length === 0
-                  ? "No main courses found"
-                  : "Select Main Course"
-              }
-              isDisabled={
-                !selectedUniversityId ||
-                universityMainCoursesLoading ||
-                mainCourseOptions.length === 0
-              }
-              isLoading={universityMainCoursesLoading}
-              isSearchable
-              styles={selectStyles}
-            />
-          </DropdownBox>
-        </div>
+            <DropdownBox icon={GraduationCap} label="Main Course">
+              <Select
+                value={
+                  mainCourseOptions.find(
+                    (option) => option.value === selectedCourseId
+                  ) || null
+                }
+                onChange={(option) => {
+                  setSelectedCourseId(option?.value || "");
+                  resetResults();
+                }}
+                options={mainCourseOptions}
+                placeholder={
+                  !selectedUniversityId
+                    ? "Select university first"
+                    : universityMainCoursesLoading
+                    ? "Loading..."
+                    : mainCourseOptions.length === 0
+                    ? "No main courses found"
+                    : "Select Main Course"
+                }
+                isDisabled={
+                  !selectedUniversityId ||
+                  universityMainCoursesLoading ||
+                  mainCourseOptions.length === 0
+                }
+                isLoading={universityMainCoursesLoading}
+                isSearchable
+                styles={selectStyles}
+              />
+            </DropdownBox>
+          </div>
 
-        <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <button
-            type="button"
-            disabled={!hasSelection || allUniversityCoursesLoading}
-            onClick={handleSearch}
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-secondary px-6 py-3 text-sm font-bold tracking-wide text-white shadow-lg shadow-red-200 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-primary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-10"
-          >
-            {allUniversityCoursesLoading ? "Searching..." : "Find Courses"}
-            <Search className="h-5 w-5" />
-          </button>
-
-          {searched && (
+          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <button
               type="button"
-              onClick={handleClear}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-darkPrimary px-6 py-3 text-sm font-bold text-white transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-primary sm:w-auto sm:px-8"
+              disabled={!hasSelection || allUniversityCoursesLoading}
+              onClick={handleSearch}
+              className="flex w-full items-center justify-center gap-3 rounded-xl bg-secondary px-6 py-3 text-sm font-bold tracking-wide text-white shadow-lg shadow-red-200 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-primary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-10"
             >
-            
-              Clear
-             
-                <CircleX className="h-5 w-5" />
+              {allUniversityCoursesLoading ? "Searching..." : "Find Courses"}
+              <Search className="h-5 w-5" />
             </button>
-          )}
-        </div>
 
-        <div ref={resultRef} className="mt-10 scroll-mt-28">
-          {allUniversityCoursesLoading && (
-            <div className="animate-pulse rounded-2xl bg-gray-50 py-10 text-center text-sm font-semibold text-gray-600">
-              Searching courses...
-            </div>
-          )}
+            {searched && (
+              <button
+                type="button"
+                onClick={handleClear}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-darkPrimary px-6 py-3 text-sm font-bold text-white transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-primary sm:w-auto sm:px-8"
+              >
+                Clear
+                <CircleX className="h-5 w-5" />
+              </button>
+            )}
+          </div>
 
-          {!allUniversityCoursesLoading &&
-            searched &&
-            allUniversityCourses.length === 0 && (
-              <p className="rounded-2xl bg-gray-50 py-10 text-center text-sm font-semibold text-gray-500 ring-1 ring-gray-100 transition-all duration-500 ease-in-out">
-                No courses found under this main course.
-              </p>
+          <div ref={resultRef} className="mt-10 scroll-mt-28">
+            {allUniversityCoursesLoading && (
+              <div className="animate-pulse rounded-2xl bg-gray-50 py-10 text-center text-sm font-semibold text-gray-600">
+                Searching courses...
+              </div>
             )}
 
-          {!allUniversityCoursesLoading && allUniversityCourses.length > 0 && (
-            <div className="animate-[fadeIn_0.45s_ease-in-out]">
-              <div className="mb-6 flex flex-col gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="flex items-center gap-3 text-xl font-bold text-darkPrimary sm:text-2xl">
-                  <span className="grid size-10 place-content-center rounded-xl bg-primary">
-                    <GraduationCapIcon className="text-white" />
-                  </span>
-                  {selectedMainCourseOption?.label
-                    ? `${selectedMainCourseOption.label} Results`
-                    : "Course Results"}
-                </h2>
-
-                <p className="text-sm font-semibold text-gray-600">
-                  Showing{" "}
-                  <span className="text-primary">
-                    {(currentPage - 1) * ITEMS_PER_PAGE + 1}
-                  </span>{" "}
-                  to{" "}
-                  <span className="text-primary">
-                    {Math.min(
-                      currentPage * ITEMS_PER_PAGE,
-                      allUniversityCourses.length
-                    )}
-                  </span>{" "}
-                  of{" "}
-                  <span className="text-primary">
-                    {allUniversityCourses.length}
-                  </span>{" "}
-                  courses
+            {!allUniversityCoursesLoading &&
+              searched &&
+              allUniversityCourses.length === 0 && (
+                <p className="rounded-2xl bg-gray-50 py-10 text-center text-sm font-semibold text-gray-500 ring-1 ring-gray-100 transition-all duration-500 ease-in-out">
+                  No courses found under this main course.
                 </p>
-              </div>
-
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {paginatedCourses.map((course, index) => (
-                  <div
-                    key={getResultCourseId(course) || index}
-                    className="rounded-2xl bg-[#f7f7f7] p-5 shadow-md ring-1 ring-gray-100 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:bg-white hover:shadow-xl"
-                  >
-                    <h3 className="flex items-start gap-3 text-sm font-bold leading-6 text-black">
-                      <span className="grid size-10 shrink-0 place-content-center rounded-lg bg-primary/10">
-                        <GraduationCapIcon className="text-primary" />
-                      </span>
-                      {getCourseName(course)}
-                    </h3>
-
-                    <p className="mt-4 flex items-start gap-3 text-sm text-gray-700">
-                      <span className="grid size-10 shrink-0 place-content-center rounded-lg bg-secondary/10">
-                        <School2 className="text-secondary" />
-                      </span>
-                      {course?.university ||
-                        course?.university_name ||
-                        universityOptions.find(
-                          (item) => item.value === selectedUniversityId
-                        )?.label ||
-                        "University not available"}
-                    </p>
-
-                    <p className="mt-4 flex items-start gap-3 text-sm text-gray-700">
-                      <span className="grid size-10 shrink-0 place-content-center rounded-lg bg-darkPrimary/10">
-                        <MapPinCheck className="text-darkPrimary" />
-                      </span>
-                      {course?.country ||
-                        course?.country_name ||
-                        countryOptions.find(
-                          (item) => item.value === selectedCountryId
-                        )?.label ||
-                        "Country not available"}
-                    </p>
-
-                    <div className="mt-6 flex flex-row gap-3 sm:flex-row">
-                      <button
-                        type="button"
-                        onClick={() => handleViewCourse(course)}
-                        className="flex items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-primary"
-                      >
-                        View
-                        <ArrowRight className="h-4 w-4" />
-                      </button>
-
-                      <Link
-                        to="/loginViaOtp"
-                        className="flex items-center justify-center gap-2 rounded-lg bg-darkPrimary px-4 py-2 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-primary"
-                      >
-                        Apply
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {totalPages > 1 && (
-                <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-                  <button
-                    type="button"
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage((prev) => prev - 1)}
-                    className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-all duration-300 ease-in-out hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <ChevronLeft size={16} />
-                    Prev
-                  </button>
-
-                  {Array.from(
-                    { length: totalPages },
-                    (_, index) => index + 1
-                  ).map((page) => (
-                    <button
-                      key={page}
-                      type="button"
-                      onClick={() => setCurrentPage(page)}
-                      className={`grid size-9 place-content-center rounded-lg text-sm font-bold transition-all duration-300 ease-in-out ${
-                        currentPage === page
-                          ? "bg-primary text-white"
-                          : "bg-white text-gray-700 ring-1 ring-gray-200 hover:bg-primary hover:text-white"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-
-                  <button
-                    type="button"
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage((prev) => prev + 1)}
-                    className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-all duration-300 ease-in-out hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    Next
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
               )}
-            </div>
-          )}
+
+            {!allUniversityCoursesLoading && allUniversityCourses.length > 0 && (
+              <div className="animate-[fadeIn_0.45s_ease-in-out]">
+                <div className="mb-6 flex flex-col gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                  <h2 className="flex items-center gap-3 text-xl font-bold text-darkPrimary sm:text-2xl">
+                    <span className="grid size-10 place-content-center rounded-xl bg-primary">
+                      <GraduationCapIcon className="text-white" />
+                    </span>
+                    {selectedMainCourseOption?.label
+                      ? `${selectedMainCourseOption.label} Results`
+                      : "Course Results"}
+                  </h2>
+
+                  <p className="text-sm font-semibold text-gray-600">
+                    Showing{" "}
+                    <span className="text-primary">
+                      {(currentPage - 1) * ITEMS_PER_PAGE + 1}
+                    </span>{" "}
+                    to{" "}
+                    <span className="text-primary">
+                      {Math.min(
+                        currentPage * ITEMS_PER_PAGE,
+                        allUniversityCourses.length
+                      )}
+                    </span>{" "}
+                    of{" "}
+                    <span className="text-primary">
+                      {allUniversityCourses.length}
+                    </span>{" "}
+                    courses
+                  </p>
+                </div>
+
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {paginatedCourses.map((course, index) => (
+                    <div
+                      key={getResultCourseId(course) || index}
+                      className="rounded-2xl bg-[#f7f7f7] p-5 shadow-md ring-1 ring-gray-100 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:bg-white hover:shadow-xl"
+                    >
+                      <h3 className="flex items-start gap-3 text-sm font-bold leading-6 text-black">
+                        <span className="grid size-10 shrink-0 place-content-center rounded-lg bg-primary/10">
+                          <GraduationCapIcon className="text-primary" />
+                        </span>
+                        {getCourseName(course)}
+                      </h3>
+
+                      <p className="mt-4 flex items-start gap-3 text-sm text-gray-700">
+                        <span className="grid size-10 shrink-0 place-content-center rounded-lg bg-secondary/10">
+                          <School2 className="text-secondary" />
+                        </span>
+                        {course?.university ||
+                          course?.university_name ||
+                          universityOptions.find(
+                            (item) => item.value === selectedUniversityId
+                          )?.label ||
+                          "University not available"}
+                      </p>
+
+                      <p className="mt-4 flex items-start gap-3 text-sm text-gray-700">
+                        <span className="grid size-10 shrink-0 place-content-center rounded-lg bg-darkPrimary/10">
+                          <MapPinCheck className="text-darkPrimary" />
+                        </span>
+                        {course?.country ||
+                          course?.country_name ||
+                          countryOptions.find(
+                            (item) => item.value === selectedCountryId
+                          )?.label ||
+                          "Country not available"}
+                      </p>
+
+                      <div className="mt-6 flex flex-row gap-3">
+                        <button
+                          type="button"
+                          onClick={() => handleViewCourse(course)}
+                          className="flex items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-primary"
+                        >
+                          View
+                          <ArrowRight className="h-4 w-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleApplyNow(course)}
+                          className="flex items-center justify-center gap-2 rounded-lg bg-darkPrimary px-4 py-2 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-primary"
+                        >
+                          Apply
+                          <ArrowRight className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {totalPages > 1 && (
+                  <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+                    <button
+                      type="button"
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage((prev) => prev - 1)}
+                      className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-all duration-300 ease-in-out hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <ChevronLeft size={16} />
+                      Prev
+                    </button>
+
+                    {Array.from(
+                      { length: totalPages },
+                      (_, index) => index + 1
+                    ).map((page) => (
+                      <button
+                        key={page}
+                        type="button"
+                        onClick={() => setCurrentPage(page)}
+                        className={`grid size-9 place-content-center rounded-lg text-sm font-bold transition-all duration-300 ease-in-out ${
+                          currentPage === page
+                            ? "bg-primary text-white"
+                            : "bg-white text-gray-700 ring-1 ring-gray-200 hover:bg-primary hover:text-white"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+
+                    <button
+                      type="button"
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage((prev) => prev + 1)}
+                      className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-all duration-300 ease-in-out hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      Next
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-</div>
+
       <PopularCoursesPublic />
     </section>
   );

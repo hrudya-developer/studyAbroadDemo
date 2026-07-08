@@ -132,6 +132,8 @@ export default function SDBFindCourse() {
   const [selectedSuggestionUniversity, setSelectedSuggestionUniversity] =
     useState(null);
 
+  const [appliedCourse, setAppliedCourse] = useState(null);
+
   const { uid } = useSelector((state) => state.auth);
   const safeUid = uid || 0;
 
@@ -280,6 +282,34 @@ export default function SDBFindCourse() {
     dispatch(fetchPopularCourses(safeUid));
   }, [dispatch, safeUid]);
 
+useEffect(() => {
+  const pendingCourse = sessionStorage.getItem("pendingApplyCourse");
+
+  if (!pendingCourse) return;
+
+  try {
+    const parsedCourse = JSON.parse(pendingCourse);
+
+    if (parsedCourse?.course) {
+      setAppliedCourse(parsedCourse.course);
+
+      dispatch(clearUniversityDetails());
+      dispatch(clearFindCourseResults());
+      dispatch(clearFindCourseSuggestions());
+
+      setKeyword("");
+      setCountryId("");
+      setUniversityId("");
+      setStudyAreaId("");
+      setSelectedSuggestionUniversity(null);
+      setSelectedSearch({ type: "", id: "" });
+    }
+  } catch {
+    sessionStorage.removeItem("pendingApplyCourse");
+    sessionStorage.removeItem("loginRedirectType");
+  }
+}, [dispatch]);
+
   useEffect(() => {
     setUniversityId("");
     setStudyAreaId("");
@@ -295,7 +325,13 @@ export default function SDBFindCourse() {
       })
     );
   }, [dispatch, safeUid, countryId]);
-
+useEffect(() => {
+  if (!uid) {
+    setAppliedCourse(null);
+    sessionStorage.removeItem("pendingApplyCourse");
+    sessionStorage.removeItem("loginRedirectType");
+  }
+}, [uid]);
   useEffect(() => {
     setStudyAreaId("");
 
@@ -488,6 +524,10 @@ export default function SDBFindCourse() {
     setSelectedSearch({ type: "", id: "" });
     setSelectedSuggestionUniversity(null);
     setShowSuggestions(false);
+    setAppliedCourse(null);
+
+    sessionStorage.removeItem("pendingApplyCourse");
+    sessionStorage.removeItem("loginRedirectType");
 
     dispatch(clearFindCourseResults());
     dispatch(clearFindCourseSuggestions());
@@ -506,7 +546,7 @@ export default function SDBFindCourse() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="flex flex-col m-5 items-center justify-between rounded-3xl bg-blue-50 px-5 py-5 shadow-md md:flex-row">
+      <div className="m-5 flex flex-col items-center justify-between rounded-3xl bg-blue-50 px-5 py-5 shadow-md md:flex-row">
         <div>
           <h1 className="text-2xl font-black sm:text-3xl">Find a Course</h1>
 
@@ -613,9 +653,9 @@ export default function SDBFindCourse() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[230px_1fr] m-5">
+      <div className="m-5 grid gap-6 lg:grid-cols-[230px_1fr]">
         <aside className="h-fit rounded-xl bg-white p-5 shadow-md">
-          <div className="flex items-center justify-between border-b pb-4 mb-5">
+          <div className="mb-5 flex items-center justify-between border-b pb-4">
             <h2 className="text-lg font-bold">Filter</h2>
 
             <button
@@ -721,121 +761,150 @@ export default function SDBFindCourse() {
           </button>
         </aside>
 
-        <main className="flex flex-col gap-5 pr-2">
-          {detailsLoading ? (
-            <div className="rounded-xl bg-white p-8 text-center font-bold shadow-md">
-              Loading university details...
-            </div>
-          ) : detailsError ? (
-            <div className="rounded-xl bg-white p-8 text-center font-bold text-primary shadow-md">
-              {detailsError}
-            </div>
-          ) : universityBox ? (
-            <div className="rounded-2xl bg-white p-6 shadow-md">
-              <div className="mb-4 flex items-start justify-between gap-4 border-b pb-4">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100">
-                    {universityLogoUrl ? (
-                      <img
-                        src={universityLogoUrl}
-                        alt={universityName}
-                        className="h-full w-full object-contain"
-                      />
-                    ) : (
-                      <Landmark size={28} className="text-slate-400" />
-                    )}
-                  </div>
+       <main className="flex flex-col gap-5 pr-2">
+  {appliedCourse ? (
+    <div className="rounded-2xl border border-primary/20 bg-white p-4 shadow-md">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase text-primary">
+            Selected Course
+          </p>
+          <h2 className="mt-1 text-lg font-black text-slate-900">
+            Course you selected before login
+          </h2>
+        </div>
 
-                  <div>
-                    <p className="text-xs font-black uppercase text-primary">
-                      University Details
-                    </p>
+        <button
+          type="button"
+          onClick={() => {
+            setAppliedCourse(null);
+            sessionStorage.removeItem("pendingApplyCourse");
+            sessionStorage.removeItem("loginRedirectType");
+            dispatch(clearUniversityDetails());
+            dispatch(clearFindCourseResults());
+          }}
+          className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200"
+        >
+          Clear
+        </button>
+      </div>
 
-                    <h2 className="mt-2 text-2xl font-black text-slate-900">
-                      {universityName}
-                    </h2>
-
-                    <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-500">
-                      <MapPin size={16} className="text-primary" />
-                      {universityCountry}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="rounded-full bg-primary px-3 py-1 text-xs font-black uppercase text-white">
-                  University
-                </div>
-              </div>
-
-              <p className="text-sm leading-7 text-slate-600">{aboutText}</p>
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                <UniversityFact icon={Landmark} label="Type" value={universityType} />
-                <UniversityFact icon={MapPin} label="Location" value={universityLocation} />
-                <UniversityFact icon={Star} label="Ranking" value={universityRank} />
-                <UniversityFact
-                  icon={BookOpen}
-                  label="Courses"
-                  value={`${selectedCourses?.length || 0} available`}
-                />
-              </div>
-
-              <div className="mt-6">
-                <SDBPreviewCourses />
-              </div>
-            </div>
-          ) : loading ? (
-            <div className="rounded-xl bg-white p-8 text-center font-bold shadow-md">
-              Loading courses...
-            </div>
-          ) : error ? (
-            <div className="rounded-xl bg-white p-8 text-center font-bold text-primary shadow-md">
-              {error}
-            </div>
-          ) : results.length > 0 ? (
-            <>
-              <p className="text-sm font-semibold text-slate-500">
-                {startItem} to {endItem} of {totalItems} loaded courses
-              </p>
-
-              {paginatedResults.map((course, index) => (
-                <SDBFindCourseCard
-                  key={
-                    course?.id ||
-                    course?.course_id ||
-                    course?.uc_id ||
-                    `${course?.course || "course"}-${index}`
-                  }
-                  course={course}
-                />
-              ))}
-
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                loading={loading || loadMoreLoading}
-                onPrevious={() => handlePageChange(currentPage - 1)}
-                onNext={() => handlePageChange(currentPage + 1)}
-                onPageChange={handlePageChange}
+      <SDBFindCourseCard course={appliedCourse} />
+    </div>
+  ) : detailsLoading ? (
+    <div className="rounded-xl bg-white p-8 text-center font-bold shadow-md">
+      Loading university details...
+    </div>
+  ) : detailsError ? (
+    <div className="rounded-xl bg-white p-8 text-center font-bold text-primary shadow-md">
+      {detailsError}
+    </div>
+  ) : universityBox ? (
+    <div className="rounded-2xl bg-white p-6 shadow-md">
+      <div className="mb-4 flex items-start justify-between gap-4 border-b pb-4">
+        <div className="flex items-start gap-4">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100">
+            {universityLogoUrl ? (
+              <img
+                src={universityLogoUrl}
+                alt={universityName}
+                className="h-full w-full object-contain"
               />
+            ) : (
+              <Landmark size={28} className="text-slate-400" />
+            )}
+          </div>
 
-              {nextOffset && (
-                <button
-                  type="button"
-                  onClick={handleLoadMore}
-                  disabled={loading || loadMoreLoading}
-                  className="rounded-lg bg-slate-900 px-4 py-3 text-sm font-bold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {loadMoreLoading ? "Loading more..." : "Load More Courses"}
-                </button>
-              )}
-            </>
-          ) : (
-            <div className="rounded-xl bg-white p-8 text-center font-bold shadow-md">
-              No courses found.
-            </div>
-          )}
-        </main>
+          <div>
+            <p className="text-xs font-black uppercase text-primary">
+              University Details
+            </p>
+
+            <h2 className="mt-2 text-2xl font-black text-slate-900">
+              {universityName}
+            </h2>
+
+            <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-500">
+              <MapPin size={16} className="text-primary" />
+              {universityCountry}
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-full bg-primary px-3 py-1 text-xs font-black uppercase text-white">
+          University
+        </div>
+      </div>
+
+      <p className="text-sm leading-7 text-slate-600">{aboutText}</p>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <UniversityFact icon={Landmark} label="Type" value={universityType} />
+        <UniversityFact icon={MapPin} label="Location" value={universityLocation} />
+        <UniversityFact icon={Star} label="Ranking" value={universityRank} />
+        <UniversityFact
+          icon={BookOpen}
+          label="Courses"
+          value={`${selectedCourses?.length || 0} available`}
+        />
+      </div>
+
+      <div className="mt-6">
+        <SDBPreviewCourses />
+      </div>
+    </div>
+  ) : loading ? (
+    <div className="rounded-xl bg-white p-8 text-center font-bold shadow-md">
+      Loading courses...
+    </div>
+  ) : error ? (
+    <div className="rounded-xl bg-white p-8 text-center font-bold text-primary shadow-md">
+      {error}
+    </div>
+  ) : results.length > 0 ? (
+    <>
+      <p className="text-sm font-semibold text-slate-500">
+        {startItem} to {endItem} of {totalItems} loaded courses
+      </p>
+
+      {paginatedResults.map((course, index) => (
+        <SDBFindCourseCard
+          key={
+            course?.id ||
+            course?.course_id ||
+            course?.uc_id ||
+            `${course?.course || "course"}-${index}`
+          }
+          course={course}
+        />
+      ))}
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        loading={loading || loadMoreLoading}
+        onPrevious={() => handlePageChange(currentPage - 1)}
+        onNext={() => handlePageChange(currentPage + 1)}
+        onPageChange={handlePageChange}
+      />
+
+      {nextOffset && (
+        <button
+          type="button"
+          onClick={handleLoadMore}
+          disabled={loading || loadMoreLoading}
+          className="rounded-lg bg-slate-900 px-4 py-3 text-sm font-bold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {loadMoreLoading ? "Loading more..." : "Load More Courses"}
+        </button>
+      )}
+    </>
+  ) : (
+    <div className="rounded-xl bg-white p-8 text-center font-bold shadow-md">
+      No courses found.
+    </div>
+  )}
+</main>
       </div>
     </div>
   );

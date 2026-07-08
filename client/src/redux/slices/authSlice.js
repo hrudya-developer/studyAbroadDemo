@@ -60,15 +60,19 @@ const authSlice = createSlice({
       saveToSession(state);
     },
 
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.uid = null;
-      state.email = null;
-      state.isLoggedIn = false;
+   logout: (state) => {
+  state.user = null;
+  state.token = null;
+  state.uid = null;
+  state.email = null;
+  state.name = null;
+  state.isLoggedIn = false;
 
-      clearSession();
-    },
+  sessionStorage.removeItem("pendingApplyCourse");
+  sessionStorage.removeItem("loginRedirectType");
+
+  clearSession();
+},
   },
 });
 

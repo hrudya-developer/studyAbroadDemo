@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import { ArrowRight, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import axios from "axios";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 const GermanPopularCourses = () => {
   const [cards, setCards] = useState([]);
@@ -31,7 +30,27 @@ const GermanPopularCourses = () => {
           { headers: { Accept: "application/json" } }
         );
 
-        setCards(res.data?.home_tile_new || []);
+        const sortedCards = [...(res.data?.home_tile_new || [])].sort(
+          (a, b) => {
+            const aText = `${a?.name || ""} ${a?.titleWhy || ""} ${
+              a?.why || ""
+            }`.toLowerCase();
+
+            const bText = `${b?.name || ""} ${b?.titleWhy || ""} ${
+              b?.why || ""
+            }`.toLowerCase();
+
+            const aAusbildung = aText.includes("ausbildung");
+            const bAusbildung = bText.includes("ausbildung");
+
+            if (aAusbildung && !bAusbildung) return -1;
+            if (!aAusbildung && bAusbildung) return 1;
+
+            return 0;
+          }
+        );
+
+        setCards(sortedCards);
         setImagePath(res.data?.hometile_image_path || "");
       } catch (err) {
         console.log("Home response error:", err.response?.data || err);
@@ -81,32 +100,35 @@ const GermanPopularCourses = () => {
 
         {!loading && !error && cards.length > 0 && (
           <div className="relative">
-            <button className="german-prev absolute -left-2 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white text-darkPrimary shadow-xl transition hover:bg-darkPrimary hover:text-white md:-left-5">
+            <button
+              type="button"
+              className="german-prev absolute -left-2 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white text-darkPrimary shadow-xl transition hover:bg-darkPrimary hover:text-white md:-left-5"
+            >
               <ChevronLeft size={22} />
             </button>
 
-            <button className="german-next absolute -right-2 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white text-darkPrimary shadow-xl transition hover:bg-darkPrimary hover:text-white md:-right-5">
+            <button
+              type="button"
+              className="german-next absolute -right-2 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white text-darkPrimary shadow-xl transition hover:bg-darkPrimary hover:text-white md:-right-5"
+            >
               <ChevronRight size={22} />
             </button>
 
             <Swiper
-              modules={[Navigation, Pagination, Autoplay]}
+              key={cards.map((item) => item.id).join("-")}
+              modules={[Navigation]}
               navigation={{
                 prevEl: ".german-prev",
                 nextEl: ".german-next",
               }}
-              pagination={{ clickable: true }}
-              autoplay={{
-                delay: 3500,
-                disableOnInteraction: false,
-              }}
-              loop={cards.length > 4}
+              allowTouchMove={false}
+              loop={false}
               spaceBetween={24}
               slidesPerView={1}
               breakpoints={{
                 640: { slidesPerView: 2 },
                 1024: { slidesPerView: 3 },
-                1280: { slidesPerView: 4 },
+                1280: { slidesPerView: 3 },
               }}
               className="german-popular-courses !px-1 !pb-16"
             >

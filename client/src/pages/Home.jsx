@@ -11,11 +11,12 @@ import SASteps from "../layout/SASteps";
 import Testimonial from "../layout/Testimonial";
 import Counselling from "../layout/Counselling";
 import StudyDestinations from "../layout/StudyDestinations";
-import GermanCoursesLayout from "../GermanCoursesLayout";
+
 
 import MiaModal from "./MiaAgentModal";
 import MiaButton from "./MiaButton";
 import MiaAgentChatbox from "./MiaAgentChatbox";
+import GermanCoursesLayout from "../layout/GermanCoursesLayout";
 
 const Home = () => {
   const [showMiaModal, setShowMiaModal] = useState(false);

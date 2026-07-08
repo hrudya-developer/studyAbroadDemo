@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import {
   ArrowRight,
   ChevronLeft,
@@ -35,7 +35,22 @@ const GermanCoursesLayout = () => {
           { headers: { Accept: "application/json" } }
         );
 
-        setCards(res.data?.home_tile_new || []);
+        const sortedCards = [...(res.data?.home_tile_new || [])].sort(
+          (a, b) => {
+            const aName = String(a?.name || "").toLowerCase();
+            const bName = String(b?.name || "").toLowerCase();
+
+            const aAusbildung = aName.includes("ausbildung");
+            const bAusbildung = bName.includes("ausbildung");
+
+            if (aAusbildung && !bAusbildung) return -1;
+            if (!aAusbildung && bAusbildung) return 1;
+
+            return 0;
+          }
+        );
+
+        setCards(sortedCards);
         setImagePath(res.data?.hometile_image_path || "");
       } catch (err) {
         console.log("Home response error:", err.response?.data || err);
@@ -71,7 +86,7 @@ const GermanCoursesLayout = () => {
 
           <Link
             to="/germanPopularCourses"
-            className="mt-7 inline-flex items-center justify-center gap-2 rounded-2xl bg-darkPrimary px-5 py-3 text-sm text-white shadow-lg shadow-pink-200 transition hover:-translate-y-1 hover:bg-darkPrimary sm:text-base"
+            className="mt-7 inline-flex items-center justify-center gap-2 rounded-2xl bg-darkPrimary px-5 py-3 text-sm text-white shadow-lg shadow-pink-200 transition hover:-translate-y-1 hover:bg-primary sm:text-base"
           >
             View All Programs
             <ArrowRight size={20} />
@@ -96,30 +111,33 @@ const GermanCoursesLayout = () => {
           {!loading && !error && cards.length > 0 && (
             <>
               <div className="mb-5 flex justify-center gap-3 lg:justify-end">
-                <button className="german-home-prev grid h-11 w-11 place-items-center rounded-full bg-gray-100 text-darkPrimary shadow-md transition hover:bg-primary hover:text-white">
+                <button
+                  type="button"
+                  className="german-home-prev grid h-11 w-11 place-items-center rounded-full bg-gray-100 text-darkPrimary shadow-md transition hover:bg-primary hover:text-white"
+                >
                   <ChevronLeft size={22} />
                 </button>
 
-                <button className="german-home-next grid h-11 w-11 place-items-center rounded-full bg-primary text-white shadow-md transition hover:bg-darkPrimary">
+                <button
+                  type="button"
+                  className="german-home-next grid h-11 w-11 place-items-center rounded-full bg-primary text-white shadow-md transition hover:bg-darkPrimary"
+                >
                   <ChevronRight size={22} />
                 </button>
               </div>
 
               <Swiper
-                modules={[Navigation, Autoplay]}
+                key={cards.map((item) => item.id).join("-")}
+                modules={[Navigation]}
                 navigation={{
                   prevEl: ".german-home-prev",
                   nextEl: ".german-home-next",
-                }}
-                autoplay={{
-                  delay: 3500,
-                  disableOnInteraction: false,
                 }}
                 loop={cards.length > 2}
                 spaceBetween={24}
                 slidesPerView={1}
                 breakpoints={{
-                     540: { slidesPerView: 1 },
+                  540: { slidesPerView: 1 },
                   640: { slidesPerView: 2 },
                   768: { slidesPerView: 2 },
                   1024: { slidesPerView: 2 },

@@ -23,7 +23,6 @@ export default function VerifyOtpPage() {
 
     const newOtp = [...otp];
     newOtp[index] = value;
-
     setOtp(newOtp);
 
     if (value && index < otp.length - 1) {
@@ -54,7 +53,6 @@ export default function VerifyOtpPage() {
     });
 
     setOtp(newOtp);
-
     inputs.current[Math.min(pastedValue.length, 3)]?.focus();
   };
 
@@ -82,7 +80,6 @@ export default function VerifyOtpPage() {
       setLoading(true);
 
       const formData = new FormData();
-
       formData.append("api", "overseas@Miak2023");
       formData.append("email", email);
       formData.append("otp", enteredOtp);
@@ -104,54 +101,51 @@ export default function VerifyOtpPage() {
         }
       );
 
-    if (res.data.status === true) {
-
-  dispatch(
-    login({
-      user: {
-        uid: res.data.uid,
-        email,
-      },
-      token: res.data.token || null,
-    })
-  );
-
-  await Swal.fire({
-    icon: "success",
-    title: "OTP Verified",
-    text: "Redirecting...",
-    timer: 1000,
-    showConfirmButton: false,
-  });
-
-  // EXISTING USER
-  if (res.data.stage === "completed") {
-
-    navigate("/student", {
-      replace: true,
-    });
-
-  } else {
-
-    // NEW USER
-    navigate("/createAccount", {
-      replace: true,
-    });
-
-  }
-}else {
-        Swal.fire(
-          "Error",
-          res.data.msg || "Invalid OTP",
-          "error"
+      if (res.data.status === true) {
+        dispatch(
+          login({
+            user: {
+              uid: res.data.uid,
+              email,
+            },
+            uid: res.data.uid,
+            email,
+            token: res.data.token || null,
+          })
         );
+
+        await Swal.fire({
+          icon: "success",
+          title: "OTP Verified",
+          text: "Redirecting...",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+
+        if (res.data.stage === "completed") {
+          const redirectType = sessionStorage.getItem("loginRedirectType");
+
+          if (redirectType === "applyCourse") {
+            navigate("/student/findCourse", {
+              replace: true,
+            });
+          } else {
+            navigate("/student", {
+              replace: true,
+            });
+          }
+        } else {
+          navigate("/createAccount", {
+            replace: true,
+          });
+        }
+      } else {
+        Swal.fire("Error", res.data.msg || "Invalid OTP", "error");
       }
     } catch (err) {
       Swal.fire(
         "Server Error",
-        err.response?.data?.msg ||
-          err.message ||
-          "Something went wrong",
+        err.response?.data?.msg || err.message || "Something went wrong",
         "error"
       );
     } finally {
@@ -160,18 +154,21 @@ export default function VerifyOtpPage() {
   };
 
   return (
-    <div className="h-100dvh flex items-center justify-center p-4 py-20 max-w-7xl mx-auto" style={{backgroundImage:`url(${login_bg})`}}>
+    <div
+      className="mx-auto flex h-[100dvh] max-w-7xl items-center justify-center bg-cover bg-center p-4 py-20"
+      style={{ backgroundImage: `url(${login_bg})` }}
+    >
       <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl">
         <div className="relative overflow-hidden bg-darkPrimary px-8 py-10 text-center text-white">
-          <div className="absolute -left-12 -bottom-12 h-36 w-36 rounded-full bg-white/10" />
+          <div className="absolute -bottom-12 -left-12 h-36 w-36 rounded-full bg-white/10" />
           <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10" />
 
-          <div className="relative z-1">
+          <div className="relative z-10">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold shadow-lg">
               OTP
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-bold">
+            <h2 className="text-xl font-bold sm:text-2xl">
               OTP Verification
             </h2>
 
@@ -196,15 +193,11 @@ export default function VerifyOtpPage() {
                   inputMode="numeric"
                   maxLength={1}
                   value={digit}
-                  onChange={(e) =>
-                    handleChange(e.target.value, index)
-                  }
-                  onKeyDown={(e) =>
-                    handleBackspace(e, index)
-                  }
+                  onChange={(e) => handleChange(e.target.value, index)}
+                  onKeyDown={(e) => handleBackspace(e, index)}
                   onPaste={handlePaste}
                   disabled={loading}
-                  className="h-14 w-14 rounded-xl border-2 border-slate-200 text-center text-2xl font-bold text-[#081c47] outline-none transition focus:border-[#cb0e10] focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:bg-slate-100"
+                  className="h-14 w-14 rounded-xl border-2 border-slate-200 text-center text-2xl font-bold text-[#081c47] outline-none transition focus:border-primary focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:bg-slate-100"
                 />
               ))}
             </div>
@@ -212,7 +205,7 @@ export default function VerifyOtpPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-darkPrimary py-2 text-sm sm:text-md font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70"
+              className="w-full rounded-xl bg-darkPrimary py-2 text-sm font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70 sm:text-base"
             >
               {loading ? "Verifying..." : "Verify OTP"}
             </button>

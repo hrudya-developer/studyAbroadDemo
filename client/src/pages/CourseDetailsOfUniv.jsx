@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUniversityCourses } from "../redux/slices/courseSlice";
 import { fetchUniversityDetails } from "../redux/slices/universitySlice";
@@ -22,6 +23,7 @@ import {
 } from "lucide-react";
 
 export default function CourseDetailsOfUniv() {
+  const navigate = useNavigate();
   const [logoError, setLogoError] = useState(false);
 
   const { id } = useParams();
@@ -248,7 +250,30 @@ export default function CourseDetailsOfUniv() {
               {level}
             </div>
             <div className="inline-flex items-center gap-3 hover:bg-primary rounded-full bg-darkPrimary px-4 py-2 text-[12px] sm:text-sm font-bold text-white shadow-lg">
-            <Link to="/loginViaOtp"><button className="flex gap-2 items-center">Apply Now <span><MoveRight className="w-5"/></span></button> </Link>
+         <button
+  type="button"
+  onClick={() => {
+    const pendingData = {
+      course: selectedCourse,
+      courseId: id,
+      universityId,
+      countryId: selectedCourse?.d_id || selectedCourse?.country_id || "",
+    };
+
+    sessionStorage.setItem("pendingApplyCourse", JSON.stringify(pendingData));
+    sessionStorage.setItem("loginRedirectType", "applyCourse");
+
+    if (!uid || Number(uid) === 0) {
+      navigate("/loginViaOtp");
+      return;
+    }
+
+    navigate("/student/findCourse");
+  }}
+  className="flex gap-2 items-center"
+>
+  Apply Now <MoveRight className="w-5" />
+</button>
             </div></div>
 
             <h1 className="mt-8 max-w-2xl text-2xl font-extrabold leading-tight text-slate-950 sm:text-3xl lg:text-4xl">

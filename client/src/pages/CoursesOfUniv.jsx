@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
   BookOpen,
   ArrowRight,
@@ -10,7 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+
 import {
   fetchUniversityCourses,
   fetchUniversityMainCourses,
@@ -22,6 +23,7 @@ const CARDS_PER_PAGE = 10;
 
 const CoursesOfUniv = ({ courseCategoryId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMainCourseId, setSelectedMainCourseId] = useState(
@@ -72,6 +74,37 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
     const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
     return universityCourses.slice(startIndex, startIndex + CARDS_PER_PAGE);
   }, [universityCourses, currentPage]);
+
+  const saveCourseData = (course) => {
+    sessionStorage.setItem("selectedCourse", JSON.stringify(course));
+    sessionStorage.setItem(
+      "selectedUniversity",
+      JSON.stringify(selectedUniversity)
+    );
+    sessionStorage.setItem("universityId", selectedUniversity?.id || "");
+    sessionStorage.setItem("countryId", selectedUniversity?.d_id || "");
+  };
+
+  const handleApplyNow = (course) => {
+    saveCourseData(course);
+
+    const pendingData = {
+      course,
+      courseId: course?.id,
+      universityId: selectedUniversity?.id,
+      countryId: selectedUniversity?.d_id || "",
+    };
+
+    sessionStorage.setItem("pendingApplyCourse", JSON.stringify(pendingData));
+    sessionStorage.setItem("loginRedirectType", "applyCourse");
+
+    if (!uid || Number(uid) === 0) {
+      navigate("/loginViaOtp");
+      return;
+    }
+
+    navigate("/student/findCourse");
+  };
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
@@ -133,7 +166,7 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
           </div>
         </aside>
 
-        <main className="max-h-[625px] overflow-y-auto w-auto">
+        <main className="max-h-[625px] w-auto overflow-y-auto">
           {universityCoursesLoading && universityCourses.length === 0 ? (
             <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
               <p className="font-bold text-[#081c47]">Loading courses...</p>
@@ -190,44 +223,30 @@ const CoursesOfUniv = ({ courseCategoryId }) => {
                       />
                     </div>
 
-                    <Link
-                      to={`/courseDetailsOfUniv/${course.id}`}
-                      state={{
-                        course,
-                        universityId: selectedUniversity?.id,
-                        countryId: selectedUniversity?.d_id,
-                      }}
-                      onClick={() => {
-                        sessionStorage.setItem(
-                          "selectedCourse",
-                          JSON.stringify(course)
-                        );
-                        sessionStorage.setItem(
-                          "selectedUniversity",
-                          JSON.stringify(selectedUniversity)
-                        );
-                        sessionStorage.setItem(
-                          "universityId",
-                          selectedUniversity?.id
-                        );
-                        sessionStorage.setItem(
-                          "countryId",
-                          selectedUniversity?.d_id || ""
-                        );
-                      }}
-                    >
-                     <div className="flex flex-col md:flex-row gap-2">
-                      <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-primary transition hover:bg-secondary hover:text-white">
+                    <div className="flex flex-col gap-2 md:flex-row">
+                      <Link
+                        to={`/courseDetailsOfUniv/${course.id}`}
+                        state={{
+                          course,
+                          universityId: selectedUniversity?.id,
+                          countryId: selectedUniversity?.d_id,
+                        }}
+                        onClick={() => saveCourseData(course)}
+                        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-primary px-3 py-2 text-sm font-bold text-primary transition hover:bg-secondary hover:text-white"
+                      >
                         View Course
                         <ArrowRight className="h-5 w-5" />
-                      </button>
-                        <button className="text-sm mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-3 py-2 font-bold text-white bg-darkPrimary transition hover:bg-secondary hover:text-white">
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={() => handleApplyNow(course)}
+                        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-primary bg-darkPrimary px-3 py-2 text-sm font-bold text-white transition hover:bg-secondary hover:text-white"
+                      >
                         Apply Now
                         <ArrowRight className="h-5 w-5" />
-                      </button></div> 
-
-
-                    </Link>
+                      </button>
+                    </div>
                   </article>
                 ))}
               </div>
