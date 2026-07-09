@@ -280,6 +280,56 @@ const SearchSection = () => {
     });
   };
 
+const handleApply = (course) => {
+  const courseId = getResultCourseId(course);
+
+  const pendingData = {
+    course: {
+      ...course,
+
+      course:
+        course?.course ||
+        course?.main_course ||
+        course?.name ||
+        course?.course_name ||
+        course?.title ||
+        "N/A",
+
+      university:
+        course?.university ||
+        course?.university_name ||
+        universityOptions.find(
+          (item) => item.value === selectedUniversityId
+        )?.label ||
+        "N/A",
+
+      country:
+        course?.country ||
+        course?.country_name ||
+        countryOptions.find(
+          (item) => item.value === selectedCountryId
+        )?.label ||
+        "N/A",
+    },
+
+    courseId,
+    universityId:
+      course?.u_id || course?.university_id || selectedUniversityId || "",
+
+    countryId:
+      course?.d_id || course?.country_id || selectedCountryId || "",
+  };
+
+  sessionStorage.setItem(
+    "pendingApplyCourse",
+    JSON.stringify(pendingData)
+  );
+
+  sessionStorage.setItem("loginRedirectType", "applyCourse");
+
+  navigate("/loginViaOtp");
+};
+
   const hasSelection =
     selectedCountryId && selectedUniversityId && selectedCourseId;
 
@@ -485,13 +535,14 @@ const SearchSection = () => {
     <ArrowRight className="h-4 w-4" />
   </button>
 
-  <Link
-    to="/loginViaOtp"
-    className="flex h-10 items-center gap-2 rounded-lg bg-darkPrimary px-4 text-sm font-semibold text-white transition hover:bg-secondary"
-  >
-    Apply
-    <ArrowRight className="h-4 w-4" />
-  </Link>
+<button
+  type="button"
+  onClick={() => handleApply(course)}
+  className="flex h-10 items-center gap-2 rounded-lg bg-darkPrimary px-4 text-sm font-semibold text-white transition hover:bg-secondary"
+>
+  Apply
+  <ArrowRight className="h-4 w-4" />
+</button>
 </div>
                 </div>
               ))}

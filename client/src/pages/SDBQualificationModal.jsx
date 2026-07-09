@@ -10,6 +10,7 @@ import {
 
 import SDBQualificationUpdate from "./SDBQualificationUpdate";
 
+
 export default function SDBQualificationModal({ open, onClose, onUpdate }) {
   const [showQualificationForm, setShowQualificationForm] = useState(false);
 
@@ -54,7 +55,7 @@ export default function SDBQualificationModal({ open, onClose, onUpdate }) {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4 py-6 backdrop-blur-sm"
+      className="fixed inset-0 z-[9999] flex items-center justify-center px-4 py-6 backdrop-blur-sm bg-black/80"
       role="dialog"
       aria-modal="true"
     >
@@ -62,7 +63,7 @@ export default function SDBQualificationModal({ open, onClose, onUpdate }) {
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-slate-700 shadow-md transition hover:bg-slate-100"
+          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-md transition hover:cursor-pointer hover:bg-darkPrimary"
           aria-label="Close"
         >
           <X size={24} />
@@ -84,12 +85,9 @@ export default function SDBQualificationModal({ open, onClose, onUpdate }) {
               </div>
             </div>
 
-            <p className="max-w-2xl text-lg font-extrabold leading-relaxed text-slate-900 sm:text-lg">
-              Update your educational qualifications and academic scores for
-              tailoprimary analysis and suggestions from our counsellors.
-            </p>
+          
 
-            <p className="mt-4 text-sm leading-6 text-slate-500">
+            <p className="mt-4 text-sm leading-6 text-slate-600">
               This helps us recommend better universities, courses, admission
               options, and eligibility-based opportunities.
             </p>
@@ -128,7 +126,7 @@ export default function SDBQualificationModal({ open, onClose, onUpdate }) {
           <button
             type="button"
             onClick={() => setShowQualificationForm(true)}
-            className="rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white shadow-lg transition hover:bg-secondary"
+            className="rounded-xl bg-darkPrimary px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-primary hover:cursor-pointer"
           >
             UPDATE NOW →
           </button>
@@ -136,7 +134,7 @@ export default function SDBQualificationModal({ open, onClose, onUpdate }) {
           <button
             type="button"
             onClick={handleClose}
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-100"
+            className="rounded-xl border border-darkPrimary bg-white px-4 hover:cursor-pointer hover:text-primary hover:border-primary py-3 text-sm font-bold text-darkPrimary transition hover:bg-slate-100"
           >
             MAYBE LATER
           </button>
@@ -153,7 +151,7 @@ function Feature({ icon, title, text }) {
         {icon}
       </div>
 
-      <h3 className="text-sm font-black text-slate-900">{title}</h3>
+      <h3 className="text-sm font-bold text-slate-900">{title}</h3>
 
       <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
     </div>

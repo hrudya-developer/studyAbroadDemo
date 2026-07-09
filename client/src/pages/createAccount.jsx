@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { userRegister } from "../redux/slices/authSlice";
+import login_bg from "../assets/login_bg.png";
 
 export default function CreateAccount() {
   const dispatch = useDispatch();
@@ -85,16 +86,7 @@ export default function CreateAccount() {
         formData
       );
 
-      console.log({
-  uid,
-  name,
-  mobile: phone,
-  country: countryCode,
-  code: dialCode,
-  address,
-  gender,
-  dob,
-});
+
 
       if (res.data.status) {
     dispatch(
@@ -112,7 +104,12 @@ export default function CreateAccount() {
   })
 );
 
-        Swal.fire("Success", "Account Created", "success");
+       Swal.fire({
+  icon: "success",
+  title: "Success",
+  text: "Account Created",
+  confirmButtonColor: "#c01f53", // Your primary color
+});
         navigate("/student");
       } else {
         Swal.fire("Failed", res.data.msg || "Error", "error");
@@ -125,11 +122,11 @@ export default function CreateAccount() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#f7fbff] px-4 py-6">
-      <div className="w-full max-w-5xl bg-white p-8 rounded-3xl shadow-xl">
+    <main className="min-h-screen flex items-center justify-center px-4 py-6" style={{ backgroundImage: `url(${login_bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="w-full max-w-3xl bg-white/85 p-8 rounded-3xl shadow-xl my-10">
 
-        <h2 className="text-3xl font-bold text-center mb-8">
-          Create <span className="text-red-600">Account</span>
+        <h2 className="text-3xl font-bold text-center mb-8 text-darkPrimary">
+          Create <span className="text-darkPrimary">Account</span>
         </h2>
 
         <form onSubmit={handleSubmit} className="grid gap-6 md:grid-cols-2">
@@ -152,7 +149,7 @@ export default function CreateAccount() {
             <label className="text-sm font-semibold">Date of Birth</label>
             <div className="flex items-center border rounded-xl p-3 mt-1">
               <CalendarDays size={18} />
-              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="ps-3 w-full"/>
+              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="ps-3 w-full outline-none"/>
             </div>
           </div>
 
@@ -189,8 +186,8 @@ export default function CreateAccount() {
                 key={g}
                 type="button"
                 onClick={() => setGender(g)}
-                className={`flex-1 p-3 rounded-xl border ${
-                  gender === g ? "bg-red-600 text-white" : ""
+                className={`flex-1 p-3 rounded-xl border hover:cursor-pointer ${
+                  gender === g ? "bg-primary text-white" : ""
                 }`}
               >
                 {g}
@@ -213,19 +210,26 @@ export default function CreateAccount() {
 
           {/* TERMS */}
           <div className="md:col-span-2 flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={acceptedTerms}
-              onChange={(e) => setAcceptedTerms(e.target.checked)}
-            />
-            <span>I accept Terms & Conditions</span>
+         <label className="md:col-span-2 flex cursor-pointer items-center gap-2 select-none">
+  <input
+    type="checkbox"
+    checked={acceptedTerms}
+    onChange={(e) => setAcceptedTerms(e.target.checked)}
+    className="h-4 w-4 accent-primary"
+  />
+
+  <span className="text-sm">
+    I Accept Terms & Conditions
+    
+  </span>
+</label>
           </div>
 
           {/* BUTTON */}
           <button
             type="submit"
             disabled={loading}
-            className="md:col-span-2 bg-red-600 text-white p-4 rounded-xl font-bold"
+            className="md:col-span-2 bg-darkPrimary text-white p-4 rounded-xl font-bold hover:cursor-pointer hover:opacity-90 transition disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Creating..." : "Continue"}
           </button>

@@ -319,7 +319,7 @@ await dispatch(
 };
   return (
     <>
-      <div className="grid gap-6 rounded-xl bg-white p-5 shadow-md md:p-6 xl:grid-cols-1 xl:items-center relative">
+      <div className="grid gap-6 rounded-xl bg-white p-5 shadow-md md:p-6 grid-cols-1 xl:grid-cols-1 xl:items-center relative">
         <div className="flex flex-col items-start sm:flex-rowsm:items-center gap-4">
          <div className="group absolute right-3 top-3">
 <SDBWishlistButton courseId={course?.id} />
@@ -511,11 +511,55 @@ await dispatch(
 
       </div>
 
-   <SDBQualificationModal
+<SDBQualificationModal
   open={showPopup}
   onClose={() => setShowPopup(false)}
-  onUpdate={() => {
+  onUpdate={async () => {
     setShowPopup(false);
+
+    try {
+      await dispatch(
+        applyCourse({
+          uid: safeUid,
+          courseId,
+          course,
+          university: selectedUniversity,
+        })
+      ).unwrap();
+
+      window.dispatchEvent(
+        new CustomEvent("applicationsUpdated", {
+          detail: { increment: 1 },
+        })
+      );
+
+      await dispatch(
+        fetchCourseAppliedStatus({
+          uid: safeUid,
+          courseId,
+        })
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: "Applied Successfully",
+        text: "Your course application has been submitted successfully.",
+        confirmButtonColor: "#cb0e10",
+      });
+
+      sessionStorage.removeItem("pendingApplyCourse");
+      sessionStorage.removeItem("loginRedirectType");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Application Failed",
+        text:
+          typeof error === "string"
+            ? error
+            : error?.message || "Something went wrong",
+        confirmButtonColor: "#c01f53",
+      });
+    }
   }}
 />
     </>

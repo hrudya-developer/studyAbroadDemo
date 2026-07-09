@@ -755,7 +755,7 @@ useEffect(() => {
             type="button"
             onClick={handleSearch}
             disabled={loading || loadMoreLoading}
-            className="mt-5 w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-white hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-5 w-full rounded-lg bg-darkPrimary px-4 py-3 text-sm font-bold text-white hover:bg-primary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Applying..." : "Apply Filters"}
           </button>

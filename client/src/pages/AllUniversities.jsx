@@ -85,7 +85,7 @@ const handleCountryClick = (country) => {
               onClick={() => handleCountryClick(country)}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl whitespace-nowrap transition-all duration-300 min-w-fit ${
                 isActive
-                  ? "bg-[#d70707] text-white shadow-md"
+                  ? "bg-primary text-white shadow-md"
                   : "bg-white text-slate-700 border border-slate-200"
               }`}
             >
@@ -136,8 +136,8 @@ const handleCountryClick = (country) => {
                 onClick={() => handleCountryClick(country)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition-all duration-300 ${
                   isActive
-                    ? "bg-[#d70707] text-white shadow-md"
-                    : "bg-white text-slate-700 hover:bg-red-50"
+                    ? "bg-primary text-white shadow-md"
+                    : "bg-white text-slate-700 hover:bg-primary"
                 }`}
               >
                 {flag ? (
@@ -232,34 +232,33 @@ const handleCountryClick = (country) => {
                       >
 
                         {/* IMAGE */}
-                        <div className="relative h-44 sm:h-48 bg-slate-100 p-3">
+ <div className="relative rounded-2xl bg-slate-100 p-4">
+  <div className="flex items-center justify-center rounded-2xl bg-white shadow-sm overflow-hidden">
+    {universityImage ? (
+      <img
+        src={universityImage}
+        alt={universityName}
+        className="h-40 w-40 object-contain transition-transform duration-300 hover:scale-105"
+      />
+    ) : (
+      <div className="flex h-40 w-40 items-center justify-center rounded-xl bg-slate-50 text-5xl text-primary">
+        <FaUniversity />
+      </div>
+    )}
+  </div>
 
-                          {universityImage ? (
-                            <img
-                              src={universityImage}
-                              alt={universityName}
-                              className="h-full w-full object-cover rounded-2xl"
-                            />
-                          ) : (
-                            <div className="h-full w-full flex items-center justify-center text-[#d70707] text-5xl">
-                              <FaUniversity />
-                            </div>
-                          )}
-
-                          <button className="absolute top-4 right-4 h-10 w-10 rounded-full bg-white flex items-center justify-center text-slate-600 shadow">
-                            <FaHeart />
-                          </button>
-                        </div>
+ 
+</div>
 
                         {/* DETAILS */}
                         <div className="p-5">
 
-                          <h3 className="text-md font-extrabold text-slate-950 line-clamp-2 min-h-[56px]">
+                          <h3 className="text-md font-extrabold text-slate-950 line-clamp-2 max-h-[56px]">
                             {universityName}
                           </h3>
 
                           <p className="flex items-center gap-2 text-sm text-slate-500 mt-3">
-                            <FaMapMarkerAlt className="text-[#d70707] flex-shrink-0" />
+                            <FaMapMarkerAlt className="text-secondary/70 flex-shrink-0" />
 
                             <span className="truncate">
                               {item?.location ||
@@ -269,7 +268,7 @@ const handleCountryClick = (country) => {
                           </p>
 
                        {item?.rank && (
-  <div className="inline-block mt-4 bg-red-50 text-[#d70707] text-xs font-bold px-3 py-1 rounded">
+  <div className="inline-block mt-4 bg-primary/10 text-darkPrimary text-xs font-bold px-3 py-1 rounded">
     #{item.rank} Ranking
   </div>
 )}
@@ -284,7 +283,7 @@ const handleCountryClick = (country) => {
   }}
   className="block"
 >
-                            <button className="mt-5 w-full border border-red-200 text-[#d70707] rounded-lg py-3 font-bold flex items-center justify-center gap-2 hover:bg-[#d70707] hover:text-white transition-all duration-300">
+                            <button className="mt-5 w-full border border-primary text-primary rounded-lg py-3 font-bold flex items-center justify-center gap-2 hover:bg-[#d70707] hover:text-white transition-all duration-300">
                               View Details
                               <FaArrowRight />
                             </button>

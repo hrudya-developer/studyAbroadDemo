@@ -141,19 +141,19 @@ function Sidebar({
 
         <div className="border-t border-white/10 px-3 py-4 sm:hidden">
           <div className="mb-4 flex justify-center gap-3">
-            <button
+            {/* <button
               type="button"
               className="grid h-8 w-8 place-content-center rounded-full bg-secondary text-white shadow-lg"
             >
               <Bell className="h-4 w-4" />
-            </button>
+            </button> */}
 
-            <button
+            {/* <button
               type="button"
               className="grid h-8 w-8 place-content-center rounded-full bg-primary text-white shadow-lg"
             >
               <MessageSquare className="h-4 w-4" />
-            </button>
+            </button> */}
           </div>
 
           <div className="flex flex-col items-center gap-2 text-center">
@@ -176,7 +176,7 @@ function Header({ onMenuClick, scrolled }) {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur transition-all duration-300 ease-in-out lg:left-72 ${
+      className={`fixed left-0 right-0 top-0 z-30 border-b border-slate-200 bg-darkPrimary sm:bg-white/95 backdrop-blur transition-all duration-300 ease-in-out lg:left-72 ${
         scrolled ? "h-16 shadow-lg" : "h-24 shadow-none"
       }`}
     >
@@ -200,16 +200,16 @@ function Header({ onMenuClick, scrolled }) {
         </div>
 
         <div className="ml-auto flex items-center gap-3 sm:gap-5">
-          <div className="hidden h-10 w-10 place-content-center rounded-full bg-secondary text-white shadow-lg sm:grid">
+          {/* <div className="hidden h-10 w-10 place-content-center rounded-full bg-secondary text-white shadow-lg sm:grid">
             <Bell className="h-5 w-5" />
-          </div>
+          </div> */}
 
-          <div className="hidden h-10 w-10 place-content-center rounded-full bg-primary text-white shadow-lg sm:grid">
+          {/* <div className="hidden h-10 w-10 place-content-center rounded-full bg-primary text-white shadow-lg sm:grid">
             <MessageSquare className="h-5 w-5" />
-          </div>
+          </div> */}
 
           <div className="hidden items-center gap-3 sm:flex">
-            <span className="grid h-10 w-10 place-content-center rounded-full bg-gray-100 text-darkPrimary shadow-lg">
+            <span className="grid h-10 w-10 place-content-center rounded-full bg-darkPrimary text-white shadow-lg">
               <UserRound className="h-6 w-6" />
             </span>
 

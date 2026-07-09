@@ -3,6 +3,7 @@ import { X, ArrowLeft } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
+
 import {
   updateStudentQualifications,
   fetchStudentProfile,
@@ -145,7 +146,7 @@ const SDBQualificationUpdate = ({ open, onClose, onUpdated }) => {
         icon: "warning",
         title: "Please fill required fields",
         text: "Please fill the visible qualification fields.",
-        confirmButtonColor: "#cb0e10",
+        confirmButtonColor: "#c01f53",
       });
       return;
     }
@@ -169,7 +170,7 @@ const SDBQualificationUpdate = ({ open, onClose, onUpdated }) => {
         title: "Qualification Updated",
         text: "You have updated qualification successfully.",
         confirmButtonText: "Continue",
-        confirmButtonColor: "#cb0e10",
+        confirmButtonColor: "#c01f53",
       });
 
       onClose?.();
@@ -188,83 +189,100 @@ const SDBQualificationUpdate = ({ open, onClose, onUpdated }) => {
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-[9999] bg-[#061c2a]">
-      <div className="flex h-full flex-col">
-        <div className="flex items-center gap-5 bg-primary px-5 py-4 text-white">
-          <button type="button" onClick={onClose}>
-            <ArrowLeft size={28} />
-          </button>
+ return (
+  <div className="fixed inset-0 z-[9999] bg-black/80">
+    <div className="flex flex-col max-w-4xl mx-auto my-10 rounded-3xl max-h-[500px] overflow-y-auto">
+      <div className="flex items-center gap-4 bg-gray-50 px-4 py-3 shadow-lg border-b border-slate-100">
+        <button
+          type="button"
+          onClick={onClose}
+          className="grid size-8 place-content-center rounded-full bg-slate-100 text-darkPrimary hover:bg-primary hover:text-white"
+        >
+          <ArrowLeft size={22} />
+        </button>
 
-          <h2 className="text-2xl font-bold">Update qualifications</h2>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="ml-auto rounded-full p-2 hover:bg-white/10"
-          >
-            <X size={24} />
-          </button>
+        <div className="">
+          <h2 className="text-sm sm:text-md font-bold text-black">
+            Update Qualifications
+          </h2>
+          <p className="text-xs text-slate-500 hidden sm:block">
+            Complete your education details to apply for courses.
+          </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex-1 overflow-y-auto px-4 py-7"
+        <button
+          type="button"
+          onClick={onClose}
+          className="ml-auto grid size-6 sm:size-8 place-content-center rounded-full bg-primary text-white hover:cursor-pointer hover:bg-darkPrimary hover:text-white"
         >
-          <div className="mx-auto max-w-4xl rounded-xl bg-black p-5 text-white sm:p-7">
+          <X size={14} sm:size={18} />
+        </button>
+      </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex-1 overflow-y-auto bg-gradient-to-br from-pink-50 via-white to-blue-50 px-4 py-6"
+      >
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+          <div className="bg-white px-6 py-1 text-white">
+           
+            
+          </div>
+
+          <div className="space-y-6 p-5 sm:p-7">
             {errors.uid && (
-              <p className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
+              <p className="rounded-xl bg-secondary px-4 py-3 text-sm font-bold text-secondary">
                 {errors.uid}
               </p>
             )}
 
-            <div className="space-y-7">
-              <Fieldset title="Highest Qualification">
+            <Fieldset title="Highest Qualification">
+              <RadioGroup
+                name="highest"
+                value={form.highest}
+                options={["plus two", "degree", "masters"]}
+                labels={["Plus Two", "Degree", "Masters"]}
+                onChange={updateField}
+                error={errors.highest}
+              />
+            </Fieldset>
+
+            {showTenth && (
+              <Fieldset title="Tenth Level">
                 <RadioGroup
-                  name="highest"
-                  value={form.highest}
-                  options={["plus two", "degree", "masters"]}
-                  labels={["Plus Two", "Degree", "Masters"]}
+                  name="tenth_syllabus"
+                  value={form.tenth_syllabus}
+                  options={["state syllabus", "CBSE"]}
+                  labels={["State syllabus", "CBSE"]}
                   onChange={updateField}
-                  error={errors.highest}
+                  error={errors.tenth_syllabus}
+                />
+
+                <Input
+                  label="Overall %"
+                  value={form.tenth_overall}
+                  onChange={(value) => updateField("tenth_overall", value)}
+                  error={errors.tenth_overall}
                 />
               </Fieldset>
+            )}
 
-              {showTenth && (
-                <Fieldset title="Tenth Level">
-                  <RadioGroup
-                    name="tenth_syllabus"
-                    value={form.tenth_syllabus}
-                    options={["state syllabus", "CBSE"]}
-                    labels={["State syllabus", "CBSE"]}
-                    onChange={updateField}
-                    error={errors.tenth_syllabus}
-                  />
+            {showTwelfth && (
+              <Fieldset title="Twelfth Level">
+                <Select
+                  label="Stream"
+                  value={form.twelth_stream}
+                  onChange={(value) => updateField("twelth_stream", value)}
+                  error={errors.twelth_stream}
+                  options={[
+                    "science",
+                    "commerce",
+                    "humanities",
+                    "computer science",
+                  ]}
+                />
 
-                  <Input
-                    label="Overall %"
-                    value={form.tenth_overall}
-                    onChange={(value) => updateField("tenth_overall", value)}
-                    error={errors.tenth_overall}
-                  />
-                </Fieldset>
-              )}
-
-              {showTwelfth && (
-                <Fieldset title="Twelfth Level">
-                  <Select
-                    label="Stream"
-                    value={form.twelth_stream}
-                    onChange={(value) => updateField("twelth_stream", value)}
-                    error={errors.twelth_stream}
-                    options={[
-                      "science",
-                      "commerce",
-                      "humanities",
-                      "computer science",
-                    ]}
-                  />
-
+                <div className="grid gap-5 sm:grid-cols-2">
                   <Input
                     label="Overall %"
                     value={form.twelth_overall}
@@ -278,18 +296,20 @@ const SDBQualificationUpdate = ({ open, onClose, onUpdated }) => {
                     onChange={(value) => updateField("twelth_english", value)}
                     error={errors.twelth_english}
                   />
-                </Fieldset>
-              )}
+                </div>
+              </Fieldset>
+            )}
 
-              {showDegree && (
-                <Fieldset title="Degree Level">
-                  <Input
-                    label="Subject"
-                    value={form.degree_stream}
-                    onChange={(value) => updateField("degree_stream", value)}
-                    error={errors.degree_stream}
-                  />
+            {showDegree && (
+              <Fieldset title="Degree Level">
+                <Input
+                  label="Subject"
+                  value={form.degree_stream}
+                  onChange={(value) => updateField("degree_stream", value)}
+                  error={errors.degree_stream}
+                />
 
+                <div className="grid gap-5 sm:grid-cols-2">
                   <Input
                     label="Overall %"
                     value={form.degree_overall}
@@ -303,18 +323,20 @@ const SDBQualificationUpdate = ({ open, onClose, onUpdated }) => {
                     onChange={(value) => updateField("degree_english", value)}
                     error={errors.degree_english}
                   />
-                </Fieldset>
-              )}
+                </div>
+              </Fieldset>
+            )}
 
-              {showPG && (
-                <Fieldset title="Masters Level">
-                  <Input
-                    label="Stream"
-                    value={form.pg_stream}
-                    onChange={(value) => updateField("pg_stream", value)}
-                    error={errors.pg_stream}
-                  />
+            {showPG && (
+              <Fieldset title="Masters Level">
+                <Input
+                  label="Stream"
+                  value={form.pg_stream}
+                  onChange={(value) => updateField("pg_stream", value)}
+                  error={errors.pg_stream}
+                />
 
+                <div className="grid gap-5 sm:grid-cols-2">
                   <Input
                     label="Overall %"
                     value={form.pg_overall}
@@ -328,71 +350,58 @@ const SDBQualificationUpdate = ({ open, onClose, onUpdated }) => {
                     onChange={(value) => updateField("pg_english", value)}
                     error={errors.pg_english}
                   />
-                </Fieldset>
-              )}
+                </div>
+              </Fieldset>
+            )}
 
-              {showIELTS && (
-                <>
-                  <Input
-                    label="IELTS overall score"
-                    value={form.ielts_overall}
-                    onChange={(value) => updateField("ielts_overall", value)}
-                    error={errors.ielts_overall}
-                  />
+            {showIELTS && (
+              <Fieldset title="IELTS Score">
+                <Input
+                  label="Overall Score"
+                  value={form.ielts_overall}
+                  onChange={(value) => updateField("ielts_overall", value)}
+                  error={errors.ielts_overall}
+                />
 
-                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <Input
-                      label="IELTS Listening score"
-                      value={form.ielts_l}
-                      onChange={(value) => updateField("ielts_l", value)}
-                      error={errors.ielts_l}
-                    />
-
-                    <Input
-                      label="IELTS Reading score"
-                      value={form.ielts_r}
-                      onChange={(value) => updateField("ielts_r", value)}
-                      error={errors.ielts_r}
-                    />
-
-                    <Input
-                      label="IELTS Writing score"
-                      value={form.ielts_w}
-                      onChange={(value) => updateField("ielts_w", value)}
-                      error={errors.ielts_w}
-                    />
-
-                    <Input
-                      label="IELTS Speaking score"
-                      value={form.ielts_s}
-                      onChange={(value) => updateField("ielts_s", value)}
-                      error={errors.ielts_s}
-                    />
-                  </div>
-                </>
-              )}
-
-              <div className="flex justify-center pt-2">
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="rounded-xl bg-green-400 px-10 py-3 text-lg font-black text-black hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {submitting ? "UPDATING..." : "UPDATE"}
-                </button>
-              </div>
-            </div>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                  <Input label="Listening" value={form.ielts_l} onChange={(v) => updateField("ielts_l", v)} error={errors.ielts_l} />
+                  <Input label="Reading" value={form.ielts_r} onChange={(v) => updateField("ielts_r", v)} error={errors.ielts_r} />
+                  <Input label="Writing" value={form.ielts_w} onChange={(v) => updateField("ielts_w", v)} error={errors.ielts_w} />
+                  <Input label="Speaking" value={form.ielts_s} onChange={(v) => updateField("ielts_s", v)} error={errors.ielts_s} />
+                </div>
+              </Fieldset>
+            )}
           </div>
-        </form>
-      </div>
+
+          <div className="flex flex-col sm:flex-row justify-end gap-3 border-t border-t-slate-200 bg-white/95 px-6 py-4 backdrop-blur">
+          
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="rounded-xl bg-darkPrimary px-8 py-3 text-sm font-bold text-white shadow-lg shadow-pink-200 hover:bg-primary disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? "Updating..." : "Update Qualification"}
+            </button>
+              <button
+              type="button"
+              onClick={onClose}
+              className="rounded-xl bg-slate-200 px-6 py-3 text-sm font-bold text-slate-700 hover:bg-slate-200"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-  );
+  </div>
+);
 };
 
 function Fieldset({ title, children }) {
   return (
     <fieldset className="rounded-2xl border border-slate-400 px-5 pb-5 pt-4">
-      <legend className="px-3 text-lg font-black text-primary">{title}</legend>
+      <legend className="px-3 text-sm font-bold text-primary">{title}</legend>
       <div className="space-y-5">{children}</div>
     </fieldset>
   );
@@ -405,14 +414,14 @@ function RadioGroup({ name, value, options, labels, onChange, error }) {
         {options.map((option, index) => (
           <label
             key={option}
-            className="flex cursor-pointer items-center gap-2 text-lg font-bold text-white"
+            className="flex cursor-pointer items-center gap-2 text-sm font-bold text-black"
           >
             <input
               type="radio"
               name={name}
               checked={value === option}
               onChange={() => onChange(name, option)}
-              className="h-6 w-6 accent-primary"
+              className="h-4 w-4 accent-primary"
             />
             {labels?.[index] || option}
           </label>
@@ -427,13 +436,13 @@ function RadioGroup({ name, value, options, labels, onChange, error }) {
 function Input({ label, value, onChange, error }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-lg font-bold text-white">{label} :</span>
+      <span className="mb-2 block text-md font-bold text-black">{label} :</span>
 
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`w-full rounded-2xl border bg-black px-4 py-3 text-white outline-none focus:ring-2 ${
+        className={`w-full rounded-2xl border bg-white px-4 py-2 text-black outline-none focus:ring-2 ${
           error
             ? "border-red-400 focus:ring-red-500"
             : "border-slate-400 focus:ring-primary"
@@ -448,12 +457,12 @@ function Input({ label, value, onChange, error }) {
 function Select({ label, value, onChange, options, error }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-lg font-bold text-white">{label} :</span>
+      <span className="mb-2 block text-md font-bold text-black">{label} :</span>
 
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`w-full rounded-2xl border bg-black px-4 py-3 text-white outline-none focus:ring-2 ${
+        className={`w-full rounded-2xl border bg-white px-4 py-2 text-black outline-none focus:ring-2 ${
           error
             ? "border-red-400 focus:ring-red-500"
             : "border-slate-400 focus:ring-primary"
