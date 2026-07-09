@@ -83,7 +83,7 @@ const AllTestimonials = () => {
             What Our Students Say
           </p>
 
-          <h1 className="mt-4 font-ubuntu text-3xl font-black text-secondary sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 font-nunito text-3xl font-black text-secondary sm:text-4xl lg:text-5xl">
             Real Stories From Our{" "}
             <span className="text-primary">Students</span>
           </h1>

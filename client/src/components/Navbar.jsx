@@ -75,13 +75,11 @@ const Navbar = () => {
   return (
     <header data-theme="mytheme" className="sticky top-0 z-50 w-full">
       <div className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8 bg-primary">
-        <div
-          className={`navbar font-nunito transition-all duration-300 ease-in-out ${
-            scrolled
-              ? "h-14 min-h-14 shadow-lg"
-              : "h-16 min-h-16 lg:h-[76px] lg:min-h-[76px]"
-          }`}
-        >
+      <div
+  className={`navbar h-16 min-h-16 font-nunito transition-shadow duration-300 lg:h-[76px] lg:min-h-[76px] ${
+    scrolled ? "shadow-lg" : ""
+  }`}
+>
           {/* LEFT - LOGO */}
           <div className="navbar-start">
            <Link
