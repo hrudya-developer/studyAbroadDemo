@@ -105,7 +105,7 @@ export default function Testimonial() {
               spaceBetween={28}
               loop={testimonials.length > 3}
               autoplay={{
-                delay: 3000,
+                delay: 3000000,
                 disableOnInteraction: false,
               }}
               observer={true}
@@ -125,38 +125,93 @@ export default function Testimonial() {
                   : fallbackImage;
 
                 return (
-                  <SwiperSlide key={item.id || index} className="h-auto">
-                    <article className="my-10 flex h-full flex-col overflow-hidden rounded-3xl bg-gray-50 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-                      <div className="relative grid place-content-center overflow-hidden pt-10">
-                        <img
-                          src={image}
-                          alt={name}
-                          onError={(e) => {
-                            e.currentTarget.src = fallbackImage;
-                          }}
-                          className="h-[150px] w-[150px] rounded-full border-2 border-dashed border-primary/20 object-cover p-2 transition duration-500 hover:scale-105"
-                        />
-                      </div>
+<SwiperSlide key={item.id || index} className="h-auto py-10">
+  <article className="group relative mx-auto flex h-[540px] w-full max-w-[390px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.16)] transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_28px_65px_rgba(4,102,175,0.24)]">
+    {/* Blue header */}
+    <div className="relative h-[185px] overflow-hidden">
+      {/* Soft gradient */}
+      <div className="absolute inset-0 bg-darkPrimary" />
 
-                      <div className="flex flex-1 flex-col px-6 py-6 text-center">
-                        <h3 className="text-lg font-bold text-slate-900">
-                          {name}
-                        </h3>
+      {/* Dot pattern */}
+      <div
+        className="absolute inset-y-0 right-0 w-[58%] opacity-20"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.9) 1.4px, transparent 1.4px)",
+          backgroundSize: "12px 12px",
+        }}
+      />
 
-                        {role && (
-                          <p className="mt-1 text-sm text-gray-500">{role}</p>
-                        )}
+      {/* Header title */}
+      <div className="relative z-10 flex h-full flex-col items-center pt-7 text-center text-white">
+       
 
-                        {text && (
-                          <p className="mt-4 text-sm italic leading-6 text-gray-800">
-                            {text.length > 180
-                              ? `${text.slice(0, 180)}...`
-                              : text}
-                          </p>
-                        )}
-                      </div>
-                    </article>
-                  </SwiperSlide>
+   
+      </div>
+    </div>
+
+    {/* Profile image overlapping header */}
+    <div className="absolute left-1/2 top-[25px] z-20 -translate-x-1/2">
+      <div className="relative rounded-xl bg-white p-[7px] shadow-xl">
+        <div className="absolute -inset-2 rounded-xl border-2 border-dashed border-primary/30 transition-transform duration-700 group-hover:rotate-180" />
+
+        <img
+          src={image}
+          alt={name}
+          onError={(e) => {
+            e.currentTarget.src = fallbackImage;
+          }}
+          className="relative h-[205px] w-[205px] sm:w-[225px] sm:h-[225px] rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+    </div>
+
+    {/* Small side blue tabs */}
+    <div className="absolute left-0 top-[290px] h-8 w-3 rounded-r-md bg-primary/20" />
+    <div className="absolute right-0 top-[290px] h-8 w-3 rounded-l-md bg-primary/20" />
+
+    {/* Testimonial content */}
+    <div className="relative z-10 flex flex-1 flex-col items-center px-10 pb-9 pt-[112px] text-center">
+      {/* Quote decoration */}
+      <div className="mb-2 text-[48px] font-black leading-none text-primary/20">
+        “
+      </div>
+
+      {text && (
+        <p className="line-clamp-5 text-[13px] italic leading-6 text-slate-600">
+          {text.length > 220 ? `${text.slice(0, 220)}...` : text}
+        </p>
+      )}
+
+      <div className="mt-auto">
+        <h4 className="text-[17px] font-extrabold uppercase tracking-wide text-slate-900 mt-5">
+          {name}
+        </h4>
+
+        {role && (
+          <p className="mt-1 text-[11px] font-medium uppercase tracking-widest text-slate-500">
+            {role}
+          </p>
+        )}
+
+        <div className="mt-3 flex justify-center gap-1 text-[16px] text-yellow-400">
+          {[...Array(5)].map((_, starIndex) => (
+            <span key={starIndex}>★</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* Bottom-left curved decoration */}
+    <div className="pointer-events-none absolute -bottom-10 -left-10 h-24 w-24 rounded-full border-[14px] border-primary/20" />
+
+    {/* Bottom-right curved decoration */}
+    <div className="pointer-events-none absolute -bottom-10 -right-10 h-24 w-24 rounded-full border-[14px] border-primary/20" />
+
+    {/* Bottom center line */}
+    <div className="absolute bottom-0 left-1/2 h-1 w-24 -translate-x-1/2 rounded-t-full bg-darkPrimary" />
+  </article>
+</SwiperSlide>
                 );
               })}
             </Swiper>
