@@ -146,7 +146,7 @@ const GermanCoursesLayout = () => {
               >
                 {cards.map((item) => (
                   <SwiperSlide key={item.id} className="!h-auto py-2">
-                    <div className="group flex h-full flex-col overflow-hidden rounded-[30px] bg-white shadow-xl shadow-slate-200/70 ring-1 ring-slate-100 transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                    <div className="group flex h-full flex-col overflow-hidden rounded-[30px] bg-slate-50 shadow-xl shadow-slate-200/70 ring-1 ring-slate-100 transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
                       <div className="relative h-56 overflow-hidden sm:h-64">
                         <img
                           src={`${imagePath}${item.icon}`}

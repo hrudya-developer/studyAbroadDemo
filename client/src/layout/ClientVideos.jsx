@@ -11,131 +11,224 @@ import {
   ChevronRight,
   Loader2,
   Play,
+  Volume2,
+  VolumeX,
   X,
 } from "lucide-react";
 
 const API_URL =
   "https://overseas.technocitysolutions.com/public/api/getHomeResponses";
 
+const AUTOPLAY_DELAY = 7000;
+const DRAG_THRESHOLD = 55;
+
 const FALLBACK =
-  'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="320" height="500">' +
-  '<rect width="100%" height="100%" fill="%230f172a"/>' +
-  '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" ' +
-  'fill="%2394a3b8" font-size="22">Video</text></svg>';
+  'data:image/svg+xml;charset=UTF-8,' +
+  encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280">
+      <defs>
+        <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0f172a"/>
+          <stop offset="100%" stop-color="#020617"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="100%" height="100%" fill="url(#background)"/>
+
+      <circle
+        cx="360"
+        cy="575"
+        r="92"
+        fill="#0466AF"
+        opacity="0.95"
+      />
+
+      <polygon
+        points="335,530 335,620 410,575"
+        fill="#ffffff"
+      />
+
+      <text
+        x="50%"
+        y="720"
+        dominant-baseline="middle"
+        text-anchor="middle"
+        fill="#cbd5e1"
+        font-family="Arial, sans-serif"
+        font-size="38"
+      >
+        Departure Video
+      </text>
+    </svg>
+  `);
 
 const getWrappedIndex = (index, length) => {
+  if (!length) return 0;
+
   return ((index % length) + length) % length;
 };
 
 const getMediaUrl = (path, file) => {
-  if (!file) return FALLBACK;
+  if (!file) return "";
+
+  const value = String(file).trim();
 
   if (
-    file.startsWith("http://") ||
-    file.startsWith("https://") ||
-    file.startsWith("data:")
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("data:") ||
+    value.startsWith("blob:")
   ) {
-    return file;
+    return value;
   }
 
-  return `${path || ""}${file}`;
+  const normalizedPath = path
+    ? path.endsWith("/")
+      ? path
+      : `${path}/`
+    : "";
+
+  return `${normalizedPath}${value.replace(/^\/+/, "")}`;
 };
 
 const ClientVideos = () => {
   const [videos, setVideos] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
-  const [slideDirection, setSlideDirection] =
-    useState("next");
 
-  const [selectedVideo, setSelectedVideo] =
-    useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [previewMuted, setPreviewMuted] = useState(true);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const dragStartXRef = useRef(0);
+  const dragOffsetRef = useRef(0);
   const isDraggingRef = useRef(false);
   const autoplayRef = useRef(null);
+  const previewVideoRef = useRef(null);
 
   const totalVideos = videos.length;
 
+  /*
+   * Fetch video data.
+   */
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchVideos = async () => {
       try {
         setLoading(true);
         setError("");
 
         const formData = new FormData();
+
         formData.append("api", "overseas@Miak2023");
         formData.append("uid", "0");
 
-        const response = await axios.post(
-          API_URL,
-          formData
-        );
+        const response = await axios.post(API_URL, formData, {
+          signal: controller.signal,
+        });
 
-        const data = response?.data || {};
-        const shortsPath = data?.shorts_path || "";
+        const responseData = response?.data ?? {};
+        const shortsPath = responseData?.shorts_path ?? "";
 
-        const shorts = Array.isArray(data?.shorts)
-          ? data.shorts
+        const shorts = Array.isArray(responseData?.shorts)
+          ? responseData.shorts
           : [];
 
         const formattedVideos = shorts
-          .filter(
-            (item) =>
-              String(item?.status) === "1" &&
-              item?.link
-          )
-          .map((item) => ({
-            id: item.id,
-            type: item.type || "",
-            countryId: item.country || "",
-            title:
-              item.title || "Student Departure",
-            destination:
-              item.title ||
-              "International Destination",
-            videoUrl: item.link,
+          .filter((item) => {
+            const isActive = String(item?.status) === "1";
+            const hasVideo = Boolean(item?.link);
 
-            poster: getMediaUrl(
-              shortsPath,
-              item.thumb || item.placeholder
-            ),
+            return isActive && hasVideo;
+          })
+          .map((item, index) => {
+            const posterFile =
+              item?.thumb ||
+              item?.thumbnail ||
+              item?.placeholder ||
+              "";
 
-            placeholder: getMediaUrl(
-              shortsPath,
-              item.placeholder
-            ),
-          }));
+            const placeholderFile =
+              item?.placeholder || item?.thumb || "";
+
+            return {
+              id: item?.id ?? `video-${index}`,
+              type: item?.type ?? "",
+              countryId: item?.country ?? "",
+
+              title:
+                item?.title?.trim() ||
+                "Student Departure",
+
+              destination:
+                item?.destination?.trim() ||
+                item?.title?.trim() ||
+                "International Destination",
+
+              videoUrl: getMediaUrl("", item?.link),
+
+              poster:
+                getMediaUrl(shortsPath, posterFile) ||
+                FALLBACK,
+
+              placeholder:
+                getMediaUrl(
+                  shortsPath,
+                  placeholderFile
+                ) || FALLBACK,
+            };
+          });
 
         setVideos(formattedVideos);
         setActiveIndex(0);
-      } catch (err) {
+      } catch (requestError) {
+        if (
+          requestError?.name === "CanceledError" ||
+          requestError?.name === "AbortError" ||
+          requestError?.code === "ERR_CANCELED"
+        ) {
+          return;
+        }
+
         console.error(
           "Unable to fetch departure videos:",
-          err
+          requestError
         );
 
         setError(
           "Unable to load departure videos. Please try again later."
         );
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchVideos();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
+  /*
+   * Lock document scrolling when modal is open.
+   */
   useEffect(() => {
     if (!selectedVideo) return undefined;
 
     const previousBodyOverflow =
       document.body.style.overflow;
 
+    const previousHtmlOverflow =
+      document.documentElement.style.overflow;
+
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     const handleEscape = (event) => {
       if (event.key === "Escape") {
@@ -143,14 +236,14 @@ const ClientVideos = () => {
       }
     };
 
-    window.addEventListener(
-      "keydown",
-      handleEscape
-    );
+    window.addEventListener("keydown", handleEscape);
 
     return () => {
       document.body.style.overflow =
         previousBodyOverflow;
+
+      document.documentElement.style.overflow =
+        previousHtmlOverflow;
 
       window.removeEventListener(
         "keydown",
@@ -159,35 +252,52 @@ const ClientVideos = () => {
     };
   }, [selectedVideo]);
 
-  const stopAutoplay = useCallback(() => {
-    if (autoplayRef.current) {
-      clearInterval(autoplayRef.current);
-      autoplayRef.current = null;
+  /*
+   * Try to play the active preview whenever the active card changes.
+   */
+  useEffect(() => {
+    const videoElement = previewVideoRef.current;
+
+    if (!videoElement || selectedVideo) return;
+
+    videoElement.currentTime = 0;
+
+    const playPromise = videoElement.play();
+
+    if (playPromise?.catch) {
+      playPromise.catch(() => {
+        // Browser may block autoplay until interaction.
+      });
     }
+  }, [activeIndex, selectedVideo]);
+
+  const stopAutoplay = useCallback(() => {
+    if (!autoplayRef.current) return;
+
+    window.clearInterval(autoplayRef.current);
+    autoplayRef.current = null;
   }, []);
 
   const startAutoplay = useCallback(() => {
     stopAutoplay();
 
-    if (totalVideos <= 1 || selectedVideo) {
+    if (
+      totalVideos <= 1 ||
+      selectedVideo ||
+      document.hidden
+    ) {
       return;
     }
 
-    autoplayRef.current = setInterval(() => {
-      setSlideDirection("next");
-
-      setActiveIndex((current) =>
+    autoplayRef.current = window.setInterval(() => {
+      setActiveIndex((currentIndex) =>
         getWrappedIndex(
-          current + 1,
+          currentIndex + 1,
           totalVideos
         )
       );
-    }, 4000);
-  }, [
-    selectedVideo,
-    stopAutoplay,
-    totalVideos,
-  ]);
+    }, AUTOPLAY_DELAY);
+  }, [selectedVideo, stopAutoplay, totalVideos]);
 
   useEffect(() => {
     startAutoplay();
@@ -195,90 +305,132 @@ const ClientVideos = () => {
     return stopAutoplay;
   }, [startAutoplay, stopAutoplay]);
 
+  /*
+   * Pause carousel autoplay when the browser tab is hidden.
+   */
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopAutoplay();
+      } else {
+        startAutoplay();
+      }
+    };
+
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibilityChange
+    );
+
+    return () => {
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange
+      );
+    };
+  }, [startAutoplay, stopAutoplay]);
+
+  const goToIndex = useCallback(
+    (index) => {
+      if (!totalVideos) return;
+
+      setActiveIndex(
+        getWrappedIndex(index, totalVideos)
+      );
+
+      setDragOffset(0);
+      dragOffsetRef.current = 0;
+
+      startAutoplay();
+    },
+    [startAutoplay, totalVideos]
+  );
+
   const goToPrevious = useCallback(() => {
-    if (!totalVideos) return;
+    if (totalVideos <= 1) return;
 
-    setSlideDirection("previous");
-
-    setActiveIndex((current) =>
+    setActiveIndex((currentIndex) =>
       getWrappedIndex(
-        current - 1,
+        currentIndex - 1,
         totalVideos
       )
     );
+
+    setDragOffset(0);
+    dragOffsetRef.current = 0;
 
     startAutoplay();
   }, [startAutoplay, totalVideos]);
 
   const goToNext = useCallback(() => {
-    if (!totalVideos) return;
+    if (totalVideos <= 1) return;
 
-    setSlideDirection("next");
-
-    setActiveIndex((current) =>
+    setActiveIndex((currentIndex) =>
       getWrappedIndex(
-        current + 1,
+        currentIndex + 1,
         totalVideos
       )
     );
+
+    setDragOffset(0);
+    dragOffsetRef.current = 0;
 
     startAutoplay();
   }, [startAutoplay, totalVideos]);
 
   const handleDragStart = useCallback(
     (clientX) => {
+      if (totalVideos <= 1) return;
+
       isDraggingRef.current = true;
       dragStartXRef.current = clientX;
+      dragOffsetRef.current = 0;
 
       setDragOffset(0);
       stopAutoplay();
     },
-    [stopAutoplay]
+    [stopAutoplay, totalVideos]
   );
 
-  const handleDragMove = useCallback(
-    (clientX) => {
-      if (!isDraggingRef.current) return;
+  const handleDragMove = useCallback((clientX) => {
+    if (!isDraggingRef.current) return;
 
-      setDragOffset(
-        clientX - dragStartXRef.current
-      );
-    },
-    []
-  );
+    const newOffset =
+      clientX - dragStartXRef.current;
+
+    dragOffsetRef.current = newOffset;
+    setDragOffset(newOffset);
+  }, []);
 
   const handleDragEnd = useCallback(() => {
     if (!isDraggingRef.current) return;
 
-    if (dragOffset > 60) {
-      setSlideDirection("previous");
+    const finalOffset = dragOffsetRef.current;
 
-      setActiveIndex((current) =>
+    if (finalOffset > DRAG_THRESHOLD) {
+      setActiveIndex((currentIndex) =>
         getWrappedIndex(
-          current - 1,
+          currentIndex - 1,
           totalVideos
         )
       );
-    } else if (dragOffset < -60) {
-      setSlideDirection("next");
-
-      setActiveIndex((current) =>
+    } else if (
+      finalOffset < -DRAG_THRESHOLD
+    ) {
+      setActiveIndex((currentIndex) =>
         getWrappedIndex(
-          current + 1,
+          currentIndex + 1,
           totalVideos
         )
       );
     }
 
     isDraggingRef.current = false;
+    dragOffsetRef.current = 0;
 
     setDragOffset(0);
     startAutoplay();
-  }, [
-    dragOffset,
-    startAutoplay,
-    totalVideos,
-  ]);
+  }, [startAutoplay, totalVideos]);
 
   const visibleCards = useMemo(() => {
     if (!totalVideos) return [];
@@ -288,54 +440,142 @@ const ClientVideos = () => {
         {
           position: "center",
           video: videos[0],
+          videoIndex: 0,
         },
       ];
     }
 
+    const previousIndex = getWrappedIndex(
+      activeIndex - 1,
+      totalVideos
+    );
+
+    const nextIndex = getWrappedIndex(
+      activeIndex + 1,
+      totalVideos
+    );
+
     return [
       {
         position: "left",
-        video:
-          videos[
-            getWrappedIndex(
-              activeIndex - 1,
-              totalVideos
-            )
-          ],
+        video: videos[previousIndex],
+        videoIndex: previousIndex,
       },
       {
         position: "center",
         video: videos[activeIndex],
+        videoIndex: activeIndex,
       },
       {
         position: "right",
-        video:
-          videos[
-            getWrappedIndex(
-              activeIndex + 1,
-              totalVideos
-            )
-          ],
+        video: videos[nextIndex],
+        videoIndex: nextIndex,
       },
     ];
   }, [activeIndex, totalVideos, videos]);
 
-  const openVideo = (video) => {
-    stopAutoplay();
-    setSelectedVideo(video);
-  };
+  const openVideo = useCallback(
+    (video) => {
+      if (
+        Math.abs(dragOffsetRef.current) > 6 ||
+        isDraggingRef.current
+      ) {
+        return;
+      }
 
-  const closeVideo = () => {
+      stopAutoplay();
+
+      const previewElement = previewVideoRef.current;
+
+      if (previewElement) {
+        previewElement.pause();
+      }
+
+      setSelectedVideo(video);
+    },
+    [stopAutoplay]
+  );
+
+  const closeVideo = useCallback(() => {
     setSelectedVideo(null);
-  };
+  }, []);
+
+  const handleImageError = useCallback(
+    (event, placeholder) => {
+      const imageElement = event.currentTarget;
+
+      if (
+        placeholder &&
+        placeholder !== imageElement.src &&
+        imageElement.dataset.fallback !==
+          "placeholder"
+      ) {
+        imageElement.dataset.fallback =
+          "placeholder";
+
+        imageElement.src = placeholder;
+        return;
+      }
+
+      if (
+        imageElement.dataset.fallback !== "final"
+      ) {
+        imageElement.dataset.fallback = "final";
+        imageElement.src = FALLBACK;
+      }
+    },
+    []
+  );
+
+  const handlePreviewVideoError = useCallback(
+    (event) => {
+      const videoElement = event.currentTarget;
+
+      videoElement.style.display = "none";
+
+      const fallbackImage =
+        videoElement.parentElement?.querySelector(
+          "[data-video-fallback]"
+        );
+
+      if (fallbackImage) {
+        fallbackImage.style.display = "block";
+      }
+    },
+    []
+  );
+
+  const togglePreviewSound = useCallback(
+    (event) => {
+      event.stopPropagation();
+
+      setPreviewMuted((currentValue) => {
+        const nextValue = !currentValue;
+
+        if (previewVideoRef.current) {
+          previewVideoRef.current.muted =
+            nextValue;
+
+          if (!nextValue) {
+            previewVideoRef.current
+              .play()
+              .catch(() => {});
+          }
+        }
+
+        return nextValue;
+      });
+    },
+    []
+  );
 
   if (loading) {
     return (
-      <div className="flex min-h-[420px] w-full items-center justify-center">
-        <div className="flex flex-col items-center gap-3 text-white">
-          <Loader2 className="h-9 w-9 animate-spin text-primary" />
+      <div className="flex min-h-[480px] w-full items-center justify-center px-5">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
 
-          <p className="text-sm text-slate-300">
+          <p className="text-sm font-medium text-slate-300">
             Loading departure videos...
           </p>
         </div>
@@ -345,19 +585,22 @@ const ClientVideos = () => {
 
   if (error) {
     return (
-      <div className="flex min-h-[420px] w-full items-center justify-center px-5 text-center">
-        <p className="rounded-xl border border-red-400/20 bg-red-500/10 px-5 py-4 text-sm text-red-200">
-          {error}
-        </p>
+      <div className="flex min-h-[480px] w-full items-center justify-center px-5 text-center">
+        <div className="max-w-md rounded-2xl border border-red-400/20 bg-red-500/10 px-6 py-5">
+          <p className="text-sm leading-6 text-red-200">
+            {error}
+          </p>
+        </div>
       </div>
     );
   }
 
   if (!totalVideos) {
     return (
-      <div className="flex min-h-[420px] w-full items-center justify-center">
-        <p className="text-slate-300">
-          No departure videos are available.
+      <div className="flex min-h-[480px] w-full items-center justify-center px-5">
+        <p className="text-center text-slate-300">
+          No departure videos are currently
+          available.
         </p>
       </div>
     );
@@ -366,18 +609,22 @@ const ClientVideos = () => {
   return (
     <>
       <div
-        className="relative mx-auto w-full max-w-[920px] overflow-hidden"
+        className="relative mx-auto w-full max-w-[1100px] overflow-hidden px-2 py-5 sm:px-4 sm:py-8 lg:py-10"
         onMouseEnter={stopAutoplay}
         onMouseLeave={() => {
-          handleDragEnd();
-          startAutoplay();
+          if (isDraggingRef.current) {
+            handleDragEnd();
+          } else {
+            startAutoplay();
+          }
         }}
       >
         <div
-          className="relative h-[390px] w-full overflow-hidden sm:h-[480px] lg:h-[570px]"
-          onMouseDown={(event) =>
-            handleDragStart(event.clientX)
-          }
+          className="relative h-[500px] w-full cursor-grab overflow-hidden active:cursor-grabbing sm:h-[620px] lg:h-[680px]"
+          onMouseDown={(event) => {
+            event.preventDefault();
+            handleDragStart(event.clientX);
+          }}
           onMouseMove={(event) =>
             handleDragMove(event.clientX)
           }
@@ -393,185 +640,237 @@ const ClientVideos = () => {
             )
           }
           onTouchEnd={handleDragEnd}
+          onTouchCancel={handleDragEnd}
           style={{
             userSelect: "none",
             touchAction: "pan-y",
-            perspective: "1400px",
+            perspective: "1500px",
           }}
         >
-          {/* Decorative glow */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[65%] w-[55%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/15 blur-[90px]" />
+          {/* Subtle background glow */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[58%] w-[56%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/[0.07] blur-[100px]" />
 
-          <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-px w-[70%] -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent shadow-[0_0_30px_rgba(34,211,238,0.8)]" />
+          {/* Ground line */}
+          <div className="pointer-events-none absolute bottom-[6%] left-1/2 h-px w-[65%] -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-300/35 to-transparent shadow-[0_0_20px_rgba(34,211,238,0.35)]" />
 
           {visibleCards.map(
-            ({ position, video }) => {
+            ({
+              position,
+              video,
+              videoIndex,
+            }) => {
               const isCenter =
                 position === "center";
 
-              const isLeft =
-                position === "left";
+              const isLeft = position === "left";
 
               const leftPosition = isCenter
                 ? "50%"
                 : isLeft
-                  ? "22%"
-                  : "78%";
+                  ? "20%"
+                  : "80%";
 
               const rotationY = isCenter
                 ? 0
                 : isLeft
-                  ? 16
-                  : -16;
+                  ? 12
+                  : -12;
 
               const rotationZ = isCenter
                 ? 0
                 : isLeft
-                  ? -2
-                  : 2;
+                  ? -1.2
+                  : 1.2;
+
+              const horizontalDrag =
+                dragOffset *
+                (isCenter ? 0.22 : 0.1);
 
               return (
                 <article
-                  key={`${position}-${video.id}-${activeIndex}`}
+                  key={`${position}-${video.id}-${videoIndex}`}
                   className={[
-                    "video-card absolute top-1/2 overflow-hidden rounded-[28px]",
-                    "border bg-slate-900",
-                    "transition-[left,transform,opacity,filter] duration-700",
+                    "absolute top-1/2 overflow-hidden",
+                    "rounded-[28px] bg-black",
+                    "transition-[left,transform,opacity,box-shadow]",
+                    "duration-700",
                     "ease-[cubic-bezier(0.22,1,0.36,1)]",
                     isCenter
-                      ? "z-30 border-cyan-300/90 opacity-100"
-                      : "z-20 border-fuchsia-400/50 opacity-70",
-                    slideDirection === "next"
-                      ? "animate-card-next"
-                      : "animate-card-previous",
+                      ? "z-30 border border-cyan-200/80 opacity-100"
+                      : "z-20 border border-white/15 opacity-75",
                   ].join(" ")}
                   style={{
                     left: leftPosition,
 
                     width: isCenter
-                      ? "clamp(210px,36vw,340px)"
-                      : "clamp(175px,29vw,285px)",
+                      ? "clamp(265px,34vw,390px)"
+                      : "clamp(185px,25vw,285px)",
 
                     height: isCenter
-                      ? "clamp(340px,52vw,520px)"
-                      : "clamp(300px,46vw,460px)",
+                      ? "clamp(420px,54vw,610px)"
+                      : "clamp(320px,42vw,455px)",
 
                     transform: `
                       translate(
-                        calc(-50% + ${
-                          dragOffset *
-                          (isCenter ? 0.18 : 0.1)
-                        }px),
+                        calc(-50% + ${horizontalDrag}px),
                         -50%
                       )
                       scale(${isCenter ? 1 : 0.88})
                       rotateY(${rotationY}deg)
                       rotateZ(${rotationZ}deg)
+                      translateZ(0)
                     `,
 
                     transformOrigin: "center",
+                    transformStyle: "preserve-3d",
+                    backfaceVisibility: "hidden",
 
                     boxShadow: isCenter
                       ? `
-                        0 30px 90px rgba(0,0,0,0.6),
-                        0 0 35px rgba(34,211,238,0.35),
-                        0 0 65px rgba(59,130,246,0.2)
+                        0 25px 65px rgba(0,0,0,0.52),
+                        0 0 22px rgba(34,211,238,0.22)
                       `
                       : `
-                        0 22px 65px rgba(0,0,0,0.5),
-                        0 0 28px rgba(217,70,239,0.18)
+                        0 18px 45px rgba(0,0,0,0.42)
                       `,
-
-                    filter: isCenter
-                      ? "brightness(1)"
-                      : "brightness(0.72) saturate(0.85)",
-
-                    transformStyle: "preserve-3d",
                   }}
                 >
-                  <div className="pointer-events-none absolute inset-0 z-20 rounded-[28px] border border-white/10" />
-
-                  <div
-                    className={[
-                      "pointer-events-none absolute -inset-[2px] z-0 rounded-[30px]",
-                      "bg-gradient-to-br from-cyan-400/50 via-transparent to-fuchsia-500/50",
-                      isCenter
-                        ? "opacity-100"
-                        : "opacity-40",
-                    ].join(" ")}
-                  />
-
                   <button
                     type="button"
-                    onClick={() =>
-                      openVideo(video)
-                    }
-                    className="group relative z-10 block h-full w-full overflow-hidden rounded-[26px]"
+                    onClick={() => openVideo(video)}
+                    aria-label={`Play ${video.title}`}
+                    className="group relative block h-full w-full overflow-hidden rounded-[27px] bg-black text-left"
                   >
-                    <img
-                      src={video.poster}
-                      alt={`${video.title} departure video`}
-                      draggable={false}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition duration-1000 ease-out group-hover:scale-110"
-                      onError={(event) => {
-                        const image =
-                          event.currentTarget;
+                    {isCenter ? (
+                      <>
+                        {/* Actual video preview for maximum clarity */}
+                        <video
+                          ref={previewVideoRef}
+                          key={video.videoUrl}
+                          src={video.videoUrl}
+                          poster={video.poster}
+                          muted={previewMuted}
+                          autoPlay
+                          loop
+                          playsInline
+                          preload="auto"
+                          disablePictureInPicture
+                          onError={
+                            handlePreviewVideoError
+                          }
+                          className="absolute inset-0 h-full w-full bg-black object-cover object-center [transform:translateZ(0)]"
+                        />
 
-                        if (
-                          video.placeholder &&
-                          image.src !==
+                        {/* Used only if video preview fails */}
+                        <img
+                          data-video-fallback
+                          src={video.poster}
+                          alt=""
+                          draggable={false}
+                          className="absolute inset-0 hidden h-full w-full bg-black object-cover object-center"
+                          onError={(event) =>
+                            handleImageError(
+                              event,
+                              video.placeholder
+                            )
+                          }
+                        />
+                      </>
+                    ) : (
+                      <img
+                        src={video.poster}
+                        alt={`${video.title} video`}
+                        draggable={false}
+                        loading="eager"
+                        decoding="async"
+                        className="absolute inset-0 h-full w-full bg-black object-cover object-center [image-rendering:auto] [transform:translateZ(0)]"
+                        onError={(event) =>
+                          handleImageError(
+                            event,
                             video.placeholder
-                        ) {
-                          image.src =
-                            video.placeholder;
-
-                          return;
+                          )
                         }
+                      />
+                    )}
 
-                        image.src = FALLBACK;
-                      }}
-                    />
+                    {/* Very light gradient only for controls */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
 
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30" />
-
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-transparent to-fuchsia-500/10 opacity-0 transition duration-500 group-hover:opacity-100" />
-
-                    {/* Moving shine */}
-                    <div className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 rotate-[18deg] bg-gradient-to-r from-transparent via-white/25 to-transparent blur-sm transition-all duration-1000 group-hover:left-[130%]" />
+                    {/* Inner crisp border */}
+                    <div className="pointer-events-none absolute inset-0 rounded-[27px] border border-white/10" />
 
                     {/* Play button */}
                     <span
                       className={[
                         "absolute left-1/2 top-1/2",
                         "flex -translate-x-1/2 -translate-y-1/2",
-                        "items-center justify-center rounded-full",
-                        "border border-white/60",
-                        "bg-secondary text-white",
-                        "shadow-[0_15px_45px_rgba(0,0,0,0.45)]",
-                        "backdrop-blur-md",
-                        "transition duration-500",
+                        "items-center justify-center",
+                        "rounded-full border border-white/70",
+                        "bg-secondary/90 text-white",
+                        "shadow-[0_12px_35px_rgba(0,0,0,0.38)]",
+                        "transition-all duration-300",
                         "group-hover:scale-110",
-                        "group-hover:border-secondary",
-                        "group-hover:bg-cyan-500/20",
+                        "group-hover:bg-primary",
                         isCenter
-                          ? "h-20 w-20 sm:h-24 sm:w-24"
-                          : "h-14 w-14 sm:h-16 sm:w-16",
+                          ? "h-16 w-16 opacity-90 sm:h-20 sm:w-20"
+                          : "h-12 w-12 sm:h-14 sm:w-14",
                       ].join(" ")}
                     >
-                      <span className="absolute inset-0 animate-ping rounded-full border border-white/25 opacity-40" />
-
                       <Play
-                        className="relative z-10 ml-1"
+                        className="ml-1"
                         fill="currentColor"
-                        size={isCenter ? 32 : 22}
+                        size={isCenter ? 28 : 20}
                       />
                     </span>
 
-                    {/* Small video badge */}
-                    <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-black/40 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-white/90 backdrop-blur-md">
+                    {/* Title */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-4 sm:p-5">
+                      <p
+                        className={[
+                          "line-clamp-2 font-semibold text-white",
+                          "drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]",
+                          isCenter
+                            ? "text-base sm:text-lg"
+                            : "text-xs sm:text-sm",
+                        ].join(" ")}
+                      >
+                        {video.title}
+                      </p>
+                    </div>
+
+                    {/* Video badge */}
+                    <span className="absolute right-3 top-3 rounded-full border border-white/25 bg-black/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white shadow-lg">
                       Video
                     </span>
+
+                    {/* Preview sound */}
+                    {isCenter && (
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        aria-label={
+                          previewMuted
+                            ? "Enable preview sound"
+                            : "Mute preview sound"
+                        }
+                        onClick={togglePreviewSound}
+                        onKeyDown={(event) => {
+                          if (
+                            event.key === "Enter" ||
+                            event.key === " "
+                          ) {
+                            togglePreviewSound(event);
+                          }
+                        }}
+                        className="absolute left-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/50 text-white shadow-lg transition hover:bg-black/75"
+                      >
+                        {previewMuted ? (
+                          <VolumeX size={18} />
+                        ) : (
+                          <Volume2 size={18} />
+                        )}
+                      </span>
+                    )}
                   </button>
                 </article>
               );
@@ -584,47 +883,40 @@ const ClientVideos = () => {
                 type="button"
                 onClick={goToPrevious}
                 aria-label="Previous departure video"
-                className="absolute left-2 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-primary text-white shadow-xl backdrop-blur-xl transition duration-300 hover:scale-110 hover:border-cyan-400 hover:bg-cyan-500/15 hover:text-cyan-300 sm:left-4 sm:h-12 sm:w-12"
+                className="absolute left-2 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-primary text-white shadow-xl transition duration-300 hover:scale-110 hover:bg-secondary sm:left-5 sm:h-12 sm:w-12"
               >
-                <ChevronLeft size={22} />
+                <ChevronLeft size={24} />
               </button>
 
               <button
                 type="button"
                 onClick={goToNext}
                 aria-label="Next departure video"
-                className="absolute right-2 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-primary text-white shadow-xl backdrop-blur-xl transition duration-300 hover:scale-110 hover:border-fuchsia-400 hover:bg-fuchsia-500/15 hover:text-fuchsia-300 sm:right-4 sm:h-12 sm:w-12"
+                className="absolute right-2 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-primary text-white shadow-xl transition duration-300 hover:scale-110 hover:bg-secondary sm:right-5 sm:h-12 sm:w-12"
               >
-                <ChevronRight size={22} />
+                <ChevronRight size={24} />
               </button>
             </>
           )}
         </div>
 
         {totalVideos > 1 && (
-          <div className="flex items-center justify-center gap-2 pb-3">
+          <div className="mt-3 flex max-w-full items-center justify-center gap-2 overflow-hidden px-5 pb-3">
             {videos.map((video, index) => (
               <button
-                key={video.id}
+                key={`${video.id}-${index}`}
                 type="button"
                 aria-label={`Show departure video ${
                   index + 1
                 }`}
-                onClick={() => {
-                  setSlideDirection(
-                    index > activeIndex
-                      ? "next"
-                      : "previous"
-                  );
-
-                  setActiveIndex(index);
-                  startAutoplay();
-                }}
-                className={`rounded-full transition-all duration-500 ${
+                onClick={() => goToIndex(index)}
+                className={[
+                  "shrink-0 rounded-full",
+                  "transition-all duration-500",
                   index === activeIndex
-                    ? "h-2.5 w-8 bg-gradient-to-r from-primary to-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.55)]"
-                    : "h-2.5 w-2.5 bg-white/25 hover:bg-white/60"
-                }`}
+                    ? "h-2.5 w-9 bg-gradient-to-r from-primary to-cyan-400 shadow-[0_0_14px_rgba(34,211,238,0.45)]"
+                    : "h-2.5 w-2.5 bg-white/25 hover:bg-white/60",
+                ].join(" ")}
               />
             ))}
           </div>
@@ -633,23 +925,24 @@ const ClientVideos = () => {
 
       {selectedVideo && (
         <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 p-3 backdrop-blur-sm sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${selectedVideo.title} video player`}
           onMouseDown={(event) => {
-            if (
-              event.target === event.currentTarget
-            ) {
+            if (event.target === event.currentTarget) {
               closeVideo();
             }
           }}
         >
-          <div className="relative w-full max-w-[430px] animate-modal-open overflow-hidden rounded-3xl border border-white/15 bg-black shadow-[0_30px_120px_rgba(0,0,0,0.8)]">
+          <div className="video-modal relative w-full max-w-[470px] overflow-hidden rounded-[26px] border border-white/20 bg-black shadow-[0_30px_120px_rgba(0,0,0,0.9)]">
             <button
               type="button"
               onClick={closeVideo}
               aria-label="Close video"
-              className="absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/65 text-white backdrop-blur-md transition hover:rotate-90 hover:bg-primary"
+              className="absolute right-3 top-3 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white shadow-xl backdrop-blur-md transition duration-300 hover:rotate-90 hover:bg-primary"
             >
-              <X size={21} />
+              <X size={22} />
             </button>
 
             <video
@@ -659,46 +952,28 @@ const ClientVideos = () => {
               controls
               autoPlay
               playsInline
-              preload="metadata"
-              className="max-h-[88vh] w-full bg-black object-contain"
+              preload="auto"
+              controlsList="nodownload"
+              className="max-h-[90vh] min-h-[420px] w-full bg-black object-contain"
+              onError={(event) => {
+                console.error(
+                  "Video playback failed:",
+                  event
+                );
+              }}
             >
-              Your browser does not support video playback.
+              Your browser does not support video
+              playback.
             </video>
           </div>
         </div>
       )}
 
       <style>{`
-        @keyframes cardNext {
-          0% {
-            opacity: 0.45;
-            transform: translate(-50%, -50%)
-              scale(0.82)
-              rotateY(-20deg);
-          }
-
-          100% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes cardPrevious {
-          0% {
-            opacity: 0.45;
-            transform: translate(-50%, -50%)
-              scale(0.82)
-              rotateY(20deg);
-          }
-
-          100% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes modalOpen {
+        @keyframes clientVideoModalOpen {
           from {
             opacity: 0;
-            transform: scale(0.9) translateY(20px);
+            transform: scale(0.94) translateY(16px);
           }
 
           to {
@@ -707,25 +982,13 @@ const ClientVideos = () => {
           }
         }
 
-        .animate-card-next {
-          animation: cardNext 0.65s
-            cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .animate-card-previous {
-          animation: cardPrevious 0.65s
-            cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .animate-modal-open {
-          animation: modalOpen 0.35s
+        .video-modal {
+          animation: clientVideoModalOpen 0.32s
             cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .animate-card-next,
-          .animate-card-previous,
-          .animate-modal-open {
+          .video-modal {
             animation: none !important;
           }
         }
