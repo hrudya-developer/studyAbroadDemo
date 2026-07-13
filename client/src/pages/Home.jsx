@@ -17,6 +17,7 @@ import MiaModal from "./MiaAgentModal";
 import MiaButton from "./MiaButton";
 import MiaAgentChatbox from "./MiaAgentChatbox";
 import GermanCoursesLayout from "../layout/GermanCoursesLayout";
+import GridBackgroundView from "../layout/GridBackgroundView";
 
 const Home = () => {
   const [showMiaModal, setShowMiaModal] = useState(false);
@@ -86,6 +87,7 @@ const Home = () => {
       <EssentialService />
       <SASteps />
       <Testimonial />
+      <GridBackgroundView />
       <Counselling />
       <StudyDestinations />
 
