@@ -54,7 +54,7 @@ const GridBackground = () => {
 
   return (
     <div
-      className="pointer-events-none absolute -inset-10 overflow-hidden transition-transform duration-300 ease-out"
+      className="max-w-9xl mx-autopointer-events-none absolute -inset-10 overflow-hidden transition-transform duration-300 ease-out"
       style={{
         backgroundImage: `
           linear-gradient(

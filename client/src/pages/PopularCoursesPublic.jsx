@@ -55,7 +55,7 @@ export default function PopularCoursesPublic() {
 
   return (
     <>
-      <section className="relative mx-auto max-w-7xl overflow-hidden bg-[#f5fbff] px-4 py-20">
+      <section className="relative mx-auto max-w-9xl overflow-hidden bg-[#f5fbff] px-4 py-20">
         <div className="absolute left-0 top-0 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-secondary/5 blur-3xl" />
 

@@ -42,7 +42,7 @@ const DestinationList = () => {
   }
 
   return (
-    <div className="relative min-h-screen bg-white max-w-7xl mx-auto px-4">
+    <div className="relative min-h-screen bg-white max-w-9xl mx-auto px-4">
       <div   style={{
     backgroundImage: `url(${map_bg})`,
     backgroundSize: "100% auto",

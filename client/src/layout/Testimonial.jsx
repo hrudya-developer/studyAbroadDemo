@@ -65,10 +65,10 @@ export default function Testimonial() {
 
   return (
     <section
-      className="relative isolate mx-auto max-w-7xl overflow-hidden bg-[#fff0f0] px-4 py-20 sm:px-6 lg:px-8"
+      className="relative isolate mx-auto max-w-9xl overflow-hidden bg-[#fff0f0] px-4 py-20 sm:px-6 lg:px-8"
       data-aos="fade-up"
     >
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-9xl">
         <DotPattern className="absolute left-8 top-10 hidden sm:grid" />
         <DotPattern className="absolute bottom-0 right-10 hidden opacity-80 md:grid" />
 

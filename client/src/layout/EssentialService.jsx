@@ -59,7 +59,7 @@ const EssentialService = () => {
 
   return (
     <section
-      className="relative mx-auto max-w-7xl overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      className="relative mx-auto max-w-9xl overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       data-aos="fade-up"
       style={{
         backgroundImage: `url(${bgOverlay})`,
@@ -90,7 +90,7 @@ const EssentialService = () => {
           </p>
         </div>
 
-        <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-6">
+        <div className="mx-auto flex max-w-9xl flex-wrap justify-center gap-6">
           {services.map((service) => (
             <div
               key={service.id}

@@ -45,6 +45,8 @@ import CommunityPosts from "./pages/CommunityPosts";
 // import GermanLP from "./pages/GermanLP";
 import ScrollToTop from "./components/ScrollToTop";
 import GermanPopularCourses from "./layout/GermanPopularCourses";
+import SDBFeedback from "./pages/SDBFeedback";
+import SDBPrivacyPolicy from "./pages/SDBPrivacyPolicy";
 
 
 
@@ -74,6 +76,8 @@ function Layout() {
     <Route path="findCourse" element={<StudentFindCourse />} />
     <Route path="studentApplications" element={<SDBApplications />} /> 
      <Route path="studentWishlistItems" element={<SDBWishlistCourses />} /> 
+     <Route path="feedback" element={<SDBFeedback />} />
+     <Route path="privacyPolicy" element={<SDBPrivacyPolicy />} />
   </Route>
 </Route>
 {/* protecte route */}

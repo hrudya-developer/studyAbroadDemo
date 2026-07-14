@@ -19,6 +19,7 @@ import {
   User,
   UserRound,
   X,
+  MessageSquareQuote,EarthLock
 } from "lucide-react";
 
 const API_KEY = "overseas@Miak2023";
@@ -29,6 +30,8 @@ const navItems = [
   [GraduationCap, "Find a course", "/student/findCourse"],
   [FileText, "My Applications", "/student/studentApplications"],
   [Heart, "My Wishlist", "/student/studentWishlistItems"],
+  [MessageSquareQuote, "Feedback", "/student/feedback"],
+  [EarthLock, "Privacy Policy", "/student/privacyPolicy"],
   [LogOut, "Logout", null],
 ];
 

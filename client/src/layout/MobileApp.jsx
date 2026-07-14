@@ -4,7 +4,7 @@ import mobilApp from "../assets/appImage.png";
 
 const MobileApp = () => {
   return (
-    <section className="relative overflow-hidden py-16 bg-gradient-to-br from-slate-50 via-white to-red-50 mx-auto max-w-7xl" data-aos="fade-up">
+    <section className="relative overflow-hidden py-16 bg-gradient-to-br from-slate-50 via-white to-red-50 mx-auto max-w-9xl" data-aos="fade-up">
 
       {/* Top wave */}
        <style>
@@ -29,7 +29,7 @@ const MobileApp = () => {
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#d70707_1px,transparent_1px)] [background-size:20px_20px]" />
 
       {/* Content */}
-      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-12">
+      <div className="relative max-w-9xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-12">
 
         {/* LEFT IMAGE */}
         <div className="flex justify-center">

@@ -40,7 +40,7 @@ const Destinations = () => {
 
   return (
     <section id="_destinationWrapper" className="overflow-hidden mt-10">
-      <div className="mx-auto max-w-7xl px-5 bg-[#f7fbff] py-20" data-aos="fade-left">
+      <div className="mx-auto max-w-9xl px-5 bg-[#f7fbff] py-20" data-aos="fade-left">
         {/* Header */}
         <div className="mb-12 flex flex-col justify-center text-center">
           <p className="mb-4 flex items-center justify-center gap-3 text-md font-bold text-primary">
