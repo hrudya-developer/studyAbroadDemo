@@ -148,3 +148,25 @@ body.swal2-shown {
 .animate-flip:hover {
   animation-play-state: paused;
 }
+
+/**website switch**/
+@keyframes websiteSwitchShine {
+  0% {
+    transform: translateX(-180%) skewX(-22deg);
+  }
+
+  55%,
+  100% {
+    transform: translateX(450%) skewX(-22deg);
+  }
+}
+
+.website-switch-shine {
+  animation: websiteSwitchShine 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .website-switch-shine {
+    animation: none;
+  }
+}

@@ -134,7 +134,7 @@ const Navbar = () => {
                 type="button"
                 onClick={() => setShowCounsellingPopup(true)}
                 className={`rounded-xl bg-white font-semibold text-black transition-all duration-300 ease-in-out hover:cursor-pointer hover:opacity-90 ${
-                  scrolled ? "h-9 px-4 text-sm" : "h-10 px-5 text-sm"
+                  scrolled ? "h-9 px-4 text-sm" : "h-12 px-5 text-sm"
                 }`}
               >
                 Get Free Counselling
@@ -143,7 +143,7 @@ const Navbar = () => {
               <Link
                 to="/loginViaOtp"
                 className={`flex items-center justify-center rounded-xl border border-white font-semibold text-white transition-all duration-300 ease-in-out ${
-                  scrolled ? "h-9 px-4 text-sm" : "h-10 px-5 text-sm"
+                  scrolled ? "h-9 px-4 text-sm" : "h-12 px-5 text-sm"
                 }`}
               >
                 Sign In

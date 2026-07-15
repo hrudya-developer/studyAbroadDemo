@@ -74,9 +74,9 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-30 grid h-9 w-9 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-darkPrimary hover:text-white hover:cursor-pointer"
+          className="absolute right-4 top-4 z-30 grid h-8 w-8 place-items-center rounded-full bg-white text-primary shadow-lg transition duration-300 hover:rotate-90 hover:bg-darkPrimary hover:text-white hover:cursor-pointer"
         >
-          <X size={22} />
+          <X size={20} />
         </button>
 
         <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-primary/25 blur-3xl" />
@@ -84,7 +84,7 @@ export default function MiaModal({ isOpen, onClose, onTalk }) {
         <div className="absolute left-1/2 top-10 h-24 w-24 -translate-x-1/2 rounded-full bg-logoYellow/30 blur-2xl" />
 
         <div className="relative z-10 flex max-h-[90vh] flex-col items-center overflow-y-auto px-5 py-8 text-center sm:px-8">
-          <div className="mb-4 inline-flex animate-float items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-primary shadow-lg backdrop-blur">
+          <div className="mb-4 mt-8 sm:mt-0 inline-flex animate-float items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-primary shadow-lg backdrop-blur">
             <Sparkles size={16} />
             Your Study Abroad Assistant
           </div>
