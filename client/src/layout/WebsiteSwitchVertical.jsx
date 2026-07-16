@@ -1,10 +1,12 @@
 import {
   Globe2,
   GraduationCap,
+  Handshake,
   Languages,
   Smartphone,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+
 import germanFlag from "../assets/germanFlag.png";
 
 const ACADEMY_URL = "https://medcityacademy.com/";
@@ -15,59 +17,120 @@ const MOBILE_APP_URL =
 
 const WebsiteSwitchVertical = () => {
   return (
-    <nav
-      aria-label="Quick website links"
-      className="
-        relative
-        flex flex-col
-        items-center
-        gap-2
-        rounded-r-[20px]
-        border-y border-r
-        border-white
-        bg-black/80
-        px-2
-        py-2.5
-        shadow-[13px_19px_32px_rgba(15,23,42,0.2)]
-        backdrop-blur-xl
-      "
-    >
-      {/* Study Abroad */}
-      <VerticalInternalLink
-        to="/"
-        label="Study Abroad"
-        icon={Globe2}
-        active
-      />
+    <div className="flex w-16 flex-col items-center gap-3">
+      {/* Main icons box */}
+      <nav
+        aria-label="Quick website links"
+        className="
+          relative
+          flex w-16
+          flex-col
+          items-center
+          gap-2
+          rounded-r-[20px]
+          border-y border-r
+          border-white
+          bg-black/80
+          px-2
+          py-2.5
+          shadow-[13px_19px_32px_rgba(15,23,42,0.2)]
+          backdrop-blur-xl
+        "
+      >
+        <VerticalInternalLink
+          to="/"
+          label="Study Abroad"
+          icon={Globe2}
+          active
+        />
 
-      {/* Medcity Academy */}
-      <VerticalExternalLink
-        href={ACADEMY_URL}
-        label="Medcity Academy"
-        icon={GraduationCap}
-      />
+        <VerticalExternalLink
+          href={ACADEMY_URL}
+          label="Medcity Academy"
+          icon={GraduationCap}
+        />
 
-      {/* Language Program */}
-      <VerticalExternalLink
-        href={LANGUAGE_PROGRAM_URL}
-        label="Our Language Program"
-        icon={Languages}
-      />
+        <VerticalExternalLink
+          href={LANGUAGE_PROGRAM_URL}
+          label="Our Language Program"
+          icon={Languages}
+        />
 
-      {/* Mobile App */}
-      <VerticalExternalLink
-        href={MOBILE_APP_URL}
-        label="Download Mobile App"
-        icon={Smartphone}
-      />
+        <VerticalExternalLink
+          href={MOBILE_APP_URL}
+          label="Download Mobile App"
+          icon={Smartphone}
+        />
 
-      {/* German Programs */}
-      <VerticalInternalLink
-        to="/germanPopularCourses"
-        label="German Programs"
-        image={germanFlag}
-      />
-    </nav>
+        <VerticalInternalLink
+          to="/germanPopularCourses"
+          label="German Programs"
+          image={germanFlag}
+        />
+      </nav>
+
+      {/* Separate Partners Login box */}
+      <div
+        className="
+          flex w-16
+          items-center justify-center
+          rounded-r-[20px]
+          border-y border-r
+          border-logoYellow/70
+          bg-logoYellow
+          px-2
+          py-2.5
+          shadow-[8px_10px_22px_rgba(15,23,42,0.2)]
+        "
+      >
+        <Link
+          to="/partnersLoginPage"
+          aria-label="Partners Login"
+          className="
+            group
+            relative
+            flex h-12 w-12
+            items-center justify-center
+            rounded-full
+            border border-white/70
+            bg-white
+            text-darkPrimary
+            shadow-[0_4px_12px_rgba(15,23,42,0.16)]
+            transition-all
+            duration-300
+            hover:-translate-y-0.5
+            hover:bg-yellow-50
+            hover:shadow-[0_7px_18px_rgba(15,23,42,0.22)]
+            focus:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-darkPrimary/40
+            focus-visible:ring-offset-2
+          "
+        >
+          <span
+            className="
+              relative z-10
+              flex h-9 w-9
+              items-center justify-center
+              rounded-full
+              bg-white
+              text-darkPrimary
+              transition-all
+              duration-300
+              group-hover:scale-110
+            "
+          >
+            <Handshake
+              size={21}
+              strokeWidth={2.3}
+              aria-hidden="true"
+            />
+          </span>
+
+          <Tooltip label="Partners Login" />
+        </Link>
+      </div>
+    </div>
   );
 };
 
@@ -127,11 +190,10 @@ const VerticalLinkContent = ({
 }) => {
   return (
     <>
-      {/* Flag image */}
       {image ? (
         <span
           className="
-            relative z-1
+            relative z-10
             flex h-9 w-9
             items-center justify-center
             overflow-hidden
@@ -151,7 +213,6 @@ const VerticalLinkContent = ({
           />
         </span>
       ) : (
-        /* Lucide icon */
         <span
           className={`
             relative z-10
@@ -180,56 +241,14 @@ const VerticalLinkContent = ({
             <Icon
               size={21}
               strokeWidth={2.3}
+              aria-hidden="true"
             />
           )}
         </span>
       )}
 
-      {/* Tooltip */}
-      <span
-        role="tooltip"
-        className="
-          pointer-events-none
-          absolute
-          left-[calc(100%+12px)]
-          top-1/2
-          z-[1]
-          -translate-y-1/2
-          translate-x-2
-          whitespace-nowrap
-          rounded-xl
-          bg-slate-950
-          px-3
-          py-2
-          text-xs
-          font-semibold
-          text-white
-          opacity-0
-          shadow-[0_10px_25px_rgba(15,23,42,0.3)]
-          transition-all
-          duration-200
-          group-hover:translate-x-0
-          group-hover:opacity-100
-          group-focus-visible:translate-x-0
-          group-focus-visible:opacity-100
-        "
-      >
-        {label}
+      <Tooltip label={label} />
 
-        <span
-          className="
-            absolute
-            right-full
-            top-1/2
-            -translate-y-1/2
-            border-[6px]
-            border-transparent
-            border-r-slate-950
-          "
-        />
-      </span>
-
-      {/* Active side indicator */}
       {active && (
         <span
           className="
@@ -247,6 +266,53 @@ const VerticalLinkContent = ({
         />
       )}
     </>
+  );
+};
+
+const Tooltip = ({ label }) => {
+  return (
+    <span
+      role="tooltip"
+      className="
+        pointer-events-none
+        absolute
+        left-[calc(100%+12px)]
+        top-1/2
+        z-[9999]
+        -translate-y-1/2
+        translate-x-2
+        whitespace-nowrap
+        rounded-xl
+        bg-slate-950
+        px-3
+        py-2
+        text-xs
+        font-semibold
+        text-white
+        opacity-0
+        shadow-[0_10px_25px_rgba(15,23,42,0.3)]
+        transition-all
+        duration-200
+        group-hover:translate-x-0
+        group-hover:opacity-100
+        group-focus-visible:translate-x-0
+        group-focus-visible:opacity-100
+      "
+    >
+      {label}
+
+      <span
+        className="
+          absolute
+          right-full
+          top-1/2
+          -translate-y-1/2
+          border-[6px]
+          border-transparent
+          border-r-slate-950
+        "
+      />
+    </span>
   );
 };
 

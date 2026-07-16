@@ -1,10 +1,13 @@
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { BookOpenText, Handshake, Headset, MapPin, Rss, University, UserRound } from "lucide-react";
+import { Link } from "react-router-dom";
+
 import logo from "../assets/logo.png";
 import ButtonPrimary from "./ButtonPrimary";
-import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
 import ExploreMenu from "./ExploreMenu";
 import FreeCounsellingForm from "../pages/FreeCounsellingForm";
-import { createPortal } from "react-dom";
+import WebsiteSwitchHorizontal from "../layout/WebsiteSwitchHorizontal";
 
 const Navbar = () => {
   const [showCounsellingPopup, setShowCounsellingPopup] = useState(false);
@@ -13,10 +16,17 @@ const Navbar = () => {
 
   const mobileMenuRef = useRef(null);
 
-  const closeMenu = () => setMobileOpen(false);
+  const closeMenu = () => {
+    setMobileOpen(false);
+  };
+
+  const openCounsellingPopup = () => {
+    setMobileOpen(false);
+    setShowCounsellingPopup(true);
+  };
 
   useEffect(() => {
-    if (!showCounsellingPopup) return;
+    if (!showCounsellingPopup) return undefined;
 
     const originalBodyOverflow = document.body.style.overflow;
     const originalHtmlOverflow = document.documentElement.style.overflow;
@@ -50,22 +60,39 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key !== "Escape") return;
+
+      setMobileOpen(false);
+      setShowCounsellingPopup(false);
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
+  useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 80);
-          ticking = false;
-        });
+      if (ticking) return;
 
-        ticking = true;
-      }
+      ticking = true;
+
+      window.requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 80);
+        ticking = false;
+      });
     };
 
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -73,89 +100,137 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header data-theme="mytheme" className="sticky top-0 z-50 w-full">
-      <div className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8 bg-primary">
-      <div
-  className={`navbar h-16 min-h-16 font-nunito transition-shadow duration-300 lg:h-[76px] lg:min-h-[76px] ${
-    scrolled ? "shadow-lg" : ""
-  }`}
->
-          {/* LEFT - LOGO */}
-          <div className="navbar-start">
-           <Link
-  to="/"
-  onClick={closeMenu}
-  className="
-    flex shrink-0 items-center
-    max-w-[190px]
-    sm:max-w-[200px]
-    lg:max-w-[210px]
-  "
->
+    <>
+      <header
+        data-theme="mytheme"
+        className="sticky top-0 z-50 w-full bg-primary"
+      >
+        <div className="mx-auto w-full max-w-9xl px-4 sm:px-6 lg:px-8">
+          <div
+            className={`flex w-full items-center justify-between gap-3 font-nunito transition-all duration-300 ${
+              scrolled
+                ? "h-14 shadow-lg lg:h-16"
+                : "h-16 lg:h-[76px]"
+            }`}
+          >
+            {/* Logo */}
+            <Link
+              to="/"
+              onClick={closeMenu}
+              className="flex shrink-0 items-center"
+              aria-label="Go to home page"
+            >
               <img
                 src={logo}
                 alt="Medicity Study Abroad"
-                className={`w-full object-contain object-left transition-all duration-300 ease-in-out ${
+                className={`w-auto object-contain object-left transition-all duration-300 ${
                   scrolled
-                    ? "max-h-8 sm:max-h-9"
-                    : "max-h-10 sm:max-h-11 lg:max-h-12"
+                    ? "h-8 sm:h-9"
+                    : "h-10 sm:h-11 lg:h-12"
                 }`}
               />
             </Link>
-          </div>
 
-          {/* CENTER - DESKTOP MENU */}
-          <div className="navbar-center hidden flex-none lg:flex min-[1025px]:max-[1071px]:-ml-20">
-            <ul className="menu menu-horizontal gap-1 px-0 text-sm font-semibold text-white xl:text-base">
-              <li>
-                <Link to="/destinationList">Destinations</Link>
-              </li>
+            {/* Desktop navigation */}
+            <nav
+              aria-label="Primary navigation"
+              className="hidden min-w-0 flex-1 items-center justify-center lg:flex"
+            >
+              <ul className="menu menu-horizontal flex-nowrap gap-0.5 px-0 text-sm font-semibold text-white xl:gap-1 xl:text-base">
+                <li>
+                  <Link
+                    to="/destinationList"
+                    className="whitespace-nowrap rounded-lg px-3 py-2 hover:bg-white/10"
+                  >
+                    Destinations
+                  </Link>
+                </li>
 
-              <li>
-                <Link to="/allUniversities">Universities</Link>
-              </li>
+                <li>
+                  <Link
+                    to="/allUniversities"
+                    className="whitespace-nowrap rounded-lg px-3 py-2 hover:bg-white/10"
+                  >
+                    Universities
+                  </Link>
+                </li>
 
-              <li>
-                <Link to="/courseSearch">Courses</Link>
-              </li>
+                <li>
+                  <Link
+                    to="/courseSearch"
+                    className="whitespace-nowrap rounded-lg px-3 py-2 hover:bg-white/10"
+                  >
+                    Courses
+                  </Link>
+                </li>
 
-              <ExploreMenu />
+                <ExploreMenu />
 
-              <li>
-                <Link to="/studyAbroadBlog">Blogs</Link>
-              </li>
-            </ul>
-          </div>
+                <li>
+                  <Link
+                    to="/studyAbroadBlog"
+                    className="whitespace-nowrap rounded-lg px-3 py-2 hover:bg-white/10"
+                  >
+                    Blogs
+                  </Link>
+                </li>
+                
+              </ul>
+            </nav>
 
-          {/* RIGHT SIDE */}
-          <div className="navbar-end ml-auto">
-            <div className="hidden items-center gap-3 lg:flex">
+            {/* Right-side desktop actions */}
+            <div className="hidden shrink-0 items-center gap-2 lg:flex xl:gap-3">
               <button
                 type="button"
-                onClick={() => setShowCounsellingPopup(true)}
-                className={`rounded-xl bg-white font-semibold text-black transition-all duration-300 ease-in-out hover:cursor-pointer hover:opacity-90 ${
-                  scrolled ? "h-9 px-4 text-sm" : "h-12 px-5 text-sm"
+                onClick={openCounsellingPopup}
+                className={`flex items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white font-semibold text-slate-900 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:opacity-95 ${
+                  scrolled
+                    ? "h-9 px-3 text-xs xl:text-sm"
+                    : "h-11 px-4 text-sm"
                 }`}
               >
-                Get Free Counselling
+                <Headset
+                  size={18}
+                  strokeWidth={2.3}
+                  className="shrink-0 text-primary"
+                  aria-hidden="true"
+                />
+
+                <span>Get Free Counselling</span>
               </button>
 
               <Link
                 to="/loginViaOtp"
-                className={`flex items-center justify-center rounded-xl border border-white font-semibold text-white transition-all duration-300 ease-in-out ${
-                  scrolled ? "h-9 px-4 text-sm" : "h-12 px-5 text-sm"
+                className={`flex items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-white font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-primary ${
+                  scrolled
+                    ? "h-9 px-3 text-xs xl:text-sm"
+                    : "h-11 px-4 text-sm"
                 }`}
               >
-                Sign In
+                <UserRound
+                  size={18}
+                  strokeWidth={2.3}
+                  className="shrink-0"
+                  aria-hidden="true"
+                />
+
+                <span>Student Login</span>
               </Link>
             </div>
 
-            {/* MOBILE MENU */}
-            <div ref={mobileMenuRef} className="relative lg:hidden">
+            {/* Mobile navigation */}
+            <div ref={mobileMenuRef} className="relative shrink-0 lg:hidden">
               <button
                 type="button"
-                onClick={() => setMobileOpen((prev) => !prev)}
-                className="btn btn-ghost btn-sm text-white hover:bg-transparent"
+                onClick={() => setMobileOpen((previous) => !previous)}
+                className="flex h-10 w-10 items-center justify-center rounded-xl text-white transition hover:bg-white/10"
+                aria-label={
+                  mobileOpen
+                    ? "Close navigation menu"
+                    : "Open navigation menu"
+                }
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-navigation"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -163,6 +238,7 @@ const Navbar = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   {mobileOpen ? (
                     <path
@@ -183,55 +259,102 @@ const Navbar = () => {
               </button>
 
               {mobileOpen && (
-                <div className="absolute right-0 top-full z-[999] mt-3 max-h-[75vh] w-[280px] overflow-y-auto rounded-xl bg-white p-4 shadow-xl animate-[slideDown_0.25s_ease-out] sm:w-[320px]">
-                  <ul className="menu w-full gap-2 font-semibold text-black">
-                    <li className="rounded-lg bg-secondary/10">
-                      <Link onClick={closeMenu} to="/destinationList">
-                        Destinations
-                      </Link>
-                    </li>
+                <div
+                  id="mobile-navigation"
+                  className="absolute right-0 top-full z-[999] mt-3 max-h-[75vh] w-[280px] overflow-y-auto rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl animate-[slideDown_0.25s_ease-out] sm:w-[320px]"
+                >
+                  <nav aria-label="Mobile navigation">
+                    <ul className="menu w-full gap-2 p-0 font-semibold text-slate-900">
+                      <li>
+                        <Link
+                          onClick={closeMenu}
+                          to="/destinationList"
+                          className="rounded-xl bg-secondary/10 px-4 py-3 hover:bg-secondary/15"
+                        >
+                         <span className="text-darkPrimary flex items-center gap-2"><MapPin size={18}/></span> Destinations
+                        </Link>
+                      </li>
 
-                    <li className="rounded-lg bg-secondary/10">
-                      <Link onClick={closeMenu} to="/allUniversities">
-                        Universities
-                      </Link>
-                    </li>
+                      <li>
+                        <Link
+                          onClick={closeMenu}
+                          to="/allUniversities"
+                          className="rounded-xl bg-secondary/10 px-4 py-3 hover:bg-secondary/15"
+                        >
+                          <span className="text-secondary flex items-center gap-2"><University size={18}/></span>Universities
+                        </Link>
+                      </li>
 
-                    <li className="rounded-lg bg-secondary/10">
-                      <Link onClick={closeMenu} to="/courseSearch">
-                        Courses
-                      </Link>
-                    </li>
+                      <li>
+                        <Link
+                          onClick={closeMenu}
+                          to="/courseSearch"
+                          className="rounded-xl bg-secondary/10 px-4 py-3 hover:bg-secondary/15"
+                        >
+                          <span className="text-orange-400 flex items-center gap-2"><BookOpenText size={18}/></span>Courses
+                        </Link>
+                      </li>
 
-                    <ExploreMenu mobile onNavigate={closeMenu} />
+                      <ExploreMenu
+                        mobile
+                        onNavigate={closeMenu}
+                      />
 
-                    <li className="rounded-lg bg-secondary/10">
-                      <Link onClick={closeMenu} to="/studyAbroadBlog">
-                        Blogs
-                      </Link>
-                    </li>
-                  </ul>
+                      <li>
+                        <Link
+                          onClick={closeMenu}
+                          to="/studyAbroadBlog"
+                          className="rounded-xl bg-secondary/10 px-4 py-3 hover:bg-secondary/15"
+                        >
+                          <span className="flex gap-2 items-center text-violet-500"><Rss size={18}/></span>Blogs
+                        </Link>
+                      </li>
+                      <WebsiteSwitchHorizontal onNavigate={closeMenu} />
+                    </ul>
+                  </nav>
 
-                  <div className="mt-4 flex flex-col gap-3">
+                  <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4">
                     <button
                       type="button"
-                      onClick={() => {
-                        closeMenu();
-                        setShowCounsellingPopup(true);
-                      }}
+                      onClick={openCounsellingPopup}
                       className="w-full"
                     >
-                      <ButtonPrimary className="w-full">
-                        Book Free Counselling
+                      <ButtonPrimary className="flex w-full items-center justify-center gap-2 bg-darkPrimary">
+                        <Headset
+                          size={18}
+                          className="shrink-0"
+                          aria-hidden="true"
+                        />
+                        <span>Book Free Counselling</span>
                       </ButtonPrimary>
                     </button>
+
+<Link
+  to="/partnersLoginPage"
+  onClick={closeMenu}
+  className="flex w-full items-center justify-center gap-2 rounded-xl bg-logoYellow py-3 text-sm font-semibold text-darkPrimary transition hover:bg-yellow-300"
+>
+  <Handshake
+    size={18}
+    className="shrink-0"
+    aria-hidden="true"
+  />
+
+  <span>Partners Login</span>
+</Link>
+
 
                     <Link
                       to="/loginViaOtp"
                       onClick={closeMenu}
-                      className="flex w-full items-center justify-center rounded-xl bg-secondary px-5 py-2 text-[14px] text-white hover:cursor-pointer"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-primary bg-white px-5 py-3 text-sm font-semibold text-primary transition hover:bg-darkPrimary hover:text-white"
                     >
-                      Sign In
+                      <UserRound
+                        size={18}
+                        className="shrink-0"
+                        aria-hidden="true"
+                      />
+                      <span>Student Login</span>
                     </Link>
                   </div>
                 </div>
@@ -239,22 +362,27 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
       {showCounsellingPopup &&
         createPortal(
           <div
             className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4"
             onClick={() => setShowCounsellingPopup(false)}
+            role="presentation"
           >
             <div
               className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[30px] bg-white shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(event) => event.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Free counselling form"
             >
               <button
                 type="button"
                 onClick={() => setShowCounsellingPopup(false)}
-                className="absolute right-4 top-4 z-50 flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white hover:opacity-90"
+                className="absolute right-4 top-4 z-50 flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-xl font-bold text-white shadow-md transition hover:opacity-90"
+                aria-label="Close counselling form"
               >
                 ×
               </button>
@@ -266,7 +394,7 @@ const Navbar = () => {
           </div>,
           document.body
         )}
-    </header>
+    </>
   );
 };
 

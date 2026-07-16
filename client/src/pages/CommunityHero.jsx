@@ -2,7 +2,7 @@ import { Bell, Megaphone, Globe2, Users, Heart, MessageCircle } from "lucide-rea
 
 const CommunityHero = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-pink-50 via-rose-50 to-pink-200 px-6 py-8 md:px-10 lg:px-14 max-w-7xl mx-auto">
+    <section className="relative overflow-hidden bg-gradient-to-r from-pink-50 via-rose-50 to-pink-200 px-6 py-8 md:px-10 lg:px-14 max-w-9xl mx-auto">
       <div className="absolute right-0 top-0 h-full w-1/2 bg-pink-300/20 blur-3xl" />
       <div className="absolute bottom-0 right-0 h-24 w-2/3 rounded-tl-full bg-pink-300/30" />
 

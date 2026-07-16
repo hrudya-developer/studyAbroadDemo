@@ -47,6 +47,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import GermanPopularCourses from "./layout/GermanPopularCourses";
 import SDBFeedback from "./pages/SDBFeedback";
 import SDBPrivacyPolicy from "./pages/SDBPrivacyPolicy";
+import PartnersLoginPage from "./pages/PartnersLoginPage";
 
 
 
@@ -67,6 +68,7 @@ function Layout() {
         <Route path="/communityPosts" element={<CommunityPosts />} />
         {/* <Route path="/germanLanguage" element={<GermanLP />} /> */}
         <Route path="/germanPopularCourses" element={<GermanPopularCourses />} />
+        <Route path="/partnersLoginPage" element = {<PartnersLoginPage />} />
 
 {/* protecte route */}
 <Route element={<ProtectedRoute />}>
