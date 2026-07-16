@@ -18,7 +18,7 @@ const Topbar = () => {
         className="
           mx-auto flex max-w-9xl
           items-center justify-between
-          px-4 py-2
+          px-4 py-1
           sm:px-6 lg:px-8
         "
       >

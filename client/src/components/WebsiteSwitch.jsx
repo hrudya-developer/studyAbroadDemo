@@ -138,7 +138,7 @@ const WebsiteSwitch = () => {
           from-[#f8edf1]
           via-white
           to-[#eaf6fd]
-          p-1.5
+          p-1
           shadow-[0_8px_24px_rgba(15,23,42,0.14)]
           backdrop-blur-md
           transition-all
@@ -237,7 +237,7 @@ const WebsiteSwitch = () => {
               rounded-full
               px-4
               text-sm
-              font-bold
+              font-semibold
               transition-all
               duration-200
               focus:outline-none
@@ -340,7 +340,7 @@ const WebsiteSwitch = () => {
               rounded-full
               px-4
               text-sm
-              font-bold
+              font-semibold
               transition-all
               duration-200
               focus:outline-none
