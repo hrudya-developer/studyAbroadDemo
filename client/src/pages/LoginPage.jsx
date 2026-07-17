@@ -8,9 +8,7 @@ import login_bg from "../assets/login_bg.png";
 import { FaUser, FaEnvelope } from "react-icons/fa";
 import { Globe, LockKeyhole, ShieldCheck } from "lucide-react";
 
-
-
-const LoginPage = () => {
+  const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

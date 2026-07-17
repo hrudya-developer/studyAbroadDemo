@@ -103,9 +103,9 @@ const Navbar = () => {
     <>
       <header
         data-theme="mytheme"
-        className="sticky top-0 z-50 w-full bg-primary"
+        className="sticky top-0 z-50 max-w-9xl mx-auto bg-primary"
       >
-        <div className="mx-auto w-full max-w-9xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
           <div
             className={`flex w-full items-center justify-between gap-3 font-nunito transition-all duration-300 ${
               scrolled
@@ -329,7 +329,7 @@ const Navbar = () => {
                       </ButtonPrimary>
                     </button>
 
-<Link
+{/* <Link
   to="/partnersLoginPage"
   onClick={closeMenu}
   className="flex w-full items-center justify-center gap-2 rounded-xl bg-logoYellow py-3 text-sm font-semibold text-darkPrimary transition hover:bg-yellow-300"
@@ -341,7 +341,7 @@ const Navbar = () => {
   />
 
   <span>Partners Login</span>
-</Link>
+</Link> */}
 
 
                     <Link

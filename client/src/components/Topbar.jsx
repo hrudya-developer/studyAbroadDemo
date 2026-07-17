@@ -8,15 +8,14 @@ const Topbar = () => {
     <div
       id="website-topbar"
       className="
-        hidden w-full
+        hidden max-w-9xl mx-auto
         border-b border-slate-200
-        bg-white
+        bg-gray-50
         lg:block
       "
     >
       <div
-        className="
-          mx-auto flex max-w-9xl
+        className="flex
           items-center justify-between
           px-4 py-1
           sm:px-6 lg:px-8
@@ -24,11 +23,11 @@ const Topbar = () => {
       >
         {/* Left side */}
         <WebsiteSwitch />
-        <div className="p-3 text-darkPrimary font-semibold rounded-lg text-sm flex gap-2 items-center">
+        {/* <div className="p-3 text-darkPrimary font-semibold rounded-lg text-sm flex gap-2 items-center">
           <Link to="/partnersLoginPage"><span className="w-10 h-10 bg-logoYellow text-darkPrimary rounded-full shadow-md grid place-content-center p-3 hover:bg-gray-200 hover:cursor-pointer"><Handshake size={18}/></span></Link>
           <Link to="/partnersLoginPage">
           <span className="p-3 px-3 bg-logoYellow text-darkPrimary rounded-full hover:cursor-pointer hover:bg-gray-200">Partners Login</span></Link></div>
-         
+          */}
 
         {/* Right side */}
         <div className="flex items-center gap-2">
@@ -50,8 +49,8 @@ const Topbar = () => {
             <span
               className="
                 flex h-9 w-9 items-center justify-center
-                rounded-full bg-white border border-darkPrimary
-                text-darkPrimary
+                rounded-xl bg-darkPrimary border border-darkPrimary
+                text-white
                 transition-all duration-300
                 group-hover:bg-primary
                 group-hover:text-white
@@ -82,7 +81,7 @@ const Topbar = () => {
             <span
               className="
                 flex h-9 w-9 items-center justify-center
-                rounded-full bg-white border border-darkPrimary text-darkPrimary
+                rounded-xl bg-darkPrimary border border-darkPrimary text-white
                               transition-all duration-300
                 group-hover:bg-primary
                 group-hover:text-white

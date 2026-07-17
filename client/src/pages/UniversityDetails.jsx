@@ -180,7 +180,7 @@ const handleTabChange = (tab) => {
   ];
 
   return (
-    <main className="mx-auto min-h-screen max-w-7xl bg-[#f7f9fd] text-[#081c47]">
+    <main className="mx-auto min-h-screen max-w-9xl bg-[#f7f9fd] text-[#081c47]">
       <section className="relative overflow-hidden bg-white">
         <div className="absolute right-8 top-5 z-3">
           <button

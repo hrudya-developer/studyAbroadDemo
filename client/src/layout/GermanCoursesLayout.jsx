@@ -64,7 +64,7 @@ const GermanCoursesLayout = () => {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50 py-14 sm:py-16 lg:py-20">
+    <section className="relative overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50 py-14 sm:py-16 lg:py-20" data-aos="fade-up">
       <div className="absolute -left-28 top-12 h-72 w-72 rounded-full bg-pink-200/40 blur-3xl" />
       <div className="absolute -right-28 bottom-8 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
 

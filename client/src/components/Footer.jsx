@@ -136,7 +136,7 @@ export default function Footer() {
         overseas.
       </p>
 
-      <Link to="/loginViaOtp"><button className="mt-7 flex items-center justify-center sm:justify-start mx-auto sm:mx-0 gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary">
+      <Link to="/loginViaOtp"><button className="mt-7 flex items-center justify-center sm:justify-start mx-auto sm:mx-0 gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-darkPrimary hover:cursor-pointer">
         Login
         <ArrowRight className="h-4 w-4" />
       </button></Link>

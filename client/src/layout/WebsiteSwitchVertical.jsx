@@ -70,7 +70,7 @@ const WebsiteSwitchVertical = () => {
       </nav>
 
       {/* Separate Partners Login box */}
-      <div
+      {/* <div
         className="
           flex w-16
           items-center justify-center
@@ -130,10 +130,11 @@ const WebsiteSwitchVertical = () => {
           <Tooltip label="Partners Login" />
         </Link>
       </div>
+       */}
     </div>
   );
 };
-
+ 
 const VerticalInternalLink = ({
   to,
   label,

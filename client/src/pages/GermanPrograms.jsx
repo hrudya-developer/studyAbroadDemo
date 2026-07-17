@@ -62,8 +62,8 @@ const GermanPrograms = () => {
               {mainData?.titleWhy || "Learn. Grow. Succeed in Germany."}
             </p>
 
-            <button className="mt-10 bg-primary hover:bg-secondary text-white p-2 px-4 rounded-lg hover:cursor-pointer mr-4 mb-4">Read More</button>
-             <button className="mt-10 bg-secondary hover:bg-primary text-white p-2 px-4 rounded-lg hover:cursor-pointer">Find a Course</button>
+            <a href="#whyAusbildung" className="w-full h-full"><button className="mt-10 bg-darkPrimary hover:bg-secondary text-white p-3 px-4 rounded-lg hover:cursor-pointer mr-4 mb-4">Read More</button></a>
+             <a href="#eligibility" className="w-full h-full"><button className="mt-10 bg-secondary hover:bg-primary text-white p-3 px-4 rounded-lg hover:cursor-pointer">Check Your Eligibility</button></a>
           </div>
 
           <div className="relative min-h-[420px] overflow-hidden rounded-[50px]" style={{backgroundImage:`url(${heroGermany})`}}>
@@ -119,7 +119,7 @@ const GermanPrograms = () => {
                 </div>
 
                 <div>
-                  <h2 className="mb-3 text-2xl font-bold text-secondary">
+                  <h2 className="mb-3 text-2xl font-bold text-secondary" id="whyAusbildung">
                     {mainData?.titleWhy || "About Program"}
                   </h2>
 
@@ -142,7 +142,7 @@ const GermanPrograms = () => {
                 <SectionBlock
                   title="Eligibility"
                   icon={GraduationCap}
-                  items={eligibility}
+                  items={eligibility} id="eligibility"
                 />
               )}
 
@@ -247,9 +247,9 @@ const GermanPrograms = () => {
   );
 };
 
-function SectionBlock({ title, icon: Icon, items = [] }) {
+function SectionBlock({ title, icon: Icon, items = [], id }) {
   return (
-    <div className="mt-12">
+    <div className="mt-12 scroll-mt-28" id={id}>
       <div className="mb-6 flex items-center gap-4">
         <div className="grid h-12 w-12 place-content-center rounded-xl bg-secondary text-white">
           <Icon />
