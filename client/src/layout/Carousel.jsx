@@ -197,8 +197,8 @@ const Carousel = () => {
           src={videoSource}
           className="
             block
-            h-auto
-            w-full
+            h-screen
+            w-screen
             object-cover
           "
           autoPlay
