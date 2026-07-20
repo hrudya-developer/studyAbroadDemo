@@ -334,9 +334,9 @@ const handleApply = (course) => {
     selectedCountryId && selectedUniversityId && selectedCourseId;
 
   return (
-    <section className="relative py-0">
+    <section className="relative py-0 w-full bg-darkPrimary lg:bg-[#181717]">
       <div
-        className="relative mx-auto max-w-9xl bg-darkPrimary px-3 sm:px-5 md:px-8 lg:bg-[#181717]"
+        className="relative mx-auto max-w-9xl px-3 sm:px-5 md:px-8"
         data-aos="fade-up"
       >
         <div className="py-10">

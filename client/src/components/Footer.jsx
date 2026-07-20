@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
+    <section className="w-full bg-[#070707]">
     <footer className="relative overflow-hidden bg-[#070707] text-white max-w-9xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
   
   {/* Main Background Gradient */}
@@ -164,6 +165,8 @@ export default function Footer() {
 
 
 </footer>
+    </section>
+
   );
 }
 

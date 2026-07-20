@@ -1,132 +1,144 @@
-import { Handshake, Languages, Smartphone } from "lucide-react";
+import React, { memo } from "react";
+import { Languages, Smartphone } from "lucide-react";
 import { Link } from "react-router-dom";
 import WebsiteSwitch from "./WebsiteSwitch";
 import germanFlag from "../assets/germanFlag.png";
 
-const Topbar = () => {
-  return (
-    <div
-      id="website-topbar"
-      className="
-        hidden max-w-9xl mx-auto
-        border-b border-slate-200
-        bg-gray-50
-        lg:block
-      "
-    >
-      <div
-        className="flex
-          items-center justify-between
-          px-4 py-1
-          sm:px-6 lg:px-8
-        "
+const ActionCard = ({
+  href,
+  to,
+  external = false,
+  icon,
+  title,
+  image,
+  dark = false,
+}) => {
+  const baseClasses = `
+    group flex items-center gap-3 rounded-xl
+    px-4 py-2.5 min-h-[46px]
+    transition-all duration-300
+    hover:-translate-y-0.5 hover:shadow-md
+    focus:outline-none focus:ring-1 focus:ring-darkPrimary
+  `;
+
+  const lightClasses = `
+    bg-slate-200 hover:bg-slate-50
+  `;
+
+  const darkClasses = `
+    bg-gray-900
+    text-white
+    hover:bg-primary
+  `;
+
+  const content = (
+    <>
+      {image ? (
+        <span className="h-8 w-8 overflow-hidden rounded-full border border-white">
+          <img
+            src={image}
+            alt="German Flag"
+            loading="lazy"
+            width={32}
+            height={32}
+            className="h-full w-full object-cover"
+          />
+        </span>
+      ) : (
+        <span
+          className="
+            flex h-9 w-9 items-center justify-center
+            rounded-lg bg-darkPrimary text-white
+            transition-colors duration-300
+            group-hover:bg-primary
+          "
+        >
+          {icon}
+        </span>
+      )}
+
+      <span className="text-sm font-semibold whitespace-nowrap">
+        {title}
+      </span>
+    </>
+  );
+
+  if (external) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={title}
+        title={title}
+        className={`${baseClasses} ${
+          dark ? darkClasses : lightClasses
+        }`}
       >
-        {/* Left side */}
-        <WebsiteSwitch />
-        {/* <div className="p-3 text-darkPrimary font-semibold rounded-lg text-sm flex gap-2 items-center">
-          <Link to="/partnersLoginPage"><span className="w-10 h-10 bg-logoYellow text-darkPrimary rounded-full shadow-md grid place-content-center p-3 hover:bg-gray-200 hover:cursor-pointer"><Handshake size={18}/></span></Link>
-          <Link to="/partnersLoginPage">
-          <span className="p-3 px-3 bg-logoYellow text-darkPrimary rounded-full hover:cursor-pointer hover:bg-gray-200">Partners Login</span></Link></div>
-          */}
+        {content}
+      </a>
+    );
+  }
 
-        {/* Right side */}
-        <div className="flex items-center gap-2">
-           
-          {/* Language Program */}
-          <a
-            href="https://medcityacademy.com/courses/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              group flex items-center gap-3
-              rounded-xl px-4 py-2
-              transition-all duration-300
-              hover:-translate-y-0.5
-              hover:bg-slate-50
-              hover:shadow-md
-            "
-          >
-            <span
-              className="
-                flex h-9 w-9 items-center justify-center
-                rounded-xl bg-darkPrimary border border-darkPrimary
-                text-white
-                transition-all duration-300
-                group-hover:bg-primary
-                group-hover:text-white
-              "
-            >
-              <Languages size={17} strokeWidth={2.3} />
-            </span>
-
-            <span className="text-sm font-semibold text-darkPrimary">
-              Our Language Program
-            </span>
-          </a>
-
-          {/* Mobile App */}
-          <a
-            href="https://play.google.com/store/apps/details?id=com.medcity.overseas"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              group flex items-center gap-3
-              rounded-xl px-4 py-2
-              transition-all duration-300
-              hover:-translate-y-0.5
-              hover:bg-slate-50
-              hover:shadow-md
-            "
-          >
-            <span
-              className="
-                flex h-9 w-9 items-center justify-center
-                rounded-xl bg-darkPrimary border border-darkPrimary text-white
-                              transition-all duration-300
-                group-hover:bg-primary
-                group-hover:text-white
-              "
-            >
-              <Smartphone size={17} strokeWidth={2.3} />
-            </span>
-
-            <span className="text-sm font-semibold text-darkPrimary">
-              Download Mobile App
-            </span>
-          </a>
-{/* German Programs */}
-          <Link
-            to="/germanPopularCourses"
-            className="
-              group flex items-center gap-3
-              rounded-xl bg-black/90
-              px-3 py-2.5
-              text-sm font-semibold text-white
-              transition-all duration-300
-              hover:-translate-y-0.5
-              hover:bg-darkPrimary
-              hover:shadow-md
-            "
-          >
-            <span
-              className="
-                h-7 w-7 overflow-hidden
-                rounded-full border border-white
-              "
-            >
-              <img
-                src={germanFlag}
-                alt="German flag"
-                className="h-full w-full object-cover"
-              />
-            </span>
-
-            <span>German Programs</span>
-          </Link>
-        </div>
-      </div>
-    </div>
+  return (
+    <Link
+      to={to}
+      aria-label={title}
+      title={title}
+      className={`${baseClasses} ${
+        dark ? darkClasses : lightClasses
+      }`}
+    >
+      {content}
+    </Link>
   );
 };
 
-export default Topbar;
+const Topbar = () => {
+  return (
+    <header
+      id="website-topbar"
+      className="
+        hidden
+        lg:block
+        mx-auto
+        max-w-screen-2xl
+        bg-slate-100"
+    >
+      <nav
+        aria-label="Top navigation"
+        className="
+          flex items-center justify-between
+          px-6 py-2
+        "
+      >
+        <WebsiteSwitch />
+
+        <div className="flex items-center gap-3">
+          <ActionCard
+            external
+            href="https://medcityacademy.com/courses/"
+            icon={<Languages size={18} />}
+            title="Language Programs"
+          />
+
+          <ActionCard
+            external
+            href="https://play.google.com/store/apps/details?id=com.medcity.overseas"
+            icon={<Smartphone size={18} />}
+            title="Download Mobile App"
+          />
+
+          <ActionCard
+            to="/germanPopularCourses"
+            image={germanFlag}
+            title="German Programs"
+            dark
+          />
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default memo(Topbar);

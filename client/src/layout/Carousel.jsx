@@ -170,7 +170,6 @@ const Carousel = () => {
         relative
         mx-auto
         w-full
-        max-w-9xl
         overflow-hidden"
     >
       <div className="relative w-full overflow-hidden">

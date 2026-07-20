@@ -26,8 +26,8 @@ const socialLinks = [
 
 const BottomBar = () => {
   return (
-    <div data-aos="fade-up">
-      <div className="relative mx-auto max-w-9xl border-t border-dotted border-primary/20 bg-[#070707] px-4 py-3 text-[13px] text-white sm:px-6 lg:px-8">
+    <div data-aos="fade-up" className="bg-[#070707] w-full">
+      <div className="relative mx-auto max-w-9xl border-t border-dotted border-primary/20 px-4 py-3 text-[13px] text-white sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
           <p className="text-center text-[11px] sm:text-left">
             © 2026 Medcity International Overseas Corporation. All rights
