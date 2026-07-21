@@ -1,112 +1,264 @@
 import {
   BriefcaseBusiness,
-  Globe,
+  Globe2,
   Users,
 } from "lucide-react";
 
+const workData = [
+  {
+    id: "international-destinations",
+    icon: Globe2,
+    title: "International Work Destinations",
+    description:"Explore study abroad destinations where international students can gain valuable work experience while they learn.",
+    color: "text-primary",
+    border: "from-primary to-red-400",
+    background: "bg-pink-50",
+  },
+  {
+    id: "in-demand-jobs",
+    icon: BriefcaseBusiness,
+    title: "In-Demand Job Opportunities",
+    description:
+      "Explore high-demand industries and part-time job opportunities that can support your studies and help build your career abroad.",
+    color: "text-secondary",
+    border: "from-secondary to-blue-500",
+    background: "bg-blue-50",
+  },
+  {
+    id: "cultural-exchange",
+    icon: Users,
+    title: "Cultural Exchange and Networking",
+    description:
+      "Build a global professional network, gain international work experience, and develop skills valued by employers worldwide.",
+    color: "text-primary",
+    border: "from-primary to-red-400",
+    background: "bg-rose-50",
+  },
+];
+
 const WorkTabContent = () => {
-  const workData = [
-    {
-      icon: <Globe size={38} />,
-      title: "Exotic Destinations",
-      desc: "Embark on life-changing journeys, where work meets wanderlust.",
-      color: "text-primary",
-      border: "from-primary to-red-400",
-      bg: "bg-red-50",
-    },
-    {
-      icon: <BriefcaseBusiness size={38} />,
-      title: "In-demand Jobs",
-      desc: "Find your niche in various industries with high demand abroad.",
-      color: "text-blue-600",
-      border: "from-secondary to-blue-500",
-      bg: "bg-blue-50",
-    },
-    {
-      icon: <Users size={38} />,
-      title: "Cultural Exchange",
-      desc: "Explore new cultures, grow as a person, and forge lifelong connections.",
-      color: "text-primary",
-      border: "from-primary to-red-400",
-      bg: "bg-red-50",
-    },
-  ];
-
   return (
-    <section className="py-10 bg-gradient-to-b from-white to-gray-100 overflow-hidden">
-      
-      <div className="max-w-7xl mx-auto px-3 sm:px-5 md:px-8">
+    <section
+      aria-labelledby="work-opportunities-heading"
+      className="
+        overflow-hidden
+        bg-gradient-to-b
+        from-white
+        to-gray-100
+        py-10
+      "
+    >
+      <div className="mx-auto max-w-7xl px-3 sm:px-5 md:px-8">
+        <header className="mx-auto max-w-4xl text-center">
+          <div
+            aria-hidden="true"
+            className="mb-5 flex items-center justify-center gap-4"
+          >
+            <div className="h-[2px] w-16 bg-primary sm:w-24" />
 
-        {/* heading */}
-        <div className="text-center">
-
-          <div className="flex items-center justify-center gap-4 mb-5">
-            <div className="w-24 h-[2px] bg-primary"></div>
-
-            <div className="w-14 h-14 rounded-full border border-primary flex items-center justify-center text-primary">
-              <BriefcaseBusiness size={24} />
+            <div
+              className="
+                flex
+                h-14
+                w-14
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-primary
+                text-primary
+              "
+            >
+              <BriefcaseBusiness className="h-6 w-6" />
             </div>
 
-            <div className="w-24 h-[2px] bg-primary"></div>
+            <div className="h-[2px] w-16 bg-primary sm:w-24" />
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-secondary">
-            Job <span className="text-primary">Opportunities</span>
-          </h1>
-
-          <div className="w-20 h-1 bg-primary mx-auto rounded-full mt-5"></div>
-
-          <p className="text-gray-600 text-base md:text-lg leading-8 max-w-4xl mx-auto mt-8">
-            Studying abroad broadens academic horizons and offers practical
-            work experience. Many countries allow part-time student jobs,
-            enhancing financial support, cultural immersion, and employability
-            through work permits and post-study options.
+          <p
+            className="
+              text-xs
+              font-semibold
+              uppercase
+              tracking-[0.14em]
+              text-primary bg-secondary/8 p-2 px-3 rounded-full inline-block
+            "
+          >
+            Study and Work Abroad
           </p>
-        </div>
 
-        {/* cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-
-          {workData.map((item, index) => (
-            <div
-              key={index}
-              className="relative bg-white rounded-[32px] p-8 shadow-lg hover:-translate-y-2 hover:shadow-2xl transition duration-300 overflow-hidden group"
-            >
+          <h2
+            id="work-opportunities-heading"
+            className="
+              mt-3
+              text-3xl
+              font-bold
+              leading-tight
+              text-darkPrimary
+              sm:text-4xl
+            "
+          >
+            International Job Opportunities for <br />
+            <span className="text-primary">
               
-              {/* icon */}
-              <div className="flex justify-center">
-                <div
-                  className={`relative w-28 h-28 rounded-full ${item.bg} flex items-center justify-center`}
-                >
-                  <div className={`${item.color}`}>
-                    {item.icon}
+               Study Abroad Students
+            </span>
+          </h2>
+
+          <div
+            aria-hidden="true"
+            className="
+              mx-auto
+              mt-5
+              h-1
+              w-20
+              rounded-full
+              bg-primary
+            "
+          />
+
+          <p
+            className="
+              mx-auto
+              mt-8
+              max-w-4xl
+              text-sm
+              leading-7
+              text-slate-800
+              sm:text-base
+              md:text-lg
+              md:leading-8
+            "
+          >
+           Studying abroad offers more than an international degree. Many countries provide part-time work opportunities, post-study work pathways, and hands-on industry experience that help students manage expenses and build global career prospects.
+          </p>
+        </header>
+
+        <div
+          className="
+            mt-16
+            grid
+            grid-cols-1
+            gap-8
+            md:grid-cols-2
+            lg:grid-cols-3
+          "
+        >
+          {workData.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <article
+                key={item.id}
+                aria-labelledby={`${item.id}-heading`}
+                className="
+                  group
+                  relative
+                  mx-auto
+                  w-full
+                  max-w-[420px]
+                  overflow-hidden
+                  rounded-[32px]
+                  bg-white
+                  p-8
+                  shadow-lg
+                  transition-all
+                  duration-300
+                  hover:-translate-y-2
+                  hover:shadow-2xl
+                  lg:max-w-none
+                "
+              >
+                <div className="flex justify-center">
+                  <div
+                    aria-hidden="true"
+                    className={`
+                      relative
+                      flex
+                      h-28
+                      w-28
+                      items-center
+                      justify-center
+                      rounded-full
+                      ${item.background}
+                    `}
+                  >
+                    <Icon
+                      className={`h-10 w-10 ${item.color}`}
+                      strokeWidth={1.8}
+                    />
+
+                    <div
+                      className="
+                        absolute
+                        inset-0
+                        animate-spin
+                        rounded-full
+                        border-2
+                        border-dashed
+                        border-primary/30
+                        [animation-duration:12s]
+                        motion-reduce:animate-none
+                      "
+                    />
                   </div>
-
-                  {/* animated ring */}
-                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-primary/30 animate-spin [animation-duration:12s]"></div>
                 </div>
-              </div>
 
-              {/* title */}
-              <h2 className="text-2xl font-bold text-secondary text-center mt-8">
-                {item.title}
-              </h2>
+                <h3
+                  id={`${item.id}-heading`}
+                  className="
+                    mt-8
+                    text-center
+                    text-xl
+                    font-extrabold
+                    text-black/90
+                  "
+                >
+                  {item.title}
+                </h3>
 
-              {/* divider */}
-              <div className="w-24 h-1 bg-primary rounded-full mx-auto mt-5"></div>
+                <div
+                  aria-hidden="true"
+                  className="
+                    mx-auto
+                    mt-5
+                    h-1
+                    w-24
+                    rounded-full
+                    bg-primary
+                  "
+                />
 
-              {/* description */}
-              <p className="text-gray-600 leading-8 text-center mt-6">
-                {item.desc}
-              </p>
+                <p
+                  className="
+                    mt-6
+                    text-center
+                    text-sm
+                    leading-7
+                    text-slate-800
+                    sm:text-base
+                    md:text-base lg:text-base
+                    sm:leading-8
+                  "
+                >
+                  {item.description}
+                </p>
 
-              {/* bottom gradient */}
-              <div
-                className={`absolute bottom-0 left-0 w-full h-3 bg-gradient-to-r ${item.border}`}
-              ></div>
-            </div>
-          ))}
-
+                <div
+                  aria-hidden="true"
+                  className={`
+                    absolute
+                    bottom-0
+                    left-0
+                    h-3
+                    w-full
+                    bg-gradient-to-r
+                    ${item.border}
+                  `}
+                />
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

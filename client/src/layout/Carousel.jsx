@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import WebsiteSwitchVertical from "./WebsiteSwitchVertical";
 
 const DESKTOP_VIDEO =
@@ -9,6 +15,8 @@ const MOBILE_VIDEO =
 
 const MOBILE_QUERY = "(max-width: 767px)";
 const DESKTOP_QUERY = "(min-width: 1024px)";
+const REDUCED_MOTION_QUERY =
+  "(prefers-reduced-motion: reduce)";
 
 const getInitialVideo = () => {
   if (typeof window === "undefined") {
@@ -22,45 +30,75 @@ const getInitialVideo = () => {
 
 const Carousel = () => {
   const heroRef = useRef(null);
+  const videoRef = useRef(null);
+  const animationFrameRef = useRef(null);
 
-  /*
-   * Select the correct video during the first render.
-   * This avoids waiting for useEffect before assigning the source.
-   */
-  const [videoSource, setVideoSource] = useState(getInitialVideo);
+  const [videoSource, setVideoSource] =
+    useState(getInitialVideo);
 
-  const [topbarVisible, setTopbarVisible] = useState(true);
-  const [heroVisible, setHeroVisible] = useState(true);
+  const [topbarVisible, setTopbarVisible] =
+    useState(true);
 
-  /*
-   * Change the video only when the viewport crosses
-   * the mobile breakpoint.
-   */
+  const [heroVisible, setHeroVisible] =
+    useState(true);
+
+  const [videoFailed, setVideoFailed] =
+    useState(false);
+
+  const [reducedMotion, setReducedMotion] =
+    useState(false);
+
   useEffect(() => {
-    const mobileMediaQuery = window.matchMedia(MOBILE_QUERY);
+    const mediaQuery =
+      window.matchMedia(MOBILE_QUERY);
 
     const handleBreakpointChange = (event) => {
+      setVideoFailed(false);
+
       setVideoSource(
-        event.matches ? MOBILE_VIDEO : DESKTOP_VIDEO
+        event.matches
+          ? MOBILE_VIDEO
+          : DESKTOP_VIDEO
       );
     };
 
-    mobileMediaQuery.addEventListener(
+    mediaQuery.addEventListener(
       "change",
       handleBreakpointChange
     );
 
     return () => {
-      mobileMediaQuery.removeEventListener(
+      mediaQuery.removeEventListener(
         "change",
         handleBreakpointChange
       );
     };
   }, []);
 
-  /*
-   * Track whether the desktop topbar is visible.
-   */
+  useEffect(() => {
+    const motionQuery = window.matchMedia(
+      REDUCED_MOTION_QUERY
+    );
+
+    const handleMotionPreference = (event) => {
+      setReducedMotion(event.matches);
+    };
+
+    setReducedMotion(motionQuery.matches);
+
+    motionQuery.addEventListener(
+      "change",
+      handleMotionPreference
+    );
+
+    return () => {
+      motionQuery.removeEventListener(
+        "change",
+        handleMotionPreference
+      );
+    };
+  }, []);
+
   useEffect(() => {
     const topbarElement =
       document.getElementById("website-topbar");
@@ -70,38 +108,41 @@ const Carousel = () => {
       return undefined;
     }
 
-    let animationFrameId = null;
-
     const checkTopbarVisibility = () => {
-      if (animationFrameId !== null) return;
+      if (animationFrameRef.current !== null) {
+        return;
+      }
 
-      animationFrameId = window.requestAnimationFrame(() => {
-        const rect =
-          topbarElement.getBoundingClientRect();
+      animationFrameRef.current =
+        window.requestAnimationFrame(() => {
+          const rect =
+            topbarElement.getBoundingClientRect();
 
-        const styles =
-          window.getComputedStyle(topbarElement);
+          const styles =
+            window.getComputedStyle(topbarElement);
 
-        const isDesktop =
-          window.matchMedia(DESKTOP_QUERY).matches;
+          const isDesktop =
+            window.matchMedia(
+              DESKTOP_QUERY
+            ).matches;
 
-        const isRendered =
-          styles.display !== "none" &&
-          styles.visibility !== "hidden" &&
-          styles.opacity !== "0";
+          const isRendered =
+            styles.display !== "none" &&
+            styles.visibility !== "hidden" &&
+            Number(styles.opacity) > 0;
 
-        const isInsideViewport =
-          rect.bottom > 0 &&
-          rect.top < window.innerHeight;
+          const isInsideViewport =
+            rect.bottom > 0 &&
+            rect.top < window.innerHeight;
 
-        setTopbarVisible(
-          isDesktop &&
-            isRendered &&
-            isInsideViewport
-        );
+          setTopbarVisible(
+            isDesktop &&
+              isRendered &&
+              isInsideViewport
+          );
 
-        animationFrameId = null;
-      });
+          animationFrameRef.current = null;
+        });
     };
 
     checkTopbarVisibility();
@@ -114,7 +155,8 @@ const Carousel = () => {
 
     window.addEventListener(
       "resize",
-      checkTopbarVisibility
+      checkTopbarVisibility,
+      { passive: true }
     );
 
     return () => {
@@ -128,27 +170,30 @@ const Carousel = () => {
         checkTopbarVisibility
       );
 
-      if (animationFrameId !== null) {
-        window.cancelAnimationFrame(animationFrameId);
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(
+          animationFrameRef.current
+        );
+
+        animationFrameRef.current = null;
       }
     };
   }, []);
 
-  /*
-   * Hide the floating switch when the hero
-   * leaves the viewport.
-   */
   useEffect(() => {
     const heroElement = heroRef.current;
 
-    if (!heroElement) return undefined;
+    if (!heroElement) {
+      return undefined;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         setHeroVisible(entry.isIntersecting);
       },
       {
-        threshold: 0.05,
+        threshold: 0.08,
+        rootMargin: "100px 0px",
       }
     );
 
@@ -159,6 +204,37 @@ const Carousel = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement || videoFailed) {
+      return;
+    }
+
+    if (!heroVisible || reducedMotion) {
+      videoElement.pause();
+      return;
+    }
+
+    const playPromise = videoElement.play();
+
+    if (
+      playPromise &&
+      typeof playPromise.catch === "function"
+    ) {
+      playPromise.catch(() => {});
+    }
+  }, [
+    heroVisible,
+    reducedMotion,
+    videoFailed,
+    videoSource,
+  ]);
+
+  const handleVideoError = useCallback(() => {
+    setVideoFailed(true);
+  }, []);
+
   const showVerticalIcons =
     !topbarVisible && heroVisible;
 
@@ -166,49 +242,100 @@ const Carousel = () => {
     <section
       ref={heroRef}
       id="hero-section"
+      aria-labelledby="hero-heading"
+      aria-describedby="hero-description"
       className="
         relative
-        mx-auto
+        isolate
         w-full
         overflow-hidden"
     >
-      <div className="relative w-full overflow-hidden">
+      <div className="sr-only">
+        <h1 id="hero-heading">
+          Study Abroad with Medcity
+        </h1>
+
+        <p id="hero-description">
+          Explore international universities,
+          courses, admissions support and study
+          abroad counselling with Medcity Study
+          Abroad.
+        </p>
+      </div>
+
+      <div
+        className="
+          relative
+          min-h-[100svh]
+          w-full
+          overflow-hidden
+          bg-black
+          supports-[height:100dvh]:min-h-[100dvh]
+        "
+      >
+        {!videoFailed && (
+          <video
+            ref={videoRef}
+            key={videoSource}
+            src={videoSource}
+            className="
+              absolute
+              inset-0
+              h-full
+              w-full
+              object-cover
+              object-center
+            "
+            autoPlay={!reducedMotion}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            controlsList="nodownload noplaybackrate nofullscreen"
+            onError={handleVideoError}
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+        )}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            z-10
+            bg-gradient-to-b
+            from-black/5
+            via-transparent
+            to-black/20
+          "
+        />
+
         <div
           aria-hidden={!showVerticalIcons}
           className={`
-            absolute left-0 top-1/2 z-30
-            hidden -translate-y-1/2
-            transition-all duration-500
+            absolute
+            left-0
+            top-1/2
+            z-30
+            hidden
+            -translate-y-1/2
+            will-change-transform
+            transition-[transform,opacity]
+            duration-500
             ease-[cubic-bezier(0.22,1,0.36,1)]
             lg:block
             ${
               showVerticalIcons
                 ? "translate-x-0 opacity-100"
-                : "pointer-events-none -translate-x-[120%] opacity-0"
+                : "pointer-events-none -translate-x-[110%] opacity-0"
             }
           `}
         >
           <WebsiteSwitchVertical />
         </div>
-
-        <video
-          key={videoSource}
-          src={videoSource}
-          className="
-            block
-            h-screen
-            w-screen
-            object-cover
-          "
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          controlsList="nodownload noplaybackrate"
-          aria-label="Medcity Study Abroad introduction video"
-        />
       </div>
     </section>
   );

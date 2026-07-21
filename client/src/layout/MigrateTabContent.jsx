@@ -1,157 +1,585 @@
-
-import canadaImg from "../assets/canada.png";
-import australiaImg from "../assets/australia.png";
 import {
+  ArrowRight,
   BriefcaseBusiness,
+  Globe,
+  GraduationCap,
   HeartPulse,
   ShieldCheck,
-  GraduationCap,
-  Globe,
-  ArrowRight,
   Users,
 } from "lucide-react";
 
+import australiaImg from "../assets/australia.png";
+import canadaImg from "../assets/canada.png";
+import { Link } from "react-router-dom";
+
 const immigrationData = [
   {
-    country: "CANADA",
+    id: "canada-skilled-immigration",
+    country: "Canada",
+    badge: "CANADA",
     title: "Canadian Skilled Immigration",
+    link:"/canadaMigration",
     image: canadaImg,
+    imageAlt:
+      "Canadian skilled immigration pathway for qualified professionals",
     buttonColor: "bg-primary",
+    buttonHover: "hover:bg-darkPrimary",
     accent: "text-primary",
+    accentBackground: "bg-primary/10",
+    accentBorder: "hover:border-primary/40",
+    dividerColor: "bg-primary",
     features: [
       {
-        icon: <GraduationCap size={18} />,
+        id: "canada-education",
+        icon: GraduationCap,
         text: "Quality Education",
       },
       {
-        icon: <HeartPulse size={18} />,
+        id: "canada-healthcare",
+        icon: HeartPulse,
         text: "Healthcare Access",
       },
       {
-        icon: <ShieldCheck size={18} />,
-        text: "High Quality Life",
+        id: "canada-quality-life",
+        icon: ShieldCheck,
+        text: "High Quality of Life",
       },
     ],
-    desc: `Canada's Skilled Immigration program is designed to attract individuals with the skills and experience needed to contribute to the Canadian economy.`,
+    description:
+      "Canada’s skilled immigration programs support qualified professionals and experienced workers in pursuing international career opportunities, permanent residency pathways, and a higher standard of living.",
   },
   {
-    country: "AUSTRALIA",
+    id: "australia-skilled-immigration",
+    country: "Australia",
+    badge: "AUSTRALIA",
     title: "Australian Skilled Immigration",
+    link:"/australiaMigration",
     image: australiaImg,
+    imageAlt:
+      "Australian skilled immigration pathway for professionals and tradespeople",
     buttonColor: "bg-secondary",
+    buttonHover: "hover:bg-blue-800",
     accent: "text-secondary",
+    accentBackground: "bg-secondary/10",
+    accentBorder: "hover:border-secondary/40",
+    dividerColor: "bg-secondary",
     features: [
       {
-        icon: <BriefcaseBusiness size={18} />,
-        text: "In-demand Jobs",
+        id: "australia-jobs",
+        icon: BriefcaseBusiness,
+        text: "In-Demand Jobs",
       },
       {
-        icon: <Users size={18} />,
+        id: "australia-society",
+        icon: Users,
         text: "Multicultural Society",
       },
       {
-        icon: <Globe size={18} />,
+        id: "australia-pr",
+        icon: Globe,
         text: "Pathway to PR",
       },
     ],
-    desc: `Australia's Skilled Immigration program targets professionals and tradespeople with the qualifications and experience needed in the Australian job market.`,
+    description:
+      "Australia’s skilled immigration pathways are designed for qualified professionals and skilled tradespeople whose qualifications and experience match the needs of the Australian labour market.",
   },
 ];
 
 const MigrateTabContent = () => {
   return (
-    <section className="py-10 bg-gradient-to-b from-white to-gray-100">
-      <div className="max-w-7xl mx-auto px-3 sm:px-5 md:px-8">
-        {/* heading */}
-        <div className="text-center mb-14">
-          <h1 className="text-3xl md:text-5xl font-bold text-secondary leading-tight">
-            Skilled Immigration
-            <span className="text-primary"> Opportunities</span>
-          </h1>
+    <section
+      id="skilled-immigration-programs"
+      aria-labelledby="skilled-immigration-title"
+      aria-describedby="skilled-immigration-description"
+      className="
+        relative
+        isolate
+        overflow-hidden
+        bg-gradient-to-b
+        from-white
+        to-gray-100
+        py-10
+        [content-visibility:auto]
+        [contain-intrinsic-size:900px]
+        sm:py-12
+        lg:py-14
+      "
+    >
+      {/* Background pattern */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          -z-30
+          opacity-35
+          [background-image:radial-gradient(circle,rgba(99,26,51,0.14)_1px,transparent_1px)]
+          [background-size:24px_24px]
+          [mask-image:linear-gradient(to_bottom,black,transparent_92%)]
+        "
+      />
 
-          <p className="mt-5 text-gray-600 text-base md:text-lg max-w-3xl mx-auto leading-8">
-            Your skills can open doors to a better future. Explore
-            pathways to live, work and grow in leading countries.
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          -z-20
+          bg-[radial-gradient(circle_at_top_left,rgba(192,31,83,0.10),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(4,102,175,0.10),transparent_32%)]
+        "
+      />
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -left-24
+          top-20
+          -z-10
+          h-64
+          w-64
+          rounded-full
+          border
+          border-primary/10
+        "
+      >
+        <div className="absolute inset-8 rounded-full border border-primary/10" />
+        <div className="absolute inset-16 rounded-full bg-primary/5" />
+      </div>
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -right-20
+          bottom-10
+          -z-10
+          hidden
+          h-64
+          w-64
+          rotate-12
+          rounded-[48px]
+          border
+          border-secondary/10
+          lg:block
+        "
+      />
+
+      <div className="mx-auto max-w-7xl px-3 sm:px-5 md:px-8">
+        <header className="mx-auto mb-14 max-w-4xl text-center">
+          <p
+            className="
+              inline-flex
+              items-center
+              justify-center
+              gap-2
+              rounded-full
+              border
+              border-primary/15
+              bg-primary/10
+              px-4
+              py-2
+              text-xs
+              font-bold
+              uppercase
+              tracking-[0.12em]
+              text-primary
+              shadow-sm
+              sm:text-sm
+            "
+          >
+            <Globe
+              aria-hidden="true"
+              size={17}
+              strokeWidth={2.2}
+            />
+
+            Skilled Migration Pathways
           </p>
-        </div>
 
-        {/* cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {immigrationData.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300"
+          <h3
+            id="skilled-immigration-title"
+            className="
+              mt-5
+              text-balance
+              text-3xl
+              font-bold
+              leading-tight
+              tracking-tight
+              text-darkPrimary
+              md:text-4xl
+            "
+          >
+            Skilled Immigration{" "}
+            <span className="text-primary">
+              Opportunities
+            </span>
+          </h3>
+
+          <p
+            id="skilled-immigration-description"
+            className="
+              mx-auto
+              mt-5
+              max-w-3xl
+              text-pretty
+              text-base
+              leading-8
+              text-gray-600
+              md:text-lg
+            "
+          >
+            Explore skilled immigration pathways to Canada and Australia designed for qualified professionals seeking global career growth, permanent residency opportunities, and a better quality of life.
+          </p>
+
+          <div
+            aria-hidden="true"
+            className="
+              mx-auto
+              mt-6
+              flex
+              items-center
+              justify-center
+              gap-2
+            "
+          >
+            <span className="h-1.5 w-4 rounded-full bg-primary/30" />
+            <span className="h-1.5 w-16 rounded-full bg-primary" />
+            <span className="h-1.5 w-4 rounded-full bg-primary/30" />
+          </div>
+        </header>
+
+        <div
+          role="list"
+          aria-label="Skilled immigration programs"
+          className="
+            grid
+            grid-cols-1
+            gap-8
+            lg:grid-cols-2
+          "
+        >
+          {immigrationData.map((item) => (
+            <article
+              key={item.id}
+              id={item.id}
+              role="listitem"
+              aria-labelledby={`${item.id}-title`}
+              aria-describedby={`${item.id}-description`}
+              className="
+                group
+                relative
+                overflow-hidden
+                rounded-3xl
+                border
+                border-gray-100
+                bg-white
+                shadow-lg
+                transition-[transform,box-shadow,border-color]
+                duration-300
+                ease-out
+                hover:-translate-y-1
+                hover:border-primary/15
+                hover:shadow-2xl
+                motion-reduce:transform-none
+                motion-reduce:transition-none
+              "
             >
-              {/* image */}
               <div className="relative">
                 <img
                   src={item.image}
-                  alt={item.title}
-                  className="w-full h-[320px] object-cover"
+                  alt={item.imageAlt}
+                  width="760"
+                  height="420"
+                  loading="lazy"
+                  decoding="async"
+                  className="
+                    h-[260px]
+                    w-full
+                    object-cover
+                    sm:h-[300px]
+                    md:h-[320px]
+                  "
                 />
 
-                {/* country badge */}
-                <div className="absolute top-5 left-5 bg-secondary text-white px-5 py-2 rounded-full text-sm font-semibold tracking-wide shadow-md">
-                  {item.country}
-                </div>
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    bg-gradient-to-t
+                    from-black/20
+                    via-transparent
+                    to-transparent
+                  "
+                />
 
-                {/* floating icon */}
-                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2">
-                  <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center border-4 border-white">
+                <span
+                  className="
+                    absolute
+                    left-5
+                    top-5
+                    rounded-full
+                    bg-white
+                    px-5
+                    py-2
+                    text-sm
+                    font-semibold
+                    tracking-wide
+                    text-primary
+                    shadow-md
+                  "
+                >
+                  {item.badge}
+                </span>
+
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    -bottom-8
+                    left-1/2
+                    z-20
+                    -translate-x-1/2
+                  "
+                >
+                  <div
+                    className="
+                      flex
+                      h-16
+                      w-16
+                      items-center
+                      justify-center
+                      rounded-full
+                      border-4
+                      border-white
+                      bg-white
+                      shadow-xl
+                    "
+                  >
                     <div
-                      className={`w-12 h-12 rounded-full ${item.buttonColor} text-white flex items-center justify-center`}
+                      className={`
+                        flex
+                        h-12
+                        w-12
+                        items-center
+                        justify-center
+                        rounded-full
+                        text-white
+                        transition-transform
+                        duration-300
+                        group-hover:scale-110
+                        motion-reduce:transform-none
+                        motion-reduce:transition-none
+                        ${item.buttonColor}
+                      `}
                     >
-                      <Users size={24} />
+                      <Users
+                        size={24}
+                        strokeWidth={2.1}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* content */}
-              <div className="pt-14 pb-8 px-7 text-center">
-                <h2 className="text-2xl md:text-3xl font-bold text-secondary">
-                  {item.title}
-                </h2>
-
-                <div className="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
-
-                <p className="mt-6 text-gray-600 leading-8 text-sm md:text-base">
-                  {item.desc}
-                </p>
-
-                {/* features */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-                  {item.features.map((feature, i) => (
-                    <div
-                      key={i}
-                      className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col items-center gap-3 hover:border-primary transition"
-                    >
-                      <div className={`${item.accent}`}>
-                        {feature.icon}
-                      </div>
-
-                      <p className="text-sm font-medium text-secondary">
-                        {feature.text}
-                      </p>
-                    </div>
-                  ))}
+              <div className="relative px-5 pb-8 pt-14 text-center sm:px-7">
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    right-5
+                    top-8
+                    grid
+                    grid-cols-4
+                    gap-1
+                    opacity-15
+                  "
+                >
+                  {Array.from({ length: 16 }).map(
+                    (_, index) => (
+                      <span
+                        key={index}
+                        className="
+                          h-1.5
+                          w-1.5
+                          rounded-full
+                          bg-primary
+                        "
+                      />
+                    )
+                  )}
                 </div>
 
-                {/* button */}
-                <button
-                  className={`${item.buttonColor} mt-10 text-white px-8 py-4 rounded-xl inline-flex items-center gap-3 hover:scale-105 transition cursor-pointer`}
+                <h4
+                  id={`${item.id}-title`}
+                  className="
+                    text-balance
+                    text-xl
+                    font-bold
+                    leading-tight
+                    text-darkPrimary
+                    md:text-xl
+                  "
                 >
-                  Learn More
-                  <ArrowRight size={18} />
-                </button>
+                  {item.title}
+                </h4>
+
+                <div
+                  aria-hidden="true"
+                  className={`
+                    mx-auto
+                    mt-4
+                    h-1
+                    w-20
+                    rounded-full
+                    transition-[width]
+                    duration-300
+                    group-hover:w-28
+                    motion-reduce:transition-none
+                    ${item.dividerColor}
+                  `}
+                />
+
+                <p
+                  id={`${item.id}-description`}
+                  className="
+                    mx-auto
+                    mt-6
+                    max-w-2xl
+                    text-sm
+                    leading-8
+                    text-gray-600
+                    md:text-base
+                  "
+                >
+                  {item.description}
+                </p>
+
+                <ul
+                  aria-label={`${item.country} immigration benefits`}
+                  className="
+                    mt-8
+                    grid
+                    grid-cols-1
+                    gap-4
+                    sm:grid-cols-3
+                  "
+                >
+                  {item.features.map((feature) => {
+                    const FeatureIcon = feature.icon;
+
+                    return (
+                      <li
+                        key={feature.id}
+                        className={`
+                          flex
+                          min-h-[112px]
+                          flex-col
+                          items-center
+                          justify-center
+                          gap-3
+                          rounded-2xl
+                          border
+                          border-gray-100
+                          bg-gray-50
+                          p-4
+                          transition-[transform,border-color,background-color]
+                          duration-300
+                          hover:-translate-y-1
+                          hover:bg-white
+                          motion-reduce:transform-none
+                          motion-reduce:transition-none
+                          ${item.accentBorder}
+                        `}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={`
+                            flex
+                            h-10
+                            w-10
+                            items-center
+                            justify-center
+                            rounded-full
+                            ${item.accent}
+                            ${item.accentBackground}
+                          `}
+                        >
+                          <FeatureIcon
+                            size={19}
+                            strokeWidth={2.1}
+                          />
+                        </span>
+
+                        <span className="text-sm font-semibold text-secondary">
+                          {feature.text}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <Link to={item.link}>
+                <button
+                  type="button"
+                  aria-label={`Learn more about ${item.title}`}
+                  className={`
+                    mt-10
+                    inline-flex
+                    items-center
+                    justify-center
+                    gap-3
+                    rounded-xl
+                    px-4
+                    py-3
+                    font-semibold
+                    text-sm sm:text-sm
+                    text-white
+                    shadow-md
+                    outline-none
+                    transition-[transform,background-color,box-shadow]
+                    duration-300
+                    hover:scale-105
+                    hover:shadow-lg
+                    focus-visible:ring-2
+                    focus-visible:ring-primary
+                    focus-visible:ring-offset-4
+                    motion-reduce:transform-none
+                    motion-reduce:transition-none hover:cursor-pointer
+                    ${item.buttonColor}
+                    ${item.buttonHover}
+                  `}
+                >
+                  Explore {item.country} Immigration
+
+                  <ArrowRight
+                    aria-hidden="true"
+                    size={18}
+                    strokeWidth={2.2}
+                  />
+                </button></Link>
               </div>
-            </div>
+            </article>
           ))}
         </div>
+
+        <p className="sr-only">
+          Medcity provides skilled immigration guidance
+          for Canada and Australia, including eligibility
+          support, documentation guidance, career pathway
+          information, permanent residency options and
+          settlement preparation.
+        </p>
       </div>
     </section>
   );
 };
 
 export default MigrateTabContent;
-

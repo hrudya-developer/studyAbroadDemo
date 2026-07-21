@@ -47,6 +47,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import GermanPopularCourses from "./layout/GermanPopularCourses";
 import SDBFeedback from "./pages/SDBFeedback";
 import SDBPrivacyPolicy from "./pages/SDBPrivacyPolicy";
+import CanadaMigration from "./pages/CanadaMigration";
+import AustraliaMigration from "./pages/AustraliaMigration";
 // import PartnersLoginPage from "./pages/PartnersLoginPage";
 
 
@@ -112,6 +114,8 @@ function Layout() {
          <Route path="/testimonials" element={<AllTestimonials />} />
          <Route path ="/popularCoursePublic" element = {<PopularCoursesPublic/>} />
          <Route path="/addOnServices" element = {<AddOnServices />} />
+         <Route path="/canadaMigration" element = {<CanadaMigration />} />
+         <Route path="/australiaMigration" element = {<AustraliaMigration />} />
 
 
 
