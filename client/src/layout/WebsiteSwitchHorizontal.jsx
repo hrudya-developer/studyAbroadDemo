@@ -2,12 +2,16 @@ import {
   Globe2,
   GraduationCap,
   Languages,
+  MapPin,
   Smartphone,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+
 import germanFlag from "../assets/germanFlag.png";
 
 const ACADEMY_URL = "https://medcityacademy.com/";
+const BRANCHES_URL =
+  "https://medcityacademy.com/centers/";
 const LANGUAGE_PROGRAM_URL =
   "https://medcityacademy.com/courses/";
 const MOBILE_APP_URL =
@@ -23,9 +27,9 @@ const WebsiteSwitchHorizontal = ({ onNavigate }) => {
         flex-row
         items-center
         justify-between
-        gap-1.5
+        gap-1
         overflow-visible
-        px-2
+        px-1.5
         py-1.5
         lg:hidden
       "
@@ -42,6 +46,14 @@ const WebsiteSwitchHorizontal = ({ onNavigate }) => {
         href={ACADEMY_URL}
         label="Medcity Academy"
         icon={GraduationCap}
+        iconClassName="bg-secondary text-white"
+        onNavigate={onNavigate}
+      />
+
+      <HorizontalExternalLink
+        href={BRANCHES_URL}
+        label="Our Branches"
+        icon={MapPin}
         onNavigate={onNavigate}
       />
 
@@ -75,12 +87,14 @@ const HorizontalInternalLink = ({
   icon: Icon,
   image,
   active = false,
+  iconClassName = "",
   onNavigate,
 }) => {
   return (
     <Link
       to={to}
       aria-label={label}
+      title={label}
       onClick={() => onNavigate?.()}
       className={getLinkClasses(active)}
     >
@@ -89,6 +103,7 @@ const HorizontalInternalLink = ({
         Icon={Icon}
         image={image}
         active={active}
+        iconClassName={iconClassName}
       />
     </Link>
   );
@@ -100,6 +115,7 @@ const HorizontalExternalLink = ({
   icon: Icon,
   image,
   active = false,
+  iconClassName = "",
   onNavigate,
 }) => {
   return (
@@ -108,6 +124,7 @@ const HorizontalExternalLink = ({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
+      title={label}
       onClick={() => onNavigate?.()}
       className={getLinkClasses(active)}
     >
@@ -116,6 +133,7 @@ const HorizontalExternalLink = ({
         Icon={Icon}
         image={image}
         active={active}
+        iconClassName={iconClassName}
       />
     </a>
   );
@@ -126,6 +144,7 @@ const HorizontalLinkContent = ({
   Icon,
   image,
   active,
+  iconClassName,
 }) => {
   return (
     <>
@@ -138,7 +157,7 @@ const HorizontalLinkContent = ({
             overflow-hidden
             rounded-full
             border border-white/40
-            bg-primary/10
+            bg-white
             shadow-sm
             transition-all duration-300
             group-hover:scale-105
@@ -147,6 +166,8 @@ const HorizontalLinkContent = ({
           <img
             src={image}
             alt={`${label} flag`}
+            width={32}
+            height={32}
             className="h-full w-full object-cover"
           />
         </span>
@@ -166,12 +187,13 @@ const HorizontalLinkContent = ({
                   text-white
                   shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]
                 `
-                : `
-                  bg-white
-                  text-primary
-                  group-hover:bg-primary
-                  group-hover:text-white
-                `
+                : iconClassName ||
+                  `
+                    bg-white
+                    text-primary
+                    group-hover:bg-primary
+                    group-hover:text-white
+                  `
             }
           `}
         >
@@ -185,48 +207,7 @@ const HorizontalLinkContent = ({
         </span>
       )}
 
-      <span
-        role="tooltip"
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-[calc(100%+8px)]
-          z-[9999]
-          -translate-x-1/2
-          translate-y-1
-          whitespace-nowrap
-          rounded-full
-          bg-slate-950
-          px-2.5
-          py-1.5
-          text-[10px]
-          font-semibold
-          text-white
-          opacity-0
-          shadow-lg
-          transition-all
-          duration-200
-          group-hover:translate-y-0
-          group-hover:opacity-100
-          group-focus-visible:translate-y-0
-          group-focus-visible:opacity-100
-        "
-      >
-        {label}
-
-        <span
-          className="
-            absolute
-            bottom-full
-            left-1/2
-            -translate-x-1/2
-            border-[5px]
-            border-transparent
-            border-b-slate-950
-          "
-        />
-      </span>
+      <Tooltip label={label} />
 
       {active && (
         <span
@@ -248,6 +229,53 @@ const HorizontalLinkContent = ({
   );
 };
 
+const Tooltip = ({ label }) => {
+  return (
+    <span
+      role="tooltip"
+      className="
+        pointer-events-none
+        absolute
+        left-1/2
+        top-[calc(100%+8px)]
+        z-[9999]
+        -translate-x-1/2
+        translate-y-1
+        whitespace-nowrap
+        rounded-full
+        bg-slate-950
+        px-2.5
+        py-1.5
+        text-[10px]
+        font-semibold
+        text-white
+        opacity-0
+        shadow-lg
+        transition-all
+        duration-200
+        group-hover:translate-y-0
+        group-hover:opacity-100
+        group-focus-visible:translate-y-0
+        group-focus-visible:opacity-100
+      "
+    >
+      {label}
+
+      <span
+        className="
+          absolute
+          bottom-full
+          left-1/2
+          -translate-x-1/2
+          border-[5px]
+          border-transparent
+          border-b-slate-950
+        "
+      />
+    </span>
+  );
+};
+
 const getLinkClasses = (active) => `
   group
   relative
@@ -262,10 +290,7 @@ const getLinkClasses = (active) => `
   ${
     active
       ? `
-        bg-gradient-to-br
-        from-primary
-        via-[#9a234b]
-        to-darkPrimary
+        bg-darkPrimary
         text-white
         shadow-[0_5px_12px_rgba(99,26,51,0.4)]
       `

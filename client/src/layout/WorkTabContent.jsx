@@ -92,14 +92,18 @@ const WorkTabContent = () => {
             className="
               mt-3
               text-3xl
-              font-bold
+              font-extrabold
               leading-tight
               text-darkPrimary
-              sm:text-4xl
+              sm:text-4xl lg:text-5xl
             "
           >
             International Job Opportunities for <br />
-            <span className="text-primary">
+            <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">
               
                Study Abroad Students
             </span>

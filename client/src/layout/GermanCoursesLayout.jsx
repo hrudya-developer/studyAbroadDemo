@@ -76,7 +76,12 @@ const GermanCoursesLayout = () => {
 
           <h2 className="mt-5 font-nunito text-3xl font-extrabold leading-tight text-darkPrimary sm:text-3xl md:text-4xl lg:text-5xl">
             German <br />
-            Popular <span className="text-primary">Courses</span>
+            Popular <span className="bg-gradient-to-r
+                  from-primary
+                  via-[#a83d8b]
+                  to-secondary
+                  bg-clip-text
+                  text-transparent">Courses</span>
           </h2>
 
           <p className="mx-auto mt-5 max-w-md text-sm leading-7 text-gray-600 sm:text-base lg:mx-0">
@@ -86,7 +91,7 @@ const GermanCoursesLayout = () => {
 
           <Link
             to="/germanPopularCourses"
-            className="mt-7 inline-flex items-center justify-center gap-2 rounded-2xl bg-darkPrimary px-5 py-3 text-sm text-white shadow-lg shadow-pink-200 transition hover:-translate-y-1 hover:bg-primary sm:text-base"
+            className="mt-7 inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3 text-sm text-white shadow-lg shadow-pink-200 transition hover:-translate-y-1 hover:bg-primary sm:text-base"
           >
             View All Programs
             <ArrowRight size={20} />
@@ -173,7 +178,7 @@ const GermanCoursesLayout = () => {
                       </div>
 
                       <div className="flex flex-1 flex-col p-6">
-                        <h3 className="text-2xl font-extrabold text-darkPrimary">
+                        <h3 className="text-2xl font-extrabold text-black/90">
                           {item.name}
                         </h3>
 

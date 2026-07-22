@@ -15,7 +15,7 @@ const services = [
       "Discover top-ranked universities and leading educational institutions across the world's most popular study abroad destinations.",
     icon: Search,
     iconColor: "text-secondary",
-    cardBackground: "bg-secondary/20",
+    cardBackground: "bg-secondary/10",
     lineColor: "bg-secondary",
     patternColor: "bg-secondary/10",
   },
@@ -27,7 +27,7 @@ const services = [
       "Explore scholarships, grants, and financial aid opportunities available for students planning to study abroad.",
     icon: GraduationCap,
     iconColor: "text-red-600",
-    cardBackground: "bg-red-100",
+    cardBackground: "bg-red-50",
     lineColor: "bg-red-500",
     patternColor: "bg-red-500/10",
   },
@@ -39,7 +39,7 @@ const services = [
       "Get expert student visa guidance and documentation support to complete your overseas education application with confidence.",
     icon: FileText,
     iconColor: "text-violet-600",
-    cardBackground: "bg-violet-100",
+    cardBackground: "bg-violet-50",
     lineColor: "bg-violet-500",
     patternColor: "bg-violet-500/10",
   },
@@ -51,7 +51,7 @@ const services = [
       "Prepare for your study abroad journey with expert support for accommodation, travel arrangements, and student life abroad.",
     icon: Plane,
     iconColor: "text-pink-600",
-    cardBackground: "bg-pink-100",
+    cardBackground: "bg-pink-50",
     lineColor: "bg-pink-500",
     patternColor: "bg-pink-500/10",
   },
@@ -60,7 +60,7 @@ const services = [
 export default function MainSectionOne() {
   return (
     <section
-      id="study-abroad-services"
+      id="study-abroad-services" data-aos="fade-up"
       aria-labelledby="essential-services-title"
       aria-describedby="essential-services-description"
       className="
@@ -141,7 +141,7 @@ export default function MainSectionOne() {
 
    
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl" data-aos="fade-up">
         
         <header className="mx-auto max-w-4xl text-center">
           <p
@@ -181,7 +181,7 @@ export default function MainSectionOne() {
             className="
               text-balance
               text-3xl
-              font-bold
+              font-extrabold
               leading-tight
               tracking-tight
               text-darkPrimary
@@ -190,7 +190,11 @@ export default function MainSectionOne() {
             "
           >
             Complete Study Abroad Support, All in{" "}
-            <span className="text-primary">
+            <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">
               One Place
             </span>
           </h2>
@@ -241,7 +245,7 @@ export default function MainSectionOne() {
             sm:grid-cols-2
             lg:mt-14
             lg:grid-cols-4
-          "
+          " data-aos="fade-up"
         >
           {services.map(
             ({
@@ -272,7 +276,7 @@ export default function MainSectionOne() {
                   transition-[transform,box-shadow]
                   duration-300
                   ease-out
-                  hover:-translate-y-2
+                  hover:-translate-y-2 hover:cursor-pointer transition-all ease-out duration-400
                   hover:shadow-xl
                   motion-reduce:transform-none
                   motion-reduce:transition-none

@@ -220,7 +220,7 @@ const Counselling = () => {
   };
 
   return (
-    <section className="w-full bg-white py-10 lg:py-16" id="gfc_wrapper">
+    <section id="gfc_wrapper" className="w-full bg-white py-10 lg:py-16 scroll-mt-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <div
@@ -233,20 +233,24 @@ const Counselling = () => {
             }}
             data-aos="fade-up"
           >
-            <div className="absolute inset-0 bg-black/70"></div>
+            <div className="absolute inset-0 bg-black/80"></div>
 
             <div className="relative z-10 flex flex-col gap-10">
-              <div className="mb-4 flex items-center gap-2 font-semibold text-white">
-                <Headphones className="h-10 w-10 text-logoYellow" />
-                <span className="text-logoYellow text-xl font-extrabold">
+              <span className="w-fit flex items-center gap-2 font-semibold text-white p-2 rounded-full border border-white">
+                <Headphones className="h-5 w-5 text-white" />
+                <span className="text-white text-sm font-bold">
                   Expert Guidance, Every Step
                 </span>
-              </div>
+              </span>
 
-              <h1 className="font-nunito my-8 text-center text-4xl font-bold text-white sm:text-4xl md:text-4xl lg:text-left lg:text-5xl">
+              <h1 className="font-nunito my-8 text-center text-3xl leading-[1.2] font-extrabold text-white sm:text-4xl md:text-4xl lg:text-left lg:text-5xl">
                 Your Dream <br />
                 University <br />
-                <span className="text-logoYellow">Awaits You</span>
+                <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">Awaits You</span>
               </h1>
 
               <div className="mt-5 mb-6 h-1 w-14 rounded-full bg-primary"></div>

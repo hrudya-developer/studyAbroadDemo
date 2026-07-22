@@ -92,20 +92,24 @@ const ProgramsSection = () => {
               className="
                 font-nunito
                 text-3xl
-                font-bold
+                font-extrabold
                 leading-tight
                 text-darkPrimary
                 sm:text-4xl
                 lg:text-5xl
               "
             >
-              Unlock Global Education and{" "}
-              <span className="text-primary">
+              Unlock Global Education - <br />
+              <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">
                 Study Abroad Opportunities
               </span>
             </h2>
 
-            <p className="mx-auto mt-4 max-w-3xl text-lg font-bold text-secondary">
+            <p className="mx-auto mt-4 max-w-3xl text-md font-bold text-gray-900">
               Your trusted gateway to international education, university
               admissions, student visa assistance, and immigration support.
             </p>

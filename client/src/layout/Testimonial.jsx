@@ -77,13 +77,17 @@ export default function Testimonial() {
 
         <div className="text-center">
           <div className="my-5">
-            <span className="mx-auto rounded-full bg-gray-50 px-4 py-2 text-center text-sm text-primary">
+            <span className="mx-auto rounded-full bg-gray-100 px-4 py-2 text-center text-xs font-semibold text-primary">
               Our Students, Their Success Stories
             </span>
           </div>
 
           <h1 className="font-nunito text-3xl font-bold text-darkPrimary sm:text-4xl lg:text-5xl">
-            What people say <span className="text-primary">about us</span>
+            What people say <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">about us</span>
           </h1>
 
           <div className="mx-auto mt-6 h-1.5 w-16 rounded-full bg-primary" />
@@ -220,7 +224,7 @@ export default function Testimonial() {
 
         <div className="mt-4 flex justify-center">
           <Link to="/testimonials">
-            <ButtonPrimary className="w-auto px-6">
+            <ButtonPrimary className="w-auto px-6 bg-primary">
               View all
               <ArrowRight className="h-5 w-5" />
             </ButtonPrimary>

@@ -52,12 +52,16 @@ const StudyTabContent = () => {
               mt-3
               font-nunito
               text-3xl
-              font-bold
+              font-extrabold
               text-darkPrimary
-              sm:text-4xl
+              sm:text-4xl lg:text-5xl
             "
           >
-            Popular Study Abroad Courses
+            Popular <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">Study</span> Abroad Courses
           </h2>
 
           <p className="mt-4 text-sm leading-7 text-slate-800 sm:text-base md:text-base lg:text-lg">

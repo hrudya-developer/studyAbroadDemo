@@ -65,7 +65,7 @@ const EssentialService = () => {
         backgroundImage: `url(${bgOverlay})`,
       }}
     >
-      <div className="absolute inset-0 bg-black/80" />
+      <div className="absolute inset-0 bg-black/85" />
 
       <div className="relative z-10">
         <div className="mx-auto mb-14 max-w-4xl text-center">

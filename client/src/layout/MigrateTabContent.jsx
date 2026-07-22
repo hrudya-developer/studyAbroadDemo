@@ -102,7 +102,7 @@ const MigrateTabContent = () => {
         [content-visibility:auto]
         [contain-intrinsic-size:900px]
         sm:py-12
-        lg:py-14
+        lg:py-14 rounded-2xl
       "
     >
       {/* Background pattern */}
@@ -184,12 +184,12 @@ const MigrateTabContent = () => {
               px-4
               py-2
               text-xs
-              font-bold
+              font-semibold
               uppercase
               tracking-[0.12em]
               text-primary
               shadow-sm
-              sm:text-sm
+              sm:text-xs
             "
           >
             <Globe
@@ -207,15 +207,19 @@ const MigrateTabContent = () => {
               mt-5
               text-balance
               text-3xl
-              font-bold
+              font-extrabold
               leading-tight
               tracking-tight
               text-darkPrimary
-              md:text-4xl
+              sm:text-4xl lg:text-5xl
             "
           >
-            Skilled Immigration{" "}
-            <span className="text-primary">
+            Skilled Immigration
+            <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">
               Opportunities
             </span>
           </h3>

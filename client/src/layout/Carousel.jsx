@@ -5,6 +5,7 @@ import {
   useState,
 } from "react";
 
+import HeroSocialLinks from "./HeroSocialLinks";
 import WebsiteSwitchVertical from "./WebsiteSwitchVertical";
 
 const DESKTOP_VIDEO =
@@ -248,7 +249,8 @@ const Carousel = () => {
         relative
         isolate
         w-full
-        overflow-hidden"
+        overflow-hidden
+      "
     >
       <div className="sr-only">
         <h1 id="hero-heading">
@@ -336,6 +338,8 @@ const Carousel = () => {
         >
           <WebsiteSwitchVertical />
         </div>
+
+        <HeroSocialLinks visible={heroVisible} />
       </div>
     </section>
   );

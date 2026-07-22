@@ -1,8 +1,8 @@
 import {
   Globe2,
   GraduationCap,
-  Handshake,
   Languages,
+  MapPin,
   Smartphone,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import germanFlag from "../assets/germanFlag.png";
 
 const ACADEMY_URL = "https://medcityacademy.com/";
+const BRANCHES_URL =
+  "https://medcityacademy.com/centers/";
 const LANGUAGE_PROGRAM_URL =
   "https://medcityacademy.com/courses/";
 const MOBILE_APP_URL =
@@ -18,7 +20,6 @@ const MOBILE_APP_URL =
 const WebsiteSwitchVertical = () => {
   return (
     <div className="flex w-16 flex-col items-center gap-3">
-      {/* Main icons box */}
       <nav
         aria-label="Quick website links"
         className="
@@ -29,11 +30,11 @@ const WebsiteSwitchVertical = () => {
           gap-2
           rounded-r-[20px]
           border-y border-r
-          border-white
+          border-white/80
           bg-black/80
           px-2
           py-2.5
-          shadow-[13px_19px_32px_rgba(15,23,42,0.2)]
+          shadow-[13px_19px_32px_rgba(15,23,42,0.20)]
           backdrop-blur-xl
         "
       >
@@ -48,6 +49,23 @@ const WebsiteSwitchVertical = () => {
           href={ACADEMY_URL}
           label="Medcity Academy"
           icon={GraduationCap}
+          iconClassName="
+            bg-secondary
+            text-white
+            shadow-[0_5px_14px_rgba(4,102,175,0.32)]
+            group-hover:bg-[#03558f]
+          "
+        />
+
+        <VerticalExternalLink
+          href={BRANCHES_URL}
+          label="Our Branches"
+          icon={MapPin}
+          iconClassName="
+           
+            shadow-[0_5px_14px_rgba(4,102,175,0.32)]
+            group-hover:bg-[#03558f]
+          "
         />
 
         <VerticalExternalLink
@@ -68,84 +86,23 @@ const WebsiteSwitchVertical = () => {
           image={germanFlag}
         />
       </nav>
-
-      {/* Separate Partners Login box */}
-      {/* <div
-        className="
-          flex w-16
-          items-center justify-center
-          rounded-r-[20px]
-          border-y border-r
-          border-logoYellow/70
-          bg-logoYellow
-          px-2
-          py-2.5
-          shadow-[8px_10px_22px_rgba(15,23,42,0.2)]
-        "
-      >
-        <Link
-          to="/partnersLoginPage"
-          aria-label="Partners Login"
-          className="
-            group
-            relative
-            flex h-12 w-12
-            items-center justify-center
-            rounded-full
-            border border-white/70
-            bg-white
-            text-darkPrimary
-            shadow-[0_4px_12px_rgba(15,23,42,0.16)]
-            transition-all
-            duration-300
-            hover:-translate-y-0.5
-            hover:bg-yellow-50
-            hover:shadow-[0_7px_18px_rgba(15,23,42,0.22)]
-            focus:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-darkPrimary/40
-            focus-visible:ring-offset-2
-          "
-        >
-          <span
-            className="
-              relative z-10
-              flex h-9 w-9
-              items-center justify-center
-              rounded-full
-              bg-white
-              text-darkPrimary
-              transition-all
-              duration-300
-              group-hover:scale-110
-            "
-          >
-            <Handshake
-              size={21}
-              strokeWidth={2.3}
-              aria-hidden="true"
-            />
-          </span>
-
-          <Tooltip label="Partners Login" />
-        </Link>
-      </div>
-       */}
     </div>
   );
 };
- 
+
 const VerticalInternalLink = ({
   to,
   label,
   icon: Icon,
   image,
   active = false,
+  iconClassName = "",
 }) => {
   return (
     <Link
       to={to}
       aria-label={label}
+      title={label}
       className={getLinkClasses(active)}
     >
       <VerticalLinkContent
@@ -153,6 +110,7 @@ const VerticalInternalLink = ({
         Icon={Icon}
         image={image}
         active={active}
+        iconClassName={iconClassName}
       />
     </Link>
   );
@@ -164,6 +122,7 @@ const VerticalExternalLink = ({
   icon: Icon,
   image,
   active = false,
+  iconClassName = "",
 }) => {
   return (
     <a
@@ -171,6 +130,7 @@ const VerticalExternalLink = ({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
+      title={label}
       className={getLinkClasses(active)}
     >
       <VerticalLinkContent
@@ -178,6 +138,7 @@ const VerticalExternalLink = ({
         Icon={Icon}
         image={image}
         active={active}
+        iconClassName={iconClassName}
       />
     </a>
   );
@@ -188,6 +149,7 @@ const VerticalLinkContent = ({
   Icon,
   image,
   active,
+  iconClassName,
 }) => {
   return (
     <>
@@ -199,17 +161,21 @@ const VerticalLinkContent = ({
             items-center justify-center
             overflow-hidden
             rounded-full
-            border border-slate-200
+            border-2 border-white
             bg-white
-            shadow-sm
-            transition-all duration-300
+            shadow-[0_4px_12px_rgba(15,23,42,0.16)]
+            transition-all
+            duration-300
             group-hover:scale-110
             group-hover:border-primary/30
+            group-hover:shadow-[0_7px_18px_rgba(15,23,42,0.20)]
           "
         >
           <img
             src={image}
             alt={`${label} flag`}
+            width={36}
+            height={36}
             className="h-full w-full object-cover"
           />
         </span>
@@ -220,7 +186,8 @@ const VerticalLinkContent = ({
             flex h-9 w-9
             items-center justify-center
             rounded-full
-            transition-all duration-300
+            transition-all
+            duration-300
             group-hover:scale-110
             ${
               active
@@ -229,12 +196,13 @@ const VerticalLinkContent = ({
                   text-white
                   shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]
                 `
-                : `
-                  bg-primary/[0.08]
-                  text-primary
-                  group-hover:bg-primary
-                  group-hover:text-white
-                `
+                : iconClassName ||
+                  `
+                    bg-primary/[0.08]
+                    text-primary
+                    group-hover:bg-primary
+                    group-hover:text-white
+                  `
             }
           `}
         >
@@ -262,7 +230,7 @@ const VerticalLinkContent = ({
             -translate-y-1/2
             rounded-r-full
             bg-logoYellow
-            shadow-[0_0_9px_rgba(247,236,34,0.9)]
+            shadow-[0_0_9px_rgba(247,236,34,0.90)]
           "
         />
       )}
@@ -284,6 +252,7 @@ const Tooltip = ({ label }) => {
         translate-x-2
         whitespace-nowrap
         rounded-xl
+        border border-white/10
         bg-slate-950
         px-3
         py-2
@@ -291,7 +260,7 @@ const Tooltip = ({ label }) => {
         font-semibold
         text-white
         opacity-0
-        shadow-[0_10px_25px_rgba(15,23,42,0.3)]
+        shadow-[0_10px_25px_rgba(15,23,42,0.30)]
         transition-all
         duration-200
         group-hover:translate-x-0
@@ -331,10 +300,7 @@ const getLinkClasses = (active) => `
   ${
     active
       ? `
-        bg-gradient-to-br
-        from-primary
-        via-[#9a234b]
-        to-darkPrimary
+        bg-darkPrimary
         text-white
         shadow-[0_6px_16px_rgba(99,26,51,0.42)]
       `
@@ -342,7 +308,7 @@ const getLinkClasses = (active) => `
         border border-slate-100
         bg-white
         text-primary
-        shadow-[0_4px_12px_rgba(15,23,42,0.1)]
+        shadow-[0_4px_12px_rgba(15,23,42,0.10)]
         hover:-translate-y-0.5
         hover:border-primary/20
         hover:bg-primary/[0.04]

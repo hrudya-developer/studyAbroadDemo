@@ -337,7 +337,7 @@ const handleApply = (course) => {
     <section className="relative py-0 w-full bg-darkPrimary lg:bg-[#181717]">
       <div
         className="relative mx-auto max-w-9xl px-3 sm:px-5 md:px-8"
-        data-aos="fade-up"
+    ata-aos="fade-up"
       >
         <div className="py-10">
           <div className="grid grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:grid-cols-4">

@@ -2,6 +2,8 @@ import { lazy } from "react";
 
 import Carousel from "../layout/Carousel";
 import LazySection from "../components/LazySection";
+import OurBranches from "../layout/OurBranches";
+import FAQ from "../layout/FAQ/FAQ";
 
 /*
  * Every homepage component except Carousel
@@ -258,6 +260,16 @@ const Home = () => {
       >
         <StudyDestinations />
       </LazySection>
+
+      <LazySection>
+        <FAQ />
+      </LazySection>
+
+<LazySection>
+  <OurBranches />
+</LazySection>
+
+
 
       {/*
        * MIA popup, floating button and chatbox

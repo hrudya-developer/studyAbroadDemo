@@ -64,7 +64,7 @@ const Navbar = () => {
             <img
               src="/logo.png"
               alt="Medicity Study Abroad - Study Abroad Consultancy"
-              width="180"
+              width="150"
               height="50"
               loading="eager"
               className="

@@ -1,6 +1,11 @@
 import React, { memo } from "react";
-import { Languages, Smartphone } from "lucide-react";
+import {
+  Languages,
+  MapPin,
+  Smartphone,
+} from "lucide-react";
 import { Link } from "react-router-dom";
+
 import WebsiteSwitch from "./WebsiteSwitch";
 import germanFlag from "../assets/germanFlag.png";
 
@@ -10,58 +15,177 @@ const ActionCard = ({
   external = false,
   icon,
   title,
+  subtitle,
   image,
-  dark = false,
+  fullHeight = false,
+  iconClassName = "from-darkPrimary to-primary",
+  underlineClassName = "bg-primary",
 }) => {
-  const baseClasses = `
-    group flex items-center gap-3 rounded-xl
-    px-4 py-2.5 min-h-[46px]
-    transition-all duration-300
-    hover:-translate-y-0.5 hover:shadow-md
-    focus:outline-none focus:ring-1 focus:ring-darkPrimary
+  const commonClasses = `
+    group
+    relative
+    flex items-center
+    whitespace-nowrap
+    transition-all duration-300 ease-out
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-primary
+    focus-visible:ring-offset-2
   `;
 
-  const lightClasses = `
-    bg-slate-200 hover:bg-slate-50
+  const regularClasses = `
+    h-[46px]
+    gap-2.5
+    overflow-hidden
+    rounded-[13px]
+    border border-slate-200/80
+    bg-white
+    px-3
+    text-slate-800
+    shadow-[0_5px_14px_rgba(15,23,42,0.09)]
+    hover:-translate-y-0.5
+    hover:border-slate-300
+    hover:shadow-[0_9px_20px_rgba(15,23,42,0.13)]
+    xl:px-3.5
   `;
 
-  const darkClasses = `
-    bg-gray-900
+  const fullHeightClasses = `
+    h-full
+    min-w-[210px]
+    gap-3
+    self-stretch
+    overflow-hidden
+    bg-black
+    px-5
     text-white
-    hover:bg-primary
+    shadow-[-8px_0_22px_rgba(15,23,42,0.12)]
+    hover:bg-slate-950
   `;
 
   const content = (
     <>
+      {fullHeight && (
+        <>
+          <span
+            className="
+              pointer-events-none
+              absolute inset-0
+              bg-[radial-gradient(circle_at_85%_20%,rgba(255,255,255,0.16),transparent_38%)]
+            "
+          />
+
+          <span
+            className="
+              pointer-events-none
+              absolute -bottom-8 right-1
+              h-24 w-24 rounded-full
+              bg-primary/25 blur-2xl
+            "
+          />
+        </>
+      )}
+
+      {!fullHeight && (
+        <span
+          className={`
+            pointer-events-none
+            absolute bottom-0 left-1/2
+            h-[2px] w-9
+            -translate-x-1/2
+            rounded-full
+            ${underlineClassName}
+            transition-all duration-300
+            group-hover:w-12
+          `}
+        />
+      )}
+
       {image ? (
-        <span className="h-8 w-8 overflow-hidden rounded-full border border-white">
+        <span
+          className={`
+            relative z-10
+            flex shrink-0 items-center justify-center
+            overflow-hidden rounded-full
+            border-2 border-white
+            bg-white
+            shadow-[0_3px_8px_rgba(15,23,42,0.18)]
+            ${
+              fullHeight
+                ? "h-10 w-10"
+                : "h-8 w-8"
+            }
+          `}
+        >
           <img
             src={image}
-            alt="German Flag"
-            loading="lazy"
-            width={32}
-            height={32}
+            alt=""
+            aria-hidden="true"
+            width={40}
+            height={40}
             className="h-full w-full object-cover"
           />
         </span>
       ) : (
         <span
-          className="
-            flex h-9 w-9 items-center justify-center
-            rounded-lg bg-darkPrimary text-white
-            transition-colors duration-300
-            group-hover:bg-primary
-          "
+          className={`
+            relative z-10
+            flex shrink-0 items-center justify-center
+            rounded-lg
+            text-white
+            shadow-[0_3px_8px_rgba(15,23,42,0.18)]
+            transition-all duration-300
+            group-hover:scale-105
+            ${
+              fullHeight
+                ? "h-10 w-10 bg-white/15"
+                : `h-8 w-8 bg-gradient-to-br ${iconClassName}`
+            }
+          `}
         >
           {icon}
         </span>
       )}
 
-      <span className="text-sm font-semibold whitespace-nowrap">
-        {title}
+      <span
+        className="
+          relative z-10
+          flex min-w-0 flex-col
+          items-start
+        "
+      >
+        <span
+          className={`
+            font-semibold leading-none
+            ${
+              fullHeight
+                ? "text-[13px] text-white"
+                : "text-[13px] text-slate-800 xl:text-[13px]"
+            }
+          `}
+        >
+          {title}
+        </span>
+
+        {subtitle && (
+          <span
+            className="
+              mt-1
+              text-[9px]
+              font-medium
+              leading-none
+              text-white/75
+            "
+          >
+            {subtitle}
+          </span>
+        )}
       </span>
     </>
   );
+
+  const className = `${commonClasses} ${
+    fullHeight ? fullHeightClasses : regularClasses
+  }`;
 
   if (external) {
     return (
@@ -71,9 +195,7 @@ const ActionCard = ({
         rel="noopener noreferrer"
         aria-label={title}
         title={title}
-        className={`${baseClasses} ${
-          dark ? darkClasses : lightClasses
-        }`}
+        className={className}
       >
         {content}
       </a>
@@ -85,9 +207,7 @@ const ActionCard = ({
       to={to}
       aria-label={title}
       title={title}
-      className={`${baseClasses} ${
-        dark ? darkClasses : lightClasses
-      }`}
+      className={className}
     >
       {content}
     </Link>
@@ -100,40 +220,109 @@ const Topbar = () => {
       id="website-topbar"
       className="
         hidden
+        h-[62px]
+        w-full
+        border-b border-slate-200
+        bg-gradient-to-r
+        from-slate-200
+        via-white
+        to-slate-100
+        shadow-[0_3px_14px_rgba(15,23,42,0.06)]
         lg:block
-        mx-auto
-        max-w-screen-2xl
-        bg-slate-100"
+      "
     >
       <nav
         aria-label="Top navigation"
         className="
-          flex items-center justify-between
-          px-6 py-2
+          mx-auto
+          flex h-full
+          max-w-screen-2xl
+          items-center
+          justify-between
+          pl-5
+          pr-0
+          xl:pl-8
         "
       >
-        <WebsiteSwitch />
+        <div
+          className="
+            shrink-0
+            rounded-2xl
+            bg-white
+            shadow-[0_6px_20px_rgba(15,23,42,0.10)]
+          "
+        >
+          <WebsiteSwitch />
+        </div>
 
-        <div className="flex items-center gap-3">
+        <div
+          className="
+            ml-auto
+            flex h-full
+            min-w-0
+            items-center
+            justify-end
+            gap-2
+            xl:gap-2.5
+          "
+        >
+          <ActionCard
+            external
+            href="https://medcityacademy.com/centers/"
+            icon={
+              <MapPin
+                size={16}
+                strokeWidth={2.4}
+              />
+            }
+            iconClassName="
+              from-[#36c9ec]
+              to-[#139ac3]
+            "
+            underlineClassName="bg-[#25b9e5]"
+            title="Our Branches"
+          />
+
           <ActionCard
             external
             href="https://medcityacademy.com/courses/"
-            icon={<Languages size={18} />}
+            icon={
+              <Languages
+                size={16}
+                strokeWidth={2.4}
+              />
+            }
+            iconClassName="
+              from-[#7d5ce0]
+              to-[#4f2eb5]
+            "
+            underlineClassName="bg-[#7652d4]"
             title="Language Programs"
           />
 
           <ActionCard
             external
             href="https://play.google.com/store/apps/details?id=com.medcity.overseas"
-            icon={<Smartphone size={18} />}
-            title="Download Mobile App"
+            icon={
+              <Smartphone
+                size={16}
+                strokeWidth={2.4}
+              />
+            }
+            iconClassName="
+              from-[#ffd81a]
+              to-[#f5ad00]
+            "
+            underlineClassName="bg-[#f5bc00]"
+            title="Mobile App"
           />
 
           <ActionCard
             to="/germanPopularCourses"
             image={germanFlag}
             title="German Programs"
-            dark
+            subtitle="Your pathway to Germany"
+            fullHeight
           />
         </div>
       </nav>

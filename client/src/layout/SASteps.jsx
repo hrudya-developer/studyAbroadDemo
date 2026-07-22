@@ -65,10 +65,14 @@ export default function SASteps() {
               </p>
               <div className="mt-3 h-1 w-14 rounded-full bg-primary" />
 
-           <h1 className="font-nunito font-bold text-4xl sm:text-5xl md:text-5xl lg:text-5xl text-center lg:text-left text-darkPrimary mt-5">
+           <h1 className="font-nunito font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-5xl text-center lg:text-left text-darkPrimary mt-5">
                 Your Path to <br />
                 Global <br />
-                <span className="text-primary">Education</span>
+                <span className="bg-gradient-to-r
+        from-primary
+        to-secondary
+        bg-clip-text
+        text-transparent">Education</span>
               </h1>
 
               <p className="mt-5 text-base leading-relaxed text-black sm:text-lg text-center lg:text-left">
