@@ -251,7 +251,7 @@ const Home = () => {
         <Counselling />
       </LazySection>
 
-      <LazySection
+      {/* <LazySection
         minHeight="700px"
         rootMargin="600px 0px"
         fallback={
@@ -259,7 +259,7 @@ const Home = () => {
         }
       >
         <StudyDestinations />
-      </LazySection>
+      </LazySection> */}
 
       <LazySection>
         <FAQ />

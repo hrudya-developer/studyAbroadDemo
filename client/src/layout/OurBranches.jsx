@@ -10,6 +10,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Link } from "react-router-dom";
 
 const branches = [
   "Kannur",
@@ -747,8 +748,7 @@ const OurBranches = () => {
             </p>
           </div>
 
-          <a
-            href="https://medcityacademy.com/centers/"
+          <Link to="/branches"
             target="_blank"
             rel="noopener noreferrer"
             className="
@@ -785,7 +785,7 @@ const OurBranches = () => {
             View Branch Details
 
             <Navigation className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

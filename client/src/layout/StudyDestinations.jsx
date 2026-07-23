@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 import { fetchCountries } from "../redux/slices/countrySlice";
 
-const INITIAL_VISIBLE_COUNT = 8;
+const INITIAL_VISIBLE_COUNT = 4;
 const LOAD_MORE_COUNT = 4;
 
 const features = [
@@ -94,167 +94,65 @@ const DestinationCard = ({
       className="
         group
         relative
-        isolate
-        min-h-[270px]
+        flex
+        min-h-[245px]
+        flex-col
+        items-center
         overflow-hidden
-        rounded-[26px]
+        rounded-[24px]
         border
-        border-slate-200/70
-        bg-slate-900
-        shadow-[0_14px_36px_rgba(15,23,42,0.13)]
+        border-slate-200/80
+        bg-white
+        px-4
+        pb-5
+        pt-6
+        text-center
+        shadow-[0_12px_34px_rgba(15,23,42,0.08)]
         transition-all
         duration-500
         ease-[cubic-bezier(0.22,1,0.36,1)]
         hover:-translate-y-2
-        hover:border-primary/30
-        hover:shadow-[0_26px_60px_rgba(99,26,51,0.24)]
+        hover:border-primary/25
+        hover:shadow-[0_22px_50px_rgba(99,26,51,0.16)]
         focus-visible:outline-none
         focus-visible:ring-2
         focus-visible:ring-primary
         focus-visible:ring-offset-2
-        sm:min-h-[300px]
       "
     >
-      {destinationImage ? (
-        <img
-          src={destinationImage}
-          alt={`${item.country} study destination`}
-          loading={index < 4 ? "eager" : "lazy"}
-          width={450}
-          height={520}
-          className="
-            absolute
-            inset-0
-            h-full
-            w-full
-            object-cover
-            transition-transform
-            duration-700
-            ease-out
-            group-hover:scale-110
-          "
-          onError={(event) => {
-            event.currentTarget.style.display = "none";
-          }}
-        />
-      ) : (
-        <div
-          className="
-            absolute
-            inset-0
-            bg-gradient-to-br
-            from-primary
-            via-darkPrimary
-            to-secondary
-          "
-        />
-      )}
-
-      {/* Main image overlay */}
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          bg-gradient-to-t
-          from-black/95
-          via-black/40
-          to-black/5
-        "
-      />
-
-      {/* Brand overlay */}
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          bg-gradient-to-br
-          from-primary/20
-          via-transparent
-          to-secondary/20
-          opacity-60
-          transition-opacity
-          duration-500
-          group-hover:opacity-100
-        "
-      />
-
-      {/* Top glow */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
-          -left-12
-          -top-12
-          h-36
-          w-36
-          rounded-full
-          bg-white/10
-          blur-3xl
-          transition-transform
-          duration-700
-          group-hover:scale-150
-        "
-      />
-
-      {/* Sliding shine */}
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -left-1/2
+          inset-x-0
           top-0
-          h-full
-          w-1/3
-          -skew-x-12
-          bg-gradient-to-r
-          from-transparent
-          via-white/15
-          to-transparent
-          transition-all
-          duration-700
-          group-hover:left-[125%]
+          h-24
+          bg-gradient-to-br
+          from-primary/[0.10]
+          via-white
+          to-secondary/[0.10]
         "
       />
 
-      {/* Top destination badge */}
       <div
+        aria-hidden="true"
         className="
+          pointer-events-none
           absolute
-          left-4
-          top-4
-          z-10
-          inline-flex
-          items-center
-          gap-2
+          -right-10
+          -top-10
+          h-28
+          w-28
           rounded-full
-          border
-          border-white/20
-          bg-black/25
-          px-3
-          py-1.5
-          text-[10px]
-          font-bold
-          uppercase
-          tracking-[0.14em]
-          text-white
-          shadow-sm
-          backdrop-blur-md
-          sm:text-[11px]
+          bg-primary/10
+          blur-2xl
+          transition-transform
+          duration-500
+          group-hover:scale-125
         "
-      >
-        <Globe2
-          className="h-3.5 w-3.5"
-          strokeWidth={2.4}
-        />
+      />
 
-        Study Destination
-      </div>
-
-      {/* Card index */}
       <span
         aria-hidden="true"
         className="
@@ -262,146 +160,142 @@ const DestinationCard = ({
           right-4
           top-4
           z-10
-          text-4xl
+          text-xs
           font-black
-          leading-none
-          text-white/20
-          transition-all
-          duration-500
-          group-hover:-translate-y-0.5
-          group-hover:text-white/35
+          tracking-widest
+          text-darkPrimary/20
         "
       >
         {String(index + 1).padStart(2, "0")}
       </span>
 
-      {/* Bottom content */}
       <div
         className="
-          absolute
-          inset-x-0
-          bottom-0
+          relative
           z-10
-          p-5
-          sm:p-6
+          flex
+          h-28
+          w-28
+          items-center
+          justify-center
+          rounded-full
+          bg-white
+          p-1.5
+          shadow-[0_12px_28px_rgba(15,23,42,0.16)]
+          ring-1
+          ring-slate-200/80
+          transition-all
+          duration-500
+          group-hover:scale-105
+          group-hover:ring-primary/30
         "
       >
-        <div
-          className="
-            translate-y-2
-            transition-transform
-            duration-500
-            ease-[cubic-bezier(0.22,1,0.36,1)]
-            group-hover:translate-y-0
-          "
-        >
-          <p
-            className="
-              text-[11px]
-              font-semibold
-              uppercase
-              tracking-[0.17em]
-              text-white/65
-            "
-          >
-            Explore opportunities in
-          </p>
-
-          <h3
-            className="
-              mt-1
-              truncate
-              font-nunito
-              text-2xl
-              font-extrabold
-              text-white
-              drop-shadow-sm
-              sm:text-[28px]
-            "
-          >
-            {item.country}
-          </h3>
-
-          <div
-            className="
-              mt-3
-              h-1
-              w-12
-              rounded-full
-              bg-logoYellow
-              transition-all
-              duration-500
-              group-hover:w-20
-            "
-          />
-
-          <div
-            className="
-              mt-5
-              flex
-              items-center
-              justify-between
-              gap-3
-            "
-          >
-            <span
+        <div className="h-full w-full overflow-hidden rounded-full bg-slate-100">
+          {destinationImage ? (
+            <img
+              src={destinationImage}
+              alt={`${item.country} study destination`}
+              loading={index < 4 ? "eager" : "lazy"}
+              width={180}
+              height={180}
               className="
-                max-w-[150px]
-                text-sm
-                font-semibold
-                leading-5
-                text-white/85
-                sm:max-w-none
+                h-full
+                w-full
+                object-cover
+                transition-transform
+                duration-700
+                group-hover:scale-110
               "
-            >
-              View universities and courses
-            </span>
-
-            <span
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+              }}
+            />
+          ) : (
+            <div
               className="
                 flex
-                h-11
-                w-11
-                shrink-0
+                h-full
+                w-full
                 items-center
                 justify-center
-                rounded-full
-                bg-white
-                text-primary
-                shadow-[0_8px_22px_rgba(0,0,0,0.22)]
-                transition-all
-                duration-300
-                group-hover:translate-x-1
-                group-hover:bg-primary
-                group-hover:text-white
+                bg-gradient-to-br
+                from-primary
+                via-darkPrimary
+                to-secondary
+                text-white
               "
             >
-              <ChevronRight
-                className="h-5 w-5"
-                strokeWidth={2.5}
-              />
-            </span>
-          </div>
+              <Globe2 className="h-10 w-10" />
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Inner border */}
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          rounded-[26px]
-          ring-1
-          ring-inset
-          ring-white/10
-          transition-all
-          duration-500
-          group-hover:ring-2
-          group-hover:ring-primary/40
-        "
-      />
+      <div className="relative z-10 mt-5 w-full">
+        <p
+          className="
+            text-[10px]
+            font-extrabold
+            uppercase
+            tracking-[0.18em]
+            text-primary/70
+          "
+        >
+          Study Destination
+        </p>
+
+        <h3
+          className="
+            mt-1
+            truncate
+            font-nunito
+            text-xl
+            font-extrabold
+            text-darkPrimary
+          "
+        >
+          {item.country}
+        </h3>
+
+        <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-16" />
+
+        <div
+          className="
+            mt-4
+            inline-flex
+            items-center
+            gap-2
+            text-sm
+            font-bold
+            text-slate-600
+            transition-colors
+            duration-300
+            group-hover:text-primary
+          "
+        >
+          Explore courses
+
+          <span
+            className="
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              bg-primary/10
+              text-primary
+              transition-all
+              duration-300
+              group-hover:translate-x-1
+              group-hover:bg-primary
+              group-hover:text-white
+            "
+          >
+            <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+          </span>
+        </div>
+      </div>
     </Link>
   );
 };
@@ -721,15 +615,15 @@ export default function StudyDestinations() {
           id="study-destinations-grid"
           className="
             mx-auto
-            mt-12
+            mt-10
             grid
-            max-w-6xl
+            max-w-5xl
             scroll-mt-28
             grid-cols-1
-            gap-5
+            gap-4
             sm:grid-cols-2
             lg:grid-cols-4
-            lg:gap-6
+            lg:gap-5
           "
         >
           {visibleCountries.map((item, index) => (
@@ -787,7 +681,7 @@ export default function StudyDestinations() {
                   sm:w-auto
                 "
               >
-                View More Destinations
+                View More
 
                 <ChevronDown
                   className="

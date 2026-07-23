@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ClientVideos from "./ClientVideos";
+import ClientVideos from "../components/ClientVideos/ClientVideosRefactor/ClientVideos.jsx"
 import {
   Loader2,
   Plane,

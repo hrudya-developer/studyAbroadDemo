@@ -1,4 +1,7 @@
 const navItems = [
+  {name:"About Us",
+    path:"/about"
+  },
   {
     name: "Destinations",
     path: "/destinationList",

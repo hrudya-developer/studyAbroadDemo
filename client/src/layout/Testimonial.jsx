@@ -109,7 +109,7 @@ export default function Testimonial() {
               spaceBetween={28}
               loop={testimonials.length > 3}
               autoplay={{
-                delay: 3000000,
+                delay: 3000,
                 disableOnInteraction: false,
               }}
               observer={true}

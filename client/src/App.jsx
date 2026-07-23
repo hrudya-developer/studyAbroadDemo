@@ -49,6 +49,9 @@ import SDBFeedback from "./pages/SDBFeedback";
 import SDBPrivacyPolicy from "./pages/SDBPrivacyPolicy";
 import CanadaMigration from "./pages/CanadaMigration";
 import AustraliaMigration from "./pages/AustraliaMigration";
+import ContactUs from "./pages/contactPage/ContactUs";
+import AcademyCenters from "./pages/Branches/AcademyCenters";
+import AboutUs from "./pages/about/AboutUs";
 // import PartnersLoginPage from "./pages/PartnersLoginPage";
 
 
@@ -116,6 +119,9 @@ function Layout() {
          <Route path="/addOnServices" element = {<AddOnServices />} />
          <Route path="/canadaMigration" element = {<CanadaMigration />} />
          <Route path="/australiaMigration" element = {<AustraliaMigration />} />
+         <Route path="/contact" element={<ContactUs />} />
+         <Route path="/branches" element={<AcademyCenters />} />
+         <Route path="/about" element={<AboutUs />} />
 
 
 
@@ -140,7 +146,7 @@ export default function App() {
   return (
     <BrowserRouter>
     <ScrollToTop />
-      <FollowCursor />
+      {/* <FollowCursor /> */}
       <Layout />
     </BrowserRouter>
   );
