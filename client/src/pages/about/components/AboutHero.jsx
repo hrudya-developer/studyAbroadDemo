@@ -121,7 +121,7 @@ const HeroContent = () => {
     >
       <AboutBreadcrumb />
 
-   
+
 
       <h1
         className="
@@ -284,173 +284,152 @@ const HeroContent = () => {
 };
 
 const HeroVisual = () => {
+  const visibleStats = heroStats.slice(0, 2);
+
   return (
     <div
       className="
         relative mx-auto
-        w-full max-w-[560px]
-        pb-[210px]
-        sm:pb-24
-        lg:max-w-[620px]
-        lg:pb-12
+        w-full max-w-[430px]
+        sm:max-w-[480px]
+        lg:max-w-[520px]
       "
     >
+      {/* Decorative background shape */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute -inset-5
+          hidden rounded-[42px]
+          bg-gradient-to-br
+          from-primary/[0.08]
+          via-white
+          to-secondary/[0.1]
+          sm:block
+        "
+      />
+
+      {/* Decorative dotted pattern */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute -right-7 -top-7
+          hidden h-28 w-28
+          opacity-30
+          sm:block
+          [background-image:radial-gradient(#0466AF_1.5px,transparent_1.5px)]
+          [background-size:12px_12px]
+        "
+      />
+
+      {/* Decorative circle */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute -bottom-8 -left-8
+          hidden h-32 w-32
+          rounded-full
+          border-[18px] border-primary/[0.07]
+          sm:block
+        "
+      />
+
+      {/* Main visual card */}
       <div
         className="
           group relative
-          h-[350px] w-full
           overflow-hidden
-          rounded-[24px]
-          border border-white/80
-          bg-slate-100
-          shadow-[0_24px_60px_rgba(15,23,42,0.14)]
-          sm:h-[430px]
-          sm:rounded-[28px]
-          lg:h-[500px]
+          rounded-[28px]
+          border-[6px] border-white
+          bg-white
+          shadow-[0_30px_80px_rgba(15,23,42,0.18)]
+          sm:rounded-[36px]
         "
       >
-        <img
-          src={studyAbroadStudent}
-          alt="Student receiving overseas education counselling at Medcity Study Abroad"
-          width={620}
-          height={500}
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          className="
-            h-full w-full
-            object-cover object-center
-            transition-transform duration-700
-            group-hover:scale-[1.025]
-          "
-        />
-
         <div
-          aria-hidden="true"
           className="
-            pointer-events-none
-            absolute inset-0
-            bg-gradient-to-t
-            from-slate-950/15
-            via-transparent
-            to-white/5
-          "
-        />
-      </div>
-
-      <div
-        className="
-          absolute left-3 top-[42%] z-20
-          hidden items-center gap-3
-          rounded-2xl
-          border border-slate-200/80
-          bg-white/95
-          px-4 py-3
-          shadow-[0_16px_38px_rgba(15,23,42,0.14)]
-          backdrop-blur-md
-          sm:flex
-          lg:-left-6
-        "
-      >
-        <span
-          className="
-            flex h-11 w-11 shrink-0
-            items-center justify-center
-            rounded-xl
-            bg-secondary/10
-            text-secondary
+            relative
+            h-[350px]
+            overflow-hidden
+            sm:h-[430px]
+            lg:h-[480px]
           "
         >
-          <Plane className="h-5 w-5 -rotate-12" />
-        </span>
+          <img
+            src={studyAbroadStudent}
+            alt="Student representing Medcity Study Abroad and international education"
+            width={520}
+            height={480}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="
+              h-full w-full
+              object-cover object-center
+              transition-transform
+              duration-700 ease-out
+              group-hover:scale-[1.035]
+            "
+          />
 
-        <div>
-          <p className="text-[10px] font-semibold text-slate-500">
-            Global Reach
-          </p>
+          {/* Readability overlay */}
+          <div
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute inset-0
+              bg-gradient-to-t
+              from-[#10204a]/75
+              via-[#10204a]/5
+              to-transparent
+            "
+          />
 
-          <p className="text-sm font-extrabold text-[#10204a]">
-            25+ Countries
-          </p>
+          {/* Image content */}
+          <div
+            className="
+              absolute inset-x-0 bottom-0
+              p-5
+              sm:p-6
+            "
+          >
+            <div
+              className="
+                inline-flex items-center gap-2
+                rounded-full
+                border border-white/30
+                bg-white/15
+                px-3 py-1.5
+                text-[10px] font-bold
+                uppercase tracking-[0.14em]
+                text-white
+                backdrop-blur-md
+              "
+            >
+              <Sparkles className="h-3.5 w-3.5 text-logoYellow" />
+              Your global journey starts here
+            </div>
+
+            <h2
+              className="
+                mt-3 max-w-sm
+                font-nunito
+                text-xl font-extrabold
+                leading-tight text-white
+                sm:text-2xl
+              "
+            >
+              Discover education opportunities beyond borders
+            </h2>
+          </div>
         </div>
       </div>
 
-      <div
-        className="
-          absolute bottom-0 left-0 right-0 z-30
-          grid grid-cols-1 gap-2.5
-          px-3
-          sm:bottom-5
-          sm:left-auto
-          sm:right-[-10px]
-          sm:w-[215px]
-          sm:px-0
-          lg:right-[-24px]
-        "
-      >
-        {heroStats.map((item, index) => {
-          const Icon = item.icon;
-
-          return (
-            <div
-              key={item.label}
-              className={`
-                group flex items-center gap-3
-                rounded-2xl
-                border border-slate-200/80
-                bg-white/95
-                px-3.5 py-3
-                shadow-[0_14px_34px_rgba(15,23,42,0.14)]
-                backdrop-blur-md
-                transition-all duration-300
-                hover:-translate-y-1
-                hover:shadow-[0_20px_42px_rgba(15,23,42,0.18)]
-                ${
-                  index === 0
-                    ? "sm:-translate-x-4"
-                    : index === 2
-                      ? "sm:-translate-x-8"
-                      : ""
-                }
-              `}
-            >
-              <span
-                className={`
-                  flex h-10 w-10 shrink-0
-                  items-center justify-center
-                  rounded-xl
-                  transition-transform duration-300
-                  group-hover:scale-105
-                  ${item.background}
-                  ${item.color}
-                `}
-              >
-                <Icon
-                  className="h-5 w-5"
-                  strokeWidth={2.2}
-                />
-              </span>
-
-              <div className="min-w-0">
-                <p className="text-sm font-black text-[#10204a]">
-                  {item.value}
-                </p>
-
-                <p
-                  className="
-                    mt-0.5
-                    text-[10px] leading-4
-                    text-slate-500
-                  "
-                >
-                  {item.label}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
     </div>
+      
   );
 };
 
