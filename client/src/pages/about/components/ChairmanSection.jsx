@@ -34,9 +34,9 @@ const ChairmanSection = () => {
     <section
       className="
         relative isolate overflow-hidden
-        px-4 py-14
-        sm:px-6 sm:py-16
-        lg:px-8 lg:py-24
+        px-4 py-8
+        sm:px-6 sm:py-10
+        lg:px-8 lg:py-14
       "
     >
       <SectionBackground />
@@ -44,16 +44,16 @@ const ChairmanSection = () => {
       <div
         className="
           relative mx-auto
-          max-w-[1500px]
+          max-w-[1450px]
           overflow-hidden
-          rounded-[30px]
+          rounded-[24px]
           border border-white/10
           bg-gradient-to-br
           from-[#a70f46]
           via-darkPrimary
           to-[#071f5c]
-          shadow-[0_35px_90px_rgba(49,20,72,0.3)]
-          sm:rounded-[40px]
+          shadow-[0_25px_70px_rgba(49,20,72,0.25)]
+          sm:rounded-[30px]
         "
       >
         <CardPatterns />
@@ -62,10 +62,11 @@ const ChairmanSection = () => {
           className="
             relative z-10 grid
             items-stretch
-            lg:grid-cols-[0.43fr_0.57fr]
+            lg:grid-cols-[0.42fr_0.58fr]
           "
         >
           <ChairmanVisual />
+
           <ChairmanMessage />
         </div>
       </div>
@@ -78,14 +79,14 @@ const ChairmanVisual = () => {
     <div
       className="
         relative flex
-        min-h-[500px]
+        min-h-[340px]
         items-center justify-center
         overflow-hidden
-        px-5 py-10
-        sm:min-h-[590px]
-        sm:px-8 sm:py-12
-        lg:min-h-[720px]
-        lg:px-6 lg:py-14
+        px-5 pb-20 pt-8
+        sm:min-h-[400px]
+        sm:px-8 sm:pb-24 sm:pt-10
+        lg:min-h-[500px]
+        lg:px-6 lg:pb-24 lg:pt-10
       "
     >
       <PortraitBackground />
@@ -93,12 +94,12 @@ const ChairmanVisual = () => {
       <div
         aria-hidden="true"
         className="
-          absolute left-5 top-5 z-20
-          font-serif text-[78px]
+          absolute left-5 top-3 z-20
+          font-serif text-[52px]
           font-black leading-none
           text-logoYellow/90
-          sm:left-8 sm:top-7
-          sm:text-[105px]
+          sm:left-7 sm:top-4
+          sm:text-[68px]
         "
       >
         “
@@ -106,20 +107,21 @@ const ChairmanVisual = () => {
 
       <div
         className="
-          absolute right-4 top-7 z-30
+          absolute right-4 top-5 z-30
           hidden items-center gap-2
           rounded-full
           border border-white/15
           bg-white/10
-          px-4 py-2
-          text-xs font-bold
+          px-3 py-1.5
+          text-[10px] font-bold
           text-white/90
-          shadow-[0_12px_30px_rgba(0,0,0,0.14)]
+          shadow-[0_10px_25px_rgba(0,0,0,0.14)]
           backdrop-blur-xl
           sm:flex
         "
       >
-        <Sparkles className="h-4 w-4 text-logoYellow" />
+        <Sparkles className="h-3.5 w-3.5 text-logoYellow" />
+
         Inspiring Leadership
       </div>
 
@@ -135,7 +137,7 @@ const ChairmanVisual = () => {
           className="
             pointer-events-none
             absolute left-1/2 top-1/2
-            h-[62%] w-[68%]
+            h-[66%] w-[68%]
             -translate-x-1/2
             -translate-y-1/2
             rounded-[44%_56%_51%_49%/54%_43%_57%_46%]
@@ -147,61 +149,61 @@ const ChairmanVisual = () => {
           "
         />
 
-        <img
-          src={chairmanImage}
-          alt="Rahul Chakrapani, Chairman of Medcity International Academy"
-          width={620}
-          height={720}
-          loading="lazy"
-          decoding="async"
-          className="
-            relative z-10
-            max-h-[390px] w-full
-            rounded-[32px]
-            object-contain object-center
-            drop-shadow-[0_30px_45px_rgba(0,0,0,0.34)]
-            sm:max-h-[480px]
-            lg:max-h-[590px]
-          "
-        />
+      <img
+  src={chairmanImage}
+  alt="Rahul Chakrapani, Chairman of Medcity International Academy"
+  width={620}
+  height={720}
+  loading="lazy"
+  decoding="async"
+  className="
+    relative z-10
+    max-h-[265px] w-full
+    rounded-3xl
+    object-contain object-center
+    drop-shadow-[0_24px_38px_rgba(0,0,0,0.32)]
+    sm:max-h-[325px]
+    lg:max-h-[410px]
+  "
+/>
       </div>
 
       <div
         className="
-          absolute bottom-5 left-1/2 z-40
+          absolute bottom-4 left-1/2 z-40
           w-[calc(100%-2rem)]
-          max-w-[390px]
+          max-w-[340px]
           -translate-x-1/2
           rounded-2xl
           border border-white/15
-          bg-[#07162f]/60
-          px-5 py-4
+          bg-[#07162f]/70
+          px-4 py-3
           text-center
-          shadow-[0_18px_45px_rgba(0,0,0,0.25)]
+          shadow-[0_15px_35px_rgba(0,0,0,0.22)]
           backdrop-blur-xl
-          sm:bottom-7
+          sm:bottom-5
         "
       >
         <p
           className="
-            font-nunito text-xl
+            font-nunito text-lg
             font-black text-logoYellow
-            sm:text-2xl
+            sm:text-xl
           "
         >
           Rahul Chakrapani
         </p>
 
-        <p className="mt-1 text-xs font-semibold text-white/75">
+        <p className="mt-0.5 text-[11px] font-semibold text-white/70">
           Chairman, Medcity International Academy
         </p>
 
-        <div className="mx-auto mt-3 flex items-center justify-center gap-2">
-          <span className="h-px w-10 bg-white/20" />
+        <div className="mx-auto mt-2 flex items-center justify-center gap-2">
+          <span className="h-px w-8 bg-white/20" />
 
-          <Quote className="h-3.5 w-3.5 text-logoYellow" />
+          <Quote className="h-3 w-3 text-logoYellow" />
 
-          <span className="h-px w-10 bg-white/20" />
+          <span className="h-px w-8 bg-white/20" />
         </div>
       </div>
     </div>
@@ -221,7 +223,7 @@ const PortraitBackground = () => {
       <div
         className="
           absolute -left-24 top-1/3
-          h-72 w-72 rounded-full
+          h-64 w-64 rounded-full
           bg-logoYellow/10
           blur-3xl
         "
@@ -230,7 +232,7 @@ const PortraitBackground = () => {
       <div
         className="
           absolute -bottom-20 right-0
-          h-80 w-80 rounded-full
+          h-72 w-72 rounded-full
           bg-secondary/15
           blur-3xl
         "
@@ -239,10 +241,10 @@ const PortraitBackground = () => {
       <div
         className="
           absolute left-1/2 top-1/2
-          h-[72%] w-[58%]
+          h-[70%] w-[64%]
           -translate-x-1/2
           -translate-y-1/2
-          rounded-[40px]
+          rounded-[32px]
           bg-gradient-to-b
           from-white/[0.07]
           via-white/[0.025]
@@ -253,29 +255,8 @@ const PortraitBackground = () => {
 
       <div
         className="
-          absolute bottom-36 left-4
-          hidden items-center gap-3
-          lg:flex
-        "
-      >
-        <span className="h-20 border-l border-dashed border-white/20" />
-
-        <span
-          className="
-            -rotate-90 whitespace-nowrap
-            text-[9px] font-extrabold
-            uppercase tracking-[0.3em]
-            text-white/25
-          "
-        >
-          Believe · Learn · Achieve
-        </span>
-      </div>
-
-      <div
-        className="
-          absolute bottom-24 right-4
-          h-28 w-28 opacity-[0.15]
+          absolute bottom-28 right-4
+          h-24 w-24 opacity-[0.12]
           [background-image:radial-gradient(#ffffff_1.2px,transparent_1.2px)]
           [background-size:12px_12px]
         "
@@ -285,8 +266,8 @@ const PortraitBackground = () => {
         viewBox="0 0 340 240"
         fill="none"
         className="
-          absolute right-0 top-20
-          hidden h-60 w-72
+          absolute right-0 top-14
+          hidden h-48 w-60
           text-logoYellow/15
           sm:block
         "
@@ -302,8 +283,8 @@ const PortraitBackground = () => {
 
       <Plane
         className="
-          absolute right-6 top-16
-          hidden h-6 w-6
+          absolute right-5 top-12
+          hidden h-5 w-5
           -rotate-12
           text-logoYellow/30
           sm:block
@@ -320,12 +301,12 @@ const ChairmanMessage = () => {
         relative flex flex-col
         justify-center
         border-t border-white/10
-        px-6 py-10
+        px-5 py-7
         text-white
-        sm:px-10 sm:py-14
+        sm:px-8 sm:py-9
         lg:border-l lg:border-t-0
-        lg:px-14 lg:py-16
-        xl:px-20 xl:py-20
+        lg:px-10 lg:py-10
+        xl:px-12 xl:py-12
       "
     >
       <div
@@ -335,27 +316,28 @@ const ChairmanMessage = () => {
           rounded-full
           border border-logoYellow/25
           bg-logoYellow/10
-          px-4 py-2
-          text-[10px] font-extrabold
-          uppercase tracking-[0.18em]
+          px-3 py-1.5
+          text-[9px] font-extrabold
+          uppercase tracking-[0.16em]
           text-logoYellow
-          sm:text-xs
+          sm:text-[10px]
         "
       >
-        <Award className="h-4 w-4" />
+        <Award className="h-3.5 w-3.5" />
+
         A Message From Our Chairman
       </div>
 
       <h2
         className="
-          mt-6 max-w-3xl
+          mt-4 max-w-3xl
           font-nunito
-          text-3xl font-bold
-          leading-[1.08]
+          text-2xl font-bold
+          leading-[1.12]
           tracking-[-0.025em]
           text-white
-          sm:text-4xl
-          lg:text-5xl
+          sm:text-3xl
+          lg:text-[38px]
         "
       >
         Let&apos;s Shape Your{" "}
@@ -376,21 +358,21 @@ const ChairmanMessage = () => {
 
       <div
         aria-hidden="true"
-        className="mt-5 flex items-center gap-2"
+        className="mt-4 flex items-center gap-2"
       >
-        <span className="h-1 w-14 rounded-full bg-logoYellow" />
-        <span className="h-1 w-8 rounded-full bg-white/50" />
-        <span className="h-1 w-4 rounded-full bg-secondary" />
+        <span className="h-1 w-12 rounded-full bg-logoYellow" />
+        <span className="h-1 w-7 rounded-full bg-white/50" />
+        <span className="h-1 w-3 rounded-full bg-secondary" />
       </div>
 
       <blockquote
         className="
-          relative mt-7 max-w-3xl
+          relative mt-5 max-w-3xl
           border-l-2 border-logoYellow/70
-          pl-5
-          text-sm leading-7
+          pl-4
+          text-sm leading-6
           text-white/85
-          sm:text-base sm:leading-8
+          sm:leading-7
         "
       >
         At Medcity, every programme is built on three principles:
@@ -399,21 +381,21 @@ const ChairmanMessage = () => {
 
       <p
         className="
-          mt-5 max-w-3xl
-          text-sm leading-7
-          text-white/75
-          sm:text-base sm:leading-8
+          mt-4 max-w-3xl
+          text-sm leading-6
+          text-white/70
+          sm:leading-7
         "
       >
         Whether you are taking your first step in language learning or
         preparing for advanced licensure, our team is here to guide you
-        with expert support, practical training and personal attention
-        at every stage.
+        with expert support, practical training and personal attention at
+        every stage.
       </p>
 
       <div
         className="
-          mt-8 grid gap-3
+          mt-5 grid gap-3
           sm:grid-cols-3
         "
       >
@@ -429,9 +411,9 @@ const ChairmanMessage = () => {
 
       <div
         className="
-          mt-9 flex flex-col gap-5
+          mt-6 flex flex-col gap-4
           border-t border-white/10
-          pt-7
+          pt-5
           sm:flex-row
           sm:items-end
           sm:justify-between
@@ -440,9 +422,9 @@ const ChairmanMessage = () => {
         <div>
           <p
             className="
-              text-xs font-bold
+              text-[10px] font-bold
               uppercase tracking-[0.15em]
-              text-white/50
+              text-white/45
             "
           >
             With warm regards
@@ -450,15 +432,15 @@ const ChairmanMessage = () => {
 
           <p
             className="
-              mt-2 font-nunito
-              text-2xl font-black
+              mt-1.5 font-nunito
+              text-xl font-black
               text-logoYellow
             "
           >
             Rahul Chakrapani
           </p>
 
-          <p className="mt-1 text-xs font-semibold text-white/65">
+          <p className="mt-0.5 text-[11px] font-semibold text-white/60">
             Chairman, Medcity International Academy
           </p>
         </div>
@@ -467,14 +449,14 @@ const ChairmanMessage = () => {
           to="/contact"
           className="
             group inline-flex
-            min-h-[48px]
+            min-h-11
             items-center justify-center
             gap-2 rounded-xl
             bg-white
-            px-5 py-3
+            px-4 py-2.5
             text-sm font-extrabold
             text-darkPrimary
-            shadow-[0_14px_30px_rgba(0,0,0,0.16)]
+            shadow-[0_12px_25px_rgba(0,0,0,0.15)]
             transition-all duration-300
             hover:-translate-y-0.5
             hover:bg-logoYellow
@@ -495,20 +477,6 @@ const ChairmanMessage = () => {
           />
         </Link>
       </div>
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute bottom-5 right-6
-          hidden items-center gap-2
-          text-white/20
-          xl:flex
-        "
-      >
-        <span className="w-24 border-t border-dashed border-white/30" />
-        <Plane className="h-6 w-6 -rotate-12" />
-      </div>
     </div>
   );
 };
@@ -521,38 +489,48 @@ const PrincipleCard = ({
   return (
     <div
       className="
-        group rounded-2xl
+        group rounded-xl
         border border-white/10
         bg-white/[0.06]
-        p-4
+        px-3 py-3
         backdrop-blur-sm
         transition-all duration-300
-        hover:-translate-y-1
+        hover:-translate-y-0.5
         hover:border-logoYellow/25
         hover:bg-white/[0.1]
       "
     >
-      <span
-        className="
-          flex h-10 w-10
-          items-center justify-center
-          rounded-xl
-          bg-white/10
-          text-logoYellow
-          transition-transform duration-300
-          group-hover:scale-110
-        "
-      >
-        <Icon className="h-5 w-5" />
-      </span>
+      <div className="flex items-center gap-2.5 sm:block">
+        <span
+          className="
+            flex h-8 w-8 shrink-0
+            items-center justify-center
+            rounded-lg
+            bg-white/10
+            text-logoYellow
+            transition-transform duration-300
+            group-hover:scale-105
+          "
+        >
+          <Icon className="h-4 w-4" />
+        </span>
 
-      <p className="mt-3 text-sm font-extrabold text-white">
-        {title}
-      </p>
+        <div>
+          <p
+            className="
+              text-[13px] font-extrabold
+              text-white
+              sm:mt-2
+            "
+          >
+            {title}
+          </p>
 
-      <p className="mt-1 text-xs leading-5 text-white/60">
-        {description}
-      </p>
+          <p className="mt-0.5 text-[11px] leading-4 text-white/55">
+            {description}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
@@ -570,7 +548,7 @@ const CardPatterns = () => {
       <div
         className="
           absolute -left-24 -top-24
-          h-72 w-72 rounded-full
+          h-64 w-64 rounded-full
           bg-logoYellow/10
           blur-3xl
         "
@@ -579,7 +557,7 @@ const CardPatterns = () => {
       <div
         className="
           absolute -bottom-32 right-10
-          h-96 w-96 rounded-full
+          h-80 w-80 rounded-full
           bg-secondary/20
           blur-3xl
         "
@@ -588,7 +566,7 @@ const CardPatterns = () => {
       <div
         className="
           absolute inset-0
-          opacity-[0.07]
+          opacity-[0.055]
           [background-image:radial-gradient(#ffffff_1px,transparent_1px)]
           [background-size:20px_20px]
         "
@@ -597,7 +575,7 @@ const CardPatterns = () => {
       <div
         className="
           absolute -right-24 top-10
-          h-72 w-72 rounded-full
+          h-64 w-64 rounded-full
           border border-white/10
         "
       />
@@ -605,7 +583,7 @@ const CardPatterns = () => {
       <div
         className="
           absolute -right-10 top-24
-          h-52 w-52 rounded-full
+          h-44 w-44 rounded-full
           border border-white/10
         "
       />
@@ -626,8 +604,8 @@ const SectionBackground = () => {
       <div
         className="
           absolute -left-28 top-10
-          h-80 w-80 rounded-full
-          bg-primary/[0.06]
+          h-72 w-72 rounded-full
+          bg-primary/[0.05]
           blur-3xl
         "
       />
@@ -635,8 +613,8 @@ const SectionBackground = () => {
       <div
         className="
           absolute -right-32 bottom-0
-          h-96 w-96 rounded-full
-          bg-secondary/[0.07]
+          h-80 w-80 rounded-full
+          bg-secondary/[0.06]
           blur-3xl
         "
       />
@@ -644,7 +622,7 @@ const SectionBackground = () => {
       <div
         className="
           absolute left-6 top-12
-          h-32 w-32 opacity-20
+          h-28 w-28 opacity-15
           [background-image:radial-gradient(#c01f53_1.3px,transparent_1.3px)]
           [background-size:12px_12px]
         "
