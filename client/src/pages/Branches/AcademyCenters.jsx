@@ -53,14 +53,13 @@ const AcademyCenters = () => {
         relative isolate overflow-hidden
         bg-gradient-to-b
         from-white via-[#fffafd] to-white
-        px-4 py-14
-        sm:px-6 sm:py-16
-        lg:px-8 lg:py-20
+        max-w-9xl mx-auto
+       mb-10
       "
     >
       <BackgroundDecorations />
 
-      <div className="relative mx-auto max-w-[1450px]">
+      <div className="relative mx-auto max-w-9xl">
         <AcademyCentersHeader />
 
         <BranchGrid centers={visibleCenters} />

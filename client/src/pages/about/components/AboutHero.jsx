@@ -3,18 +3,22 @@ import {
   Plane,
   Sparkles,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
-import aboutStudent from "../images/aboutStudent.webp";
+import studyAbroadStudent from "../images/about-medcity-study-abroad-student.webp";
 import {
   highlights,
   heroStats,
 } from "../aboutData";
+
+import AboutBreadcrumb from "./AboutBreadcrumb";
 import FeatureCard from "./FeatureCard";
 
 const AboutHero = () => {
   return (
     <section
       className="
+        relative isolate overflow-hidden
         bg-gradient-to-br
         from-white via-[#fffafd] to-[#f0f7ff]
         px-4 py-8
@@ -22,8 +26,11 @@ const AboutHero = () => {
         lg:px-8 lg:py-12
       "
     >
+      <HeroBackground />
+
       <div
         className="
+          relative z-10
           mx-auto grid w-full
           max-w-[1500px]
           items-center gap-10
@@ -46,8 +53,8 @@ const HeroBackground = () => {
       aria-hidden="true"
       className="
         pointer-events-none
-        absolute inset-0 -z-10
-        overflow-hidden
+        absolute inset-0
+        -z-10 overflow-hidden
       "
     >
       <div
@@ -64,6 +71,15 @@ const HeroBackground = () => {
           absolute -right-20 -top-20
           h-80 w-80 rounded-full
           bg-secondary/[0.08]
+          blur-3xl
+        "
+      />
+
+      <div
+        className="
+          absolute bottom-[-120px] left-[35%]
+          h-72 w-72 rounded-full
+          bg-logoYellow/[0.08]
           blur-3xl
         "
       />
@@ -97,56 +113,46 @@ const HeroContent = () => {
   return (
     <div
       className="
-        relative z-10
         flex flex-col
         items-center text-center
         lg:items-start
         lg:text-left
       "
     >
-      <div
-        className="
-          inline-flex items-center gap-2
-          rounded-full
-          border border-primary/15
-          bg-white/85
-          px-3 py-1.5
-          text-[10px] font-extrabold
-          uppercase tracking-[0.15em]
-          text-primary
-          shadow-sm
-          backdrop-blur-md
-          sm:text-[11px]
-        "
-      >
-        <Sparkles className="h-3.5 w-3.5" />
-        About Us
-      </div>
+      <AboutBreadcrumb />
+
+   
 
       <h1
         className="
           mt-4 max-w-3xl
           font-nunito
-          font-extrabold
-          leading-[1.06]
+          text-3xl font-extrabold
+          leading-[1.08]
           tracking-[-0.04em]
           text-darkPrimary
-          text-3xl sm:text-4xl lg:text-5xl
+          sm:text-4xl
+          lg:text-5xl
+          xl:text-[56px]
         "
       >
-        Opening Doors to{" "}
+        About Medcity Study Abroad:{" "}
         <span
           className="
             bg-gradient-to-r
-            from-primary via-[#d72d62] to-secondary
-            bg-clip-text text-transparent
+            from-primary
+            via-[#d72d62]
+            to-secondary
+            bg-clip-text
+            text-transparent
           "
         >
-          Global Opportunities
+          Opening Doors to Global Education
         </span>
       </h1>
 
       <div
+        aria-hidden="true"
         className="
           mt-4 flex items-center
           justify-center gap-2
@@ -168,10 +174,12 @@ const HeroContent = () => {
           lg:text-base
         "
       >
-        Medcity Study Abroad is your trusted partner in achieving
-        international education and career aspirations. We provide expert
-        guidance, end-to-end support and world-class opportunities to help
-        students succeed globally.
+        Medcity Study Abroad is an overseas education consultancy
+        helping students pursue higher education and international
+        career opportunities. Our counsellors provide personalized
+        support for course and university selection, applications,
+        language preparation, student visas and pre-departure
+        planning.
       </p>
 
       <div
@@ -193,27 +201,34 @@ const HeroContent = () => {
 
       <div
         className="
-          mt-5 flex w-full
+          mt-6 flex w-full
           flex-col items-center
-          gap-2.5
-          sm:w-auto sm:flex-row
+          gap-3
+          sm:w-auto
+          sm:flex-row
           lg:items-start
         "
       >
-        <a
-          href="/destinationList"
+        <Link
+          to="/destinationList"
           className="
             group inline-flex
             min-h-[46px] w-full
             items-center justify-center
             gap-2 rounded-xl
-            bg-primary px-5 py-2.5
+            bg-primary
+            px-5 py-2.5
             text-sm font-extrabold
             text-white
             shadow-[0_12px_26px_rgba(192,31,83,0.22)]
             transition-all duration-300
             hover:-translate-y-0.5
             hover:bg-darkPrimary
+            hover:shadow-[0_16px_30px_rgba(99,26,51,0.25)]
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-primary
+            focus-visible:ring-offset-2
             sm:w-auto
           "
         >
@@ -222,41 +237,47 @@ const HeroContent = () => {
           <ArrowRight
             className="
               h-4 w-4
-              transition-transform
+              transition-transform duration-300
               group-hover:translate-x-1
             "
           />
-        </a>
+        </Link>
 
-        <a
-          href="#counselling"
+        <Link
+          to="/contact"
           className="
             group inline-flex
             min-h-[46px] w-full
             items-center justify-center
             gap-2 rounded-xl
             border border-primary/30
-            bg-white/90 px-5 py-2.5
+            bg-white/90
+            px-5 py-2.5
             text-sm font-extrabold
             text-primary
+            shadow-sm
             transition-all duration-300
             hover:-translate-y-0.5
             hover:border-primary
             hover:bg-primary
             hover:text-white
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-primary
+            focus-visible:ring-offset-2
             sm:w-auto
           "
         >
-          Book Free Counselling
+          Contact Us
 
           <ArrowRight
             className="
               h-4 w-4
-              transition-transform
+              transition-transform duration-300
               group-hover:translate-x-1
             "
           />
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -268,45 +289,65 @@ const HeroVisual = () => {
       className="
         relative mx-auto
         w-full max-w-[560px]
-        pb-32
-        sm:pb-20
+        pb-[210px]
+        sm:pb-24
         lg:max-w-[620px]
+        lg:pb-12
       "
     >
-      {/* Main image only */}
       <div
         className="
-          relative
-          h-[360px] w-full
+          group relative
+          h-[350px] w-full
           overflow-hidden
-          rounded-[28px]
-        
+          rounded-[24px]
+          border border-white/80
+          bg-slate-100
+          shadow-[0_24px_60px_rgba(15,23,42,0.14)]
           sm:h-[430px]
+          sm:rounded-[28px]
           lg:h-[500px]
         "
       >
         <img
-          src={aboutStudent}
-          alt="Student preparing to study abroad"
+          src={studyAbroadStudent}
+          alt="Student receiving overseas education counselling at Medcity Study Abroad"
+          width={620}
+          height={500}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
           className="
             h-full w-full
             object-cover object-center
             transition-transform duration-700
-            hover:scale-[1.025]
+            group-hover:scale-[1.025]
+          "
+        />
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute inset-0
+            bg-gradient-to-t
+            from-slate-950/15
+            via-transparent
+            to-white/5
           "
         />
       </div>
 
-      {/* Global reach floating card */}
       <div
         className="
-          absolute -left-2 top-[42%] z-20
+          absolute left-3 top-[42%] z-20
           hidden items-center gap-3
           rounded-2xl
           border border-slate-200/80
-          bg-white
+          bg-white/95
           px-4 py-3
           shadow-[0_16px_38px_rgba(15,23,42,0.14)]
+          backdrop-blur-md
           sm:flex
           lg:-left-6
         "
@@ -334,14 +375,16 @@ const HeroVisual = () => {
         </div>
       </div>
 
-      {/* Statistic floating cards */}
       <div
         className="
-          absolute -bottom-2 right-3 z-30
-          grid w-[calc(100%-1.5rem)]
-          grid-cols-1 gap-2.5
-          sm:bottom-5 sm:right-[-10px]
+          absolute bottom-0 left-0 right-0 z-30
+          grid grid-cols-1 gap-2.5
+          px-3
+          sm:bottom-5
+          sm:left-auto
+          sm:right-[-10px]
           sm:w-[215px]
+          sm:px-0
           lg:right-[-24px]
         "
       >
@@ -355,9 +398,10 @@ const HeroVisual = () => {
                 group flex items-center gap-3
                 rounded-2xl
                 border border-slate-200/80
-                bg-white
+                bg-white/95
                 px-3.5 py-3
                 shadow-[0_14px_34px_rgba(15,23,42,0.14)]
+                backdrop-blur-md
                 transition-all duration-300
                 hover:-translate-y-1
                 hover:shadow-[0_20px_42px_rgba(15,23,42,0.18)]
@@ -387,12 +431,18 @@ const HeroVisual = () => {
                 />
               </span>
 
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-black text-[#10204a]">
                   {item.value}
                 </p>
 
-                <p className="mt-0.5 text-[9px] leading-4 text-slate-500">
+                <p
+                  className="
+                    mt-0.5
+                    text-[10px] leading-4
+                    text-slate-500
+                  "
+                >
                   {item.label}
                 </p>
               </div>

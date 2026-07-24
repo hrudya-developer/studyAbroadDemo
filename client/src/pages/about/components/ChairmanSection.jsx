@@ -1,17 +1,15 @@
 import {
   ArrowUpRight,
   Award,
-  Building2,
   Globe2,
   GraduationCap,
   Plane,
   Quote,
   Sparkles,
-  UsersRound,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
-import chairmanImage from "../images/chairmanPic.webp";
-import {Link} from "react-router-dom";
+import chairmanImage from "../images/rahul-chakrapani-chairman-medcity.webp";
 
 const principles = [
   {
@@ -37,7 +35,7 @@ const ChairmanSection = () => {
       className="
         relative isolate overflow-hidden
         px-4 py-14
-        sm:px-6 sm:py-18
+        sm:px-6 sm:py-16
         lg:px-8 lg:py-24
       "
     >
@@ -45,8 +43,10 @@ const ChairmanSection = () => {
 
       <div
         className="
-          relative mx-auto max-w-[1500px]
-          overflow-hidden rounded-[30px]
+          relative mx-auto
+          max-w-[1500px]
+          overflow-hidden
+          rounded-[30px]
           border border-white/10
           bg-gradient-to-br
           from-[#a70f46]
@@ -77,7 +77,8 @@ const ChairmanVisual = () => {
   return (
     <div
       className="
-        relative flex min-h-[500px]
+        relative flex
+        min-h-[500px]
         items-center justify-center
         overflow-hidden
         px-5 py-10
@@ -89,28 +90,30 @@ const ChairmanVisual = () => {
     >
       <PortraitBackground />
 
-      {/* Large decorative quote */}
       <div
         aria-hidden="true"
         className="
           absolute left-5 top-5 z-20
-          font-serif text-[78px] font-black
-          leading-none text-logoYellow/90
-          sm:left-8 sm:top-7 sm:text-[105px]
+          font-serif text-[78px]
+          font-black leading-none
+          text-logoYellow/90
+          sm:left-8 sm:top-7
+          sm:text-[105px]
         "
       >
         “
       </div>
 
-      {/* Leadership label */}
       <div
         className="
           absolute right-4 top-7 z-30
           hidden items-center gap-2
           rounded-full
           border border-white/15
-          bg-white/10 px-4 py-2
-          text-xs font-bold text-white/90
+          bg-white/10
+          px-4 py-2
+          text-xs font-bold
+          text-white/90
           shadow-[0_12px_30px_rgba(0,0,0,0.14)]
           backdrop-blur-xl
           sm:flex
@@ -120,7 +123,6 @@ const ChairmanVisual = () => {
         Inspiring Leadership
       </div>
 
-      {/* Chairman portrait wrapper */}
       <div
         className="
           relative z-20
@@ -128,19 +130,19 @@ const ChairmanVisual = () => {
           items-center justify-center
         "
       >
-        {/* Soft glow only—no circles */}
         <div
           aria-hidden="true"
           className="
             pointer-events-none
             absolute left-1/2 top-1/2
             h-[62%] w-[68%]
-            -translate-x-1/2 -translate-y-1/2
+            -translate-x-1/2
+            -translate-y-1/2
             rounded-[44%_56%_51%_49%/54%_43%_57%_46%]
             bg-gradient-to-br
-            from-logoYellow/14
+            from-logoYellow/15
             via-white/[0.05]
-            to-secondary/18
+            to-secondary/20
             blur-3xl
           "
         />
@@ -148,9 +150,14 @@ const ChairmanVisual = () => {
         <img
           src={chairmanImage}
           alt="Rahul Chakrapani, Chairman of Medcity International Academy"
+          width={620}
+          height={720}
+          loading="lazy"
+          decoding="async"
           className="
-            relative z-10 rounded-4xl
+            relative z-10
             max-h-[390px] w-full
+            rounded-[32px]
             object-contain object-center
             drop-shadow-[0_30px_45px_rgba(0,0,0,0.34)]
             sm:max-h-[480px]
@@ -159,18 +166,15 @@ const ChairmanVisual = () => {
         />
       </div>
 
-   
-
-
-      {/* Chairman identity */}
       <div
         className="
           absolute bottom-5 left-1/2 z-40
           w-[calc(100%-2rem)]
           max-w-[390px]
           -translate-x-1/2
-          rounded-2xl border border-white/15
-          bg-[#07162f]/50
+          rounded-2xl
+          border border-white/15
+          bg-[#07162f]/60
           px-5 py-4
           text-center
           shadow-[0_18px_45px_rgba(0,0,0,0.25)]
@@ -180,8 +184,9 @@ const ChairmanVisual = () => {
       >
         <p
           className="
-            font-nunito text-xl font-black
-            text-logoYellow sm:text-2xl
+            font-nunito text-xl
+            font-black text-logoYellow
+            sm:text-2xl
           "
         >
           Rahul Chakrapani
@@ -193,7 +198,9 @@ const ChairmanVisual = () => {
 
         <div className="mx-auto mt-3 flex items-center justify-center gap-2">
           <span className="h-px w-10 bg-white/20" />
+
           <Quote className="h-3.5 w-3.5 text-logoYellow" />
+
           <span className="h-px w-10 bg-white/20" />
         </div>
       </div>
@@ -207,35 +214,34 @@ const PortraitBackground = () => {
       aria-hidden="true"
       className="
         pointer-events-none
-        absolute inset-0 overflow-hidden
+        absolute inset-0
+        overflow-hidden
       "
     >
-      {/* Soft left glow */}
       <div
         className="
           absolute -left-24 top-1/3
-          h-72 w-72
-          rounded-full bg-logoYellow/10
+          h-72 w-72 rounded-full
+          bg-logoYellow/10
           blur-3xl
         "
       />
 
-      {/* Soft lower blue glow */}
       <div
         className="
           absolute -bottom-20 right-0
-          h-80 w-80
-          rounded-full bg-secondary/15
+          h-80 w-80 rounded-full
+          bg-secondary/15
           blur-3xl
         "
       />
 
-      {/* Subtle vertical light behind portrait */}
       <div
         className="
           absolute left-1/2 top-1/2
           h-[72%] w-[58%]
-          -translate-x-1/2 -translate-y-1/2
+          -translate-x-1/2
+          -translate-y-1/2
           rounded-[40px]
           bg-gradient-to-b
           from-white/[0.07]
@@ -245,7 +251,6 @@ const PortraitBackground = () => {
         "
       />
 
-      {/* Vertical decorative line */}
       <div
         className="
           absolute bottom-36 left-4
@@ -267,26 +272,24 @@ const PortraitBackground = () => {
         </span>
       </div>
 
-      {/* Dots */}
       <div
         className="
           absolute bottom-24 right-4
-          h-28 w-28 opacity-15
+          h-28 w-28 opacity-[0.15]
           [background-image:radial-gradient(#ffffff_1.2px,transparent_1.2px)]
           [background-size:12px_12px]
         "
       />
 
-      {/* Plane path */}
       <svg
         viewBox="0 0 340 240"
+        fill="none"
         className="
           absolute right-0 top-20
           hidden h-60 w-72
-          text-logoYellow/14
+          text-logoYellow/15
           sm:block
         "
-        fill="none"
       >
         <path
           d="M15 208C73 144 132 170 166 105C201 38 267 68 325 18"
@@ -301,7 +304,8 @@ const PortraitBackground = () => {
         className="
           absolute right-6 top-16
           hidden h-6 w-6
-          -rotate-12 text-logoYellow/30
+          -rotate-12
+          text-logoYellow/30
           sm:block
         "
       />
@@ -313,19 +317,21 @@ const ChairmanMessage = () => {
   return (
     <div
       className="
-        relative flex flex-col justify-center
+        relative flex flex-col
+        justify-center
         border-t border-white/10
         px-6 py-10
         text-white
         sm:px-10 sm:py-14
         lg:border-l lg:border-t-0
         lg:px-14 lg:py-16
-        xl:px-18 xl:py-20
+        xl:px-20 xl:py-20
       "
     >
       <div
         className="
-          inline-flex w-fit items-center gap-2
+          inline-flex w-fit
+          items-center gap-2
           rounded-full
           border border-logoYellow/25
           bg-logoYellow/10
@@ -368,7 +374,10 @@ const ChairmanMessage = () => {
         , Together.
       </h2>
 
-      <div className="mt-5 flex items-center gap-2">
+      <div
+        aria-hidden="true"
+        className="mt-5 flex items-center gap-2"
+      >
         <span className="h-1 w-14 rounded-full bg-logoYellow" />
         <span className="h-1 w-8 rounded-full bg-white/50" />
         <span className="h-1 w-4 rounded-full bg-secondary" />
@@ -398,8 +407,8 @@ const ChairmanMessage = () => {
       >
         Whether you are taking your first step in language learning or
         preparing for advanced licensure, our team is here to guide you
-        with expert support, practical training and personal attention at
-        every stage.
+        with expert support, practical training and personal attention
+        at every stage.
       </p>
 
       <div
@@ -411,7 +420,9 @@ const ChairmanMessage = () => {
         {principles.map((item) => (
           <PrincipleCard
             key={item.title}
-            {...item}
+            icon={item.icon}
+            title={item.title}
+            description={item.description}
           />
         ))}
       </div>
@@ -421,16 +432,29 @@ const ChairmanMessage = () => {
           mt-9 flex flex-col gap-5
           border-t border-white/10
           pt-7
-          sm:flex-row sm:items-end
+          sm:flex-row
+          sm:items-end
           sm:justify-between
         "
       >
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.15em] text-white/50">
+          <p
+            className="
+              text-xs font-bold
+              uppercase tracking-[0.15em]
+              text-white/50
+            "
+          >
             With warm regards
           </p>
 
-          <p className="mt-2 font-nunito text-2xl font-black text-logoYellow">
+          <p
+            className="
+              mt-2 font-nunito
+              text-2xl font-black
+              text-logoYellow
+            "
+          >
             Rahul Chakrapani
           </p>
 
@@ -439,12 +463,15 @@ const ChairmanMessage = () => {
           </p>
         </div>
 
-        <Link to="/contact"
+        <Link
+          to="/contact"
           className="
-            group inline-flex min-h-[48px]
-            items-center justify-center gap-2
-            rounded-xl
-            bg-white px-5 py-3
+            group inline-flex
+            min-h-[48px]
+            items-center justify-center
+            gap-2 rounded-xl
+            bg-white
+            px-5 py-3
             text-sm font-extrabold
             text-darkPrimary
             shadow-[0_14px_30px_rgba(0,0,0,0.16)]
@@ -470,9 +497,10 @@ const ChairmanMessage = () => {
       </div>
 
       <div
+        aria-hidden="true"
         className="
-          pointer-events-none absolute
-          bottom-5 right-6
+          pointer-events-none
+          absolute bottom-5 right-6
           hidden items-center gap-2
           text-white/20
           xl:flex
@@ -533,13 +561,18 @@ const CardPatterns = () => {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+      className="
+        pointer-events-none
+        absolute inset-0
+        overflow-hidden
+      "
     >
       <div
         className="
           absolute -left-24 -top-24
           h-72 w-72 rounded-full
-          bg-logoYellow/10 blur-3xl
+          bg-logoYellow/10
+          blur-3xl
         "
       />
 
@@ -547,13 +580,15 @@ const CardPatterns = () => {
         className="
           absolute -bottom-32 right-10
           h-96 w-96 rounded-full
-          bg-secondary/20 blur-3xl
+          bg-secondary/20
+          blur-3xl
         "
       />
 
       <div
         className="
-          absolute inset-0 opacity-[0.07]
+          absolute inset-0
+          opacity-[0.07]
           [background-image:radial-gradient(#ffffff_1px,transparent_1px)]
           [background-size:20px_20px]
         "
@@ -582,13 +617,18 @@ const SectionBackground = () => {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      className="
+        pointer-events-none
+        absolute inset-0
+        -z-10 overflow-hidden
+      "
     >
       <div
         className="
           absolute -left-28 top-10
           h-80 w-80 rounded-full
-          bg-primary/[0.06] blur-3xl
+          bg-primary/[0.06]
+          blur-3xl
         "
       />
 
@@ -596,7 +636,8 @@ const SectionBackground = () => {
         className="
           absolute -right-32 bottom-0
           h-96 w-96 rounded-full
-          bg-secondary/[0.07] blur-3xl
+          bg-secondary/[0.07]
+          blur-3xl
         "
       />
 

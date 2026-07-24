@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 
 import { missionPoints } from "../aboutData";
+import { Link } from "react-router-dom";
 
 const StorySection = () => {
   return (
@@ -22,6 +23,30 @@ const StorySection = () => {
         <StoryCard />
         <VisionCard />
         <MissionCard />
+        <div>
+          <div className="mt-6 flex flex-wrap gap-4 text-sm font-bold">
+  <Link
+    to="/allUniversities"
+    className="text-secondary hover:underline"
+  >
+    Explore partner universities
+  </Link>
+
+  <Link
+    to="/courseSearch"
+    className="text-primary hover:underline"
+  >
+    Search international courses
+  </Link>
+
+  <Link
+    to="/branches"
+    className="text-darkPrimary hover:underline"
+  >
+    Find a Medcity centre
+  </Link>
+</div>
+        </div>
       </div>
     </section>
   );
@@ -29,13 +54,13 @@ const StorySection = () => {
 
 const StoryCard = () => {
   return (
-    <div
+    <article
+      aria-labelledby="our-story-heading"
       className="
         rounded-[28px]
         bg-gradient-to-br
         from-white to-[#fff8fb]
         p-6
-
         sm:p-8
       "
     >
@@ -50,39 +75,45 @@ const StoryCard = () => {
       </p>
 
       <h2
+        id="our-story-heading"
         className="
           mt-3 font-nunito
           text-3xl font-black
           leading-tight text-[#10204a]
-
           sm:text-4xl
         "
       >
-        Your Trusted Partner for Global Education
+        Trusted Guidance for Overseas Education
       </h2>
 
       <p className="mt-5 text-sm leading-7 text-slate-600">
-        Medcity has been dedicated to helping students build successful
-        international careers through quality education guidance and
-        personalized support.
+        Medcity Study Abroad helps students make informed decisions about
+        international education. We support students in identifying suitable
+        countries, universities and courses based on their academic profile,
+        career goals and personal preferences.
       </p>
 
       <p className="mt-4 text-sm leading-7 text-slate-600">
-        From university admissions and language preparation to visa assistance
-        and career counselling, we focus on making every student's overseas
-        journey simple, transparent and successful.
+        Our services cover university applications, admission documentation,
+        language preparation, education counselling, student visa assistance
+        and pre-departure guidance. At every stage, our goal is to make the
+        study-abroad process clear, transparent and student-focused.
       </p>
 
-      <div className="mt-7 flex items-center gap-3 text-primary">
+      <div
+        aria-hidden="true"
+        className="mt-7 flex items-center gap-3 text-primary"
+      >
         <Plane className="h-6 w-6 -rotate-12" />
         <span className="h-px flex-1 border-t border-dashed border-primary/30" />
       </div>
-    </div>
+    </article>
   );
 };
 
 const VisionCard = () => {
   return (
+    <article aria-labelledby="vision-heading">
     <div
       className="
         relative overflow-hidden
@@ -119,9 +150,9 @@ const VisionCard = () => {
             <Globe2 className="h-5 w-5" />
           </span>
 
-          <h3 className="text-xl font-black text-secondary">
+          <h2 id="vision-heading" className="text-xl font-black text-secondary">
             Our Vision
-          </h3>
+          </h2>
         </div>
 
         <p className="mt-6 text-sm leading-7 text-slate-600">
@@ -131,11 +162,13 @@ const VisionCard = () => {
         </p>
       </div>
     </div>
+    </article>
   );
 };
 
 const MissionCard = () => {
   return (
+    <article aria-labelledby="mission-heading">
     <div
       className="
         rounded-[28px]
@@ -159,9 +192,9 @@ const MissionCard = () => {
           <Target className="h-5 w-5" />
         </span>
 
-        <h3 className="text-xl font-black text-primary">
+        <h2 id="mission-heading" className="text-xl font-black text-primary">
           Our Mission
-        </h3>
+        </h2>
       </div>
 
       <div className="mt-6 space-y-4">
@@ -186,6 +219,7 @@ const MissionCard = () => {
         ))}
       </div>
     </div>
+    </article>
   );
 };
 

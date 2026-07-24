@@ -1,6 +1,6 @@
 const navItems = [
   {name:"About Us",
-    path:"/about"
+    path:"/about-us"
   },
   {
     name: "Destinations",

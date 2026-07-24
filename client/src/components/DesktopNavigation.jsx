@@ -25,7 +25,7 @@ const DesktopNavigation = () => {
           xl:text-base
         "
       >
-        {navItem.slice(0,3).map((item)=>(
+        {navItem.slice(0,4).map((item)=>(
           <li key={item.path}>
             <Link
               to={item.path}

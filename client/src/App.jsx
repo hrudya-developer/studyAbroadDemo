@@ -52,6 +52,7 @@ import AustraliaMigration from "./pages/AustraliaMigration";
 import ContactUs from "./pages/contactPage/ContactUs";
 import AcademyCenters from "./pages/Branches/AcademyCenters";
 import AboutUs from "./pages/about/AboutUs";
+import NotFound from "./pages/NotFound";
 // import PartnersLoginPage from "./pages/PartnersLoginPage";
 
 
@@ -99,14 +100,7 @@ function Layout() {
         <Route path="/studyAbroadBlog" element={<StudyAbroadBlog />} />
 
      <Route path="/germanPrograms/:id" element={<GermanPrograms />} />
-
-      
-
-
-
-      <Route
-  path="/allUniversities/:countryId?"
-  element={<AllUniversities />}
+       <Route path="/allUniversities/:countryId?" element={<AllUniversities />}
 />
         <Route path="/universityDetails/:id" element={<UniversityDetails />} /> 
       
@@ -121,7 +115,8 @@ function Layout() {
          <Route path="/australiaMigration" element = {<AustraliaMigration />} />
          <Route path="/contact" element={<ContactUs />} />
          <Route path="/branches" element={<AcademyCenters />} />
-         <Route path="/about" element={<AboutUs />} />
+         <Route path="/about-us" element={<AboutUs />} />
+         <Route path="*" element={<NotFound />} />
 
 
 

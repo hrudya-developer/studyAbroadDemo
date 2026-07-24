@@ -749,8 +749,6 @@ const OurBranches = () => {
           </div>
 
           <Link to="/branches"
-            target="_blank"
-            rel="noopener noreferrer"
             className="
               relative
               mt-4

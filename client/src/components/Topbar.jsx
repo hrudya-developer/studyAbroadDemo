@@ -350,8 +350,7 @@ const Topbar = () => {
           "
         >
           <ActionCard
-            external
-            href="/branches"
+            to="/branches"
             icon={
               <MapPin
                 size={16}

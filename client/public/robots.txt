@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /student/
+Disallow: /loginViaOtp
+Disallow: /createAccount
+
+Sitemap: https://medcityoverseas.com/sitemap.xml

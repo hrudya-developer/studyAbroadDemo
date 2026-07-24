@@ -2,7 +2,7 @@ import BranchCard from "./BranchCard";
 
 const BranchGrid = ({ centers }) => {
   return (
-    <div
+    <div id="branch_grid"
       className="
         grid grid-cols-1 gap-5
         sm:grid-cols-2

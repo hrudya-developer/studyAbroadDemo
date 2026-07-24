@@ -35,10 +35,7 @@ const AcademyCentersHeader = () => {
         bg-gradient-to-br
         from-white
         via-[#fff8fb]
-        to-[#edf6ff]
-        px-4 py-15
-        sm:px-6 sm:py-15
-        lg:px-8 lg:py-15
+        to-[#edf6ff] max-w-9xl mx-auto pt-15 pb-10
       "
     >
       <HeaderBackground />
@@ -91,13 +88,11 @@ const AcademyCentersHeader = () => {
           className="
             mt-6 max-w-5xl
             font-nunito
-            text-[38px] font-black
+            font-extrabold
             leading-[1.04]
             tracking-[-0.045em]
-            text-[#10203e]
-            sm:text-[50px]
-            lg:text-[62px]
-            xl:text-[70px]
+            text-darkPrimary
+            text-3xl sm:text-4xl lg:text-5xl
           "
         >
           Find Your Nearest{" "}
@@ -189,7 +184,7 @@ const AcademyCentersHeader = () => {
           "
         >
           <a
-            href="#branches-grid"
+            href="#branch_grid"
             className="
               group inline-flex min-h-[50px]
               w-full items-center
@@ -222,7 +217,7 @@ const AcademyCentersHeader = () => {
           </a>
 
           <a
-            href="#branches-grid"
+            href="#branch_grid"
             className="
               inline-flex min-h-[50px]
               w-full items-center
