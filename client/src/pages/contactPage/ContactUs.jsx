@@ -9,6 +9,22 @@ const SITE_URL = "https://medcityoverseas.com";
 const PAGE_URL = `${SITE_URL}/contact-us`;
 const OG_IMAGE = `${SITE_URL}/images/contact-us-og.webp`;
 
+// Corporate office (Kochi) — used as the primary contact point in schema.
+const BUSINESS_PHONE = "+91-9048059999";
+const BUSINESS_EMAIL = "medcitykochi@miak.in";
+
+// Pulled from BottomBar.jsx — keep these in sync if that component's
+// social links ever change.
+const SOCIAL_PROFILES = [
+  "https://www.instagram.com/medcitystudyabroad?igsh=Nmt2dGZqbjNrZDVk&utm_source=qr",
+  "https://www.facebook.com/share/1D8vQXJskS/?mibextid=wwXIfr",
+  "https://in.linkedin.com/company/medcity-study-abroad",
+  "https://youtube.com/@medcitystudyabroad?si=eU1G7UToEzt_H2yj",
+];
+
+// No Twitter/X profile currently listed in BottomBar's socialLinks —
+// twitter:site meta tag omitted below until a real handle is confirmed.
+
 const ContactUs = () => {
   const contactPageSchema = {
     "@context": "https://schema.org",
@@ -16,8 +32,9 @@ const ContactUs = () => {
     "@id": `${PAGE_URL}#contact-page`,
     url: PAGE_URL,
     name: "Contact Medcity Study Abroad",
+    // Fixed: no longer promises "book now" — matches the real page (form + phone call only)
     description:
-      "Contact Medcity Study Abroad for expert overseas education counselling, university admissions, course selection and student visa guidance.",
+      "Contact Medcity Study Abroad, Kerala's trusted overseas education consultants. Get free counselling on admissions, courses & visas — call us or fill out our form.",
     inLanguage: "en-IN",
     isPartOf: {
       "@type": "WebSite",
@@ -32,31 +49,29 @@ const ContactUs = () => {
     about: {
       "@type": "EducationalOrganization",
       "@id": `${SITE_URL}/#organization`,
-      name: "Medcity Study Abroad",
+      // Legal entity name — must match Google Business Profile / official
+      // registrations exactly for NAP consistency (see BottomBar.jsx
+      // copyright line, which already uses this name).
+      name: "Medcity International Overseas Corporation",
+      alternateName: "Medcity Study Abroad",
       url: SITE_URL,
       logo: `${SITE_URL}/favicon.png`,
       image: OG_IMAGE,
-      // TODO: confirm/replace with real values
-      telephone: "+91-XXXXXXXXXX",
-      email: "info@medcityoverseas.com",
+      telephone: BUSINESS_PHONE,
+      email: BUSINESS_EMAIL,
       address: {
         "@type": "PostalAddress",
         addressLocality: "Kozhikode",
         addressRegion: "Kerala",
         addressCountry: "IN",
       },
-      sameAs: [
-        // TODO: add real social profile URLs
-        // "https://www.facebook.com/medcitystudyabroad",
-        // "https://www.instagram.com/medcitystudyabroad",
-        // "https://www.linkedin.com/company/medcitystudyabroad",
-      ],
+      sameAs: SOCIAL_PROFILES,
       contactPoint: [
         {
           "@type": "ContactPoint",
           contactType: "customer service",
-          telephone: "+91-XXXXXXXXXX",
-          email: "info@medcityoverseas.com",
+          telephone: BUSINESS_PHONE,
+          email: BUSINESS_EMAIL,
           areaServed: "IN",
           availableLanguage: ["en", "ml"],
         },
@@ -93,7 +108,7 @@ const ContactUs = () => {
 
         <meta
           name="description"
-          content="Contact Medcity Study Abroad consultants in Kerala for overseas education counselling, university admissions, course selection and visa guidance."
+          content="Contact Medcity Study Abroad, Kerala's trusted overseas education consultants. Get free counselling on admissions, courses & visas — call us or fill out our form."
         />
 
         <meta
@@ -115,7 +130,7 @@ const ContactUs = () => {
         />
         <meta
           property="og:description"
-          content="Speak with Medcity Study Abroad experts for personalised overseas education, admission and visa guidance."
+          content="Speak with Medcity Study Abroad experts for personalised overseas education, admission and visa guidance — call us or send us your details."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={PAGE_URL} />
@@ -132,15 +147,14 @@ const ContactUs = () => {
 
         {/* X / Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        {/* TODO: add real handle, e.g. @medcityoverseas */}
-        <meta name="twitter:site" content="@medcityoverseas" />
+        {/* twitter:site omitted — no confirmed X/Twitter handle for this business */}
         <meta
           name="twitter:title"
           content="Contact Study Abroad Consultants in Kerala | Medcity"
         />
         <meta
           name="twitter:description"
-          content="Get expert support with course selection, university applications and student visa guidance."
+          content="Get expert support with course selection, university applications and student visa guidance — call us or fill out our form."
         />
         <meta name="twitter:image" content={OG_IMAGE} />
         <meta

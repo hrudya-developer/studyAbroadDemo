@@ -446,7 +446,7 @@ const ChairmanMessage = () => {
         </div>
 
         <Link
-          to="/contact"
+          to="/contact-us"
           className="
             group inline-flex
             min-h-11
