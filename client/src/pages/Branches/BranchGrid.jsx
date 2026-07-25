@@ -3,9 +3,9 @@ import BranchCard from "./BranchCard";
 const BranchGrid = ({ centers }) => {
   return (
     <div id="branch_grid"
-      className="
+      className="max-w-[70%] sm:max-w-6xl lg:max-w-6xl mx-auto px-10 mt-10
         grid grid-cols-1 gap-5
-        sm:grid-cols-2
+        sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3
         xl:grid-cols-3 xl:gap-6
       "
     >

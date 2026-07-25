@@ -3,13 +3,14 @@ import {
   Building2,
   CheckCircle2,
   MapPin,
-  Sparkles,
 } from "lucide-react";
+
+import BranchBreadcrumb from "./BranchBreadcrumb";
 
 const stats = [
   {
     value: "18+",
-    label: "Centers",
+    label: "Branches",
   },
   {
     value: "14+",
@@ -27,15 +28,17 @@ const highlights = [
   "Personalized support",
 ];
 
-const AcademyCentersHeader = () => {
+const AcademyCentersHeader = ({
+  totalBranches,
+}) => {
   return (
     <section
       className="
-        relative isolate overflow-hidden
+        relative isolate mx-auto
+        max-w-9xl overflow-hidden
         bg-gradient-to-br
-        from-white
-        via-[#fff8fb]
-        to-[#edf6ff] max-w-9xl mx-auto pt-15 pb-10
+        from-white via-[#fff8fb] to-[#edf6ff]
+        pb-10 pt-15
       "
     >
       <HeaderBackground />
@@ -50,7 +53,8 @@ const AcademyCentersHeader = () => {
           text-center
         "
       >
-        {/* Label */}
+        <BranchBreadcrumb />
+
         <div
           className="
             inline-flex items-center gap-2
@@ -83,50 +87,30 @@ const AcademyCentersHeader = () => {
           Our Presence
         </div>
 
-        {/* Heading */}
         <h1
+          id="branches-heading"
           className="
-            mt-6 max-w-5xl
-            font-nunito
-            font-extrabold
-            leading-[1.04]
-            tracking-[-0.045em]
-            text-darkPrimary
-            text-3xl sm:text-4xl lg:text-5xl
+            mt-5
+            text-3xl font-extrabold
+            leading-tight text-darkPrimary
+            sm:text-4xl lg:text-5xl
           "
         >
-          Find Your Nearest{" "}
-          <span
-            className="
-              relative
-              bg-gradient-to-r
-              from-primary
-              via-[#d82c65]
-              to-secondary
-              bg-clip-text text-transparent
-            "
-          >
-            Medcity Academy Center
-
-            <Sparkles
-              className="
-                absolute -right-8 -top-3
-                hidden h-7 w-7
-                text-logoYellow
-                sm:block
-              "
-            />
+          <span className="text-primary">
+            {totalBranches}+ <br />
+          </span>{" "}
+          Medcity Study Abroad Branches{" "} <br />
+          <span className="text-primary">
+            Across Kerala
           </span>
         </h1>
 
-        {/* Accent */}
         <div className="mt-6 flex items-center justify-center gap-2">
           <span className="h-1.5 w-16 rounded-full bg-primary" />
           <span className="h-1.5 w-9 rounded-full bg-secondary" />
           <span className="h-1.5 w-4 rounded-full bg-logoYellow" />
         </div>
 
-        {/* Description */}
         <p
           className="
             mt-6 max-w-3xl
@@ -136,15 +120,15 @@ const AcademyCentersHeader = () => {
             lg:text-lg lg:leading-8
           "
         >
-          Access trusted language training, healthcare exam coaching,
-          international education support and expert guidance through{" "}
+          Access trusted study abroad counselling,
+          university admission support, visa guidance
+          and personalized assistance through{" "}
           <span className="font-extrabold text-darkPrimary">
-            18+ Medcity Academy centers
+            {totalBranches}+ Medcity Study Abroad branches
           </span>{" "}
-          across Kerala and Karnataka.
+          across Kerala.
         </p>
 
-        {/* Highlights */}
         <div
           className="
             mt-7 flex max-w-3xl
@@ -153,11 +137,13 @@ const AcademyCentersHeader = () => {
           "
         >
           {highlights.map((item) => (
-            <Highlight key={item} text={item} />
+            <Highlight
+              key={item}
+              text={item}
+            />
           ))}
         </div>
 
-        {/* Stats */}
         <div
           className="
             mt-9 grid w-full
@@ -174,7 +160,6 @@ const AcademyCentersHeader = () => {
           ))}
         </div>
 
-        {/* Actions */}
         <div
           className="
             mt-9 flex w-full
@@ -205,7 +190,7 @@ const AcademyCentersHeader = () => {
               sm:w-auto
             "
           >
-            Explore Our Centers
+            Explore Our Branches
 
             <ArrowDown
               className="
@@ -280,7 +265,10 @@ const Highlight = ({ text }) => {
   );
 };
 
-const StatCard = ({ value, label }) => {
+const StatCard = ({
+  value,
+  label,
+}) => {
   return (
     <div
       className="
@@ -337,7 +325,6 @@ const HeaderBackground = () => {
         overflow-hidden
       "
     >
-      {/* Primary glow */}
       <div
         className="
           absolute -left-28 -top-28
@@ -348,7 +335,6 @@ const HeaderBackground = () => {
         "
       />
 
-      {/* Secondary glow */}
       <div
         className="
           absolute -bottom-36 -right-28
@@ -359,7 +345,6 @@ const HeaderBackground = () => {
         "
       />
 
-      {/* Center yellow glow */}
       <div
         className="
           absolute left-1/2 top-[44%]
@@ -371,7 +356,6 @@ const HeaderBackground = () => {
         "
       />
 
-      {/* Top-left dot pattern */}
       <div
         className="
           absolute left-5 top-8
@@ -383,7 +367,6 @@ const HeaderBackground = () => {
         "
       />
 
-      {/* Bottom-right blue dots */}
       <div
         className="
           absolute bottom-5 right-5
@@ -395,7 +378,6 @@ const HeaderBackground = () => {
         "
       />
 
-      {/* Large decorative rings */}
       <div
         className="
           absolute -left-28 bottom-[-130px]
@@ -428,7 +410,6 @@ const HeaderBackground = () => {
         "
       />
 
-      {/* Floating location markers */}
       <div
         className="
           absolute left-[8%] top-[42%]
@@ -464,7 +445,6 @@ const HeaderBackground = () => {
         <Building2 className="h-6 w-6" />
       </div>
 
-      {/* Fine center line pattern */}
       <div
         className="
           absolute inset-x-0 top-1/2

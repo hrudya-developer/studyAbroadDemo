@@ -9,7 +9,8 @@ import {
   UsersRound,
 } from "lucide-react";
 
-import contactHero from "./bgContact.webp";
+import contactHero from "./contact-medcity-study-abroad.webp";
+import { Link } from "react-router-dom";
 
 const supportItems = [
   {
@@ -196,26 +197,35 @@ const ContactHero = () => {
           />
 
           {/* Breadcrumb */}
-          <div
-            className="
-              inline-flex items-center gap-2
-              rounded-full
-              border border-primary/10
-              bg-white/80
-              px-3 py-1.5
-              text-[10px] font-extrabold
-              uppercase tracking-[0.14em]
-              text-primary
-              shadow-[0_8px_20px_rgba(15,23,42,0.05)]
-              backdrop-blur-md
+        <nav
+  aria-label="Breadcrumb"
+  className="
+    inline-flex items-center gap-2
+    rounded-full border border-primary/10
+    bg-white/80 px-3 py-1.5
+    text-[10px] font-extrabold
+    uppercase tracking-[0.14em]
+    text-primary shadow-[0_8px_20px_rgba(15,23,42,0.05)]
+    backdrop-blur-md sm:text-[11px]
+  "
+>
+  <ol className="flex items-center gap-2">
+    <li>
+      <Link
+        to="/"
+        className="transition-colors hover:text-darkPrimary"
+      >
+        Home
+      </Link>
+    </li>
 
-              sm:text-[11px]
-            "
-          >
-            <span>Home</span>
-            <span className="text-slate-300">/</span>
-            <span>Contact Us</span>
-          </div>
+    <li aria-hidden="true" className="text-slate-300">
+      /
+    </li>
+
+    <li aria-current="page">Contact Us</li>
+  </ol>
+</nav>
 
           {/* Heading */}
           <h1
@@ -543,7 +553,7 @@ const ContactHero = () => {
           >
             <img
               src={contactHero}
-              alt="Student preparing for an international study journey"
+              alt="Student planning overseas education with Medcity Study Abroad consultants"
               className="
                 h-full w-full
                 object-cover object-center

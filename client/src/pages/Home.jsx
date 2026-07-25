@@ -1,13 +1,14 @@
 import { lazy } from "react";
 
+import SEO from "./seo/SEO";
 import Carousel from "../layout/Carousel";
 import LazySection from "../components/LazySection";
 import OurBranches from "../layout/OurBranches";
 import FAQ from "../layout/FAQ/FAQ";
 
 /*
- * Every homepage component except Carousel
- * is loaded as a separate JavaScript chunk.
+ * Homepage sections below the hero are split
+ * into separate JavaScript chunks.
  */
 const SearchSection = lazy(() =>
   import("../layout/SearchSection")
@@ -53,81 +54,141 @@ const Counselling = lazy(() =>
   import("../layout/Counselling")
 );
 
-const StudyDestinations = lazy(() =>
-  import("../layout/StudyDestinations")
-);
-
 /*
- * MIA feature is temporarily disabled.
- *
- * To enable it again, uncomment these imports
- * and restore the MIA state, callbacks and JSX.
+ * Keep structured data outside Home.
+ * It does not need to be recreated during renders.
  */
+const homeStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id":
+        "https://medcityoverseas.com/#organization",
 
-// const MiaModal = lazy(() =>
-//   import("./MiaAgentModal")
-// );
+      name: "Medcity Study Abroad",
 
-// const MiaButton = lazy(() =>
-//   import("./MiaButton")
-// );
+      url: "https://medcityoverseas.com/",
 
-// const MiaAgentChatbox = lazy(() =>
-//   import("./MiaAgentChatbox")
-// );
+      logo: {
+        "@type": "ImageObject",
+        url: "https://medcityoverseas.com/logo.png",
+        width: 150,
+        height: 50,
+      },
 
-const SectionFallback = ({ minHeight = "500px" }) => {
+      image:
+        "https://medcityoverseas.com/images/medcity-og-image.webp",
+
+      description:
+        "Medcity Study Abroad helps students pursue international education through counselling, university admissions, visa assistance and language training.",
+
+      sameAs: [
+        // Add only verified social media profile URLs.
+        // "https://www.facebook.com/your-page",
+        // "https://www.instagram.com/your-page",
+        // "https://www.linkedin.com/company/your-page",
+        // "https://www.youtube.com/@your-channel",
+      ],
+    },
+
+    {
+      "@type": "WebSite",
+      "@id":
+        "https://medcityoverseas.com/#website",
+
+      url: "https://medcityoverseas.com/",
+
+      name: "Medcity Study Abroad",
+
+      description:
+        "Study abroad counselling, university admission and student visa assistance.",
+
+      publisher: {
+        "@id":
+          "https://medcityoverseas.com/#organization",
+      },
+
+      inLanguage: "en-IN",
+    },
+
+    {
+      "@type": "WebPage",
+      "@id":
+        "https://medcityoverseas.com/#webpage",
+
+      url: "https://medcityoverseas.com/",
+
+      name:
+        "Study Abroad Consultants in Kerala | Medcity Study Abroad",
+
+      description:
+        "Medcity Study Abroad helps students study in Germany, the UK, Canada, Australia, Ireland, New Zealand and other destinations with counselling, admissions and visa assistance.",
+
+      isPartOf: {
+        "@id":
+          "https://medcityoverseas.com/#website",
+      },
+
+      about: {
+        "@id":
+          "https://medcityoverseas.com/#organization",
+      },
+
+      publisher: {
+        "@id":
+          "https://medcityoverseas.com/#organization",
+      },
+
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url:
+          "https://medcityoverseas.com/images/medcity-og-image.webp",
+        width: 1200,
+        height: 630,
+      },
+
+      inLanguage: "en-IN",
+    },
+  ],
+};
+
+const SectionFallback = ({
+  minHeight = "500px",
+}) => {
   return (
     <div
       aria-hidden="true"
       className="
-        relative
-        w-full
-        overflow-hidden
+        relative w-full overflow-hidden
         bg-gradient-to-b
-        from-white
-        to-slate-50
+        from-white to-slate-50
       "
       style={{ minHeight }}
     >
       <div
         className="
-          absolute
-          inset-x-4
-          top-12
-          mx-auto
-          h-8
-          max-w-md
-          animate-pulse
-          rounded-xl
+          absolute inset-x-4 top-12
+          mx-auto h-8 max-w-md
+          animate-pulse rounded-xl
           bg-slate-200/70
         "
       />
 
       <div
         className="
-          absolute
-          inset-x-6
-          top-28
-          mx-auto
-          h-4
-          max-w-xl
-          animate-pulse
-          rounded-lg
+          absolute inset-x-6 top-28
+          mx-auto h-4 max-w-xl
+          animate-pulse rounded-lg
           bg-slate-200/50
         "
       />
 
       <div
         className="
-          absolute
-          inset-x-4
-          top-44
-          mx-auto
-          h-52
-          max-w-7xl
-          animate-pulse
-          rounded-3xl
+          absolute inset-x-4 top-44
+          mx-auto h-52 max-w-7xl
+          animate-pulse rounded-3xl
           bg-slate-200/40
         "
       />
@@ -138,7 +199,20 @@ const SectionFallback = ({ minHeight = "500px" }) => {
 const Home = () => {
   return (
     <>
-      {/* Hero carousel is loaded immediately */}
+      {/*
+       * SEO should not be lazy-loaded.
+       * It is small and must render immediately.
+       */}
+      <SEO
+        title="Study Abroad Consultants in Kerala | Medcity Study Abroad"
+        description="Medcity Study Abroad helps students study in Germany, the UK, Canada, Australia, Ireland, New Zealand and other destinations with counselling, admissions and visa assistance."
+        canonical="https://medcityoverseas.com/"
+        image="https://medcityoverseas.com/images/medcity-og-image.webp"
+        keywords="study abroad consultants in Kerala, overseas education consultants in Kerala, study in Germany, study in UK, study in Canada, study in Australia, student visa assistance, university admissions"
+        structuredData={homeStructuredData}
+      />
+
+      {/* Above-the-fold hero loads immediately */}
       <Carousel />
 
       <LazySection
@@ -251,32 +325,25 @@ const Home = () => {
         <Counselling />
       </LazySection>
 
-      {/* <LazySection
-        minHeight="700px"
-        rootMargin="600px 0px"
+      <LazySection
+        minHeight="500px"
+        rootMargin="500px 0px"
         fallback={
-          <SectionFallback minHeight="700px" />
+          <SectionFallback minHeight="500px" />
         }
       >
-        <StudyDestinations />
-      </LazySection> */}
-
-      <LazySection>
         <FAQ />
       </LazySection>
 
-<LazySection>
-  <OurBranches />
-</LazySection>
-
-
-
-      {/*
-       * MIA popup, floating button and chatbox
-       * are temporarily disabled.
-       *
-       * MIA JSX can be restored here later.
-       */}
+      <LazySection
+        minHeight="600px"
+        rootMargin="500px 0px"
+        fallback={
+          <SectionFallback minHeight="600px" />
+        }
+      >
+        <OurBranches />
+      </LazySection>
     </>
   );
 };

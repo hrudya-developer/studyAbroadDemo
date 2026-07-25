@@ -113,7 +113,7 @@ function Layout() {
          <Route path="/addOnServices" element = {<AddOnServices />} />
          <Route path="/canadaMigration" element = {<CanadaMigration />} />
          <Route path="/australiaMigration" element = {<AustraliaMigration />} />
-         <Route path="/contact" element={<ContactUs />} />
+         <Route path="/contact-us" element={<ContactUs />} />
          <Route path="/branches" element={<AcademyCenters />} />
          <Route path="/about-us" element={<AboutUs />} />
          <Route path="*" element={<NotFound />} />

@@ -244,7 +244,7 @@ const HeroContent = () => {
         </Link>
 
         <Link
-          to="/contact"
+          to="/contact-us"
           className="
             group inline-flex
             min-h-[46px] w-full

@@ -412,7 +412,7 @@ const Topbar = () => {
           />
 
           <ActionCard
-            to="/contact"
+            to="/contact-us"
             icon={
               <PhoneCall
                 size={16}

@@ -18,7 +18,7 @@ const BranchControls = ({
       className="
         mt-9 flex flex-col items-stretch
         justify-center gap-3
-        sm:flex-row sm:items-center
+        sm:flex-row sm:items-center mx-10 md:mx-0
       "
     >
       {hasMore && (

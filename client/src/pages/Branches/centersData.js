@@ -1,20 +1,20 @@
-import calicutImage from "./branch_images/medcity_calicut.webp";
-import kanjikuzhyImage from "./branch_images/medcity_kanjikuzhy.webp";
-import kannurImage from "./branch_images/medcity_kannur.webp";
-import kattappanaImage from "./branch_images/medcity_kattappana.webp";
-import kochiImage from "./branch_images/medcity_kochi.webp";
-import kollamImage from "./branch_images/medcity_kollam.webp";
-import kothamangalamImage from "./branch_images/medcity_kothamangalam.webp";
-import kottayamImage from "./branch_images/medcity_kottayam.webp";
-import mangaloreImage from "./branch_images/medcity_mangalore.webp";
-import mavelikkaraImage from "./branch_images/medcity_mavelikkara.webp";
-import muvattupuzhaImage from "./branch_images/medcity_muvattupuzha.webp";
-import palaImage from "./branch_images/medcity_pala.webp";
-import pala2Image from "./branch_images/medcity_pala2.webp";
-import thiruvallaImage from "./branch_images/medcity_thiruvalla.webp";
-import thodupuzhaImage from "./branch_images/medcity_thodupuzha.webp";
-import thrissurImage from "./branch_images/medcity_thrissur.webp";
-import tvmImage from "./branch_images/medcity_tvm.webp";
+import calicutImage from "./branch_images/medcity-calicut.webp";
+import kanjikuzhyImage from "./branch_images/medcity-kanjikuzhy.webp";
+import kannurImage from "./branch_images/medcity-kannur.webp";
+import kattappanaImage from "./branch_images/medcity-kattappana.webp";
+import kochiImage from "./branch_images/medcity-kochi.webp";
+import kollamImage from "./branch_images/medcity-kollam.webp";
+import kothamangalamImage from "./branch_images/medcity-kothamangalam.webp";
+import kottayamImage from "./branch_images/medcity-kottayam.webp";
+import mangaloreImage from "./branch_images/medcity-mangalore.webp";
+import mavelikkaraImage from "./branch_images/medcity-mavelikkara.webp";
+import muvattupuzhaImage from "./branch_images/medcity-muvattupuzha.webp";
+import palaImage from "./branch_images/medcity-pala.webp";
+import pala2Image from "./branch_images/medcity-pala2.webp";
+import thiruvallaImage from "./branch_images/medcity-thiruvalla.webp";
+import thodupuzhaImage from "./branch_images/medcity-thodupuzha.webp";
+import thrissurImage from "./branch_images/medcity-thrissur.webp";
+import tvmImage from "./branch_images/medcity-tvm.webp";
 
 export const centers = [
   {
