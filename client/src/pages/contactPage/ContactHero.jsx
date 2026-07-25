@@ -8,9 +8,9 @@ import {
   Star,
   UsersRound,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import contactHero from "./contact-medcity-study-abroad.webp";
-import { Link } from "react-router-dom";
 
 const supportItems = [
   {
@@ -46,13 +46,8 @@ const ContactHero = () => {
       {/* Background decorations */}
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute inset-0 -z-10
-          overflow-hidden
-        "
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
       >
-        {/* Soft brand glows */}
         <div
           className="
             absolute -left-24 top-8
@@ -73,7 +68,6 @@ const ContactHero = () => {
           "
         />
 
-        {/* Left dot pattern */}
         <div
           className="
             absolute left-5 top-10
@@ -87,7 +81,6 @@ const ContactHero = () => {
           "
         />
 
-        {/* Left outline circle */}
         <div
           className="
             absolute -left-24 top-[35%]
@@ -99,7 +92,6 @@ const ContactHero = () => {
           "
         />
 
-        {/* Small dashed circle */}
         <div
           className="
             absolute left-[7%] top-[58%]
@@ -112,10 +104,6 @@ const ContactHero = () => {
           "
         />
 
-      
-
-
-        {/* Right dot pattern */}
         <div
           className="
             absolute right-0 top-0
@@ -127,7 +115,6 @@ const ContactHero = () => {
           "
         />
 
-        {/* Bottom-left pattern */}
         <div
           className="
             absolute bottom-0 left-0
@@ -139,7 +126,6 @@ const ContactHero = () => {
           "
         />
 
-        {/* Small vertical accent line */}
         <div
           className="
             absolute left-0 top-1/2
@@ -182,7 +168,6 @@ const ContactHero = () => {
             lg:text-left
           "
         >
-          {/* Small heading decoration */}
           <div
             aria-hidden="true"
             className="
@@ -197,35 +182,32 @@ const ContactHero = () => {
           />
 
           {/* Breadcrumb */}
-        <nav
-  aria-label="Breadcrumb"
-  className="
-    inline-flex items-center gap-2
-    rounded-full border border-primary/10
-    bg-white/80 px-3 py-1.5
-    text-[10px] font-extrabold
-    uppercase tracking-[0.14em]
-    text-primary shadow-[0_8px_20px_rgba(15,23,42,0.05)]
-    backdrop-blur-md sm:text-[11px]
-  "
->
-  <ol className="flex items-center gap-2">
-    <li>
-      <Link
-        to="/"
-        className="transition-colors hover:text-darkPrimary"
-      >
-        Home
-      </Link>
-    </li>
+          <nav
+            aria-label="Breadcrumb"
+            className="
+              inline-flex items-center gap-2
+              rounded-full border border-primary/10
+              bg-white/80 px-3 py-1.5
+              text-[10px] font-extrabold
+              uppercase tracking-[0.14em]
+              text-primary shadow-[0_8px_20px_rgba(15,23,42,0.05)]
+              backdrop-blur-md sm:text-[11px]
+            "
+          >
+            <ol className="flex items-center gap-2">
+              <li>
+                <Link to="/" className="transition-colors hover:text-darkPrimary">
+                  Home
+                </Link>
+              </li>
 
-    <li aria-hidden="true" className="text-slate-300">
-      /
-    </li>
+              <li aria-hidden="true" className="text-slate-300">
+                /
+              </li>
 
-    <li aria-current="page">Contact Us</li>
-  </ol>
-</nav>
+              <li aria-current="page">Contact Us</li>
+            </ol>
+          </nav>
 
           {/* Heading */}
           <h1
@@ -282,8 +264,8 @@ const ContactHero = () => {
             </span>
           </h1>
 
-          {/* Accent underline */}
           <div
+            aria-hidden="true"
             className="
               mt-4 flex
               items-center justify-center
@@ -385,7 +367,7 @@ const ContactHero = () => {
                       group-hover:text-white
                     "
                   >
-                    <Icon className="h-5 w-5" strokeWidth={2.2} />
+                    <Icon className="h-5 w-5" strokeWidth={2.2} aria-hidden="true" />
                   </span>
 
                   <div className="relative z-10 min-w-0">
@@ -418,8 +400,11 @@ const ContactHero = () => {
               lg:justify-start
             "
           >
+            {/* NOTE: points to #contact-form — must match the id on your
+                form section in ContactUs.jsx (previously mismatched to
+                #gfc_wrapper, which doesn't exist on the page). */}
             <a
-              href="#gfc_wrapper"
+              href="#contact-form"
               className="
                 group
                 inline-flex min-h-[48px]
@@ -446,6 +431,7 @@ const ContactHero = () => {
               Contact Our Experts
 
               <ArrowUpRight
+                aria-hidden="true"
                 className="
                   h-[18px] w-[18px]
                   transition-transform duration-300
@@ -476,7 +462,6 @@ const ContactHero = () => {
             xl:max-w-[355px]
           "
         >
-          {/* Decorative outline */}
           <div
             aria-hidden="true"
             className="
@@ -491,7 +476,6 @@ const ContactHero = () => {
             "
           />
 
-          {/* Flight path */}
           <svg
             aria-hidden="true"
             className="
@@ -524,10 +508,7 @@ const ContactHero = () => {
               lg:block
             "
           >
-            <Plane
-              className="h-7 w-7 -rotate-12 fill-primary"
-              strokeWidth={1.5}
-            />
+            <Plane className="h-7 w-7 -rotate-12 fill-primary" strokeWidth={1.5} />
           </div>
 
           {/* Image frame */}
@@ -554,6 +535,9 @@ const ContactHero = () => {
             <img
               src={contactHero}
               alt="Student planning overseas education with Medcity Study Abroad consultants"
+              width="355"
+              height="340"
+              fetchpriority="high"
               className="
                 h-full w-full
                 object-cover object-center
@@ -610,6 +594,7 @@ const ContactHero = () => {
             "
           >
             <span
+              aria-hidden="true"
               className="
                 flex h-8 w-8
                 shrink-0
@@ -658,6 +643,7 @@ const ContactHero = () => {
             "
           >
             <span
+              aria-hidden="true"
               className="
                 flex h-8 w-8
                 shrink-0
@@ -708,6 +694,7 @@ const ContactHero = () => {
             "
           >
             <span
+              aria-hidden="true"
               className="
                 flex h-10 w-10
                 shrink-0
@@ -724,16 +711,9 @@ const ContactHero = () => {
             </span>
 
             <div>
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center gap-0.5" aria-hidden="true">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <Star
-                    key={index}
-                    className="
-                      h-3 w-3
-                      fill-[#f7b500]
-                      text-[#f7b500]
-                    "
-                  />
+                  <Star key={index} className="h-3 w-3 fill-[#f7b500] text-[#f7b500]" />
                 ))}
               </div>
 
@@ -746,7 +726,7 @@ const ContactHero = () => {
               </p>
             </div>
 
-            <Sparkles className="h-4 w-4 shrink-0 text-primary" />
+            <Sparkles aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
           </div>
         </div>
       </div>
