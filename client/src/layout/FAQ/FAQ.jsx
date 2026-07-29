@@ -1,7 +1,11 @@
 import React, {
   memo,
   useCallback,
+  useMemo,
 } from "react";
+
+import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 
 import {
   CalendarDays,
@@ -13,12 +17,59 @@ import {
 import FAQRight from "./FAQRight";
 import { faqItems } from "./faqData";
 
+const SITE_URL = "https://medcityoverseas.com";
 const COUNSELLING_SECTION_ID = "gfc_wrapper";
+
+const normalizeSchemaText = (value) =>
+  String(value ?? "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const FAQ = ({
   onCounsellingClick,
   onAppointmentClick,
 }) => {
+  const { pathname } = useLocation();
+
+  const normalizedPath =
+    pathname === "/"
+      ? "/"
+      : pathname.replace(/\/+$/, "");
+
+  const pageUrl = `${SITE_URL}${normalizedPath}`;
+
+  const faqStructuredData = useMemo(() => {
+    const validFaqItems = faqItems.filter(
+      (faq) =>
+        normalizeSchemaText(faq?.question) &&
+        normalizeSchemaText(faq?.answer),
+    );
+
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "@id": `${pageUrl}#faq`,
+      url: `${pageUrl}#faq`,
+      mainEntity: validFaqItems.map((faq) => ({
+        "@type": "Question",
+        name: normalizeSchemaText(faq.question),
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: normalizeSchemaText(faq.answer),
+        },
+      })),
+    };
+  }, [pageUrl]);
+
+  const safeFaqStructuredData = useMemo(
+    () =>
+      JSON.stringify(faqStructuredData).replace(
+        /</g,
+        "\\u003c",
+      ),
+    [faqStructuredData],
+  );
   const scrollToCounselling = useCallback(
     (event) => {
       event?.preventDefault?.();
@@ -91,7 +142,19 @@ const FAQ = ({
   );
 
   return (
-    <section
+    <>
+      <Helmet>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: safeFaqStructuredData,
+          }}
+        />
+      </Helmet>
+
+      <section
+        id="faq"
+        aria-labelledby="faq-heading"
       className="
         relative
         isolate
@@ -210,6 +273,7 @@ const FAQ = ({
           </div>
 
           <h2
+            id="faq-heading"
             className="
               mt-5
               font-nunito
@@ -441,7 +505,8 @@ const FAQ = ({
           </button>
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 };
 

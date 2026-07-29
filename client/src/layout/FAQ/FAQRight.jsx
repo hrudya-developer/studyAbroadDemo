@@ -6,11 +6,14 @@ import React, {
 import FAQItem from "./FAQItem";
 
 const FAQRight = ({ items = [] }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] =
+    useState(null);
 
   const handleToggle = (index) => {
     setActiveIndex((currentIndex) =>
-      currentIndex === index ? -1 : index,
+      currentIndex === index
+        ? null
+        : index
     );
   };
 
@@ -36,7 +39,9 @@ const FAQRight = ({ items = [] }) => {
           item={item}
           index={index}
           isOpen={activeIndex === index}
-          onToggle={() => handleToggle(index)}
+          onToggle={() =>
+            handleToggle(index)
+          }
         />
       ))}
     </div>

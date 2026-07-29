@@ -6,6 +6,8 @@ import LazySection from "../components/LazySection";
 import OurBranches from "../layout/OurBranches";
 import FAQ from "../layout/FAQ/FAQ";
 
+import { faqItems } from "../layout/FAQ/faqData";
+
 /*
  * Homepage sections below the hero are split
  * into separate JavaScript chunks.
@@ -55,40 +57,106 @@ const Counselling = lazy(() =>
 );
 
 /*
- * Keep structured data outside Home.
- * It does not need to be recreated during renders.
+ * FAQ schema is generated from the same data
+ * used by the visible FAQ section.
+ */
+const faqStructuredData = {
+  "@type": "FAQPage",
+  "@id": "https://medcityoverseas.com/#faq",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+
+/*
+ * Homepage JSON-LD structured data.
  */
 const homeStructuredData = {
   "@context": "https://schema.org",
+
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": "EducationalOrganization",
       "@id":
         "https://medcityoverseas.com/#organization",
 
       name: "Medcity Study Abroad",
+      alternateName: "MedCity Overseas",
 
       url: "https://medcityoverseas.com/",
 
       logo: {
         "@type": "ImageObject",
-        url: "https://medcityoverseas.com/logo.png",
+        "@id":
+          "https://medcityoverseas.com/#logo",
+
+        url:
+          "https://medcityoverseas.com/logo.png",
+
+        contentUrl:
+          "https://medcityoverseas.com/logo.png",
+
         width: 150,
         height: 50,
+
+        caption: "Medcity Study Abroad",
       },
 
-      image:
-        "https://medcityoverseas.com/images/medcity-og-image.webp",
+      image: {
+        "@type": "ImageObject",
+        url:
+          "https://medcityoverseas.com/images/medcity-og-image.webp",
+        width: 1200,
+        height: 630,
+      },
 
       description:
         "Medcity Study Abroad helps students pursue international education through counselling, university admissions, visa assistance and language training.",
 
+      foundingDate: "2012",
+
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Chettipeedika",
+        addressLocality: "Kannur",
+        addressRegion: "Kerala",
+        postalCode: "670004",
+        addressCountry: "IN",
+      },
+
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+91-89432-80333",
+          contactType: "customer service",
+          areaServed: "IN",
+          availableLanguage: [
+            "English",
+            "Malayalam",
+          ],
+        },
+        {
+          "@type": "ContactPoint",
+          telephone: "+91-96450-20503",
+          contactType: "customer service",
+          areaServed: "IN",
+          availableLanguage: [
+            "English",
+            "Malayalam",
+          ],
+        },
+      ],
+
       sameAs: [
-        // Add only verified social media profile URLs.
-        // "https://www.facebook.com/your-page",
-        // "https://www.instagram.com/your-page",
-        // "https://www.linkedin.com/company/your-page",
-        // "https://www.youtube.com/@your-channel",
+        "https://www.instagram.com/medcitystudyabroad",
+        "https://www.facebook.com/share/1D8vQXJskS/",
+        "https://in.linkedin.com/company/medcity-study-abroad",
+        "https://youtube.com/@medcitystudyabroad",
       ],
     },
 
@@ -100,6 +168,7 @@ const homeStructuredData = {
       url: "https://medcityoverseas.com/",
 
       name: "Medcity Study Abroad",
+      alternateName: "MedCity Overseas",
 
       description:
         "Study abroad counselling, university admission and student visa assistance.",
@@ -142,14 +211,44 @@ const homeStructuredData = {
 
       primaryImageOfPage: {
         "@type": "ImageObject",
+        "@id":
+          "https://medcityoverseas.com/#primaryimage",
+
         url:
           "https://medcityoverseas.com/images/medcity-og-image.webp",
+
+        contentUrl:
+          "https://medcityoverseas.com/images/medcity-og-image.webp",
+
         width: 1200,
         height: 630,
       },
 
+      breadcrumb: {
+        "@id":
+          "https://medcityoverseas.com/#breadcrumb",
+      },
+
       inLanguage: "en-IN",
     },
+
+    {
+      "@type": "BreadcrumbList",
+      "@id":
+        "https://medcityoverseas.com/#breadcrumb",
+
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item:
+            "https://medcityoverseas.com/",
+        },
+      ],
+    },
+
+    faqStructuredData,
   ],
 };
 
@@ -160,35 +259,53 @@ const SectionFallback = ({
     <div
       aria-hidden="true"
       className="
-        relative w-full overflow-hidden
+        relative
+        w-full
+        overflow-hidden
         bg-gradient-to-b
-        from-white to-slate-50
+        from-white
+        to-slate-50
       "
       style={{ minHeight }}
     >
       <div
         className="
-          absolute inset-x-4 top-12
-          mx-auto h-8 max-w-md
-          animate-pulse rounded-xl
+          absolute
+          inset-x-4
+          top-12
+          mx-auto
+          h-8
+          max-w-md
+          animate-pulse
+          rounded-xl
           bg-slate-200/70
         "
       />
 
       <div
         className="
-          absolute inset-x-6 top-28
-          mx-auto h-4 max-w-xl
-          animate-pulse rounded-lg
+          absolute
+          inset-x-6
+          top-28
+          mx-auto
+          h-4
+          max-w-xl
+          animate-pulse
+          rounded-lg
           bg-slate-200/50
         "
       />
 
       <div
         className="
-          absolute inset-x-4 top-44
-          mx-auto h-52 max-w-7xl
-          animate-pulse rounded-3xl
+          absolute
+          inset-x-4
+          top-44
+          mx-auto
+          h-52
+          max-w-7xl
+          animate-pulse
+          rounded-3xl
           bg-slate-200/40
         "
       />
@@ -201,7 +318,7 @@ const Home = () => {
     <>
       {/*
        * SEO should not be lazy-loaded.
-       * It is small and must render immediately.
+       * It should render immediately.
        */}
       <SEO
         title="Study Abroad Consultants in Kerala | Medcity Study Abroad"
@@ -212,7 +329,7 @@ const Home = () => {
         structuredData={homeStructuredData}
       />
 
-      {/* Above-the-fold hero loads immediately */}
+      {/* Above-the-fold hero */}
       <Carousel />
 
       <LazySection

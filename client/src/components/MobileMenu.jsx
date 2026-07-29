@@ -20,7 +20,7 @@ const menuItems = [
   {
     name: "Destinations",
     description: "Explore countries worldwide",
-    path: "/destinationList",
+    path: "/destination-list",
     icon: MapPin,
     iconBox:
       "bg-secondary/10 text-secondary group-hover:bg-secondary group-hover:text-white",
@@ -28,7 +28,7 @@ const menuItems = [
   {
     name: "Universities",
     description: "Find your ideal institution",
-    path: "/allUniversities",
+    path: "/all-universities",
     icon: University,
     iconBox:
       "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white",

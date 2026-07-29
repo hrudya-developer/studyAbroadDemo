@@ -1,0 +1,12 @@
+User-agent: *
+Site: https://medcityoverseas.com
+
+Important Pages:
+https://medcityoverseas.com/
+https://medcityoverseas.com/about
+https://medcityoverseas.com/contact-us
+https://medcityoverseas.com/destination/germany
+https://medcityoverseas.com/blog
+
+Description:
+MedCity Overseas is a study abroad consultancy in Kerala helping students study in Germany, UK, Canada, Australia, Ireland, and other destinations.

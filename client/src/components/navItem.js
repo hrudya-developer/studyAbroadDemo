@@ -4,11 +4,11 @@ const navItems = [
   },
   {
     name: "Destinations",
-    path: "/destinationList",
+    path: "/destination-list",
   },
   {
     name: "Universities",
-    path: "/allUniversities",
+    path: "/all-universities",
   },
   {
     name: "Courses",

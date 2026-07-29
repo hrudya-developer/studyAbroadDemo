@@ -518,7 +518,7 @@ const MissionCard = () => {
 const QuickLinks = () => {
   const links = [
     {
-      to: "/allUniversities",
+      to: "/all-universities",
       label: "Explore partner universities",
       className:
         "border-secondary/15 bg-secondary/5 text-secondary hover:bg-secondary hover:text-white",

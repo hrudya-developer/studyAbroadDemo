@@ -70,7 +70,7 @@ function Layout() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/destinationList" element={<DestinationList />} />
+        <Route path="/destination-list" element={<DestinationList />} />
         <Route path="/communityPosts" element={<CommunityPosts />} />
         {/* <Route path="/germanLanguage" element={<GermanLP />} /> */}
         <Route path="/germanPopularCourses" element={<GermanPopularCourses />} />
@@ -100,7 +100,7 @@ function Layout() {
         <Route path="/studyAbroadBlog" element={<StudyAbroadBlog />} />
 
      <Route path="/germanPrograms/:id" element={<GermanPrograms />} />
-       <Route path="/allUniversities/:countryId?" element={<AllUniversities />}
+       <Route path="/all-universities/:countryId?" element={<AllUniversities />}
 />
         <Route path="/universityDetails/:id" element={<UniversityDetails />} /> 
       

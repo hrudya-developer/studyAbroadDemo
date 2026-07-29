@@ -133,7 +133,7 @@ const HeroContent = () => {
           text-darkPrimary
           sm:text-4xl
           lg:text-5xl
-          xl:text-[56px]
+          xl:text-5xl
         "
       >
         About Medcity Study Abroad:{" "}

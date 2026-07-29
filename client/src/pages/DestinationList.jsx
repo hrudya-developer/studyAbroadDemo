@@ -18,6 +18,8 @@ import {
 import { fetchCountries } from "../redux/slices/countrySlice";
 import mapBg from "../assets/mapBg.png";
 import DestinationExcerpts from "./DestinationExcerpts";
+import DestinationListSEO from "./DestinationListSEO";
+import FAQ from "../layout/FAQ/FAQ";
 
 const getCardsPerRow = () => {
   if (typeof window === "undefined") {
@@ -120,7 +122,10 @@ const DestinationList = () => {
     return <DestinationLoading />;
   }
 
-  return (
+  return (<>
+    <DestinationListSEO
+      countries={countries}
+    />
     <main className="min-h-screen overflow-hidden bg-[#f8fafc]">
       <DestinationHero />
 
@@ -176,8 +181,10 @@ const DestinationList = () => {
           )}
         </div>
       </section>
+      <FAQ />
     </main>
-  );
+
+</>);
 };
 
 const DestinationHero = () => {
@@ -296,12 +303,12 @@ const DestinationHero = () => {
           className="
             mt-6 max-w-4xl
             font-nunito
-            text-4xl font-black
+            text-xl font-extrabold
             leading-[1.08]
             tracking-[-0.04em]
             text-darkPrimary
-            sm:text-5xl
-            lg:text-6xl
+            sm:text-4xl
+            lg:text-5xl
           "
         >
           Explore Inspiring{" "}

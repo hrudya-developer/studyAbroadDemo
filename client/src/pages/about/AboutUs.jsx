@@ -5,6 +5,7 @@ import StorySection from "./components/StorySection";
 import ChairmanSection from "./components/ChairmanSection";
 import CoreValues from "./components/CoreValues";
 
+import FAQ from "../../layout/FAQ/FAQ";
 
 const AboutUs = () => {
   return (
@@ -15,12 +16,12 @@ const AboutUs = () => {
         id="main-content"
         className="overflow-hidden bg-white"
       >
-        
         <AboutHero />
         <AboutStats />
         <StorySection />
         <ChairmanSection />
         <CoreValues />
+        <FAQ />
       </main>
     </>
   );
