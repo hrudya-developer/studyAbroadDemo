@@ -1,17 +1,29 @@
-import CanadaImmigrationPrograms from "./CanadaImmigrationPrograms"
-import CanadaMigrationBenefits from "./CanadaMigrationBenefits"
-import CanadaMigrationHero from "./CanadaMigrationHero"
-import CanadaPRSteps from "./CanadaPRSteps"
+import FAQ from "../layout/FAQ/FAQ";
 
-const CanadaMigration = () =>{
-    return(
-        <>
+import CanadaImmigrationPrograms from "./CanadaImmigrationPrograms";
+import CanadaMigrationBenefits from "./CanadaMigrationBenefits";
+import CanadaMigrationHero from "./CanadaMigrationHero";
+import CanadaMigrationSEO from "./CanadaMigrationSEO";
+import CanadaPRSteps from "./CanadaPRSteps";
+
+const CanadaMigration = () => {
+  return (
+    <>
+      <CanadaMigrationSEO />
+
+      <main>
         <CanadaMigrationHero />
-        <CanadaMigrationBenefits />
-        <CanadaPRSteps />
-        <CanadaImmigrationPrograms />
-        </>
-    )
 
-}
-export default CanadaMigration
+        <CanadaMigrationBenefits />
+
+        <CanadaPRSteps />
+
+        <CanadaImmigrationPrograms />
+
+        <FAQ />
+      </main>
+    </>
+  );
+};
+
+export default CanadaMigration;

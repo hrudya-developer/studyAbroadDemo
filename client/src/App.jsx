@@ -31,7 +31,7 @@ import CountryDetails from "./pages/CountryDetails";
 import UniversityDetails from "./pages/university-details/UniversityDetails";
 import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
 import CourseListing from "./pages/CourseSearch";
-import AllTestimonials from "./layout/AllTestimonials";
+import AllTestimonials from "./pages/all-testimonials/AllTestimonials";
 import CourseSearch from "./pages/CourseSearch";
 import StudyAbroadBlog from "./pages/StudyAbroadBlog";
 import GermanPrograms from "./pages/GermanPrograms";
@@ -100,7 +100,7 @@ function Layout() {
         <Route path="/destination/:id" element={<CountryDetails />} />
         <Route path="/blogs" element={<StudyAbroadBlog />} />
 
-     <Route path="/germanPrograms/:id" element={<GermanPrograms />} />
+     <Route path="/german-programs/:id" element={<GermanPrograms />} />
        <Route path="/all-universities/:countryId?" element={<AllUniversities />}
 />
         <Route path="/university-details/:id" element={<UniversityDetails />} /> 
@@ -112,8 +112,8 @@ function Layout() {
          <Route path="/testimonials" element={<AllTestimonials />} />
          <Route path ="/study-popular-courses" element = {<PopularCoursesPublic/>} />
          <Route path="/add-on-services" element = {<AddOnServices />} />
-         <Route path="/canadaMigration" element = {<CanadaMigration />} />
-         <Route path="/australiaMigration" element = {<AustraliaMigration />} />
+         <Route path="/canada-migration" element = {<CanadaMigration />} />
+         <Route path="/australia-migration" element = {<AustraliaMigration />} />
          <Route path="/contact-us" element={<ContactUs />} />
          <Route path="/branches" element={<AcademyCenters />} />
          <Route path="/about-us" element={<AboutUs />} />

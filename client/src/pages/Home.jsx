@@ -7,6 +7,7 @@ import OurBranches from "../layout/OurBranches";
 import FAQ from "../layout/FAQ/FAQ";
 
 import { faqItems } from "../layout/FAQ/faqData";
+import HomeSEO from "./seo/HomeSEO";
 
 /*
  * Homepage sections below the hero are split
@@ -316,6 +317,7 @@ const SectionFallback = ({
 const Home = () => {
   return (
     <>
+    <HomeSEO />
       {/*
        * SEO should not be lazy-loaded.
        * It should render immediately.

@@ -18,7 +18,7 @@ const immigrationData = [
     country: "Canada",
     badge: "CANADA",
     title: "Canadian Skilled Immigration",
-    link:"/canadaMigration",
+    link:"/canada-migration",
     image: canadaImg,
     imageAlt:
       "Canadian skilled immigration pathway for qualified professionals",
@@ -53,7 +53,7 @@ const immigrationData = [
     country: "Australia",
     badge: "AUSTRALIA",
     title: "Australian Skilled Immigration",
-    link:"/australiaMigration",
+    link:"/australia-migration",
     image: australiaImg,
     imageAlt:
       "Australian skilled immigration pathway for professionals and tradespeople",
@@ -214,7 +214,7 @@ const MigrateTabContent = () => {
               sm:text-4xl lg:text-5xl
             "
           >
-            Skilled Immigration
+            Skilled Immigration {" "}
             <span className="bg-gradient-to-r
         from-primary
         to-secondary

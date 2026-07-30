@@ -1,20 +1,27 @@
-import AustraliaHero from "./AusraliaHero"
-import AustraliaImmigrationPathways from "./AustraliaImmigrationPathways"
-import AustraliaMigrationBenefits from "./AustraliaMigrationBenefits"
-import AustraliaPostMigration from "./AustraliaPostMigration"
+import AustraliaHero from "./AusraliaHero";
+import AustraliaImmigrationPathways from "./AustraliaImmigrationPathways";
+import AustraliaMigrationBenefits from "./AustraliaMigrationBenefits";
+import AustraliaMigrationSEO from "./AustraliaMigrationSEO";
+import AustraliaPostMigration from "./AustraliaPostMigration";
+import FAQ from "../layout/FAQ/FAQ";
 
-const AustraliaMigration = () =>{
+const AustraliaMigration = () => {
+  return (
+    <>
+      <AustraliaMigrationSEO />
 
-    return(
-        <>
+      <main>
         <AustraliaHero />
- <AustraliaMigrationBenefits />
- <AustraliaImmigrationPathways />
- <AustraliaPostMigration />
-        
-        </>
-    )
 
-}
+        <AustraliaMigrationBenefits />
 
-export default AustraliaMigration
+        <AustraliaImmigrationPathways />
+
+        <AustraliaPostMigration />
+        <FAQ />
+      </main>
+    </>
+  );
+};
+
+export default AustraliaMigration;

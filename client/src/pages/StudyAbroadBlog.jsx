@@ -516,37 +516,7 @@ function StudyAbroadBlog() {
                               </p>
                             )}
 
-                            {blog?.link && (
-                              <a
-                                href={
-                                  blog.link
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={`Read ${title}`}
-                                className="
-                                  mt-auto
-                                  inline-flex
-                                  items-center
-                                  gap-2 pt-6
-                                  font-bold
-                                  text-primary
-                                  transition-colors
-                                  hover:text-secondary
-                                "
-                              >
-                                Read More
-
-                                <ArrowRight
-                                  size={17}
-                                  aria-hidden="true"
-                                  className="
-                                    transition-transform
-                                    group-hover:translate-x-1
-                                  "
-                                />
-                              </a>
-                            )}
+                           
                           </div>
                         </article>
                       );

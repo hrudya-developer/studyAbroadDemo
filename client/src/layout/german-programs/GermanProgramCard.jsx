@@ -120,7 +120,7 @@ export default function GermanProgramCard({
 
         <Link
           itemProp="url"
-          to={`/germanPrograms/${programId}`}
+          to={`/german-programs/${programId}`}
           className="mt-auto inline-flex items-center gap-2 pt-6 font-bold text-primary"
         >
           Learn More
