@@ -12,11 +12,11 @@ const navItems = [
   },
   {
     name: "Courses",
-    path: "/courseSearch",
+    path: "/course-search",
   },
   {
     name: "Blogs",
-    path: "/studyAbroadBlog",
+    path: "/blogs",
   },
 ];
 

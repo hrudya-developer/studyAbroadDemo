@@ -265,7 +265,7 @@ const StudyTabContent = () => {
 
         <div className="mt-10 flex justify-center">
           <Link
-            to="/courseSearch"
+            to="/course-search"
             aria-label="View all study abroad courses"
             className="inline-flex"
           >

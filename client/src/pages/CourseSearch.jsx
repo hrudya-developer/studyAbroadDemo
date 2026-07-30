@@ -26,6 +26,8 @@ import {
 
 import courseBg from "../assets/coursesBg.png";
 import PopularCoursesPublic from "./PopularCoursesPublic";
+import CourseSearchSEO from "./CourseSearchSEO";
+import FAQ from "../layout/FAQ/FAQ";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -301,7 +303,9 @@ export default function CourseSearch() {
     selectedCountryId && selectedUniversityId && selectedCourseId;
 
   return (
-    <section className="relative mx-auto max-w-9xl overflow-hidden bg-[#f5fbff]">
+    <>
+      <CourseSearchSEO />
+      <section className="relative mx-auto max-w-9xl overflow-hidden bg-[#f5fbff]">
       <div
         className="relative flex h-[380px] items-center justify-center bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out sm:h-[450px] lg:h-[500px]"
         style={{ backgroundImage: `url(${courseBg})` }}
@@ -591,8 +595,15 @@ export default function CourseSearch() {
         </div>
       </div>
 
-      <PopularCoursesPublic />
-    </section>
+      <PopularCoursesPublic
+        initialVisibleCount={6}
+        loadMoreCount={3}
+        cardsPerRow={3}
+      />
+      
+    
+      </section>
+    </>
   );
 }
 

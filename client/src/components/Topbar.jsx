@@ -438,7 +438,7 @@ const Topbar = () => {
           />
 
           <ActionCard
-            to="/germanPopularCourses"
+            to="/german-popular-courses"
             image={germanFlag}
             title="German Programs"
             subtitle="Your pathway to Germany"

@@ -33,7 +33,7 @@ const MobileApp = lazy(() =>
 );
 
 const GermanCoursesLayout = lazy(() =>
-  import("../layout/GermanCoursesLayout")
+  import("../layout/german-programs/GermanCoursesLayout")
 );
 
 const EssentialService = lazy(() =>

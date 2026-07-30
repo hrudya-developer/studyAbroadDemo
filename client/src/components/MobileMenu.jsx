@@ -36,7 +36,7 @@ const menuItems = [
   {
     name: "Courses",
     description: "Discover suitable programs",
-    path: "/courseSearch",
+    path: "/course-search",
     icon: BookOpenText,
     iconBox:
       "bg-amber-100 text-amber-700 group-hover:bg-amber-400 group-hover:text-slate-900",
@@ -306,7 +306,7 @@ const MobileMenu = ({
 
               <li>
                 <MobileMenuLink
-                  to="/studyAbroadBlog"
+                  to="/blogs"
                   name="Blogs"
                   description="Read insights and student guides"
                   icon={Rss}

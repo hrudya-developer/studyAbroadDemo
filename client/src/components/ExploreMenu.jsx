@@ -20,19 +20,19 @@ const exploreItems = [
   {
     title: "Popular Courses",
     description: "Find trending study programs",
-    path: "/popularCoursePublic",
+    path: "/study-popular-courses",
     icon: BookOpenText,
   },
   {
     title: "Add On Services",
     description: "Get complete student support",
-    path: "/addOnServices",
+    path: "/add-on-services",
     icon: HandHelping,
   },
   {
     title: "Community Posts",
     description: "Connect with fellow students",
-    path: "/communityPosts",
+    path: "/community-posts",
     icon: StickyNote,
   },
 ];

@@ -28,7 +28,7 @@ import StudentLayout from "./pages/StudentLayout";
 import StudentProfile from "./pages/StudentProfile";
 import AllUniversities from "./pages/AllUniversities";
 import CountryDetails from "./pages/CountryDetails";
-import UniversityDetails from "./pages/UniversityDetails";
+import UniversityDetails from "./pages/university-details/UniversityDetails";
 import CourseDetailsOfUniv from "./pages/CourseDetailsOfUniv";
 import CourseListing from "./pages/CourseSearch";
 import AllTestimonials from "./layout/AllTestimonials";
@@ -44,7 +44,7 @@ import SDBWishlistCourses from "./pages/SDBWishlistItems";
 import CommunityPosts from "./pages/CommunityPosts";
 // import GermanLP from "./pages/GermanLP";
 import ScrollToTop from "./components/ScrollToTop";
-import GermanPopularCourses from "./layout/GermanPopularCourses";
+import GermanPopularCourses from "./layout/german-programs/GermanPopularCourses";
 import SDBFeedback from "./pages/SDBFeedback";
 import SDBPrivacyPolicy from "./pages/SDBPrivacyPolicy";
 import CanadaMigration from "./pages/CanadaMigration";
@@ -53,6 +53,7 @@ import ContactUs from "./pages/contactPage/ContactUs";
 import AcademyCenters from "./pages/Branches/AcademyCenters";
 import AboutUs from "./pages/about/AboutUs";
 import NotFound from "./pages/NotFound";
+
 // import PartnersLoginPage from "./pages/PartnersLoginPage";
 
 
@@ -71,9 +72,9 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/destination-list" element={<DestinationList />} />
-        <Route path="/communityPosts" element={<CommunityPosts />} />
+        <Route path="/community-posts" element={<CommunityPosts />} />
         {/* <Route path="/germanLanguage" element={<GermanLP />} /> */}
-        <Route path="/germanPopularCourses" element={<GermanPopularCourses />} />
+        <Route path="/german-popular-courses" element={<GermanPopularCourses />} />
         {/* <Route path="/partnersLoginPage" element = {<PartnersLoginPage />} /> */}
 
 {/* protecte route */}
@@ -97,20 +98,20 @@ function Layout() {
 
         {/* ✅ FIXED: OUTSIDE student */}
         <Route path="/destination/:id" element={<CountryDetails />} />
-        <Route path="/studyAbroadBlog" element={<StudyAbroadBlog />} />
+        <Route path="/blogs" element={<StudyAbroadBlog />} />
 
      <Route path="/germanPrograms/:id" element={<GermanPrograms />} />
        <Route path="/all-universities/:countryId?" element={<AllUniversities />}
 />
-        <Route path="/universityDetails/:id" element={<UniversityDetails />} /> 
+        <Route path="/university-details/:id" element={<UniversityDetails />} /> 
       
         <Route path="/courseDetailsOfUniv/:id" element={<CourseDetailsOfUniv />} />
 
-        <Route path="/courseSearch" element={<CourseSearch />} />
+        <Route path="/course-search" element={<CourseSearch />} />
 
          <Route path="/testimonials" element={<AllTestimonials />} />
-         <Route path ="/popularCoursePublic" element = {<PopularCoursesPublic/>} />
-         <Route path="/addOnServices" element = {<AddOnServices />} />
+         <Route path ="/study-popular-courses" element = {<PopularCoursesPublic/>} />
+         <Route path="/add-on-services" element = {<AddOnServices />} />
          <Route path="/canadaMigration" element = {<CanadaMigration />} />
          <Route path="/australiaMigration" element = {<AustraliaMigration />} />
          <Route path="/contact-us" element={<ContactUs />} />

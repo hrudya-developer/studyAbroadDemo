@@ -524,7 +524,7 @@ const QuickLinks = () => {
         "border-secondary/15 bg-secondary/5 text-secondary hover:bg-secondary hover:text-white",
     },
     {
-      to: "/courseSearch",
+      to: "/course-search",
       label: "Search international courses",
       className:
         "border-primary/15 bg-primary/5 text-primary hover:bg-primary hover:text-white",

@@ -295,7 +295,7 @@ const AllUniversities = () => {
                                   )}
 
                                   <Link
-                                    to={`/universityDetails/${item.id}`}
+                                    to={`/university-details/${item.id}`}
                                     state={{
                                       university: item,
                                       universityImagePath:

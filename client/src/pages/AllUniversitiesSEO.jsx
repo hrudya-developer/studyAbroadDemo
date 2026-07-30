@@ -162,7 +162,7 @@ const AllUniversitiesSEO = ({
       const universityId = getUniversityId(university);
       const universityName = getUniversityName(university);
       const universityUrl = universityId
-        ? `${SITE_URL}/universityDetails/${universityId}`
+        ? `${SITE_URL}/university-details/${universityId}`
         : pageUrl;
 
       const logoUrl =

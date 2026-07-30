@@ -72,7 +72,7 @@ const WebsiteSwitchHorizontal = ({ onNavigate }) => {
       />
 
       <HorizontalInternalLink
-        to="/germanPopularCourses"
+        to="/german-popular-courses"
         label="German Programs"
         image={germanFlag}
         onNavigate={onNavigate}

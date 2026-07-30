@@ -81,7 +81,7 @@ const WebsiteSwitchVertical = () => {
         />
 
         <VerticalInternalLink
-          to="/germanPopularCourses"
+          to="/german-popular-courses"
           label="German Programs"
           image={germanFlag}
         />

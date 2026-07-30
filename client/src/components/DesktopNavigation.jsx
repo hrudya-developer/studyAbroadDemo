@@ -46,7 +46,7 @@ const DesktopNavigation = () => {
 
         <li>
           <Link
-            to="/studyAbroadBlog"
+            to="/blogs"
             className="
               rounded-lg
               px-3
