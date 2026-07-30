@@ -15,10 +15,11 @@ import {
   HandFist,
 } from "lucide-react";
 
-import heroGermany from "../assets/heroGermany.png";
+import heroGermany from "../assets/study-germany.png"
 import { fetchGermanPrograms } from "../redux/slices/germanProgramSlice";
 // import aeroPlanePath from "../assets/aeroPlanePath.png";
 import mapBackground from "../assets/mapBg.png";
+import FAQ from "../layout/FAQ/FAQ";
 
 const GermanPrograms = () => {
   const dispatch = useDispatch();
@@ -243,6 +244,7 @@ const GermanPrograms = () => {
           )}
         </div>
       </div>
+      <FAQ />
     </section>
   );
 };
