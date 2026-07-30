@@ -17,6 +17,8 @@ import {
 } from "react-icons/fa";
 
 import UnivOfCountry from "../pages/UnivOfCountry"
+import FAQ from "../layout/FAQ/FAQ";
+import CountryDetailsSEO from "./CountryDetailsSEO";
 
 const InfoCard = ({ icon, label, value }) => (
   <div className="flex flex-col justify-center text-center items-center gap-4 px-3 py-5 border border-gray-50 bg-[#f1f1f1] shadow-md rounded-xl">
@@ -111,50 +113,306 @@ const CountryDetails = () => {
     : null;
 
   return (
+    <>
+        <CountryDetailsSEO
+      country={country}
+      countryId={id}
+      image={image}
+      flag={flag}
+      attractions={attractions}
+    />
     <main className="bg-[#f8fafc]">
       {/* Hero Section */}
-      <section
-        className="relative bg-cover bg-center h-auto"
-        style={{ backgroundImage: `url("${image}")` }}
+      {/* Hero Section */}
+<section className="overflow-hidden bg-[#e8f5ff]">
+  <div
+    className="
+      mx-auto grid min-h-[560px] max-w-7xl
+      items-center gap-12 px-5 py-12
+      sm:px-8
+      lg:grid-cols-[0.95fr_1.05fr]
+      lg:px-10 lg:py-16
+    "
+  >
+    {/* Left content */}
+    <div className="relative z-10">
+      <div
+        className="
+          mb-6 inline-flex items-center gap-2
+          rounded-full border border-secondary/20
+          bg-white/80 px-4 py-2
+          text-sm font-bold text-secondary
+          shadow-sm backdrop-blur-sm
+        "
       >
-        <div className="absolute inset-0 bg-black/80" />
+        {flag && (
+          <img
+            src={flag}
+            alt=""
+            aria-hidden="true"
+            width="24"
+            height="24"
+            className="h-6 w-6 rounded-full object-cover"
+          />
+        )}
 
-        <div className="relative max-w-7xl mx-auto px-6 py-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center">
-            <div className="text-sm text-white bg-transparent p-3 rounded-full border border-white">
-              Home › Destinations › {country?.country}
-            </div>
+        Study Destination
+      </div>
 
-             {flag && (
-              <div className="flex items-center gap-3 my-10">
-                <img
-                  src={flag}
-                  alt={`${country?.country} flag`}
-                  className="w-15 h-15 sm:h-30 sm:w-30 rounded-full object-cover shadow-[0_0_40px_rgba(255,255,255,0.35)] border-3 border-white"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
-               
-              </div>
-            )}
-          </div>
+      <h1
+        className="
+          max-w-2xl text-3xl font-extrabold
+          leading-[1.08] tracking-tight text-slate-950
+          sm:text-4xl lg:text-5xl xl:text-5xl
+        "
+      >
+        Build Your Future by Studying in{" "}
+        <span
+          className="
+            mt-2 inline-block bg-secondary rounded-2xl
+            px-3 py-1 text-white
+          "
+        >
+          {country?.country || "Your Dream Country"}
+        </span>
+      </h1>
 
-          <div className="max-w-xl">
-            <h1 className="text-4xl sm:text-6xl md:text-6xl font-extrabold leading-tight text-white text-center sm:text-start sm:mt-10">
-              Study in
-              <span className="text-4xl text-primary ms-4 sm:text-6xl">
-                {country?.country || "Country"}
-              </span>
-            </h1>
+      <p
+        className="
+          mt-7 max-w-xl text-base font-medium
+          leading-8 text-slate-600
+          sm:text-lg
+        "
+      >
+        Explore globally recognised universities, career-focused courses and
+        exciting opportunities in {country?.country || "your preferred destination"}.
+      </p>
 
-         <p className="font-bold mb-15 mt-5 text-amber-300 text-center sm:text-start">
-                  Explore education opportunities in {country?.country}
-                </p>
-                
-          </div>
+      <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <a
+          href="#universities"
+          className="
+            inline-flex min-h-14 items-center justify-center gap-3
+            rounded-xl bg-primary px-4 py-2.5
+            text-sm font-semibold text-white
+            shadow-[0_14px_30px_rgba(4,102,175,0.25)]
+            transition
+            hover:-translate-y-1 hover:bg-darkPrimary
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-secondary hover:cursor-pointer
+            focus-visible:ring-offset-2
+          "
+        >
+          Explore Universities
+          <FaArrowRight aria-hidden="true" />
+        </a>
+
+        <button
+          type="button"
+          onClick={() => setShowCounsellingPopup(true)}
+          className="
+            inline-flex min-h-14 items-center justify-center gap-2
+            rounded-full px-5 py-4
+            text-base font-bold text-slate-950
+            underline decoration-secondary
+            decoration-2 underline-offset-4
+            transition hover:text-primary
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-primary
+            focus-visible:ring-offset-2
+          "
+        >
+          Request a Callback
+          <FaArrowRight
+            aria-hidden="true"
+            className="-rotate-45 text-secondary"
+          />
+        </button>
+      </div>
+    </div>
+
+    {/* Right visual */}
+    <div className="relative mx-auto w-full max-w-[620px]">
+      
+
+      <div
+        className="
+          relative min-h-[430px] overflow-hidden
+          rounded-[55px] bg-[#b9ddf8]
+          sm:min-h-[500px]
+        "
+      >
+        <img
+          src={image}
+          alt={`Study opportunities in ${country?.country || "this destination"}`}
+          width="700"
+          height="560"
+          fetchPriority="high"
+          className="
+            absolute inset-0 h-full w-full
+            object-cover object-center
+          "
+          onError={(event) => {
+            event.currentTarget.src = fallbackImage;
+          }}
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-white/10" />
+
+        <div
+          className="
+            absolute bottom-0 left-0 right-0
+            bg-gradient-to-t from-slate-950/80 to-transparent
+            px-6 pb-7 pt-24 text-white
+          "
+        >
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/75">
+            Your global journey starts here
+          </p>
+
+          <p className="mt-2 text-2xl font-black">
+            Study in {country?.country}
+          </p>
         </div>
-      </section>
+      </div>
+
+      {/* Top information card */}
+      <div
+        className="
+          absolute right-[-8px] top-10
+          hidden min-w-[210px] items-center gap-4
+          rounded-2xl bg-white/95 p-4
+          shadow-[0_18px_45px_rgba(15,23,42,0.16)]
+          backdrop-blur-md
+          sm:flex
+        "
+      >
+        <div
+          className="
+            grid h-12 w-12 shrink-0 place-content-center
+            rounded-xl bg-secondary/10 text-xl text-secondary
+          "
+        >
+          <FaUniversity />
+        </div>
+
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Capital
+          </p>
+
+          <p className="mt-1 font-black text-slate-900">
+            {country?.capital || "Explore"}
+          </p>
+        </div>
+      </div>
+
+      {/* Middle information card */}
+      <div
+        className="
+          absolute -left-5 top-1/2
+          hidden -translate-y-1/2 items-center gap-3
+          rounded-2xl bg-white/95 p-4
+          shadow-[0_18px_45px_rgba(15,23,42,0.16)]
+          backdrop-blur-md
+          md:flex
+        "
+      >
+        <div className="flex -space-x-3">
+          <span className="grid h-10 w-10 place-content-center rounded-full border-2 border-white bg-primary text-sm font-bold text-white">
+            M
+          </span>
+
+          <span className="grid h-10 w-10 place-content-center rounded-full border-2 border-white bg-secondary text-sm font-bold text-white">
+            S
+          </span>
+
+          <span className="grid h-10 w-10 place-content-center rounded-full border-2 border-white bg-logoYellow text-sm font-bold text-slate-900">
+            +
+          </span>
+        </div>
+
+        <div>
+          <p className="font-black text-slate-900">Expert Guidance</p>
+          <p className="text-xs text-slate-500">
+            Admissions and visa support
+          </p>
+        </div>
+      </div>
+
+      {/* Bottom information card */}
+      <div
+        className="
+          absolute -right-3 bottom-10
+          hidden w-[150px] rounded-2xl
+          bg-white/95 p-4 text-center
+          shadow-[0_18px_45px_rgba(15,23,42,0.16)]
+          backdrop-blur-md
+          sm:block
+        "
+      >
+        <div
+          className="
+            mx-auto grid h-16 w-16 place-content-center
+            rounded-full border-[7px] border-secondary/15
+            text-lg font-black text-secondary
+          "
+        >
+          100%
+        </div>
+
+        <p className="mt-2 text-xs font-bold text-slate-600">
+          Counselling Support
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Statistics strip */}
+  <div className="bg-darkPrimary">
+    <div
+      className="
+        mx-auto grid max-w-7xl grid-cols-2
+        divide-x divide-white/10 px-4
+        sm:grid-cols-4
+      "
+    >
+      {[
+        {
+          value: "100+",
+          label: "Universities",
+        },
+        {
+          value: "500+",
+          label: "Courses",
+        },
+        {
+          value: "25+",
+          label: "Destinations",
+        },
+        {
+          value: "10K+",
+          label: "Students Guided",
+        },
+      ].map((stat) => (
+        <div
+          key={stat.label}
+          className="px-4 py-6 text-center sm:py-7"
+        >
+          <p className="text-3xl font-black text-white lg:text-4xl">
+            {stat.value}
+          </p>
+
+          <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-white/70">
+            {stat.label}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Quick Info */}
       <section className="max-w-7xl mx-auto mt-12 relative z-10">
@@ -268,7 +526,7 @@ const CountryDetails = () => {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 py-10">
+      <section className="max-w-7xl mx-auto px-6 py-10 scroll-m-24" id="universities">
         <h1 className="text-4xl font-extrabold px-6 pb-6">Universities of <span className="text-primary">{country?.country}</span></h1>
         <div className="max-h-150 overflow-y-scroll"><UnivOfCountry />
         </div>
@@ -320,7 +578,9 @@ const CountryDetails = () => {
     </div>
   </div>
 )}
+<FAQ />
     </main>
+    </>
     
   );
 };

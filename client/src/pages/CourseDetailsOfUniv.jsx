@@ -282,7 +282,7 @@ export default function CourseDetailsOfUniv() {
 
             <div className="mt-5 h-1 w-20 rounded-full bg-primary" />
 
-            <div className="mt-6 flex max-w-2xl items-center gap-4 rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur-sm">
+            <div className="mt-6 mb-10 flex max-w-2xl items-center gap-4 rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur-sm">
               <div className="shrink-0">
                 {universityLogoUrl && !logoError ? (
                   <img
